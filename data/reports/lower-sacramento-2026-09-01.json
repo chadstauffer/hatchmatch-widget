@@ -4,6 +4,7 @@
     "id": "lower-sacramento",
     "name": "Lower Sacramento River",
     "shortName": "Lower Sac",
+    "packName": "Sac Pack",
     "group": "river",
     "usgsSite": "11370500",
     "gaugeName": "USGS Keswick",

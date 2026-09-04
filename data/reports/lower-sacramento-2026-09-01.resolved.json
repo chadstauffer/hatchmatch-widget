@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-04T21:43:40.718Z",
+ "generatedAt": "2026-09-04T23:37:44.868Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -7,6 +7,7 @@
   "id": "lower-sacramento",
   "name": "Lower Sacramento River",
   "shortName": "Lower Sac",
+  "packName": "Sac Pack",
   "group": "river",
   "usgsSite": "11370500",
   "gaugeName": "USGS Keswick",

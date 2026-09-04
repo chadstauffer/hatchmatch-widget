@@ -9,7 +9,7 @@
   const ACCENTS = { orange: ['#FF7124', '#081215'], burnt: ['#D4632A', '#081215'], spruce: ['#2E7D4F', '#F5EDE0'] };
   const SLOTS = ['morning', 'midday', 'afternoon', 'last light'];
   const DAY = 86400000;
-  const money = n => '$' + n.toFixed(2);
+  const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const num = n => n.toLocaleString('en-US');
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
@@ -61,7 +61,6 @@ img{display:block}
 .live>span{position:absolute;inset:0;display:flex;align-items:center;gap:7px;white-space:nowrap;opacity:0;transition:opacity .3s linear}
 .live>span.on{opacity:1}
 .live i{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
-.live i.off{visibility:hidden}
 .live i.pulse{animation:hm-pulse 2s ease-in-out infinite}
 @keyframes hm-pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @media (prefers-reduced-motion:reduce){.live>span{transition:none}.live i.pulse{animation:none}}
@@ -348,7 +347,7 @@ img{display:block}
       if (this.s.added) return `<button class="pack" data-action="viewcart"><span>Added</span><span></span><span>View cart</span></button>`;
       // Three columns, always. When it will not all fit, the water name is the part that goes:
       // the count and the price are the promise. See fitPackLabel().
-      return `<button class="pack" data-action="addpack" ${k.flies ? '' : 'disabled'}><span class="packlabel"><b>Add ${esc(this.packName())}</b><em>Add the pack</em></span><span>${k.flies} ${k.flies === 1 ? 'fly' : 'flies'}</span><span>${money(k.total)}</span></button>`;
+      return `<button class="pack" data-action="addpack" ${k.flies ? '' : 'disabled'}><span class="packlabel"><b>Add ${esc(this.packName())}</b><em>Add pack</em></span><span>${k.flies} ${k.flies === 1 ? 'fly' : 'flies'}</span><span>${money(k.total)}</span></button>`;
     }
     /** One header for both states. Only the chevron changes: the two facts never move. */
     header(open) {
@@ -365,19 +364,18 @@ img{display:block}
         this strip owns what is actually changing. Frames crossfade; the dot pulses only when live. */
     liveFrames() {
       const f = this.s.flow;
-      const updated = { dot: false, text: 'Updated ' + new Date(this.data.report.publishedAt + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) };
-      if (f.failed) return [updated];
+      if (f.failed) return [];
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
       return [
-        { dot: true, text: [f.live ? 'Live' : 'Last reading', `${num(f.value)} CFS`, f.trend].filter(Boolean).join(' · ') },
-        { dot: true, text: `Read ${time} · ${this.data.water.gaugeName}` },
-        updated,
+        [f.live ? 'Live' : 'Last reading', `${num(f.value)} CFS`, f.trend].filter(Boolean).join(' · '),
+        `Read ${time} · ${this.data.water.gaugeName}`,
       ];
     }
     liveStrip() {
-      const frames = this.liveFrames(), pulse = this.s.flow.live && !this.s.flow.failed;
-      const at = this.frame % frames.length;
-      return `<div class="live">${frames.map((f, i) => `<span class="${i === at ? 'on' : ''}"${i === at ? '' : ' aria-hidden="true"'}><i class="${f.dot ? (pulse ? 'pulse' : '') : 'off'}"></i>${esc(f.text)}</span>`).join('')}</div>`;
+      const frames = this.liveFrames();
+      if (!frames.length) return '';
+      const pulse = this.s.flow.live, at = this.frame % frames.length;
+      return `<div class="live">${frames.map((t, i) => `<span class="${i === at ? 'on' : ''}"${i === at ? '' : ' aria-hidden="true"'}><i class="${pulse ? 'pulse' : ''}"></i>${esc(t)}</span>`).join('')}</div>`;
     }
     compact() {
       const d = this.data, w = this.wading(), hn = this.hatchNow(), f = this.s.flow;
