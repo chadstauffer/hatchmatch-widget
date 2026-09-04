@@ -1,0 +1,77 @@
+{
+  "note": "Fixture from theflyshop.com/streamreport.html as published September 1, 2026, fetched September 4. Guide's words only. Nothing here is written for them. Sections come from the notes; a pick the notes do not place goes in both.",
+  "water": {
+    "id": "lower-sacramento",
+    "name": "Lower Sacramento River",
+    "shortName": "Lower Sac",
+    "group": "river",
+    "usgsSite": "11370500",
+    "gaugeName": "USGS Keswick",
+    "lat": 40.5865,
+    "lon": -122.3917,
+    "flow": { "min": 0, "max": 15000, "threshold": 7500, "thresholdLabel": "wading limit",
+              "lastReading": { "value": 8000, "at": "2026-09-01T06:15:00-07:00" } },
+    "sections": ["Up top", "Lower"],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-09-01",
+    "author": null,
+    "rating": "Great",
+    "ratingNote": "The live page highlights GREAT (label-default-danger on that span). The v0.2 prototype assumed Good.",
+    "clarity": "Excellent",
+    "wading": "Wadeable below 7,500 CFS",
+    "notes": [
+      "The river is currently at 8,000 CFS at the top end, the clarity is excellent, and we have some clouds and sprinkles over the next three days. And if you know what's up, this can make for a great day on the Sac! Big BWO hatches are happening in the late afternoon, midges in the morning. The caddis may or may not be happening, be prepared either way.",
+      "Typically with stormy weather and lighter winds it's a mayfly op, but some off-brands of caddis, like Glossosomas and Brachycentrus, can make their appearance. Up top you will want to fish the BP Weiss Nymph, Jig nation in BWO, Olive Hotspot, Rubberlegs, and Jigged Bird's Nests. Lower in the river Rubberlegs, Peaches 'n Cream, Ginger Snap, Eng Thing, Olive Hotspot, Cinnamon Fox Poopahs, and Bird's Nests are good choices. Swing soft hackles or a dark Missing Link in last half hour of light."
+    ],
+    "notesPermission": "pending",
+    "source": { "url": "https://www.theflyshop.com/streamreport.html", "fetchedAt": "2026-09-04" }
+  },
+  "hatches": [
+    { "slot": "morning", "key": "midge", "insect": "Midges", "size": "#20", "intensity": 3, "word": "Steady", "sizeSource": "spec v0.2 fixture, not on the shop page" },
+    { "slot": "midday", "key": "caddis", "insect": "Caddis", "size": "#14", "intensity": 1, "word": "Possible", "sizeSource": "spec v0.2 fixture, not on the shop page" },
+    { "slot": "afternoon", "key": "bwo", "insect": "BWO", "size": "#18", "intensity": 5, "word": "Big hatches", "sizeSource": "spec v0.2 fixture, not on the shop page" },
+    { "slot": "last light", "none": true, "fallback": "No hatch listed. Swing soft hackles or a dark Missing Link." }
+  ],
+  "picks": [
+    { "id": "ml",    "role": "dry",     "name": "Mercer's Missing Link",    "colors": ["Dark"],                 "sizes": [],             "qty": 1, "sections": ["Up top", "Lower"], "hatches": ["caddis", "bwo"], "asWritten": "Mercer's Missing Link, Dark", "reportLink": "http://catalog.theflyshop.com/mercers-missing-link/" },
+    { "id": "spot",  "role": "dry",     "name": "Spotlight Caddis Emerger", "colors": [],                       "sizes": [],             "qty": 1, "sections": ["Up top", "Lower"], "hatches": ["caddis"],        "asWritten": "Spotlight Caddis Emerger", "reportLink": "https://catalog.theflyshop.com/spotlight-caddis-emerger/" },
+    { "id": "comp",  "role": "dry",     "name": "Comparadun",               "colors": ["BWO"],                  "sizes": ["#18"],        "qty": 1, "sections": ["Up top", "Lower"], "hatches": ["bwo"],           "asWritten": "Comparadun - BWO, PMD", "reportLink": "https://catalog.theflyshop.com/comparadun/", "sizeSource": "BWO hatch size; the report gives no size" },
+    { "id": "jbnH",  "role": "dropper", "name": "Jigged Bird's Nest",       "colors": ["Hot Spot"],             "sizes": ["#14", "#16"], "qty": 2, "sections": ["Up top", "Lower"], "hatches": ["caddis"],        "asWritten": "Jigged Birds Nest - Natural, Hot Spot #14-16", "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/" },
+    { "id": "jbnN",  "role": "dropper", "name": "Jigged Bird's Nest",       "colors": ["Natural"],              "sizes": ["#14", "#16"], "qty": 2, "sections": ["Up top", "Lower"], "hatches": ["caddis"],        "asWritten": "Jigged Birds Nest - Natural, Hot Spot #14-16", "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/" },
+    { "id": "weiss", "role": "dropper", "name": "BP Weiss Nymph",           "colors": [],                       "sizes": [],             "qty": 2, "sections": ["Up top"],          "hatches": ["midge", "bwo"],  "asWritten": "Weiss Nymph", "reportLink": "http://catalog.theflyshop.com/bubbleback-caddis-14/" },
+    { "id": "jig",   "role": "dropper", "name": "Jig Nation",               "colors": ["BWO"],                  "sizes": [],             "qty": 2, "sections": ["Up top"],          "hatches": ["bwo"],           "asWritten": "Jig nation in BWO (notes only, not on the hot-fly list)", "reportLink": null },
+    { "id": "ohs",   "role": "dropper", "name": "Olive Hot Spot",           "colors": [],                       "sizes": ["#18"],        "qty": 2, "sections": ["Up top", "Lower"], "hatches": ["bwo", "midge"],  "asWritten": "Olive Hot Spot - #18", "reportLink": "https://catalog.theflyshop.com/hot-spot-jig-olive/" },
+    { "id": "bub",   "role": "dropper", "name": "Bubbleback Caddis",        "colors": ["Amber"],                "sizes": ["#14"],        "qty": 2, "sections": ["Up top", "Lower"], "hatches": ["caddis"],        "asWritten": "Bubbleback Caddis - Amber #14", "reportLink": "http://catalog.theflyshop.com/bubbleback-caddis-14/" },
+    { "id": "png",   "role": "dropper", "name": "Peaches n' Green",         "colors": [],                       "sizes": [],             "qty": 2, "sections": ["Up top", "Lower"], "hatches": ["bwo"],           "asWritten": "Peaches n' Green", "reportLink": null },
+    { "id": "pnc",   "role": "dropper", "name": "Peaches n' Cream",         "colors": [],                       "sizes": [],             "qty": 2, "sections": ["Lower"],           "hatches": ["bwo", "pmd"],    "asWritten": "Peaches n' Cream", "reportLink": null },
+    { "id": "gs",    "role": "dropper", "name": "Ginger Snap",              "colors": [],                       "sizes": [],             "qty": 2, "sections": ["Lower"],           "hatches": ["bwo", "pmd"],    "asWritten": "Ginger Snap", "reportLink": null },
+    { "id": "eng",   "role": "dropper", "name": "Eng Thing",                "colors": [],                       "sizes": [],             "qty": 2, "sections": ["Lower"],           "hatches": ["caddis", "bwo"], "asWritten": "Eng Thing (notes only, not on the hot-fly list)", "reportLink": null },
+    { "id": "pop",   "role": "dropper", "name": "Fox's Poopah",             "colors": ["Cinnamon"],             "sizes": ["#12", "#14"], "qty": 2, "sections": ["Lower"],           "hatches": ["caddis"],        "asWritten": "Fox's Poopah - #12-14; notes say Cinnamon Fox Poopahs", "reportLink": "https://catalog.theflyshop.com/foxs-poopah/" },
+    { "id": "prl",   "role": "point",   "name": "Pat's Rubber Legs",        "colors": [],                       "sizes": ["#4", "#6", "#8"], "qty": 2, "sections": ["Up top", "Lower"], "hatches": ["stonefly"],  "asWritten": "Pat's Rubber Legs - #4-8", "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/" },
+    { "id": "ms",    "role": "eggs",    "name": "Micro Spawn",              "colors": ["Peachy King", "Shrimp Pink"], "sizes": [],       "qty": 1, "sections": ["Up top", "Lower"], "hatches": ["egg"],           "asWritten": "Micro Spawn - Peachy King, Shrimp Pink", "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/" },
+    { "id": "bb",    "role": "eggs",    "name": "Boles Bazookas",           "colors": ["Shrimp Pink", "Peachy King"], "sizes": [],       "qty": 1, "sections": ["Up top", "Lower"], "hatches": ["egg"],           "asWritten": "Boles Bazookas - Shrimp Pink, Peachy King", "reportLink": "http://catalog.theflyshop.com/boles-bazookas-8/" }
+  ],
+  "substitutes": {
+    "weiss": ["png", "ohs"],
+    "jig": ["comp", "ohs"],
+    "png": ["pnc", "ohs"],
+    "pnc": ["png", "gs"],
+    "gs": ["pnc", "png"],
+    "eng": ["ohs", "jbnN"],
+    "pop": ["bub", "jbnN"],
+    "bub": ["pop", "jbnN"],
+    "jbnH": ["jbnN"],
+    "jbnN": ["jbnH"],
+    "ohs": ["png", "weiss"],
+    "ml": ["spot"],
+    "spot": ["ml"],
+    "comp": ["ml"],
+    "prl": [],
+    "ms": ["bb"],
+    "bb": ["ms"]
+  },
+  "substitutesNote": "Substitution order is our first pass and needs the guide's eye. It only fires when the shop shows a variant out of stock."
+}

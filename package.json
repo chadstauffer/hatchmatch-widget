@@ -1,0 +1,15 @@
+{
+  "name": "hatchmatch-widget",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HatchMatch report widget: catalog ingestion engine, pack resolver, embeddable card, static demo.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "ingest": "node engine/ingest.mjs",
+    "resolve": "node engine/resolve.mjs data/reports/lower-sacramento-2026-09-01.json",
+    "build": "node build.mjs",
+    "demo": "python3 -m http.server 8787 --bind 127.0.0.1",
+    "all": "npm run ingest && npm run resolve && npm run build"
+  }
+}

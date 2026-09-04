@@ -1,0 +1,22 @@
+{
+  "note": "Canonical pattern names, the words guides use for them, and the shop handle they resolve to. Grows with every report. Handles are per shop; this file is The Fly Shop's.",
+  "patterns": [
+    { "name": "Mercer's Missing Link", "handle": "mercers-missing-link", "insects": ["caddis", "bwo"], "aliases": ["Missing Link", "dark Missing Link"] },
+    { "name": "Spotlight Caddis Emerger", "handle": "spotlight-caddis-emerger", "insects": ["caddis"], "aliases": ["Spotlight Caddis", "Spotlight Emerger"] },
+    { "name": "Comparadun", "handle": "comparadun", "insects": ["bwo", "pmd"], "aliases": ["Compara-dun"] },
+    { "name": "Jigged Bird's Nest", "handle": "zacks-jigged-birds-nest", "insects": ["caddis"], "aliases": ["Jigged Birds Nest", "Zack's Jigged Birds Nest", "Jigged Bird's Nests", "Bird's Nest", "Birds Nest", "Bird's Nests"] },
+    { "name": "Fox's Poopah", "handle": "foxs-poopah", "insects": ["caddis"], "aliases": ["Poopah", "Fox Poopah", "Cinnamon Fox Poopahs", "Cinnamon Poopah", "Poopahs"] },
+    { "name": "Bubbleback Caddis", "handle": "bubbleback-caddis-14", "insects": ["caddis"], "aliases": ["Bubble Back Caddis"] },
+    { "name": "Olive Hot Spot", "handle": "hot-spot-jig-olive", "insects": ["bwo", "midge"], "aliases": ["Olive Hotspot", "Hot Spot Jig Olive", "Hotspot", "Hot Spot"] },
+    { "name": "BP Weiss Nymph", "handle": "weiss-bp-nymphs-18", "insects": ["midge", "bwo"], "aliases": ["Weiss Nymph", "Weiss BP Nymph", "BP Weiss", "Weiss BP Nymphs"] },
+    { "name": "Jig Nation", "handle": "zacks-jig-nations", "insects": ["bwo", "pmd"], "aliases": ["Zack's Jig Nations", "Jig Nations", "Jig nation in BWO"] },
+    { "name": "Peaches n' Cream", "handle": "dougs-tb-peaches-n-cream", "insects": ["bwo", "pmd"], "aliases": ["Peaches 'n Cream", "Doug's TB Peaches n' Cream", "Peaches and Cream"] },
+    { "name": "Peaches n' Green", "handle": "peaches-n-green-olive-18", "insects": ["bwo"], "aliases": ["Peaches 'n Green", "Peaches and Green"] },
+    { "name": "Ginger Snap", "handle": "laraways-ginger-snap-pmd", "insects": ["pmd", "bwo"], "aliases": ["Laraway's Ginger Snap", "Gingersnap"] },
+    { "name": "Eng Thing", "handle": "eng-thing", "insects": ["caddis", "bwo"], "aliases": ["The Eng Thing"] },
+    { "name": "Pat's Rubber Legs", "handle": "pats-rubberlegs-jimmy-legs", "insects": ["stonefly"], "aliases": ["Rubberlegs", "Rubber Legs", "Pat's Rubberlegs", "Jimmy Legs", "Pat's Brown Rubberleg"] },
+    { "name": "Micro Spawn", "handle": "micro-spawn-12", "insects": ["egg"], "aliases": ["Micro Spawn Egg"] },
+    { "name": "Boles Bazookas", "handle": "boles-bazookas-8", "insects": ["egg"], "aliases": ["Boles Bazooka", "Bazookas"] },
+    { "name": "Soft Hackles", "handle": "soft-hackles", "insects": ["caddis", "bwo"], "aliases": ["Soft Hackle"] }
+  ]
+}

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HatchMatch demo, Lower Sacramento River</title>
+<style>
+  /* A deliberately plain host page. The card keeps its own look on any site. */
+  :root { color-scheme: light; }
+  body { margin: 0; background: #F4F1EC; color: #2B2B2B; font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; }
+  .sub { color: #6B6B6B; margin: 0 0 28px; }
+  .knobs { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin: 28px 0 0; font-size: 13px; color: #6B6B6B; }
+  .knobs button { font: inherit; padding: 6px 12px; border: 1px solid #CFC9BF; border-radius: 999px; background: #fff; color: #2B2B2B; cursor: pointer; }
+  .knobs button[aria-pressed="true"] { background: #2B2B2B; color: #fff; border-color: #2B2B2B; }
+  .knobs .group { display: flex; gap: 6px; align-items: center; }
+  details { margin-top: 36px; font-size: 14px; }
+  summary { cursor: pointer; color: #6B6B6B; }
+  pre { background: #fff; border: 1px solid #E3DED4; border-radius: 8px; padding: 14px; overflow-x: auto; font-size: 13px; }
+  ul { padding-left: 20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Lower Sacramento River</h1>
+  <p class="sub">Stream report, The Fly Shop, Redding. Demo host page.</p>
+
+  <!-- The embed. This is the whole integration. -->
+  <div id="hatchmatch" data-shop="theflyshop" data-water="lower-sacramento" data-theme="dark" data-accent="orange"></div>
+  <script src="../dist/embed.js" async></script>
+
+  <div class="knobs" aria-label="Demo controls">
+    <span class="group">Theme <button data-knob="theme" data-value="dark" aria-pressed="true">Dark</button><button data-knob="theme" data-value="light" aria-pressed="false">Light</button></span>
+    <span class="group">Accent <button data-knob="accent" data-value="orange" aria-pressed="true">Orange</button><button data-knob="accent" data-value="burnt" aria-pressed="false">Burnt</button><button data-knob="accent" data-value="spruce" aria-pressed="false">Spruce</button></span>
+  </div>
+
+  <details>
+    <summary>How this is wired</summary>
+    <ul>
+      <li>Every fly is a real variant on catalog.theflyshop.com, pulled from the public storefront. Prices, stock and photos are the shop's own.</li>
+      <li>Flow is live from USGS gauge 11370500 at Keswick. Weather is live for Redding. Both fall back to the report's last reading if a feed is down.</li>
+      <li>The pack button opens a Shopify cart permalink with every fly in it, tagged so the order shows it came from this report.</li>
+      <li>The guide's notes are the shop's September 1 text, shown pending permission.</li>
+    </ul>
+    <pre>&lt;div id="hatchmatch" data-shop="theflyshop" data-water="lower-sacramento"&gt;&lt;/div&gt;
+&lt;script src="https://cdn.hatchmatch.app/embed.js" async&gt;&lt;/script&gt;</pre>
+  </details>
+</main>
+<script>
+  // Demo knobs only. The widget re-renders when its data-theme / data-accent attributes change.
+  document.querySelectorAll('.knobs button').forEach(b => b.addEventListener('click', () => {
+    const host = document.getElementById('hatchmatch');
+    host.setAttribute('data-' + b.dataset.knob, b.dataset.value);
+    document.querySelectorAll(`.knobs button[data-knob="${b.dataset.knob}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+</script>
+</body>
+</html>
