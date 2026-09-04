@@ -15,6 +15,22 @@
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
   const shortDate = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
+  /* Condition glyphs, keyed by WX(). One stroke weight, no fills, no gradients. */
+  const SVG = p => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+  const cloud = (x, y) => `<path d="M${5.5 + x} ${12.5 + y}A2.5 2.5 0 0 1 ${5.9 + x} ${7.54 + y}A3.6 3.6 0 0 1 ${12.6 + x} ${8.6 + y}A2 2 0 0 1 ${12.2 + x} ${12.5 + y}Z"/>`;
+  const flake = (x, y) => `<path d="M${x} ${y - 1.1}v2.2M${x - .95} ${y - .55}l1.9 1.1M${x + .95} ${y - .55}l-1.9 1.1"/>`;
+  const RAIN = SVG(cloud(0, -2) + `<path d="M6.4 12.6 5.5 14.6M8.9 12.6 8 14.6M11.4 12.6 10.5 14.6"/>`);
+  const WX_ICON = {
+    'clear': SVG(`<circle cx="8" cy="8" r="3"/><path d="M8 1.4v1.6M8 13v1.6M1.4 8h1.6M13 8h1.6M3.34 3.34l1.13 1.13M11.53 11.53l1.13 1.13M12.66 3.34l-1.13 1.13M4.47 11.53l-1.13 1.13"/>`),
+    'mostly clear': SVG(`<circle cx="6" cy="5.5" r="2.2"/><path d="M6 1.6v1M2.1 5.5h1M3.24 2.74l.71.71M8.76 2.74l-.71.71"/><path d="M7 13.5A2 2 0 0 1 7.4 9.53 2.9 2.9 0 0 1 12.8 10.4 1.6 1.6 0 0 1 12.5 13.5Z"/>`),
+    'clouds': SVG(cloud(0, -.75)),
+    'fog': SVG(cloud(0, -3.5) + `<path d="M3.4 11.2h9.2M4.6 13.4h6.8M3.4 15.6h9.2"/>`),
+    'drizzle': RAIN, 'rain': RAIN, 'showers': RAIN,
+    'snow': SVG(cloud(0, -2) + flake(7, 14) + flake(10.5, 14)),
+    'storms': SVG(cloud(0, -2) + `<path d="M9.6 11.4 7.4 14.1h2.1L8.6 15.8"/>`),
+  };
+  const CARET = up => `<svg viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="${up ? 'M4 1.9 7 6.1H1Z' : 'M4 6.1 1 1.9h6Z'}"/></svg>`;
+
   const CSS = `
 :host{display:block;container-type:inline-size}
 *{box-sizing:border-box}
@@ -27,7 +43,7 @@ img{display:block}
 .card{background:var(--bg);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 .caps{text-transform:uppercase;letter-spacing:.14em;font-size:11px}
 .label{text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--muted)}
-.title{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.title{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .lamp{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
 .lamp i{width:7px;height:7px;border-radius:50%;background:var(--c,var(--off));flex:none}
 .meter{display:inline-flex;gap:2px}.meter i{width:8px;height:8px;border-radius:1px;background:var(--off)}.meter i.on{background:var(--accent)}
@@ -39,8 +55,16 @@ img{display:block}
 .rule{border-top:1px solid var(--line)}
 /* compact */
 .compact{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
-.compact .title{font-size:12px;letter-spacing:.08em}
 .compact .lamp{font-size:10px}
+/* live strip: overlapping frames, one visible at a time */
+.live{position:relative;height:16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.live>span{position:absolute;inset:0;display:flex;align-items:center;gap:7px;white-space:nowrap;opacity:0;transition:opacity .3s linear}
+.live>span.on{opacity:1}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
+.live i.off{visibility:hidden}
+.live i.pulse{animation:hm-pulse 2s ease-in-out infinite}
+@keyframes hm-pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@media (prefers-reduced-motion:reduce){.live>span{transition:none}.live i.pulse{animation:none}}
 .expand{display:flex;flex-direction:column;gap:10px;width:100%;border-radius:8px}
 .big{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1}
 .big.xl{font-size:44px;letter-spacing:-.03em}
@@ -58,11 +82,15 @@ img{display:block}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
 .chev{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;font-size:9px;color:var(--accent);flex:none}
-.pack{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;height:48px;padding:0 18px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.pack{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;height:48px;padding:0 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.pack>span{white-space:nowrap;flex:none}
 .pack span:nth-child(2){color:var(--on-accent);opacity:.8}
+.pack .packlabel{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pack .packlabel em{font-style:normal;display:none}
+.pack .packlabel.short b{display:none}.pack .packlabel.short em{display:inline}
 .ghost{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--text)}
 /* expanded */
-.head{display:flex;flex-direction:column;gap:6px;padding:14px 16px 10px}
+.head{display:flex;flex-direction:column;gap:10px;padding:14px 16px 10px}
 .tabs{display:flex;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0 8px}
 .tab{flex:1;height:44px;text-align:center;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tab);box-shadow:inset 0 -2px 0 transparent}
 .tab[aria-selected=true]{color:var(--text);box-shadow:inset 0 -2px 0 var(--accent)}
@@ -72,8 +100,14 @@ img{display:block}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .ticks{display:flex;gap:3px;height:12px;align-items:flex-end}.ticks i{flex:1;height:7px;background:var(--off)}.ticks i.on{height:12px;background:var(--c)}
 .wx{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.wx .d{display:flex;align-items:center;gap:10px}
-.wx .col{display:flex;flex-direction:column-reverse;gap:2px}.wx .col i{width:10px;height:6px;border-radius:1px;background:var(--off)}.wx .col i.on{background:var(--text)}
+.wx .d{display:flex;flex-direction:column;gap:3px;min-width:0}
+.wx .day{display:flex;align-items:center;gap:6px}
+.wx .cond{font-size:10px;color:var(--muted)}
+.wx .ic{flex:none;color:var(--text)}.wx .ic svg{width:16px;height:16px;display:block}
+.temps{display:flex;align-items:center;gap:6px;font-weight:600;white-space:nowrap}
+.temps span{display:inline-flex;align-items:center;gap:2px}
+.temps .lo{color:var(--muted);font-weight:400}
+.temps svg{width:8px;height:8px;flex:none}
 .note{font-size:13px;padding:10px 12px;border:1px solid var(--red);border-radius:10px}
 .slots{padding:8px 16px 16px;display:flex;flex-direction:column}
 .slot{display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:center;min-height:64px;border-top:1px solid var(--line)}
@@ -105,9 +139,11 @@ img{display:block}
 .prose{font-size:15px;line-height:1.65;display:flex;flex-direction:column;gap:14px}.prose p{margin:0}
 .foot{font-size:11px;letter-spacing:.06em;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
 .packbar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px 14px;display:flex;flex-direction:column;gap:10px}
+.editrow{display:flex;justify-content:flex-end;margin-top:-4px}
+.packbar .guide{border:0;border-top:1px solid var(--line);border-radius:0;padding:0;min-height:44px;margin-top:2px}
 .steps{display:flex;align-items:center;gap:10px}
 .steps .step button{width:30px}.steps .step b{min-width:12px}
-.link{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;height:36px;margin-left:auto}
+.link{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;height:36px}
 .powered{display:flex;justify-content:center;align-items:center;gap:6px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .powered svg{width:12px;height:12px;color:var(--accent);opacity:.8}
 .avatar{width:20px;height:20px;border-radius:50%;background:var(--off);flex:none}
@@ -154,7 +190,6 @@ img{display:block}
       day: new Date(t + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short' }),
       hi: Math.round(d.temperature_2m_max[i]), lo: Math.round(d.temperature_2m_min[i]),
       pct: d.precipitation_probability_max[i], label: WX(d.weather_code[i]),
-      blocks: d.precipitation_probability_max[i] <= 10 ? 1 : d.precipitation_probability_max[i] <= 30 ? 2 : d.precipitation_probability_max[i] <= 50 ? 3 : d.precipitation_probability_max[i] <= 70 ? 4 : 5,
     }));
   }
 
@@ -165,6 +200,7 @@ img{display:block}
       this.root = host.attachShadow({ mode: 'open' });
       const demo = new URLSearchParams(location.search).get('state') || host.dataset.demoState || '';
       this.demo = demo;
+      this.frame = 0; this.cycler = null; this.poll = null;
       this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, customize: false, hatch: null, added: false, filled: false,
         flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', live: false, failed: false }, weather: null };
       this.picks = data.picks.filter(p => p.variant);
@@ -185,6 +221,20 @@ img{display:block}
         .catch(e => { this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
       fetchWeather(w.lat, w.lon).then(wx => { this.s.weather = wx; this.render(); })
         .catch(e => { console.warn('[hatchmatch] weather unavailable, showing the report\'s outlook:', e.message); this.emit('weather_unavailable', { error: e.message }); });
+      this.watchFlow();
+    }
+    /** LIVE has to be true to be worth saying. Re-read the gauge every five minutes, but only while
+        the host is on screen. A refresh that fails keeps the last good number: only the first load
+        is allowed to set `failed`, because that is the only one with nothing to fall back to. */
+    watchFlow() {
+      if (this.demo === 'noflow' || !window.IntersectionObserver) return;
+      const tick = () => fetchFlow(this.data.water.usgsSite)
+        .then(f => { this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
+        .catch(e => console.warn('[hatchmatch] flow refresh failed, keeping the last reading:', e.message));
+      new IntersectionObserver(([e]) => {
+        clearInterval(this.poll); this.poll = null;
+        if (e.isIntersecting) this.poll = setInterval(tick, 5 * 60 * 1000);
+      }).observe(this.host);
     }
     emit(type, detail) {
       const ev = { type, at: new Date().toISOString(), water: this.data.water.id, ...detail };
@@ -291,21 +341,54 @@ img{display:block}
       const time = t.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
       return f.failed ? `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.` : `USGS ${this.data.water.gaugeName.replace(/^USGS\s*/, '')}, ${time}`;
     }
+    /** The shop's own name for the pack wins; otherwise the water's short name. */
+    packName() { const w = this.data.water; return w.packName || `${w.shortName} pack`; }
     packButton() {
       const k = this.pack();
       if (this.s.added) return `<button class="pack" data-action="viewcart"><span>Added</span><span></span><span>View cart</span></button>`;
-      return `<button class="pack" data-action="addpack" ${k.flies ? '' : 'disabled'}><span>Add the pack</span><span>${k.flies} ${k.flies === 1 ? 'fly' : 'flies'}</span><span>${money(k.total)}</span></button>`;
+      // Three columns, always. When it will not all fit, the water name is the part that goes:
+      // the count and the price are the promise. See fitPackLabel().
+      return `<button class="pack" data-action="addpack" ${k.flies ? '' : 'disabled'}><span class="packlabel"><b>Add ${esc(this.packName())}</b><em>Add the pack</em></span><span>${k.flies} ${k.flies === 1 ? 'fly' : 'flies'}</span><span>${money(k.total)}</span></button>`;
+    }
+    /** One header for both states. Only the chevron changes: the two facts never move. */
+    header(open) {
+      const fr = this.fresh(), r = this.rating();
+      return `<div class="between"><div class="title">${esc(this.data.water.name)}</div>${open
+        ? `<button class="chev" data-action="collapse" aria-label="Collapse">&#9650;</button>`
+        : `<span class="chev" aria-hidden="true">&#9660;</span>`}</div>
+    <div class="between">
+      <span class="lamp" style="--c:${fr.color};font-size:11px"><i></i>${fr.label}</span>
+      <span class="row" style="gap:8px"><span class="label">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>
+    </div>`;
+    }
+    /** Report age and live flow are different facts. The lamp above owns the age and stays still;
+        this strip owns what is actually changing. Frames crossfade; the dot pulses only when live. */
+    liveFrames() {
+      const f = this.s.flow;
+      const updated = { dot: false, text: 'Updated ' + new Date(this.data.report.publishedAt + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) };
+      if (f.failed) return [updated];
+      const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      return [
+        { dot: true, text: [f.live ? 'Live' : 'Last reading', `${num(f.value)} CFS`, f.trend].filter(Boolean).join(' · ') },
+        { dot: true, text: `Read ${time} · ${this.data.water.gaugeName}` },
+        updated,
+      ];
+    }
+    liveStrip() {
+      const frames = this.liveFrames(), pulse = this.s.flow.live && !this.s.flow.failed;
+      const at = this.frame % frames.length;
+      return `<div class="live">${frames.map((f, i) => `<span class="${i === at ? 'on' : ''}"${i === at ? '' : ' aria-hidden="true"'}><i class="${f.dot ? (pulse ? 'pulse' : '') : 'off'}"></i>${esc(f.text)}</span>`).join('')}</div>`;
     }
     compact() {
-      const d = this.data, fr = this.fresh(), r = this.rating(), w = this.wading(), hn = this.hatchNow(), f = this.s.flow;
+      const d = this.data, w = this.wading(), hn = this.hatchNow(), f = this.s.flow;
       const closed = d.water.closed;
       return `<div class="card compact">
   <button class="expand" data-action="expand" aria-expanded="false" aria-label="Expand the ${esc(d.water.name)} report">
-    <div class="between"><div class="title">${esc(d.water.name)}</div><div class="row" style="gap:8px;flex:none"><span class="lamp muted" style="--c:${fr.color}"><i></i>${fr.label}</span><span class="chev" aria-hidden="true">▼</span></div></div>
+    ${this.header(false)}
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
-    <div class="row"><span class="label">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n, true)}</div>
     <div class="sec">
       <div class="flowrow"><div class="row" style="gap:5px;align-items:baseline"><span class="big" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span><span class="unit">CFS</span></div>${this.flowBar(false)}</div>
+      ${this.liveStrip()}
       ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>`
         : `<div class="row caps" style="letter-spacing:.12em"><span class="muted">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
@@ -320,27 +403,23 @@ img{display:block}
 </div>`;
     }
     expanded() {
-      const d = this.data, fr = this.fresh(), r = this.rating(), tab = this.s.tab;
+      const d = this.data, tab = this.s.tab;
       const tabs = ['now', 'hatch', 'rig', 'notes'];
       return `<div class="card">
   <div class="head">
-    <div class="between"><div class="title">${esc(d.water.name)}</div><button class="chev" data-action="collapse" aria-label="Collapse">▲</button></div>
-    <div class="between" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">
-      <span class="lamp" style="--c:${fr.color};font-size:10px"><i></i>${fr.label}</span>
-      <span class="row" style="gap:8px"><span>Fishing</span><span style="font-size:11px;font-weight:600;color:var(--text)">${esc(r.label)}</span>${this.meter(r.n)}</span>
-    </div>
+    ${this.header(true)}
   </div>
   <div class="tabs" role="tablist" aria-label="Report">
     ${tabs.map(k => `<button class="tab" role="tab" id="tab-${k}" aria-selected="${tab === k}" aria-controls="panel-${k}" tabindex="${tab === k ? 0 : -1}" data-action="tab" data-tab="${k}" data-focus="tab-${k}">${k}</button>`).join('')}
   </div>
   <div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}">${this['tab_' + tab]()}</div>
   <div class="packbar">
-    <div class="steps">
-      ${this.stepper('Anglers', 'anglers', this.s.anglers)}${this.stepper('Days', 'days', this.s.days)}
-      <button class="link" data-action="customize" style="color:${this.s.customize ? 'var(--accent)' : 'var(--text)'}" data-focus="customize">${this.s.customize ? 'Done' : 'Edit pack'}</button>
-    </div>
-    ${tab === 'rig' ? `<div class="muted" style="font-size:11px">${this.mathLine()}</div>` : ''}
+    <div class="label">Your trip</div>
+    <div class="steps">${this.stepper('Anglers', 'anglers', this.s.anglers)}${this.stepper('Days', 'days', this.s.days)}</div>
+    <div class="muted" style="font-size:11px">${this.mathLine()}</div>
     ${this.packButton()}
+    <div class="editrow"><button class="link" data-action="customize" style="color:${this.s.customize ? 'var(--accent)' : 'var(--text)'}" data-focus="customize">${this.s.customize ? 'Done' : 'Edit pack'}</button></div>
+    <a class="ghost guide" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
     <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
   </div>
 </div>`;
@@ -372,9 +451,8 @@ img{display:block}
   </div>
   <div class="sec rule" style="padding-top:14px;gap:10px">
     <div class="between"><span class="label">Next three days</span><span class="muted" style="font-size:10px">${wx ? 'High, low, rain chance' : 'From the report'}</span></div>
-    <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', blocks: 2 }, { day: 'Day 2', label: 'Sprinkles', blocks: 3 }, { day: 'Day 3', label: 'Sprinkles', blocks: 3 }]).map(x => `
-      <div class="d"><div class="col" aria-hidden="true">${[0, 1, 2, 3, 4].map(i => `<i class="${i < x.blocks ? 'on' : ''}"></i>`).join('')}</div>
-      <div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span>${x.hi != null ? `<span style="font-weight:600;white-space:nowrap">${x.hi}° ${x.lo}°</span>` : ''}<span class="muted" style="font-size:10px;white-space:nowrap">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div></div>`).join('')}</div>
+    <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', icon: 'clouds' }, { day: 'Day 2', label: 'Sprinkles', icon: 'drizzle' }, { day: 'Day 3', label: 'Sprinkles', icon: 'drizzle' }]).map(x => `
+      <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
   </div>
   <div class="sec rule" style="padding-top:14px">
     <div class="between"><span class="label">Report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.label}</span></div>
@@ -383,7 +461,6 @@ img{display:block}
     ${fr.stale ? `<div class="note">Conditions may have changed since this report. Flow and weather are live.</div>` : ''}
     ${d.report.author ? `<div class="muted" style="padding-top:10px">Report by ${esc(d.report.author)}</div>` : ''}
   </div>
-  <a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
 </div>`;
     }
     tab_hatch() {
@@ -450,8 +527,32 @@ img{display:block}
     render() {
       const [accent, onAccent] = this.accent();
       const focusKey = this.root.activeElement?.dataset?.focus;
+      clearInterval(this.cycler); this.cycler = null;   // innerHTML is about to drop the nodes this drives
       this.root.innerHTML = `<style>${CSS}</style><div class="hm" data-theme="${this.theme()}" style="--accent:${accent};--on-accent:${onAccent}">${this.s.open ? this.expanded() : this.compact()}</div>`;
       if (focusKey) this.root.querySelector(`[data-focus="${focusKey}"]`)?.focus();
+      this.fitPackLabel();
+      this.startCycle();
+    }
+    /** The count and price grow with the steppers, so the fit is not a width breakpoint. Lay the long
+        label out, and if it clips, fall back to the generic one. Past roughly 336 flies on a 350px
+        card even the generic label clips: the label is what gives, never the count or the price. */
+    fitPackLabel() {
+      const el = this.root.querySelector('.pack .packlabel');
+      if (!el) return;
+      el.classList.remove('short');
+      if (el.scrollWidth > el.clientWidth + 1) el.classList.add('short');
+    }
+    /** Advances the live strip in place rather than re-rendering: six seconds is a long time to hold
+        a card that is otherwise still. Reduced motion gets frame one and nothing else. */
+    startCycle() {
+      if (this.s.open || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (this.root.querySelectorAll('.live>span').length < 2) return;
+      this.cycler = setInterval(() => {
+        const frames = this.root.querySelectorAll('.live>span');
+        if (frames.length < 2) { clearInterval(this.cycler); this.cycler = null; return; }
+        this.frame = (this.frame + 1) % frames.length;
+        frames.forEach((el, i) => { el.classList.toggle('on', i === this.frame); el.toggleAttribute('aria-hidden', i !== this.frame); });
+      }, 6000);
     }
 
     /* ---- interaction ---- */
