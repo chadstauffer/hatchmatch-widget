@@ -47,9 +47,9 @@ The demo also works straight from `demo/index.html` on disk. Live flow and weath
 - Flow is live from USGS 11370500 (Keswick), with a six-hour trend. Weather is live for Redding from Open-Meteo. No keys.
 - The pack button opens `GET /cart/add?items[…]` on the catalog domain. Verified against their store: it appends to whatever the customer already has, carries hidden line-item properties (`_hatchmatch_report`, `_hatchmatch_section`) onto the order, and chains through `/cart/update` to set cart attributes, then lands on the cart page with UTM. The cart permalink (`/cart/{id}:{qty}`) is not used: it replaces the customer's cart, verified by watching a six-item cart drop to one.
 - The hatch filter is a view. Tapping BWO narrows the rig; the pack button still adds the full pack, and says so. A second, labeled action inside the filter banner adds only the filtered flies.
-- "What we found on their page" is a toggle under the card: their wrong links, missing links, and the color and size calls the guide still has to make, built from the resolver's flag list.
+- "What we found" is a toggle under the card: links to check, flies to link, and the color and size calls for the guide, built from the resolver's flag list.
 - Report freshness is computed from the publish date, so the lamp will go amber on its own after seven days and red after fourteen.
-- Every tap is an event: `window.HatchMatch.events`, and a `hatchmatch` CustomEvent on the host. Add `data-debug` to the host to see them in the console.
+- Every tap is an event: `window.HatchMatch.events`, and a `hatchmatch` CustomEvent on the host. Add `data-debug` to the host to see them in the console. `pack_added` fires only for the full pack and is the monthly headline; the filtered add fires `fly_added` and is reported separately.
 
 Demo states for the pitch, as a query string on the demo page: `?state=aging`, `?state=stale`, `?state=oos` (takes the Weiss Nymph out of stock so the substitute row shows), `?state=noflow`.
 
@@ -62,7 +62,8 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 - The compact card is a real button (the whole face expands) with the pack button as a sibling, not a child. Tabs carry tab roles, arrow keys, and focus survives re-render. Zero-quantity rows dim.
 - Report rating is Great. The live page highlights that label; v0.2 assumed Good.
 - Prices are not all $2.95. The rig runs $1.50 (Eng Thing) to $3.95 (Jigged Bird's Nest, Ginger Snap).
-- Size default is the middle of the range (spec §12), whether the range is the report's (#14 to 16 gives #16) or the shop's (no size on the report, shop carries #12 to 18, card shows #16). Color has no invented rule: the report's first color word, else the shop's first color, flagged.
+- Size default is the middle of the range (spec §12), whether the range is the report's (#14 to 16 gives #16) or the shop's (no size on the report, shop carries #12 to 18, card shows #16). Color has no invented rule: the report's first color word, else the shop's first color, flagged. When the shop sells color and size as one option (Spotlight Caddis: Tan #14, Olive #16) the size rule does not apply, since it would change the fly: first variant, flagged.
+- The findings panel is written for the people who wrote the page. It lists what the matching turned up as things to confirm, not as faults.
 - When the shop's link and the shop's words disagree (Jigged Bird's Nest links to the $2.25 CB Birds Nest, the words say jigged, Natural and Hot Spot, which only the $3.95 Zack's carries), the resolver follows the words but flags both with prices. It never picks the pricier fly silently.
 
 ## Known pilot items

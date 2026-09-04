@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-04T21:30:51.867Z",
+ "generatedAt": "2026-09-04T21:43:40.718Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -33,7 +33,7 @@
   "publishedAt": "2026-09-01",
   "author": null,
   "rating": "Great",
-  "ratingNote": "The live page highlights GREAT (label-default-danger on that span). The v0.2 prototype assumed Good.",
+  "ratingNote": "read from the highlighted label on the page",
   "clarity": "Excellent",
   "wading": "Wadeable below 7,500 CFS",
   "notes": [
@@ -212,14 +212,14 @@
     "type": "Caddis"
    },
    "variant": {
-    "id": 47233971978470,
-    "sku": "787F-21140",
-    "color": "Olive",
-    "size": "#16",
+    "id": 47233971847398,
+    "sku": "787F-21141",
+    "color": "Tan",
+    "size": "#14",
     "price": 2.95,
     "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/787F_SpotlightCaddisEmerger_Olive.png?v=1769014413&width=240",
-    "url": "https://catalog.theflyshop.com/products/spotlight-caddis-emerger?variant=47233971978470"
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/787F_SpotlightCaddisEmerger_Tan.png?v=1769014409&width=240",
+    "url": "https://catalog.theflyshop.com/products/spotlight-caddis-emerger?variant=47233971847398"
    },
    "variants": [
     {
@@ -246,11 +246,7 @@
    "flags": [
     {
      "severity": "color",
-     "text": "No color on the report. Shop carries Tan, Olive. Showing Olive first; the rest are chips."
-    },
-    {
-     "severity": "size",
-     "text": "No size on the report. Shop carries #14, #16. Defaulted to the middle, #16."
+     "text": "Color and size are one option at the shop (Tan #14, Olive #16). Showing Tan #14 first; the rest are chips."
     }
    ]
   },
@@ -378,7 +374,7 @@
    "flags": [
     {
      "severity": "wronglink",
-     "text": "Their link goes to \"CB Birds Nest\" ($2.25, one color). Their words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words. Confirm which.",
+     "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
      "candidates": [
       {
        "handle": "zacks-jigged-birds-nest",
@@ -463,7 +459,7 @@
    "flags": [
     {
      "severity": "wronglink",
-     "text": "Their link goes to \"CB Birds Nest\" ($2.25, one color). Their words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words. Confirm which.",
+     "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
      "candidates": [
       {
        "handle": "zacks-jigged-birds-nest",
@@ -543,7 +539,7 @@
    "flags": [
     {
      "severity": "wronglink",
-     "text": "Their link goes to \"Bubbleback Caddis - #14\" ($2.95, Amber, Olive). Their words match \"Weiss BP Nymphs - #18\" ($3.50). Resolved to the words. Confirm which.",
+     "text": "The page links to \"Bubbleback Caddis - #14\" ($2.95, Amber, Olive). The words match \"Weiss BP Nymphs - #18\" ($3.50). Resolved to the words; confirm which.",
      "candidates": [
       {
        "handle": "weiss-bp-nymphs-18",
@@ -624,7 +620,7 @@
    "flags": [
     {
      "severity": "nolink",
-     "text": "No link on the shop's report. Resolved by name."
+     "text": "Named on the page without a link. Resolved by name."
     },
     {
      "severity": "size",
@@ -787,7 +783,7 @@
    "flags": [
     {
      "severity": "nolink",
-     "text": "No link on the shop's report. Resolved by name."
+     "text": "Named on the page without a link. Resolved by name."
     }
    ]
   },
@@ -851,7 +847,7 @@
    "flags": [
     {
      "severity": "nolink",
-     "text": "No link on the shop's report. Resolved by name."
+     "text": "Named on the page without a link. Resolved by name."
     },
     {
      "severity": "size",
@@ -929,7 +925,7 @@
    "flags": [
     {
      "severity": "nolink",
-     "text": "No link on the shop's report. Resolved by name."
+     "text": "Named on the page without a link. Resolved by name."
     },
     {
      "severity": "color",
@@ -1007,7 +1003,7 @@
    "flags": [
     {
      "severity": "nolink",
-     "text": "No link on the shop's report. Resolved by name."
+     "text": "Named on the page without a link. Resolved by name."
     },
     {
      "severity": "size",
@@ -1434,12 +1430,12 @@
   "Up top": {
    "flies": 21,
    "total": 65.95,
-   "cartUrl": "https://catalog.theflyshop.com/cart/add?items%5B0%5D%5Bid%5D=47268438474982&items%5B0%5D%5Bquantity%5D=1&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B1%5D%5Bid%5D=47233971978470&items%5B1%5D%5Bquantity%5D=1&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B2%5D%5Bid%5D=47233986167014&items%5B2%5D%5Bquantity%5D=1&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B3%5D%5Bid%5D=47234254799078&items%5B3%5D%5Bquantity%5D=2&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B4%5D%5Bid%5D=47234254602470&items%5B4%5D%5Bquantity%5D=2&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B5%5D%5Bid%5D=47234236023014&items%5B5%5D%5Bquantity%5D=2&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B6%5D%5Bid%5D=47234253586662&items%5B6%5D%5Bquantity%5D=2&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B7%5D%5Bid%5D=47234268135654&items%5B7%5D%5Bquantity%5D=2&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B8%5D%5Bid%5D=47233943994598&items%5B8%5D%5Bquantity%5D=2&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B9%5D%5Bid%5D=47234296512742&items%5B9%5D%5Bquantity%5D=2&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B10%5D%5Bid%5D=47340473549030&items%5B10%5D%5Bquantity%5D=2&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B11%5D%5Bid%5D=47268391354598&items%5B11%5D%5Bquantity%5D=1&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B12%5D%5Bid%5D=47234255749350&items%5B12%5D%5Bquantity%5D=1&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&return_to=%2Fcart%2Fupdate%3Fattributes%5Bhatchmatch_report%5D%3Dlower-sacramento-2026-09-01%26attributes%5Bhatchmatch_water%5D%3Dlower-sacramento%26return_to%3D%252Fcart%253Futm_source%253Dhatchmatch%2526utm_medium%253Dwidget%2526utm_campaign%253Dlower-sacramento"
+   "cartUrl": "https://catalog.theflyshop.com/cart/add?items%5B0%5D%5Bid%5D=47268438474982&items%5B0%5D%5Bquantity%5D=1&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B1%5D%5Bid%5D=47233971847398&items%5B1%5D%5Bquantity%5D=1&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B2%5D%5Bid%5D=47233986167014&items%5B2%5D%5Bquantity%5D=1&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B3%5D%5Bid%5D=47234254799078&items%5B3%5D%5Bquantity%5D=2&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B4%5D%5Bid%5D=47234254602470&items%5B4%5D%5Bquantity%5D=2&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B5%5D%5Bid%5D=47234236023014&items%5B5%5D%5Bquantity%5D=2&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B6%5D%5Bid%5D=47234253586662&items%5B6%5D%5Bquantity%5D=2&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B7%5D%5Bid%5D=47234268135654&items%5B7%5D%5Bquantity%5D=2&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B8%5D%5Bid%5D=47233943994598&items%5B8%5D%5Bquantity%5D=2&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B9%5D%5Bid%5D=47234296512742&items%5B9%5D%5Bquantity%5D=2&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B10%5D%5Bid%5D=47340473549030&items%5B10%5D%5Bquantity%5D=2&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B11%5D%5Bid%5D=47268391354598&items%5B11%5D%5Bquantity%5D=1&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&items%5B12%5D%5Bid%5D=47234255749350&items%5B12%5D%5Bquantity%5D=1&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Up+top&return_to=%2Fcart%2Fupdate%3Fattributes%5Bhatchmatch_report%5D%3Dlower-sacramento-2026-09-01%26attributes%5Bhatchmatch_water%5D%3Dlower-sacramento%26return_to%3D%252Fcart%253Futm_source%253Dhatchmatch%2526utm_medium%253Dwidget%2526utm_campaign%253Dlower-sacramento"
   },
   "Lower": {
    "flies": 25,
    "total": 75.25,
-   "cartUrl": "https://catalog.theflyshop.com/cart/add?items%5B0%5D%5Bid%5D=47268438474982&items%5B0%5D%5Bquantity%5D=1&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B1%5D%5Bid%5D=47233971978470&items%5B1%5D%5Bquantity%5D=1&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B2%5D%5Bid%5D=47233986167014&items%5B2%5D%5Bquantity%5D=1&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B3%5D%5Bid%5D=47234254799078&items%5B3%5D%5Bquantity%5D=2&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B4%5D%5Bid%5D=47234254602470&items%5B4%5D%5Bquantity%5D=2&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B5%5D%5Bid%5D=47234268135654&items%5B5%5D%5Bquantity%5D=2&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B6%5D%5Bid%5D=47233943994598&items%5B6%5D%5Bquantity%5D=2&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B7%5D%5Bid%5D=47234296512742&items%5B7%5D%5Bquantity%5D=2&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B8%5D%5Bid%5D=47234155774182&items%5B8%5D%5Bquantity%5D=2&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B9%5D%5Bid%5D=47233973059814&items%5B9%5D%5Bquantity%5D=2&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B10%5D%5Bid%5D=47234168979686&items%5B10%5D%5Bquantity%5D=2&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B11%5D%5Bid%5D=47288554029286&items%5B11%5D%5Bquantity%5D=2&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B12%5D%5Bid%5D=47340473549030&items%5B12%5D%5Bquantity%5D=2&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B13%5D%5Bid%5D=47268391354598&items%5B13%5D%5Bquantity%5D=1&items%5B13%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B13%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B14%5D%5Bid%5D=47234255749350&items%5B14%5D%5Bquantity%5D=1&items%5B14%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B14%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&return_to=%2Fcart%2Fupdate%3Fattributes%5Bhatchmatch_report%5D%3Dlower-sacramento-2026-09-01%26attributes%5Bhatchmatch_water%5D%3Dlower-sacramento%26return_to%3D%252Fcart%253Futm_source%253Dhatchmatch%2526utm_medium%253Dwidget%2526utm_campaign%253Dlower-sacramento"
+   "cartUrl": "https://catalog.theflyshop.com/cart/add?items%5B0%5D%5Bid%5D=47268438474982&items%5B0%5D%5Bquantity%5D=1&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B0%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B1%5D%5Bid%5D=47233971847398&items%5B1%5D%5Bquantity%5D=1&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B1%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B2%5D%5Bid%5D=47233986167014&items%5B2%5D%5Bquantity%5D=1&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B2%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B3%5D%5Bid%5D=47234254799078&items%5B3%5D%5Bquantity%5D=2&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B3%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B4%5D%5Bid%5D=47234254602470&items%5B4%5D%5Bquantity%5D=2&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B4%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B5%5D%5Bid%5D=47234268135654&items%5B5%5D%5Bquantity%5D=2&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B5%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B6%5D%5Bid%5D=47233943994598&items%5B6%5D%5Bquantity%5D=2&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B6%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B7%5D%5Bid%5D=47234296512742&items%5B7%5D%5Bquantity%5D=2&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B7%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B8%5D%5Bid%5D=47234155774182&items%5B8%5D%5Bquantity%5D=2&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B8%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B9%5D%5Bid%5D=47233973059814&items%5B9%5D%5Bquantity%5D=2&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B9%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B10%5D%5Bid%5D=47234168979686&items%5B10%5D%5Bquantity%5D=2&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B10%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B11%5D%5Bid%5D=47288554029286&items%5B11%5D%5Bquantity%5D=2&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B11%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B12%5D%5Bid%5D=47340473549030&items%5B12%5D%5Bquantity%5D=2&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B12%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B13%5D%5Bid%5D=47268391354598&items%5B13%5D%5Bquantity%5D=1&items%5B13%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B13%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&items%5B14%5D%5Bid%5D=47234255749350&items%5B14%5D%5Bquantity%5D=1&items%5B14%5D%5Bproperties%5D%5B_hatchmatch_report%5D=lower-sacramento-2026-09-01&items%5B14%5D%5Bproperties%5D%5B_hatchmatch_section%5D=Lower&return_to=%2Fcart%2Fupdate%3Fattributes%5Bhatchmatch_report%5D%3Dlower-sacramento-2026-09-01%26attributes%5Bhatchmatch_water%5D%3Dlower-sacramento%26return_to%3D%252Fcart%253Futm_source%253Dhatchmatch%2526utm_medium%253Dwidget%2526utm_campaign%253Dlower-sacramento"
   }
  },
  "summary": {
@@ -1461,19 +1457,13 @@
    "pickId": "spot",
    "name": "Spotlight Caddis Emerger",
    "severity": "color",
-   "text": "No color on the report. Shop carries Tan, Olive. Showing Olive first; the rest are chips."
-  },
-  {
-   "pickId": "spot",
-   "name": "Spotlight Caddis Emerger",
-   "severity": "size",
-   "text": "No size on the report. Shop carries #14, #16. Defaulted to the middle, #16."
+   "text": "Color and size are one option at the shop (Tan #14, Olive #16). Showing Tan #14 first; the rest are chips."
   },
   {
    "pickId": "jbnH",
    "name": "Jigged Bird's Nest",
    "severity": "wronglink",
-   "text": "Their link goes to \"CB Birds Nest\" ($2.25, one color). Their words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words. Confirm which.",
+   "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
    "candidates": [
     {
      "handle": "zacks-jigged-birds-nest",
@@ -1491,7 +1481,7 @@
    "pickId": "jbnN",
    "name": "Jigged Bird's Nest",
    "severity": "wronglink",
-   "text": "Their link goes to \"CB Birds Nest\" ($2.25, one color). Their words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words. Confirm which.",
+   "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
    "candidates": [
     {
      "handle": "zacks-jigged-birds-nest",
@@ -1509,7 +1499,7 @@
    "pickId": "weiss",
    "name": "BP Weiss Nymph",
    "severity": "wronglink",
-   "text": "Their link goes to \"Bubbleback Caddis - #14\" ($2.95, Amber, Olive). Their words match \"Weiss BP Nymphs - #18\" ($3.50). Resolved to the words. Confirm which.",
+   "text": "The page links to \"Bubbleback Caddis - #14\" ($2.95, Amber, Olive). The words match \"Weiss BP Nymphs - #18\" ($3.50). Resolved to the words; confirm which.",
    "candidates": [
     {
      "handle": "weiss-bp-nymphs-18",
@@ -1533,7 +1523,7 @@
    "pickId": "jig",
    "name": "Jig Nation",
    "severity": "nolink",
-   "text": "No link on the shop's report. Resolved by name."
+   "text": "Named on the page without a link. Resolved by name."
   },
   {
    "pickId": "jig",
@@ -1545,13 +1535,13 @@
    "pickId": "png",
    "name": "Peaches n' Green",
    "severity": "nolink",
-   "text": "No link on the shop's report. Resolved by name."
+   "text": "Named on the page without a link. Resolved by name."
   },
   {
    "pickId": "pnc",
    "name": "Peaches n' Cream",
    "severity": "nolink",
-   "text": "No link on the shop's report. Resolved by name."
+   "text": "Named on the page without a link. Resolved by name."
   },
   {
    "pickId": "pnc",
@@ -1563,7 +1553,7 @@
    "pickId": "gs",
    "name": "Ginger Snap",
    "severity": "nolink",
-   "text": "No link on the shop's report. Resolved by name."
+   "text": "Named on the page without a link. Resolved by name."
   },
   {
    "pickId": "gs",
@@ -1575,7 +1565,7 @@
    "pickId": "eng",
    "name": "Eng Thing",
    "severity": "nolink",
-   "text": "No link on the shop's report. Resolved by name."
+   "text": "Named on the page without a link. Resolved by name."
   },
   {
    "pickId": "eng",
@@ -1591,8 +1581,8 @@
   }
  ],
  "observations": [
-  "Rating: The live page highlights GREAT (label-default-danger on that span). The v0.2 prototype assumed Good.",
-  "Prices: 17 picks run $1.50 to $3.95. 5 of 17 are $2.95.",
-  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the shop's page. Source: spec v0.2 fixture, not on the shop page."
+  "Rating: Great, read from the highlighted label on the page.",
+  "Prices from the catalog: 17 picks run $1.50 to $3.95; 5 are $2.95.",
+  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the page. They are placeholders for the guide to set."
  ]
 }

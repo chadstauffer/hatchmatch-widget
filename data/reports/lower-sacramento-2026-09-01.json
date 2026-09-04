@@ -19,7 +19,7 @@
     "publishedAt": "2026-09-01",
     "author": null,
     "rating": "Great",
-    "ratingNote": "The live page highlights GREAT (label-default-danger on that span). The v0.2 prototype assumed Good.",
+    "ratingNote": "read from the highlighted label on the page",
     "clarity": "Excellent",
     "wading": "Wadeable below 7,500 CFS",
     "notes": [

@@ -14,7 +14,7 @@ window.HM_FINDINGS = {
  "wrongLinks": [
   {
    "pick": "Jigged Bird's Nest",
-   "text": "Their link goes to \"CB Birds Nest\" ($2.25, one color). Their words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words. Confirm which.",
+   "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
    "candidates": [
     {
      "handle": "zacks-jigged-birds-nest",
@@ -31,7 +31,7 @@ window.HM_FINDINGS = {
   },
   {
    "pick": "Jigged Bird's Nest",
-   "text": "Their link goes to \"CB Birds Nest\" ($2.25, one color). Their words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words. Confirm which.",
+   "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
    "candidates": [
     {
      "handle": "zacks-jigged-birds-nest",
@@ -48,7 +48,7 @@ window.HM_FINDINGS = {
   },
   {
    "pick": "BP Weiss Nymph",
-   "text": "Their link goes to \"Bubbleback Caddis - #14\" ($2.95, Amber, Olive). Their words match \"Weiss BP Nymphs - #18\" ($3.50). Resolved to the words. Confirm which.",
+   "text": "The page links to \"Bubbleback Caddis - #14\" ($2.95, Amber, Olive). The words match \"Weiss BP Nymphs - #18\" ($3.50). Resolved to the words; confirm which.",
    "candidates": [
     {
      "handle": "weiss-bp-nymphs-18",
@@ -67,31 +67,31 @@ window.HM_FINDINGS = {
  "noLinks": [
   {
    "pick": "Jig Nation",
-   "text": "No link on the shop's report. Resolved by name.",
+   "text": "Named on the page without a link. Resolved by name.",
    "candidates": null,
    "resolved": "Blue Wing Olive #18 $3.50"
   },
   {
    "pick": "Peaches n' Green",
-   "text": "No link on the shop's report. Resolved by name.",
+   "text": "Named on the page without a link. Resolved by name.",
    "candidates": null,
    "resolved": "Olive #18 $3.25"
   },
   {
    "pick": "Peaches n' Cream",
-   "text": "No link on the shop's report. Resolved by name.",
+   "text": "Named on the page without a link. Resolved by name.",
    "candidates": null,
    "resolved": "#18 $3.25"
   },
   {
    "pick": "Ginger Snap",
-   "text": "No link on the shop's report. Resolved by name.",
+   "text": "Named on the page without a link. Resolved by name.",
    "candidates": null,
    "resolved": "PMD #16 $3.95"
   },
   {
    "pick": "Eng Thing",
-   "text": "No link on the shop's report. Resolved by name.",
+   "text": "Named on the page without a link. Resolved by name.",
    "candidates": null,
    "resolved": "#16 $1.50"
   }
@@ -99,9 +99,9 @@ window.HM_FINDINGS = {
  "color": [
   {
    "pick": "Spotlight Caddis Emerger",
-   "text": "No color on the report. Shop carries Tan, Olive. Showing Olive first; the rest are chips.",
+   "text": "Color and size are one option at the shop (Tan #14, Olive #16). Showing Tan #14 first; the rest are chips.",
    "candidates": null,
-   "resolved": "Olive #16 $2.95"
+   "resolved": "Tan #14 $2.95"
   },
   {
    "pick": "BP Weiss Nymph",
@@ -130,12 +130,6 @@ window.HM_FINDINGS = {
    "resolved": "Natural Dark #16 $2.95"
   },
   {
-   "pick": "Spotlight Caddis Emerger",
-   "text": "No size on the report. Shop carries #14, #16. Defaulted to the middle, #16.",
-   "candidates": null,
-   "resolved": "Olive #16 $2.95"
-  },
-  {
    "pick": "Jig Nation",
    "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18.",
    "candidates": null,
@@ -157,9 +151,9 @@ window.HM_FINDINGS = {
  "other": [],
  "stock": [],
  "observations": [
-  "Rating: The live page highlights GREAT (label-default-danger on that span). The v0.2 prototype assumed Good.",
-  "Prices: 17 picks run $1.50 to $3.95. 5 of 17 are $2.95.",
-  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the shop's page. Source: spec v0.2 fixture, not on the shop page."
+  "Rating: Great, read from the highlighted label on the page.",
+  "Prices from the catalog: 17 picks run $1.50 to $3.95; 5 are $2.95.",
+  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the page. They are placeholders for the guide to set."
  ],
  "packs": {
   "Up top": {

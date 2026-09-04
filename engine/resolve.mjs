@@ -39,16 +39,16 @@ export function resolvePick(pick, catalog, aliases) {
   if (method === 'fuzzy') flags.push({ severity: 'confirm', text: `Matched "${pick.name}" to "${product.title}" by fuzzy match (score ${score.toFixed(2)}). Confirm.`, candidates });
 
   const linkHandle = handleFromLink(pick.reportLink);
-  if (!pick.reportLink) flags.push({ severity: 'nolink', text: 'No link on the shop\'s report. Resolved by name.' });
+  if (!pick.reportLink) flags.push({ severity: 'nolink', text: 'Named on the page without a link. Resolved by name.' });
   else if (linkHandle !== product.handle) {
-    // The words and the link disagree. Never pick silently: show both with prices and make the guide choose.
+    // The words and the link disagree. Never pick silently: show both with prices and let the guide choose.
     const linked = catalog.products.find(p => p.handle === linkHandle);
     const price = p => p ? (p.priceMin === p.priceMax ? `$${p.priceMin.toFixed(2)}` : `$${p.priceMin.toFixed(2)} to $${p.priceMax.toFixed(2)}`) : 'not in the catalog';
     flags.push({
       severity: 'wronglink',
       text: linked
-        ? `Their link goes to "${linked.title}" (${price(linked)}, ${linked.colors.length ? linked.colors.join(', ') : 'one color'}). Their words match "${product.title}" (${price(product)}). Resolved to the words. Confirm which.`
-        : `Their link goes to "${linkHandle}", which is not in the catalog. Resolved by name to "${product.title}" (${price(product)}).`,
+        ? `The page links to "${linked.title}" (${price(linked)}, ${linked.colors.length ? linked.colors.join(', ') : 'one color'}). The words match "${product.title}" (${price(product)}). Resolved to the words; confirm which.`
+        : `The page links to "${linkHandle}", which is not in the catalog. Resolved by name to "${product.title}" (${price(product)}).`,
       candidates: [{ handle: product.handle, title: product.title, price: product.priceMin }, ...(linked ? [{ handle: linked.handle, title: linked.title, price: linked.priceMin }] : [])],
     });
   }
@@ -68,21 +68,29 @@ export function resolvePick(pick, catalog, aliases) {
 
   // Default variant. Color: the report's first color word, else the shop's first color (flagged; no rule invented).
   // Size: the middle of the range (spec §12), whether the range is the report's or the shop's.
+  // When the shop sells color and size as one option ("Tan #14", "Olive #16"), the size rule would change the
+  // fly, so it does not apply: first variant, flagged.
   const colorChoices = [...new Set(allowed.map(v => v.color).filter(Boolean))];
   const sizeChoices = [...new Set(allowed.map(v => v.size).filter(Boolean))];
-  const midSize = middleSize(sizeChoices);
+  const combined = product.options.some(o => /colou?r|coloe/i.test(o.name) && /size/i.test(o.name));
+  const midSize = combined ? null : middleSize(sizeChoices);
   const order = (v) => {
     const ci = pick.colors?.length ? pick.colors.findIndex(c => colorMatches(c, v.color)) : 0;
-    const si = v.size === midSize ? 0 : 1;
+    const si = midSize ? (v.size === midSize ? 0 : 1) : 0;
     return (ci < 0 ? 99 : ci) * 100 + si;
   };
   const ranked = [...allowed].sort((a, b) => order(a) - order(b));
   const variant = ranked.find(v => v.available) || ranked[0];
+  const label = v => [v.color, v.size].filter(Boolean).join(' ');
 
-  if (colorChoices.length > 1 && !pick.colors?.length) flags.push({ severity: 'color', text: `No color on the report. Shop carries ${colorChoices.join(', ')}. Showing ${variant.color} first; the rest are chips.` });
-  if (colorChoices.length > 1 && pick.colors?.length > 1) flags.push({ severity: 'info', text: `Report lists ${pick.colors.join(' and ')}. Showing ${variant.color} first; the other is a chip.` });
-  if (sizeChoices.length > 1 && !pick.sizes?.length) flags.push({ severity: 'size', text: `No size on the report. Shop carries ${sizeChoices.join(', ')}. Defaulted to the middle, ${variant.size}.` });
-  if (sizeChoices.length > 1 && pick.sizes?.length > 1) flags.push({ severity: 'info', text: `Report gives a range (${pick.sizes.join(', ')}). Defaulted to the middle, ${variant.size}; the rest are chips.` });
+  if (combined && allowed.length > 1 && !(pick.colors?.length && pick.sizes?.length)) {
+    flags.push({ severity: 'color', text: `Color and size are one option at the shop (${allowed.map(label).join(', ')}). Showing ${label(variant)} first; the rest are chips.` });
+  } else {
+    if (colorChoices.length > 1 && !pick.colors?.length) flags.push({ severity: 'color', text: `No color on the report. Shop carries ${colorChoices.join(', ')}. Showing ${variant.color} first; the rest are chips.` });
+    if (colorChoices.length > 1 && pick.colors?.length > 1) flags.push({ severity: 'info', text: `Report lists ${pick.colors.join(' and ')}. Showing ${variant.color} first; the other is a chip.` });
+    if (sizeChoices.length > 1 && !pick.sizes?.length) flags.push({ severity: 'size', text: `No size on the report. Shop carries ${sizeChoices.join(', ')}. Defaulted to the middle, ${variant.size}.` });
+    if (sizeChoices.length > 1 && pick.sizes?.length > 1) flags.push({ severity: 'info', text: `Report gives a range (${pick.sizes.join(', ')}). Defaulted to the middle, ${variant.size}; the rest are chips.` });
+  }
   if (pick.sizeSource) flags.push({ severity: 'info', text: `Size source: ${pick.sizeSource}.` });
   if (!variant.available) flags.push({ severity: 'stock', text: `Out of stock at the shop right now (${variant.sku}).` });
   if (allowed.some(v => !v.available) && variant.available) flags.push({ severity: 'info', text: `Some options are out of stock: ${allowed.filter(v => !v.available).map(v => [v.color, v.size].filter(Boolean).join(' ')).join(', ')}.` });
@@ -115,9 +123,9 @@ export function resolveReport(fixture, catalog, aliases) {
   const prices = picks.filter(p => p.variant).map(p => p.variant.price);
   const at295 = prices.filter(x => x === 2.95).length;
   const observations = [
-    fixture.report.ratingNote ? `Rating: ${fixture.report.ratingNote}` : null,
-    `Prices: ${picks.length} picks run $${Math.min(...prices).toFixed(2)} to $${Math.max(...prices).toFixed(2)}. ${at295} of ${picks.length} are $2.95.`,
-    fixture.hatches.some(h => h.sizeSource) ? `Hatch sizes (${fixture.hatches.filter(h => h.size).map(h => `${h.insect} ${h.size}`).join(', ')}) are not on the shop's page. Source: ${fixture.hatches.find(h => h.sizeSource).sizeSource}.` : null,
+    `Rating: ${fixture.report.rating}${fixture.report.ratingNote ? `, ${fixture.report.ratingNote}` : ''}.`,
+    `Prices from the catalog: ${picks.length} picks run $${Math.min(...prices).toFixed(2)} to $${Math.max(...prices).toFixed(2)}; ${at295} are $2.95.`,
+    fixture.hatches.some(h => h.sizeSource) ? `Hatch sizes (${fixture.hatches.filter(h => h.size).map(h => `${h.insect} ${h.size}`).join(', ')}) are not on the page. They are placeholders for the guide to set.` : null,
   ].filter(Boolean);
   const packs = {};
   for (const section of fixture.water.sections) {

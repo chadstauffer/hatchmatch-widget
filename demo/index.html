@@ -42,9 +42,9 @@
   <div id="hatchmatch" data-shop="theflyshop" data-water="lower-sacramento" data-theme="dark" data-accent="orange"></div>
   <script src="../dist/embed.js" async></script>
 
-  <!-- Their page's problems, next to a card that has them right. Built from the resolver's flag list. -->
+  <!-- What the resolver turned up on the page, for the guide to confirm. Built from the flag list. Neutral framing: the people who wrote the page are the audience. -->
   <div class="found">
-    <button id="found-toggle" aria-expanded="false" aria-controls="found-panel">What we found on their page</button>
+    <button id="found-toggle" aria-expanded="false" aria-controls="found-panel">What we found</button>
     <section id="found-panel" hidden aria-label="What we found"></section>
   </div>
   <script src="findings.js"></script>
@@ -78,22 +78,22 @@
     const wrong = Object.values(F.wrongLinks.reduce((m, f) => { const k = f.pick + f.text; (m[k] ||= { ...f, resolved: [] }).resolved.push(f.resolved); return m; }, {})).map(f => ({ ...f, resolved: f.resolved.filter(Boolean).join(' and ') }));
     F.wrongLinks = wrong;
     const calls = F.color.length + F.size.length + F.other.length;
-    btn.textContent = `What we found on their page: ${wrong.length} wrong links, ${F.noLinks.length} flies with no link, ${calls} color or size calls for the guide`;
+    btn.textContent = `What we found: ${wrong.length} links to check, ${F.noLinks.length} flies to link, ${calls} calls for the guide`;
     panel.innerHTML = `
-      <p>Their ${esc(date(F.publishedAt))} report, checked against their own catalog on ${esc(date(F.catalogPulledAt))}. ${F.counts.picks} picks, every one now on a real SKU. Nothing here was rewritten; these are the places the words on the page and the catalog disagree.</p>
-      <h2>Links that go to the wrong fly (${F.wrongLinks.length})</h2>
+      <p>The ${esc(date(F.publishedAt))} report, matched against the catalog on ${esc(date(F.catalogPulledAt))}. All ${F.counts.picks} picks are on a real SKU. This is what the matching turned up, for the guide to confirm before it goes live.</p>
+      <h2>Links to check (${F.wrongLinks.length})</h2>
       <ul>${F.wrongLinks.map(item).join('')}</ul>
-      <h2>Picks with no link at all (${F.noLinks.length})</h2>
-      <p>${F.noLinks.map(f => `<span class="pick">${esc(f.pick)}</span>`).join(', ')}. A customer reading the page cannot buy these. The card resolves them by name.</p>
-      <h2>Needs the guide's word: color (${F.color.length})</h2>
+      <h2>Flies to link (${F.noLinks.length})</h2>
+      <p>${F.noLinks.map(f => `<span class="pick">${esc(f.pick)}</span>`).join(', ')} are named on the page without a link. The card resolves them by name and links each to its product page.</p>
+      <h2>For the guide: color (${F.color.length})</h2>
       <ul>${F.color.map(item).join('')}</ul>
-      <h2>Needs the guide's word: size (${F.size.length})</h2>
+      <h2>For the guide: size (${F.size.length})</h2>
       <ul>${F.size.map(item).join('')}</ul>
       ${F.other.length ? `<h2>Other (${F.other.length})</h2><ul>${F.other.map(item).join('')}</ul>` : ''}
       ${F.stock.length ? `<h2>Stock (${F.stock.length})</h2><ul>${F.stock.map(item).join('')}</ul>` : ''}
-      <h2>Also noticed</h2>
+      <h2>Notes</h2>
       <ul>${F.observations.map(o => `<li>${esc(o)}</li>`).join('')}<li>Pack at default quantities, one angler, one day: ${Object.entries(F.packs).map(([k, v]) => `${esc(k)} ${v.flies} flies $${v.total.toFixed(2)}`).join(', ')}.</li></ul>
-      <p class="src">Source: <a href="${esc(F.sourceUrl)}" target="_blank" rel="noopener">${esc(F.sourceUrl)}</a>. Full list in the repo at data/reports.</p>`;
+      <p class="src">Report: <a href="${esc(F.sourceUrl)}" target="_blank" rel="noopener">${esc(F.sourceUrl)}</a>. Full list in the repo at data/reports.</p>`;
     btn.addEventListener('click', () => { const open = panel.hidden; panel.hidden = !open; btn.setAttribute('aria-expanded', String(open)); });
   })();
 
