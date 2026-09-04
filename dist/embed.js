@@ -93,7 +93,11 @@ img{display:block}
 .tabs{display:flex;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0 8px}
 .tab{flex:1;height:44px;text-align:center;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tab);box-shadow:inset 0 -2px 0 transparent}
 .tab[aria-selected=true]{color:var(--text);box-shadow:inset 0 -2px 0 var(--accent)}
-.panel{min-height:320px}
+.card.open{max-height:min(78vh,720px)}
+.head,.tabs,.packbar{flex:none}
+.panelwrap{position:relative;flex:1 1 auto;min-height:0;display:flex}
+.panelwrap.fade::after{content:'';position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+.panel{flex:1 1 280px;min-height:0;overflow-y:auto;overscroll-behavior:contain}
 .now{padding:16px;display:flex;flex-direction:column;gap:16px}
 .sec{display:flex;flex-direction:column;gap:8px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -109,10 +113,19 @@ img{display:block}
 .temps svg{width:8px;height:8px;flex:none}
 .note{font-size:13px;padding:10px 12px;border:1px solid var(--red);border-radius:10px}
 .slots{padding:8px 16px 16px;display:flex;flex-direction:column}
-.slot{display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:center;min-height:64px;border-top:1px solid var(--line)}
+.slot{display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px;align-items:center;min-height:64px;border-top:1px solid var(--line)}
 .chip{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 12px 0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);justify-self:start;max-width:100%}
-.chip[aria-pressed=true]{background:var(--surface2);border-color:var(--accent)}
-.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--off);flex:none}.chip[aria-pressed=true] .dot{background:var(--accent)}
+.chip[aria-expanded=true]{background:var(--surface2);border-color:var(--accent)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--off);flex:none}.chip[aria-expanded=true] .dot{background:var(--accent)}
+.chip{justify-self:stretch;width:100%;min-width:0;gap:8px;padding:0 10px 0 12px}
+.chip .word{font-size:11px;margin-left:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.chip .care{margin-left:auto;color:var(--accent);font-size:9px;flex:none;padding-left:6px}
+@container (max-width:399px){.chip .meter{display:none}}
+.flies{padding:0 0 6px}
+.only{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-radius:3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.catalog{margin-top:8px}
+.sel{display:inline-flex;align-items:center;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:999px}
+.sel select{font:inherit;font-size:12px;color:inherit;background:none;border:0;padding:0 2px;cursor:pointer;max-width:96px}
 .pill{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
 .pill[aria-pressed=true]{background:var(--surface2)}
 .pill i{width:7px;height:7px;border-radius:50%;background:var(--off)}.pill[aria-pressed=true] i{background:var(--accent)}
@@ -124,7 +137,7 @@ img{display:block}
 .thumb{width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
 .thumb img{width:100%;height:100%;object-fit:cover}
 .name{font-size:14px;font-weight:600;line-height:1.2}
-.meta{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.meta{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
 .meta i{width:6px;height:6px;border-radius:50%;background:var(--red);flex:none}
 .right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;white-space:nowrap}
 .stock{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.stock i{width:6px;height:6px;border-radius:50%;background:var(--c)}
@@ -137,10 +150,10 @@ img{display:block}
 .notes{padding:16px;display:flex;flex-direction:column;gap:14px}
 .prose{font-size:15px;line-height:1.65;display:flex;flex-direction:column;gap:14px}.prose p{margin:0}
 .foot{font-size:11px;letter-spacing:.06em;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
-.packbar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px 14px;display:flex;flex-direction:column;gap:10px}
+.packbar{background:var(--bg);border-top:1px solid var(--line);padding:10px 16px 14px;display:flex;flex-direction:column;gap:10px}
 .editrow{display:flex;justify-content:flex-end;margin-top:-4px}
 .packbar .guide{border:0;border-top:1px solid var(--line);border-radius:0;padding:0;min-height:44px;margin-top:2px}
-.steps{display:flex;align-items:center;gap:10px}
+.steps{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
 .steps .step button{width:30px}.steps .step b{min-width:12px}
 .link{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;height:36px}
 .powered{display:flex;justify-content:center;align-items:center;gap:6px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
@@ -199,13 +212,22 @@ img{display:block}
       this.root = host.attachShadow({ mode: 'open' });
       const demo = new URLSearchParams(location.search).get('state') || host.dataset.demoState || '';
       this.demo = demo;
-      this.frame = 0; this.cycler = null; this.poll = null;
-      this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, customize: false, hatch: null, added: false, filled: false,
+      this.frame = 0; this.cycler = null; this.poll = null; this.scrollPos = {}; this.shownTab = null;
+      this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, customize: false, expanded: new Set(), added: false, filled: false,
         flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', live: false, failed: false }, weather: null };
       this.picks = data.picks.filter(p => p.variant);
       this.byId = new Map(this.picks.map(p => [p.id, p]));
+      // Open the slot the angler is standing in, if it has a hatch. The rest start closed.
+      const now = data.hatches[this.slotNow()];
+      if (now && !now.none) this.s.expanded.add(now.slot);
       this.events = [];
       this.root.addEventListener('click', e => this.onClick(e));
+      this.root.addEventListener('change', e => {
+        const el = e.target.closest('[data-action="section"]');
+        if (!el) return;
+        this.set({ section: el.value, added: false });
+        this.emit('section_switched', { section: el.value });
+      });
       this.root.addEventListener('keydown', e => this.onKey(e));
       new MutationObserver(() => this.render()).observe(host, { attributes: true, attributeFilter: ['data-theme', 'data-accent', 'data-on-accent'] });
       this.render();
@@ -268,14 +290,20 @@ img{display:block}
     }
     variantOf(p) { const id = this.s.variant[p.id]; return p.variants.find(v => v.id === id) || p.variant; }
     unavailable(v, p) { return !v.available || (this.demo === 'oos' && p.id === 'weiss'); }
+    /** The hatch each pick is filed under: its own first tag that matches a listed slot. The report's
+        tag order encodes which hatch the fly is really for. Anything matching no listed hatch is
+        `null` and lands in ANYTIME. One pick, one group -- so the groups sum to the CTA's count. */
+    listedHatches() { return new Set(this.data.hatches.filter(h => !h.none).map(h => h.key)); }
+    groupOf(p) { const listed = this.listedHatches(); return p.hatches.find(h => listed.has(h)) || null; }
     /** Row model: substitute takes the row when the chosen variant is out of stock.
-        The hatch filter is a view. rows(true) is what the RIG tab shows; rows(false) is the pack. */
-    rows(filtered = false) {
-      const mult = this.s.anglers * this.s.days, filter = filtered ? this.s.hatch : null;
+        rows() is the whole pack for the section; rows(key) is one hatch group, rows(null, true) ANYTIME. */
+    rows(hatch = undefined, anytime = false) {
+      const mult = this.s.anglers * this.s.days;
+      const pick = p => hatch === undefined ? true : anytime ? this.groupOf(p) === null : this.groupOf(p) === hatch;
       const out = [];
       for (const role of this.data.roles) {
         const flies = this.picks
-          .filter(p => p.role === role.key && p.sections.includes(this.s.section) && (!filter || p.hatches.includes(filter)))
+          .filter(p => p.role === role.key && p.sections.includes(this.s.section) && pick(p))
           .map(p => {
             const per = this.s.qty[p.id] != null ? this.s.qty[p.id] : p.qty, qty = per * mult;
             let v = this.variantOf(p), use = p, sub = null;
@@ -289,16 +317,17 @@ img{display:block}
       }
       return out;
     }
-    /** The pack is always the full rig for the section. pack(true) is the filtered subset, used only by the second, labeled action. */
-    pack(filtered = false) {
-      const items = this.rows(filtered).flatMap(g => g.flies).filter(r => r.qty > 0 && !r.oos);
+    /** The pack is the whole rig for the section. There is exactly one of these, and one buy button. */
+    pack() {
+      const items = this.rows().flatMap(g => g.flies).filter(r => r.qty > 0 && !r.oos);
       const flies = items.reduce((n, r) => n + r.qty, 0), total = items.reduce((n, r) => n + r.price, 0);
       return { items, flies, total, url: this.cartUrl(items) };
     }
     /** GET /cart/add appends to the customer's existing cart and lands on the cart page. Hidden line-item
         properties (underscore prefix) put the report on the order without showing the customer. The
         permalink form (/cart/{id}:{qty}) replaces the cart, so it is not used. */
-    cartUrl(items) {
+    utm() { return `utm_source=hatchmatch&utm_medium=widget&utm_campaign=${encodeURIComponent(this.data.water.id)}`; }
+    cartUrl(items, landing) {
       const w = this.data.water, report = `${w.id}-${this.data.report.publishedAt}`;
       const u = new URL(`${this.data.storeUrl}/cart/add`);
       items.forEach((r, i) => {
@@ -307,9 +336,17 @@ img{display:block}
         u.searchParams.set(`items[${i}][properties][_hatchmatch_report]`, report);
         u.searchParams.set(`items[${i}][properties][_hatchmatch_section]`, this.s.section);
       });
-      const cartPage = `/cart?utm_source=hatchmatch&utm_medium=widget&utm_campaign=${encodeURIComponent(w.id)}`;
-      u.searchParams.set('return_to', `/cart/update?attributes[hatchmatch_report]=${encodeURIComponent(report)}&attributes[hatchmatch_water]=${encodeURIComponent(w.id)}&return_to=${encodeURIComponent(cartPage)}`);
+      const dest = landing || `/cart?${this.utm()}`;
+      u.searchParams.set('return_to', `/cart/update?attributes[hatchmatch_report]=${encodeURIComponent(report)}&attributes[hatchmatch_water]=${encodeURIComponent(w.id)}&return_to=${encodeURIComponent(dest)}`);
       return u.toString();
+    }
+    /** The catalog link hands the shop a warm cart: the same /cart/add the pack button fires, but
+        landing on the collection instead of the cart. One navigation, so no cross-site cookie
+        problem -- Shopify adds the items and then forwards to the collection page. */
+    catalogUrl() {
+      const k = this.pack();
+      const collection = `${this.data.fliesCollection || '/collections/flies'}?${this.utm()}`;
+      return k.items.length ? this.cartUrl(k.items, collection) : this.data.storeUrl + collection;
     }
 
     /* ---- templates ---- */
@@ -402,18 +439,20 @@ img{display:block}
     }
     expanded() {
       const d = this.data, tab = this.s.tab;
-      const tabs = ['now', 'hatch', 'rig', 'notes'];
-      return `<div class="card">
+      const tabs = ['now', 'hatch', 'notes'];
+      return `<div class="card open">
   <div class="head">
     ${this.header(true)}
   </div>
   <div class="tabs" role="tablist" aria-label="Report">
     ${tabs.map(k => `<button class="tab" role="tab" id="tab-${k}" aria-selected="${tab === k}" aria-controls="panel-${k}" tabindex="${tab === k ? 0 : -1}" data-action="tab" data-tab="${k}" data-focus="tab-${k}">${k}</button>`).join('')}
   </div>
-  <div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}">${this['tab_' + tab]()}</div>
+  <div class="panelwrap"><div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div></div>
   <div class="packbar">
     <div class="label">Your trip</div>
-    <div class="steps">${this.stepper('Anglers', 'anglers', this.s.anglers)}${this.stepper('Days', 'days', this.s.days)}</div>
+    <div class="steps">${this.stepper('Anglers', 'anglers', this.s.anglers)}${this.stepper('Days', 'days', this.s.days)}
+      <span class="row" style="gap:6px"><span class="label" style="letter-spacing:.1em">Section</span><span class="sel"><select data-action="section" data-focus="section" aria-label="Section of the river">${d.water.sections.map(x => `<option value="${esc(x)}"${x === this.s.section ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select></span></span>
+    </div>
     <div class="muted" style="font-size:11px">${this.mathLine()}</div>
     ${this.packButton()}
     <div class="editrow"><button class="link" data-action="customize" style="color:${this.s.customize ? 'var(--accent)' : 'var(--text)'}" data-focus="customize">${this.s.customize ? 'Done' : 'Edit pack'}</button></div>
@@ -426,7 +465,7 @@ img{display:block}
       return `<div class="row" style="gap:6px"><span class="label" style="letter-spacing:.1em">${label}</span><span class="step"><button data-action="step" data-key="${key}" data-d="-1" aria-label="Fewer ${label.toLowerCase()}" data-focus="${key}-">−</button><b aria-live="polite">${val}</b><button data-action="step" data-key="${key}" data-d="1" aria-label="More ${label.toLowerCase()}" data-focus="${key}+">+</button></span></div>`;
     }
     mathLine() {
-      const rows = this.rows(false).flatMap(g => g.flies).filter(r => !r.oos), per = rows.reduce((n, r) => n + r.per, 0), k = this.pack();
+      const rows = this.rows().flatMap(g => g.flies).filter(r => !r.oos), per = rows.reduce((n, r) => n + r.per, 0), k = this.pack();
       const a = this.s.anglers, dd = this.s.days;
       return `${per} flies per angler per day × ${a} ${a === 1 ? 'angler' : 'anglers'} × ${dd} ${dd === 1 ? 'day' : 'days'} = ${k.flies} flies`;
     }
@@ -461,42 +500,57 @@ img{display:block}
   </div>
 </div>`;
     }
+    /** One panel. The angler's question is one question, so the hatch and the flies that answer it
+        live in the same place: time-of-day rows, flies nested under the row that calls for them. */
     tab_hatch() {
-      const now = this.slotNow();
+      const d = this.data, now = this.slotNow();
+      const slots = d.hatches.map((h, i) => this.slotRow(h, i, i === now)).join('');
+      const anytime = this.anytimeRow();
       return `<div class="slots">
   <div class="between" style="padding:8px 0 4px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)"><span>Time of day</span><span>Hatch, size, the guide's word</span></div>
-  ${this.data.hatches.map((h, i) => `<div class="slot">
-    <div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="color:${i === now ? 'var(--text)' : 'var(--muted)'}">${cap(SLOTS[i])}</span>${i === now ? `<span class="lamp" style="--c:var(--green);color:var(--green);font-size:10px"><i style="width:6px;height:6px"></i>Now</span>` : ''}</div>
-    ${h.none ? `<div class="muted" style="font-size:12px">${esc(h.fallback)}</div>`
-      : `<button class="chip" data-action="hatch" data-key="${h.key}" aria-pressed="${this.s.hatch === h.key}" aria-label="Show flies for ${esc(h.insect)}"><span class="dot"></span><span style="font-weight:600">${esc(h.insect)}</span><span class="muted">${esc(h.size)}</span>${this.meter(h.intensity)}<span class="accent" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding-left:4px">Flies</span></button>`}
-  </div>`).join('')}
-  <div class="muted" style="padding-top:12px;font-size:12px">Intensity is the guide's word for each hatch this week. Tap a hatch to see the flies that match it in the rig.</div>
+  ${slots}${anytime}
+  <div class="muted" style="padding:14px 0 4px;font-size:12px">Intensity is the guide's word for each hatch this week.${this.s.customize ? ' Quantities are per angler per day.' : ''}</div>
+  <button class="ghost catalog" data-action="catalog" data-focus="catalog"><span class="caps" style="font-weight:600">All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>
 </div>`;
     }
-    tab_rig() {
-      const d = this.data, groups = this.rows(true), filter = d.hatches.find(h => h.key === this.s.hatch);
-      const sub = filter ? this.pack(true) : null, full = this.pack();
-      return `<div class="rig">
-  <div class="row" style="gap:8px;padding-bottom:8px"><span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Section</span>
-    ${d.water.sections.map(s => `<button class="pill" data-action="section" data-key="${esc(s)}" aria-pressed="${this.s.section === s}" data-focus="section-${esc(s)}"><i></i>${esc(s)}</button>`).join('')}</div>
-  ${filter ? `<div class="filter" style="flex-wrap:wrap;padding:8px 12px;gap:6px 8px">
-    <span class="label" style="letter-spacing:.12em">Flies for</span><span class="lamp" style="--c:var(--accent);font-weight:600"><i></i>${esc(filter.insect)}</span>
-    <span class="muted" style="font-size:11px">${sub.flies} of ${full.flies}</span>
-    <button class="link accent" data-action="showall" style="margin-left:auto">Show all</button>
-    <div class="muted" style="flex-basis:100%;font-size:11px">The pack button below still adds all ${full.flies}. To add only these: <button class="accent" data-action="addsome" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;min-height:36px">Add ${sub.flies} ${filter.insect} ${sub.flies === 1 ? 'fly' : 'flies'}, ${money(sub.total)}</button></div>
-  </div>` : ''}
-  <div class="muted" style="font-size:12px;padding:6px 0 2px">Quantities are per angler per day. ${this.s.customize ? 'Set counts and sizes below.' : ''}</div>
-  ${groups.map(g => `<div>
+    /** A hatch row and, underneath it, the flies for that hatch. The row is the disclosure. */
+    slotRow(h, i, isNow) {
+      const label = `<div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="color:${isNow ? 'var(--text)' : 'var(--muted)'}">${cap(SLOTS[i])}</span>${isNow ? `<span class="lamp" style="--c:var(--green);color:var(--green);font-size:10px"><i style="width:6px;height:6px"></i>Now</span>` : ''}</div>`;
+      if (h.none) return `<div class="slot">${label}<div class="muted" style="font-size:12px">${esc(h.fallback)}</div></div>`;
+      const open = this.s.expanded.has(h.slot), id = `flies-${h.slot.replace(/\s+/g, '-')}`;
+      return `<div class="slot">${label}
+    <button class="chip" data-action="slot" data-slot="${esc(h.slot)}" data-focus="slot-${esc(h.slot)}" aria-expanded="${open}" aria-controls="${id}">
+      <span class="dot"></span><span style="font-weight:600">${esc(h.insect)}</span><span class="muted">${esc(h.size)}</span>${this.meter(h.intensity)}<span class="word muted">${esc(h.word)}</span><span class="care" aria-hidden="true">${open ? '&#9662;' : '&#9656;'}</span>
+    </button>
+  </div>
+  <div class="flies" id="${id}"${open ? '' : ' hidden'}>${open ? this.flyGroups(this.rows(h.key)) : ''}</div>`;
+    }
+    /** Three picks carry hatch tags no listed slot matches -- one stonefly, two eggs. Without this
+        row they would sit in the pack and in the count while appearing nowhere in the list. */
+    anytimeRow() {
+      const groups = this.rows(null, true);
+      if (!groups.length) return '';
+      const open = this.s.expanded.has('anytime');
+      const tags = [...new Set(groups.flatMap(g => g.flies).flatMap(r => r.p.hatches))];
+      return `<div class="slot"><span class="label" style="color:var(--muted)">Anytime</span>
+    <button class="chip" data-action="slot" data-slot="anytime" data-focus="slot-anytime" aria-expanded="${open}" aria-controls="flies-anytime" aria-label="Flies not tied to a hatch">
+      <span class="dot"></span><span class="muted">${esc(tags.map(cap).join(', '))}</span><span class="care" aria-hidden="true">${open ? '&#9662;' : '&#9656;'}</span>
+    </button>
+  </div>
+  <div class="flies" id="flies-anytime"${open ? '' : ' hidden'}>${open ? this.flyGroups(groups) : ''}</div>`;
+    }
+    flyGroups(groups) {
+      if (!groups.length) return `<div class="muted" style="padding:10px 0 14px;font-size:12px">No flies for this hatch in the ${esc(this.s.section)} section.</div>`;
+      return groups.map(g => `<div>
     <div class="group">${esc(g.role.label)}</div>
     ${g.flies.map(r => this.flyRow(r)).join('')}
-  </div>`).join('')}
-  ${groups.length ? '' : `<div class="muted" style="padding:16px 0">No flies in this section for that hatch.</div>`}
-</div>`;
+  </div>`).join('');
     }
     flyRow(r) {
       const { p, use, v, per, qty, sub } = r, id = p.id;
       const lamp = r.oos ? ['var(--red)', 'Out of stock'] : (v.lowStock ? ['var(--amber)', 'Low stock'] : ['var(--green)', 'In stock']);
-      const meta = sub ? `<i></i>Instead of ${esc(sub.name)}, out of stock` : esc([v.color, v.size].filter(Boolean).join('  '));
+      const only = p.sections.length === 1 ? `<span class="only">${esc(p.sections[0])} only</span>` : '';
+      const meta = sub ? `<i></i>Instead of ${esc(sub.name)}, out of stock` : esc([v.color, v.size].filter(Boolean).join('  ')) + only;
       const chips = p.variants.length > 1 && !sub ? p.variants.map(x => {
         const bothVary = new Set(p.variants.map(y => y.color)).size > 1 && new Set(p.variants.map(y => y.size)).size > 1;
         const label = bothVary ? [x.color, x.size].filter(Boolean).join(' ') : (new Set(p.variants.map(y => y.color)).size > 1 ? x.color : x.size);
@@ -525,8 +579,17 @@ img{display:block}
     render() {
       const [accent, onAccent] = this.accent();
       const focusKey = this.root.activeElement?.dataset?.focus;
+      const panel = this.root.querySelector('.panel');
+      if (panel && this.shownTab) this.scrollPos[this.shownTab] = panel.scrollTop;
       clearInterval(this.cycler); this.cycler = null;   // innerHTML is about to drop the nodes this drives
       this.root.innerHTML = `<style>${CSS}</style><div class="hm" data-theme="${this.theme()}" style="--accent:${accent};--on-accent:${onAccent}">${this.s.open ? this.expanded() : this.compact()}</div>`;
+      this.shownTab = this.s.open ? this.s.tab : null;
+      const next = this.root.querySelector('.panel');
+      if (next) {
+        next.scrollTop = this.scrollPos[this.s.tab] || 0;
+        // Only fade an edge there is something past.
+        next.parentElement.classList.toggle('fade', next.scrollHeight > next.clientHeight + 1);
+      }
       if (focusKey) this.root.querySelector(`[data-focus="${focusKey}"]`)?.focus();
       this.fitPackLabel();
       this.startCycle();
@@ -561,16 +624,21 @@ img{display:block}
         case 'expand': this.set({ open: true }); this.emit('card_expanded'); this.root.querySelector('[data-action="collapse"]')?.focus(); break;
         case 'collapse': this.set({ open: false }); this.root.querySelector('[data-action="expand"]')?.focus(); break;
         case 'tab': this.set({ tab: el.dataset.tab }); if (el.dataset.tab === 'notes') this.emit('notes_expanded'); break;
-        case 'section': this.set({ section: el.dataset.key, added: false }); this.emit('section_switched', { section: el.dataset.key }); break;
-        case 'hatch': this.set({ hatch: s.hatch === el.dataset.key ? null : el.dataset.key, tab: 'rig', added: false }); this.emit('hatch_filtered', { hatch: el.dataset.key }); break;
-        case 'showall': this.set({ hatch: null, added: false }); break;
-        case 'customize': this.set({ customize: !s.customize, tab: 'rig' }); if (!s.customize) this.emit('pack_customized'); break;
+        case 'slot': {
+          const key = el.dataset.slot, open = new Set(s.expanded);
+          open.has(key) ? open.delete(key) : open.add(key);
+          this.set({ expanded: open });
+          if (!s.expanded.has(key)) { const h = this.data.hatches.find(x => x.slot === key); this.emit('hatch_expanded', { slot: key, insect: h ? h.insect : null }); }
+          break;
+        }
+        case 'customize': this.set({ customize: !s.customize, tab: 'hatch' }); if (!s.customize) this.emit('pack_customized'); break;
         case 'step': { const k = el.dataset.key, d = +el.dataset.d, max = k === 'anglers' ? 6 : 7; this.set({ [k]: Math.min(max, Math.max(1, s[k] + d)), added: false }); break; }
         case 'qty': { const id = el.dataset.id, p = this.byId.get(id), cur = s.qty[id] != null ? s.qty[id] : p.qty; this.set({ qty: { ...s.qty, [id]: Math.max(0, cur + +el.dataset.d) }, added: false }); break; }
         case 'variant': this.set({ variant: { ...s.variant, [el.dataset.id]: +el.dataset.vid }, added: false }); this.emit('size_changed', { pick: el.dataset.id, variant: +el.dataset.vid }); break;
-        // pack_added is the headline number: full packs only. Partial adds are fly_added and never count toward it.
         case 'addpack': { const k = this.pack(); this.emit('pack_added', { flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); this.set({ added: true }); break; }
-        case 'addsome': { const k = this.pack(true); this.emit('fly_added', { hatch: s.hatch, flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); break; }
+        // Sends them to the shop's own catalog with the pack already in the cart. Not a concession:
+        // the shop gets the traffic and a warm cart instead of a 440px card trying to be a catalog.
+        case 'catalog': { const k = this.pack(); this.emit('catalog_opened', { flies: k.flies, total: +k.total.toFixed(2) }); window.open(this.catalogUrl(), '_blank', 'noopener'); break; }
         case 'viewcart': window.open(this.pack().url, '_blank', 'noopener'); break;
         case 'guide': this.emit('guide_cta_tapped'); break;
         case 'fly': this.emit('fly_opened', { pick: el.dataset.id }); break;

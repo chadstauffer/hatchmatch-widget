@@ -20,21 +20,29 @@
 <body>
 <main>
   <h1>HatchMatch widget — revision round 1</h1>
-  <p class="sub">Tickets 1 and 2. Ticket 3 not started. Cards are live: flow and weather are real. Add <code>?shot=0</code>&hellip;<code>6</code> for one at a time.</p>
+  <p class="sub">Tickets 1, 2 and 3. Cards are live: flow and weather are real. Add <code>?shot=0</code>&hellip;<code>6</code> for one at a time.</p>
   <div class="grid" id="grid"></div>
 </main>
 <script>
   // Each figure mounts its own card, then is driven into the state it is meant to show.
   // Card width is what matters, not viewport: the demo host page pads 20px each side,
   // so a 390px phone gives a 350px card. 440px is the card's own max-width.
+  // Card width is what matters, not viewport: the demo host page pads 20px each side,
+  // so a 390px phone gives a 350px card. 440px is the card's own max-width.
+  const A = ['morning','midday','afternoon','anytime'];
   const SHOTS = [
-    ['Compact · dark · 350px card (390px phone)',  'dark',  {open:false}, 350],
-    ['Compact · light · 350px card',               'light', {open:false}, 350],
-    ['Compact · dark · 440px card (the water name fits)', 'dark', {open:false}, 440],
-    ['NOW · dark · 350px card',                    'dark',  {open:true, tab:'now'}, 350],
-    ['NOW · light · 350px card',                   'light', {open:true, tab:'now'}, 350],
-    ['Trip block · dark · 2 anglers, 2 days',      'dark',  {open:true, tab:'hatch', anglers:2, days:2}, 350],
-    ['Trip block · light · 2 anglers, 2 days',     'light', {open:true, tab:'hatch', anglers:2, days:2}, 350],
+    ['Compact · dark · 350px card (390px phone)', 'dark',  {open:false}, 350],
+    ['Compact · light · 350px card',              'light', {open:false}, 350],
+    ['NOW · dark · 350px card',                   'dark',  {open:true, tab:'now'}, 350],
+    ['NOW · light · 350px card',                  'light', {open:true, tab:'now'}, 350],
+    ['HATCH · dark · now-slot open on load',      'dark',  {open:true, tab:'hatch'}, 350],
+    ['HATCH · light · now-slot open on load',     'light', {open:true, tab:'hatch'}, 350],
+    ['HATCH · dark · every slot open',            'dark',  {open:true, tab:'hatch', expanded:new Set(A)}, 350],
+    ['HATCH · dark · 440px (meter and word both fit)', 'dark', {open:true, tab:'hatch', expanded:new Set(A)}, 440],
+    ['HATCH · dark · Lower section, tags visible','dark',  {open:true, tab:'hatch', section:'Lower', expanded:new Set(A)}, 350],
+    ['HATCH · dark · Edit pack on',               'dark',  {open:true, tab:'hatch', customize:true, expanded:new Set(['afternoon'])}, 350],
+    ['Trip block · dark · 2 anglers, 2 days',     'dark',  {open:true, tab:'notes', anglers:2, days:2}, 350],
+    ['Trip block · light · 2 anglers, 2 days',    'light', {open:true, tab:'notes', anglers:2, days:2}, 350],
   ];
   // ?shot=N renders a single figure, so a screenshot never has to scroll.
   const only = new URLSearchParams(location.search).get('shot');
