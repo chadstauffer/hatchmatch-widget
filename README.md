@@ -45,7 +45,9 @@ The demo also works straight from `demo/index.html` on disk. Live flow and weath
 
 - Every fly is a real variant on catalog.theflyshop.com with the shop's own price, stock and photo.
 - Flow is live from USGS 11370500 (Keswick), with a six-hour trend. Weather is live for Redding from Open-Meteo. No keys.
-- The pack button opens a Shopify cart permalink carrying every fly, tagged `utm_source=hatchmatch` plus cart attributes for report, water and section, so the order in the shop's admin says where it came from.
+- The pack button opens `GET /cart/add?items[…]` on the catalog domain. Verified against their store: it appends to whatever the customer already has, carries hidden line-item properties (`_hatchmatch_report`, `_hatchmatch_section`) onto the order, and chains through `/cart/update` to set cart attributes, then lands on the cart page with UTM. The cart permalink (`/cart/{id}:{qty}`) is not used: it replaces the customer's cart, verified by watching a six-item cart drop to one.
+- The hatch filter is a view. Tapping BWO narrows the rig; the pack button still adds the full pack, and says so. A second, labeled action inside the filter banner adds only the filtered flies.
+- "What we found on their page" is a toggle under the card: their wrong links, missing links, and the color and size calls the guide still has to make, built from the resolver's flag list.
 - Report freshness is computed from the publish date, so the lamp will go amber on its own after seven days and red after fourteen.
 - Every tap is an event: `window.HatchMatch.events`, and a `hatchmatch` CustomEvent on the host. Add `data-debug` to the host to see them in the console.
 
@@ -59,10 +61,12 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 - No insect icons. The stonefly appears only in the Powered by line, as an SVG in currentColor.
 - The compact card is a real button (the whole face expands) with the pack button as a sibling, not a child. Tabs carry tab roles, arrow keys, and focus survives re-render. Zero-quantity rows dim.
 - Report rating is Great. The live page highlights that label; v0.2 assumed Good.
-- Prices are not all $2.95. The rig runs $1.50 (Eng Thing) to $3.95 (Jigged Bird's Nest, Ginger Snap). Pack at defaults: Up top 21 flies $65.95, Lower 25 flies $75.25.
+- Prices are not all $2.95. The rig runs $1.50 (Eng Thing) to $3.95 (Jigged Bird's Nest, Ginger Snap).
+- Size default is the middle of the range (spec §12), whether the range is the report's (#14 to 16 gives #16) or the shop's (no size on the report, shop carries #12 to 18, card shows #16). Color has no invented rule: the report's first color word, else the shop's first color, flagged.
+- When the shop's link and the shop's words disagree (Jigged Bird's Nest links to the $2.25 CB Birds Nest, the words say jigged, Natural and Hot Spot, which only the $3.95 Zack's carries), the resolver follows the words but flags both with prices. It never picks the pricier fly silently.
 
 ## Known pilot items
 
-- A cart permalink replaces whatever the customer already has in the cart. On the same domain, `POST /cart/add.js` appends and also carries line-item properties. The permalink is the cross-domain path for the demo.
+- Flow comes from `waterservices.usgs.gov/nwis/iv` (six-hour series, for the trend) with `api.waterdata.usgs.gov/ogcapi` as fallback. If both fail the card shows the report's last reading and says so; the reason is in `window.HatchMatch.events` and the console.
 - The stonefly SVG is a trace of the 64px PNG. Fine at 12 to 22px; redraw it as a proper vector before it goes bigger.
 - Catalog pull is a snapshot. Run `npm run ingest` nightly for price and stock.

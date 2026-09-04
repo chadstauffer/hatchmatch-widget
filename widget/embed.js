@@ -123,14 +123,27 @@ img{display:block}
   }
 
   /* ---------- live data ---------- */
+  /* USGS, two endpoints. The instantaneous-values service gives a six-hour series (for the trend);
+     the newer OGC API gives the latest value only. Either reports CORS * as of Sep 2026. */
   async function fetchFlow(site) {
-    const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${site}&parameterCd=00060&period=PT6H`);
-    if (!r.ok) throw new Error(r.status);
-    const ts = (await r.json()).value.timeSeries[0];
-    const vals = ts.values[0].value.map(v => ({ value: +v.value, at: v.dateTime })).filter(v => v.value >= 0);
-    const last = vals[vals.length - 1], first = vals[0];
-    const delta = last.value - first.value;
-    return { value: last.value, at: last.at, trend: Math.abs(delta) < Math.max(100, last.value * .02) ? 'Steady' : delta > 0 ? 'Rising' : 'Falling', live: true };
+    const errors = [];
+    try {
+      const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${site}&parameterCd=00060&period=PT6H`);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const ts = (await r.json()).value.timeSeries[0];
+      const vals = ts.values[0].value.map(v => ({ value: +v.value, at: v.dateTime })).filter(v => v.value >= 0);
+      if (!vals.length) throw new Error('empty series');
+      const last = vals[vals.length - 1], first = vals[0], delta = last.value - first.value;
+      return { value: last.value, at: last.at, trend: Math.abs(delta) < Math.max(100, last.value * .02) ? 'Steady' : delta > 0 ? 'Rising' : 'Falling', live: true, source: 'waterservices.usgs.gov/nwis/iv' };
+    } catch (e) { errors.push(`nwis/iv: ${e.message}`); }
+    try {
+      const r = await fetch(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/latest-continuous/items?monitoring_location_id=USGS-${site}&parameter_code=00060&f=json`);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const f = ((await r.json()).features || []).find(x => x.properties && x.properties.parameter_code === '00060');
+      if (!f) throw new Error('no streamflow feature');
+      return { value: +f.properties.value, at: f.properties.time, trend: '', live: true, source: 'api.waterdata.usgs.gov' };
+    } catch (e) { errors.push(`ogcapi: ${e.message}`); }
+    throw new Error(errors.join(' | '));
   }
   const WX = c => c === 0 ? 'clear' : c <= 2 ? 'mostly clear' : c === 3 ? 'clouds' : c <= 48 ? 'fog' : c <= 57 ? 'drizzle' : c <= 67 ? 'rain' : c <= 77 ? 'snow' : c <= 82 ? 'showers' : c <= 86 ? 'snow' : 'storms';
   async function fetchWeather(lat, lon) {
@@ -168,8 +181,10 @@ img{display:block}
     async load() {
       const w = this.data.water;
       if (this.demo === 'noflow') { this.s.flow.failed = true; this.render(); }
-      else fetchFlow(w.usgsSite).then(f => { this.s.flow = f; this.render(); }).catch(() => { this.s.flow.failed = true; this.render(); });
-      fetchWeather(w.lat, w.lon).then(wx => { this.s.weather = wx; this.render(); }).catch(() => {});
+      else fetchFlow(w.usgsSite).then(f => { this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
+        .catch(e => { this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
+      fetchWeather(w.lat, w.lon).then(wx => { this.s.weather = wx; this.render(); })
+        .catch(e => { console.warn('[hatchmatch] weather unavailable, showing the report\'s outlook:', e.message); this.emit('weather_unavailable', { error: e.message }); });
     }
     emit(type, detail) {
       const ev = { type, at: new Date().toISOString(), water: this.data.water.id, ...detail };
@@ -204,9 +219,10 @@ img{display:block}
     }
     variantOf(p) { const id = this.s.variant[p.id]; return p.variants.find(v => v.id === id) || p.variant; }
     unavailable(v, p) { return !v.available || (this.demo === 'oos' && p.id === 'weiss'); }
-    /** Row model: substitute takes the row when the chosen variant is out of stock. */
-    rows() {
-      const mult = this.s.anglers * this.s.days, filter = this.s.hatch;
+    /** Row model: substitute takes the row when the chosen variant is out of stock.
+        The hatch filter is a view. rows(true) is what the RIG tab shows; rows(false) is the pack. */
+    rows(filtered = false) {
+      const mult = this.s.anglers * this.s.days, filter = filtered ? this.s.hatch : null;
       const out = [];
       for (const role of this.data.roles) {
         const flies = this.picks
@@ -224,19 +240,26 @@ img{display:block}
       }
       return out;
     }
-    pack() {
-      const items = this.rows().flatMap(g => g.flies).filter(r => r.qty > 0 && !r.oos);
+    /** The pack is always the full rig for the section. pack(true) is the filtered subset, used only by the second, labeled action. */
+    pack(filtered = false) {
+      const items = this.rows(filtered).flatMap(g => g.flies).filter(r => r.qty > 0 && !r.oos);
       const flies = items.reduce((n, r) => n + r.qty, 0), total = items.reduce((n, r) => n + r.price, 0);
       return { items, flies, total, url: this.cartUrl(items) };
     }
+    /** GET /cart/add appends to the customer's existing cart and lands on the cart page. Hidden line-item
+        properties (underscore prefix) put the report on the order without showing the customer. The
+        permalink form (/cart/{id}:{qty}) replaces the cart, so it is not used. */
     cartUrl(items) {
-      const w = this.data.water, lines = items.map(r => `${r.v.id}:${r.qty}`).join(',');
-      const u = new URL(`${this.data.storeUrl}/cart/${lines}`);
-      u.searchParams.set('storefront', 'true');
-      u.searchParams.set('utm_source', 'hatchmatch'); u.searchParams.set('utm_medium', 'widget'); u.searchParams.set('utm_campaign', w.id);
-      u.searchParams.set('attributes[hatchmatch_report]', `${w.id}-${this.data.report.publishedAt}`);
-      u.searchParams.set('attributes[hatchmatch_water]', w.id);
-      u.searchParams.set('attributes[hatchmatch_section]', this.s.section);
+      const w = this.data.water, report = `${w.id}-${this.data.report.publishedAt}`;
+      const u = new URL(`${this.data.storeUrl}/cart/add`);
+      items.forEach((r, i) => {
+        u.searchParams.set(`items[${i}][id]`, String(r.v.id));
+        u.searchParams.set(`items[${i}][quantity]`, String(r.qty));
+        u.searchParams.set(`items[${i}][properties][_hatchmatch_report]`, report);
+        u.searchParams.set(`items[${i}][properties][_hatchmatch_section]`, this.s.section);
+      });
+      const cartPage = `/cart?utm_source=hatchmatch&utm_medium=widget&utm_campaign=${encodeURIComponent(w.id)}`;
+      u.searchParams.set('return_to', `/cart/update?attributes[hatchmatch_report]=${encodeURIComponent(report)}&attributes[hatchmatch_water]=${encodeURIComponent(w.id)}&return_to=${encodeURIComponent(cartPage)}`);
       return u.toString();
     }
 
@@ -280,7 +303,7 @@ img{display:block}
   <button class="expand" data-action="expand" aria-expanded="false" aria-label="Expand the ${esc(d.water.name)} report">
     <div class="between"><div class="title">${esc(d.water.name)}</div><div class="row" style="gap:8px;flex:none"><span class="lamp muted" style="--c:${fr.color}"><i></i>${fr.label}</span><span class="chev" aria-hidden="true">▼</span></div></div>
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
-    <div class="row"><span class="label">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n, true)}<span class="muted" style="font-size:11px">${r.n} of 5</span></div>
+    <div class="row"><span class="label">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n, true)}</div>
     <div class="sec">
       <div class="flowrow"><div class="row" style="gap:5px;align-items:baseline"><span class="big" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span><span class="unit">CFS</span></div>${this.flowBar(false)}</div>
       ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>`
@@ -326,7 +349,7 @@ img{display:block}
       return `<div class="row" style="gap:6px"><span class="label" style="letter-spacing:.1em">${label}</span><span class="step"><button data-action="step" data-key="${key}" data-d="-1" aria-label="Fewer ${label.toLowerCase()}" data-focus="${key}-">−</button><b aria-live="polite">${val}</b><button data-action="step" data-key="${key}" data-d="1" aria-label="More ${label.toLowerCase()}" data-focus="${key}+">+</button></span></div>`;
     }
     mathLine() {
-      const rows = this.rows().flatMap(g => g.flies).filter(r => !r.oos), per = rows.reduce((n, r) => n + r.per, 0), k = this.pack();
+      const rows = this.rows(false).flatMap(g => g.flies).filter(r => !r.oos), per = rows.reduce((n, r) => n + r.per, 0), k = this.pack();
       const a = this.s.anglers, dd = this.s.days;
       return `${per} flies per angler per day × ${a} ${a === 1 ? 'angler' : 'anglers'} × ${dd} ${dd === 1 ? 'day' : 'days'} = ${k.flies} flies`;
     }
@@ -349,16 +372,16 @@ img{display:block}
   </div>
   <div class="sec rule" style="padding-top:14px;gap:10px">
     <div class="between"><span class="label">Next three days</span><span class="muted" style="font-size:10px">${wx ? 'High, low, rain chance' : 'From the report'}</span></div>
-    <div class="wx">${(wx || [{ day: 'Day 1', label: 'clouds', blocks: 2 }, { day: 'Day 2', label: 'sprinkles', blocks: 3 }, { day: 'Day 3', label: 'sprinkles', blocks: 3 }]).map(x => `
+    <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', blocks: 2 }, { day: 'Day 2', label: 'Sprinkles', blocks: 3 }, { day: 'Day 3', label: 'Sprinkles', blocks: 3 }]).map(x => `
       <div class="d"><div class="col" aria-hidden="true">${[0, 1, 2, 3, 4].map(i => `<i class="${i < x.blocks ? 'on' : ''}"></i>`).join('')}</div>
-      <div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span>${x.hi != null ? `<span style="font-weight:600;white-space:nowrap">${x.hi}° ${x.lo}°</span>` : ''}<span class="muted" style="font-size:10px;white-space:nowrap">${x.pct != null ? x.pct + '% ' : ''}${esc(x.label)}</span></div></div>`).join('')}</div>
+      <div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span>${x.hi != null ? `<span style="font-weight:600;white-space:nowrap">${x.hi}° ${x.lo}°</span>` : ''}<span class="muted" style="font-size:10px;white-space:nowrap">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div></div>`).join('')}</div>
   </div>
   <div class="sec rule" style="padding-top:14px">
     <div class="between"><span class="label">Report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.label}</span></div>
     ${this.ticks(28, Math.min(27, Math.round(fr.days / 14 * 27)), fr.color)}
     <div class="between" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)"><span>${fr.days === 0 ? 'Today' : fr.days + (fr.days === 1 ? ' day ago' : ' days ago')}</span><span>7 days</span><span>14 days</span></div>
     ${fr.stale ? `<div class="note">Conditions may have changed since this report. Flow and weather are live.</div>` : ''}
-    <div class="row muted" style="gap:8px;padding-top:10px"><span class="avatar"></span>Report by ${esc(d.report.author || 'The Fly Shop')}</div>
+    ${d.report.author ? `<div class="muted" style="padding-top:10px">Report by ${esc(d.report.author)}</div>` : ''}
   </div>
   <a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
 </div>`;
@@ -376,11 +399,17 @@ img{display:block}
 </div>`;
     }
     tab_rig() {
-      const d = this.data, groups = this.rows(), filter = d.hatches.find(h => h.key === this.s.hatch);
+      const d = this.data, groups = this.rows(true), filter = d.hatches.find(h => h.key === this.s.hatch);
+      const sub = filter ? this.pack(true) : null, full = this.pack();
       return `<div class="rig">
   <div class="row" style="gap:8px;padding-bottom:8px"><span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Section</span>
     ${d.water.sections.map(s => `<button class="pill" data-action="section" data-key="${esc(s)}" aria-pressed="${this.s.section === s}" data-focus="section-${esc(s)}"><i></i>${esc(s)}</button>`).join('')}</div>
-  ${filter ? `<div class="filter"><span class="label" style="letter-spacing:.12em">Flies for</span><span class="lamp" style="--c:var(--accent);font-weight:600"><i></i>${esc(filter.insect)}</span><button class="link accent" data-action="showall">Show all</button></div>` : ''}
+  ${filter ? `<div class="filter" style="flex-wrap:wrap;padding:8px 12px;gap:6px 8px">
+    <span class="label" style="letter-spacing:.12em">Flies for</span><span class="lamp" style="--c:var(--accent);font-weight:600"><i></i>${esc(filter.insect)}</span>
+    <span class="muted" style="font-size:11px">${sub.flies} of ${full.flies}</span>
+    <button class="link accent" data-action="showall" style="margin-left:auto">Show all</button>
+    <div class="muted" style="flex-basis:100%;font-size:11px">The pack button below still adds all ${full.flies}. To add only these: <button class="accent" data-action="addsome" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;min-height:36px">Add ${sub.flies} ${filter.insect} ${sub.flies === 1 ? 'fly' : 'flies'}, ${money(sub.total)}</button></div>
+  </div>` : ''}
   <div class="muted" style="font-size:12px;padding:6px 0 2px">Quantities are per angler per day. ${this.s.customize ? 'Set counts and sizes below.' : ''}</div>
   ${groups.map(g => `<div>
     <div class="group">${esc(g.role.label)}</div>
@@ -440,7 +469,8 @@ img{display:block}
         case 'step': { const k = el.dataset.key, d = +el.dataset.d, max = k === 'anglers' ? 6 : 7; this.set({ [k]: Math.min(max, Math.max(1, s[k] + d)), added: false }); break; }
         case 'qty': { const id = el.dataset.id, p = this.byId.get(id), cur = s.qty[id] != null ? s.qty[id] : p.qty; this.set({ qty: { ...s.qty, [id]: Math.max(0, cur + +el.dataset.d) }, added: false }); break; }
         case 'variant': this.set({ variant: { ...s.variant, [el.dataset.id]: +el.dataset.vid }, added: false }); this.emit('size_changed', { pick: el.dataset.id, variant: +el.dataset.vid }); break;
-        case 'addpack': { const k = this.pack(); this.emit('pack_added', { flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); this.set({ added: true }); break; }
+        case 'addpack': { const k = this.pack(); this.emit('pack_added', { scope: 'pack', flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); this.set({ added: true }); break; }
+        case 'addsome': { const k = this.pack(true); this.emit('pack_added', { scope: 'hatch', hatch: s.hatch, flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); break; }
         case 'viewcart': window.open(this.pack().url, '_blank', 'noopener'); break;
         case 'guide': this.emit('guide_cta_tapped'); break;
         case 'fly': this.emit('fly_opened', { pick: el.dataset.id }); break;

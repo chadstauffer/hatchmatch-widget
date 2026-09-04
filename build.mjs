@@ -30,3 +30,15 @@ const out = src
 await mkdir('dist', { recursive: true });
 await writeFile('dist/embed.js', out);
 console.error(`dist/embed.js ${(out.length / 1024).toFixed(0)} KB (report ${(JSON.stringify(slim).length / 1024).toFixed(0)} KB, font ${(font.length / 1024).toFixed(0)} KB)`);
+
+// The flag list, for the demo page's "what we found" panel. Their page's problems, next to a card that has them right.
+const flag = sev => full.picks.flatMap(p => p.flags.filter(f => f.severity === sev).map(f => ({ pick: p.name, text: f.text, candidates: f.candidates || null, resolved: p.variant ? `${[p.variant.color, p.variant.size].filter(Boolean).join(' ')} $${p.variant.price.toFixed(2)}` : null })));
+const findings = {
+  water: full.water.name, publishedAt: full.report.publishedAt, sourceUrl: full.report.source?.url, catalogPulledAt: full.catalogPulledAt,
+  counts: full.summary,
+  wrongLinks: flag('wronglink'), noLinks: flag('nolink'), color: flag('color'), size: flag('size'), other: flag('confirm'), stock: flag('stock'),
+  observations: full.observations || [],
+  packs: Object.fromEntries(Object.entries(full.packs).map(([k, v]) => [k, { flies: v.flies, total: v.total }])),
+};
+await writeFile('demo/findings.js', `window.HM_FINDINGS = ${JSON.stringify(findings, null, 1)};\n`);
+console.error(`demo/findings.js: ${findings.wrongLinks.length} wrong links, ${findings.noLinks.length} without links, ${findings.color.length} colors and ${findings.size.length} sizes to confirm`);

@@ -11,13 +11,20 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { findProduct, colorMatches } from './lib/match.mjs';
 import { thumb } from './lib/variants.mjs';
-import { buildCartUrl } from './lib/cart.mjs';
+import { buildAddUrl } from './lib/cart.mjs';
 
 const ROLES = [['dry', 'Dry'], ['dropper', 'Dropper'], ['point', 'Point'], ['eggs', 'Eggs']];
 
 function handleFromLink(link) {
   if (!link) return null;
   try { return new URL(link).pathname.split('/').filter(Boolean).pop() || null; } catch { return null; }
+}
+
+/** Middle of a size range. Sizes sort by hook number; an even count takes the smaller fly of the two middles (#12–18 -> #16, #14–16 -> #16). */
+export function middleSize(sizes) {
+  const nums = [...new Set(sizes)].map(s => +String(s).replace('#', '')).filter(n => !isNaN(n)).sort((a, b) => a - b);
+  if (!nums.length) return null;
+  return '#' + nums[Math.floor(nums.length / 2)];
 }
 
 function slimVariant(v) {
@@ -32,8 +39,19 @@ export function resolvePick(pick, catalog, aliases) {
   if (method === 'fuzzy') flags.push({ severity: 'confirm', text: `Matched "${pick.name}" to "${product.title}" by fuzzy match (score ${score.toFixed(2)}). Confirm.`, candidates });
 
   const linkHandle = handleFromLink(pick.reportLink);
-  if (!pick.reportLink) flags.push({ severity: 'info', text: 'No link on the shop\'s report. Resolved by name.' });
-  else if (linkHandle !== product.handle) flags.push({ severity: 'info', text: `The shop's report links this to "${linkHandle}". Resolved to "${product.handle}" instead.` });
+  if (!pick.reportLink) flags.push({ severity: 'nolink', text: 'No link on the shop\'s report. Resolved by name.' });
+  else if (linkHandle !== product.handle) {
+    // The words and the link disagree. Never pick silently: show both with prices and make the guide choose.
+    const linked = catalog.products.find(p => p.handle === linkHandle);
+    const price = p => p ? (p.priceMin === p.priceMax ? `$${p.priceMin.toFixed(2)}` : `$${p.priceMin.toFixed(2)} to $${p.priceMax.toFixed(2)}`) : 'not in the catalog';
+    flags.push({
+      severity: 'wronglink',
+      text: linked
+        ? `Their link goes to "${linked.title}" (${price(linked)}, ${linked.colors.length ? linked.colors.join(', ') : 'one color'}). Their words match "${product.title}" (${price(product)}). Resolved to the words. Confirm which.`
+        : `Their link goes to "${linkHandle}", which is not in the catalog. Resolved by name to "${product.title}" (${price(product)}).`,
+      candidates: [{ handle: product.handle, title: product.title, price: product.priceMin }, ...(linked ? [{ handle: linked.handle, title: linked.title, price: linked.priceMin }] : [])],
+    });
+  }
 
   // Narrow variants by the guide's color and size words. If a filter empties the list, drop it and say so.
   let allowed = product.variants;
@@ -48,28 +66,30 @@ export function resolvePick(pick, catalog, aliases) {
     else flags.push({ severity: 'confirm', text: `Report says ${pick.sizes.join(', ')}; the shop carries ${product.sizes.join(', ')}. Showing all sizes.` });
   }
 
-  // Default variant: first allowed in the report's own order (first color word, first size word), in stock if possible.
+  // Default variant. Color: the report's first color word, else the shop's first color (flagged; no rule invented).
+  // Size: the middle of the range (spec §12), whether the range is the report's or the shop's.
+  const colorChoices = [...new Set(allowed.map(v => v.color).filter(Boolean))];
+  const sizeChoices = [...new Set(allowed.map(v => v.size).filter(Boolean))];
+  const midSize = middleSize(sizeChoices);
   const order = (v) => {
     const ci = pick.colors?.length ? pick.colors.findIndex(c => colorMatches(c, v.color)) : 0;
-    const si = pick.sizes?.length ? pick.sizes.indexOf(v.size) : 0;
-    return (ci < 0 ? 99 : ci) * 100 + (si < 0 ? 99 : si);
+    const si = v.size === midSize ? 0 : 1;
+    return (ci < 0 ? 99 : ci) * 100 + si;
   };
   const ranked = [...allowed].sort((a, b) => order(a) - order(b));
   const variant = ranked.find(v => v.available) || ranked[0];
 
-  const colorChoices = [...new Set(allowed.map(v => v.color).filter(Boolean))];
-  const sizeChoices = [...new Set(allowed.map(v => v.size).filter(Boolean))];
-  if (colorChoices.length > 1 && !pick.colors?.length) flags.push({ severity: 'confirm', text: `No color on the report. Shop carries ${colorChoices.join(', ')}. Defaulted to ${variant.color}.` });
-  if (colorChoices.length > 1 && pick.colors?.length > 1) flags.push({ severity: 'info', text: `Report lists ${pick.colors.join(' and ')}. Defaulted to ${variant.color}; the other is a chip.` });
-  if (sizeChoices.length > 1 && !pick.sizes?.length) flags.push({ severity: 'confirm', text: `No size on the report. Shop carries ${sizeChoices.join(', ')}. Defaulted to ${variant.size}.` });
-  if (sizeChoices.length > 1 && pick.sizes?.length > 1) flags.push({ severity: 'info', text: `Report gives a range (${pick.sizes.join(', ')}). Defaulted to ${variant.size}; the rest are chips.` });
+  if (colorChoices.length > 1 && !pick.colors?.length) flags.push({ severity: 'color', text: `No color on the report. Shop carries ${colorChoices.join(', ')}. Showing ${variant.color} first; the rest are chips.` });
+  if (colorChoices.length > 1 && pick.colors?.length > 1) flags.push({ severity: 'info', text: `Report lists ${pick.colors.join(' and ')}. Showing ${variant.color} first; the other is a chip.` });
+  if (sizeChoices.length > 1 && !pick.sizes?.length) flags.push({ severity: 'size', text: `No size on the report. Shop carries ${sizeChoices.join(', ')}. Defaulted to the middle, ${variant.size}.` });
+  if (sizeChoices.length > 1 && pick.sizes?.length > 1) flags.push({ severity: 'info', text: `Report gives a range (${pick.sizes.join(', ')}). Defaulted to the middle, ${variant.size}; the rest are chips.` });
   if (pick.sizeSource) flags.push({ severity: 'info', text: `Size source: ${pick.sizeSource}.` });
   if (!variant.available) flags.push({ severity: 'stock', text: `Out of stock at the shop right now (${variant.sku}).` });
   if (allowed.some(v => !v.available) && variant.available) flags.push({ severity: 'info', text: `Some options are out of stock: ${allowed.filter(v => !v.available).map(v => [v.color, v.size].filter(Boolean).join(' ')).join(', ')}.` });
 
   return {
     ...pick,
-    status: flags.some(f => f.severity === 'confirm') ? 'confirm' : 'resolved',
+    status: flags.some(f => ['confirm', 'color', 'size', 'wronglink'].includes(f.severity)) ? 'confirm' : 'resolved',
     matchedBy: method,
     product: { handle: product.handle, title: product.title, vendor: product.vendor, url: product.url, type: product.type },
     variant: slimVariant(variant),
@@ -92,6 +112,13 @@ export function resolveReport(fixture, catalog, aliases) {
   }
 
   const unresolved = picks.flatMap(p => p.flags.filter(f => f.severity !== 'info').map(f => ({ pickId: p.id, name: p.name, severity: f.severity, text: f.text, candidates: f.candidates })));
+  const prices = picks.filter(p => p.variant).map(p => p.variant.price);
+  const at295 = prices.filter(x => x === 2.95).length;
+  const observations = [
+    fixture.report.ratingNote ? `Rating: ${fixture.report.ratingNote}` : null,
+    `Prices: ${picks.length} picks run $${Math.min(...prices).toFixed(2)} to $${Math.max(...prices).toFixed(2)}. ${at295} of ${picks.length} are $2.95.`,
+    fixture.hatches.some(h => h.sizeSource) ? `Hatch sizes (${fixture.hatches.filter(h => h.size).map(h => `${h.insect} ${h.size}`).join(', ')}) are not on the shop's page. Source: ${fixture.hatches.find(h => h.sizeSource).sizeSource}.` : null,
+  ].filter(Boolean);
   const packs = {};
   for (const section of fixture.water.sections) {
     const items = picks.filter(p => p.status !== 'unresolved' && p.sections.includes(section)).map(p => {
@@ -101,10 +128,9 @@ export function resolveReport(fixture, catalog, aliases) {
     packs[section] = {
       flies: items.reduce((n, i) => n + i.qty, 0),
       total: +items.reduce((n, i) => n + i.qty * i.price, 0).toFixed(2),
-      cartUrl: buildCartUrl(catalog.storeUrl, items, { water: fixture.water.id, report: `${fixture.water.id}-${fixture.report.publishedAt}` }),
+      cartUrl: buildAddUrl(catalog.storeUrl, items, { water: fixture.water.id, report: `${fixture.water.id}-${fixture.report.publishedAt}`, section }),
     };
   }
-  const prices = picks.filter(p => p.variant).map(p => p.variant.price);
   return {
     generatedAt: new Date().toISOString(),
     shop: catalog.shop,
@@ -125,6 +151,7 @@ export function resolveReport(fixture, catalog, aliases) {
       priceMin: Math.min(...prices), priceMax: Math.max(...prices),
     },
     unresolved,
+    observations,
   };
 }
 
@@ -143,6 +170,8 @@ function unresolvedMarkdown(r) {
   }
   lines.push('', '## Pack totals at default quantities (one angler, one day)', '');
   for (const [s, k] of Object.entries(r.packs)) lines.push(`- ${s}: ${k.flies} flies, $${k.total.toFixed(2)}`);
+  lines.push('', '## Observations', '');
+  for (const o of r.observations) lines.push(`- ${o}`);
   return lines.join('\n') + '\n';
 }
 

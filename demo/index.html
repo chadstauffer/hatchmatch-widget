@@ -15,6 +15,18 @@
   .knobs button { font: inherit; padding: 6px 12px; border: 1px solid #CFC9BF; border-radius: 999px; background: #fff; color: #2B2B2B; cursor: pointer; }
   .knobs button[aria-pressed="true"] { background: #2B2B2B; color: #fff; border-color: #2B2B2B; }
   .knobs .group { display: flex; gap: 6px; align-items: center; }
+  .found { margin-top: 20px; }
+  .found > button { font: inherit; font-size: 13px; padding: 8px 14px; border: 1px solid #CFC9BF; border-radius: 999px; background: #fff; color: #2B2B2B; cursor: pointer; }
+  .found > button[aria-expanded="true"] { background: #2B2B2B; color: #fff; border-color: #2B2B2B; }
+  #found-panel { margin-top: 12px; padding: 18px 20px; background: #fff; border: 1px solid #E3DED4; border-radius: 12px; font-size: 14px; }
+  #found-panel h2 { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #8A8377; margin: 18px 0 6px; }
+  #found-panel h2:first-child { margin-top: 0; }
+  #found-panel p { margin: 0 0 8px; }
+  #found-panel ul { margin: 0; padding-left: 18px; }
+  #found-panel li { margin: 4px 0; }
+  #found-panel .pick { font-weight: 600; }
+  #found-panel .to { color: #6B6B6B; }
+  #found-panel .src { margin-top: 16px; font-size: 12px; color: #8A8377; }
   details { margin-top: 36px; font-size: 14px; }
   summary { cursor: pointer; color: #6B6B6B; }
   pre { background: #fff; border: 1px solid #E3DED4; border-radius: 8px; padding: 14px; overflow-x: auto; font-size: 13px; }
@@ -29,6 +41,13 @@
   <!-- The embed. This is the whole integration. -->
   <div id="hatchmatch" data-shop="theflyshop" data-water="lower-sacramento" data-theme="dark" data-accent="orange"></div>
   <script src="../dist/embed.js" async></script>
+
+  <!-- Their page's problems, next to a card that has them right. Built from the resolver's flag list. -->
+  <div class="found">
+    <button id="found-toggle" aria-expanded="false" aria-controls="found-panel">What we found on their page</button>
+    <section id="found-panel" hidden aria-label="What we found"></section>
+  </div>
+  <script src="findings.js"></script>
 
   <div class="knobs" aria-label="Demo controls">
     <span class="group">Theme <button data-knob="theme" data-value="dark" aria-pressed="true">Dark</button><button data-knob="theme" data-value="light" aria-pressed="false">Light</button></span>
@@ -48,6 +67,36 @@
   </details>
 </main>
 <script>
+  // "What we found" panel, from the resolver's flag list (demo/findings.js, written by build.mjs).
+  (function () {
+    const F = window.HM_FINDINGS, btn = document.getElementById('found-toggle'), panel = document.getElementById('found-panel');
+    if (!F) { btn.hidden = true; return; }
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const date = d => new Date(d.slice(0, 10) + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const item = f => `<li><span class="pick">${esc(f.pick)}.</span> ${esc(f.text)}${f.resolved ? ` <span class="to">Card shows ${esc(f.resolved)}.</span>` : ''}</li>`;
+    // Two picks can share one bad link (Jigged Bird's Nest, Natural and Hot Spot). Count links, not rows.
+    const wrong = Object.values(F.wrongLinks.reduce((m, f) => { const k = f.pick + f.text; (m[k] ||= { ...f, resolved: [] }).resolved.push(f.resolved); return m; }, {})).map(f => ({ ...f, resolved: f.resolved.filter(Boolean).join(' and ') }));
+    F.wrongLinks = wrong;
+    const calls = F.color.length + F.size.length + F.other.length;
+    btn.textContent = `What we found on their page: ${wrong.length} wrong links, ${F.noLinks.length} flies with no link, ${calls} color or size calls for the guide`;
+    panel.innerHTML = `
+      <p>Their ${esc(date(F.publishedAt))} report, checked against their own catalog on ${esc(date(F.catalogPulledAt))}. ${F.counts.picks} picks, every one now on a real SKU. Nothing here was rewritten; these are the places the words on the page and the catalog disagree.</p>
+      <h2>Links that go to the wrong fly (${F.wrongLinks.length})</h2>
+      <ul>${F.wrongLinks.map(item).join('')}</ul>
+      <h2>Picks with no link at all (${F.noLinks.length})</h2>
+      <p>${F.noLinks.map(f => `<span class="pick">${esc(f.pick)}</span>`).join(', ')}. A customer reading the page cannot buy these. The card resolves them by name.</p>
+      <h2>Needs the guide's word: color (${F.color.length})</h2>
+      <ul>${F.color.map(item).join('')}</ul>
+      <h2>Needs the guide's word: size (${F.size.length})</h2>
+      <ul>${F.size.map(item).join('')}</ul>
+      ${F.other.length ? `<h2>Other (${F.other.length})</h2><ul>${F.other.map(item).join('')}</ul>` : ''}
+      ${F.stock.length ? `<h2>Stock (${F.stock.length})</h2><ul>${F.stock.map(item).join('')}</ul>` : ''}
+      <h2>Also noticed</h2>
+      <ul>${F.observations.map(o => `<li>${esc(o)}</li>`).join('')}<li>Pack at default quantities, one angler, one day: ${Object.entries(F.packs).map(([k, v]) => `${esc(k)} ${v.flies} flies $${v.total.toFixed(2)}`).join(', ')}.</li></ul>
+      <p class="src">Source: <a href="${esc(F.sourceUrl)}" target="_blank" rel="noopener">${esc(F.sourceUrl)}</a>. Full list in the repo at data/reports.</p>`;
+    btn.addEventListener('click', () => { const open = panel.hidden; panel.hidden = !open; btn.setAttribute('aria-expanded', String(open)); });
+  })();
+
   // Demo knobs only. The widget re-renders when its data-theme / data-accent attributes change.
   document.querySelectorAll('.knobs button').forEach(b => b.addEventListener('click', () => {
     const host = document.getElementById('hatchmatch');
