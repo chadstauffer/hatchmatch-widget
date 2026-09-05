@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260905230904"></script>
+<script src="../dist/embed.js?b=20260905232122"></script>
 <script>
 window.SWEEP = async function () {
   const STATES = ['', 'aging', 'stale', 'oos', 'noflow'];
@@ -112,6 +112,21 @@ window.SWEEP = async function () {
         if (h < 20) out.invariants.push(`${w}: flow graph plot collapsed to ${Math.round(h)}px`);
         const cell = plot.querySelector('.col i');
         if (cell && cell.getBoundingClientRect().height < 1) out.invariants.push(`${w}: flow graph cells have no height`);
+      }
+      // Every lit segment must actually paint. The bar's CSS was deleted in a rebuild and the bar
+      // shipped for several rounds present in the DOM, correctly lit, and fully transparent --
+      // every structural check passed because the structure was never what broke.
+      for (const [sel, what] of [['.flowmod .bar', 'flow bar'], ['.band', 'temp band']]) {
+        const bar = card.root.querySelector(sel);
+        if (!bar) continue;
+        const lit = [...bar.querySelectorAll('i')].filter(i => i.classList.contains('on') || i.classList.contains('in') || i.classList.contains('at'));
+        const blank = lit.filter(i => {
+          const bg = getComputedStyle(i).backgroundColor;
+          return bg === 'transparent' || /rgba\(0, 0, 0, 0\)/.test(bg);
+        });
+        if (lit.length && blank.length === lit.length) out.invariants.push(`${w}: ${what} has ${lit.length} lit segments and none of them paint`);
+        const seg = lit[0];
+        if (seg && seg.getBoundingClientRect().height < 1) out.invariants.push(`${w}: ${what} segments have no height`);
       }
       card.set({ open: false });
       out.waters.push(`${w} ok (${shown} flies${ro ? ', read-only' : ', pack'})`);

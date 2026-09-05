@@ -167,6 +167,17 @@ img{display:block}
 .spark .axis::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.35}
 /* Tight rows drop the value labels rather than the resolution: the plot keeps its cells. */
 @container (max-width:344px){.spark{grid-template-columns:minmax(0,1fr);column-gap:0}.spark .yaxis{display:none}}
+/* The segmented bar. Its CSS was deleted wholesale by a careless splice during the hydrograph
+   rebuild, so the bar has been rendering with transparent segments -- present in the DOM, and
+   invisible -- for several rounds. The water-temperature band reuses .bar i, so that went with it. */
+.bar{position:relative;display:flex;gap:2px;height:14px;align-items:center}
+.bar i{flex:1;height:10px;border-radius:1px;background:var(--off)}
+.bar.tall{height:16px}.bar.tall i{height:12px}
+.bar i.on{background:var(--seg)}
+.bar i.on.fill{animation:hm-lit 1ms linear both;animation-delay:calc(var(--i) * 32ms)}
+@keyframes hm-lit{from{background:var(--off)}to{background:var(--seg)}}
+.bar .tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--text);transform:translateX(-1px)}
+.bar.tall .tick{top:-4px;bottom:-4px}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -684,7 +695,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       // A range without a wading threshold is a real shape: not every water has a limit a guide
       // will stand behind. No tick, no amber, and the label says the range and nothing more.
       const lim = F.threshold != null;
-      const filled = f.failed ? 0 : Math.round((f.value - F.min) / (F.max - F.min) * segs);
+      // Ceil, not round: the bar's job is the wading limit, and a river at 7,670 against a 7,500
+      // limit has to light a segment above the line. Rounding stopped the fill at 7,500 exactly
+      // and the bar showed no over-limit colour at all until the river was a third of a segment
+      // past it.
+      const filled = f.failed ? 0 : Math.max(0, Math.min(segs, Math.ceil((f.value - F.min) / (F.max - F.min) * segs)));
       const cells = Array.from({ length: segs }, (_, i) => {
         const on = i < filled, top = F.min + (i + 1) * (F.max - F.min) / segs;
         const color = lim && top > F.threshold ? 'var(--amber)' : `color-mix(in srgb, var(--water1), var(--water2) ${Math.round(i / (segs - 1) * 100)}%)`;
