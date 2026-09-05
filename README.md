@@ -77,7 +77,11 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   distribution, rounded up a nice-number ladder -- see the trade-off recorded in `scales.mjs`.
   The wading threshold is not derived and stays null: that is a person deciding what is safe.
 - Network reads are cached in `sessionStorage` for five minutes, keyed by gauge or window, so a
-  page with several cards asks a free public service once.
+  page with several cards asks a free public service once. The key namespace carries a schema
+  version and every hit is validated against what the current build needs before it is trusted:
+  a payload written by an older build is not stale, it is the wrong shape, and serving it back
+  left the card rendering a flow with no sparkline and no way to know why. `demo/sweep.html`
+  checks this.
 
 ## Round 3
 

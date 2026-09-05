@@ -105,6 +105,24 @@ window.SWEEP = async function () {
     } catch (e) { out.errors.push(`water ${w}: ${e.message}`); }
   }
 
+  // Cache poisoning: a payload written by an older build is not stale, it is the wrong shape.
+  // Serving it back left the card rendering a flow with no sparkline and no way to know why.
+  try {
+    const stale = { value: 7700, at: new Date().toISOString(), delta: -40, hours: 6, trend: 'Steady', live: true, source: 'nwis/iv' };
+    for (const k of ['hm:flow:11370500', 'hm1:flow:11370500']) sessionStorage.setItem(k, JSON.stringify({ at: Date.now(), v: stale }));
+    const host2 = document.createElement('div');
+    host2.className = 'hatchmatch'; host2.style.width = '350px'; host2.dataset.theme = 'dark';
+    stage.appendChild(host2);
+    const c2 = window.HatchMatch.mount(host2);
+    await new Promise(r => setTimeout(r, 4000));
+    c2.set({ open: true, tab: 'now' });
+    const cols = c2.root.querySelectorAll('.spark .col').length;
+    out.cachePoison = cols ? `rejected the stale shape, ${cols} columns` : 'SERVED A STALE SHAPE, no sparkline';
+    if (!cols) out.invariants.push('cache: a payload from an older build was served back and the sparkline vanished');
+    clearInterval(c2.poll); clearInterval(c2.cycler);
+    host2.remove();
+  } catch (e) { out.errors.push('cache poison check: ' + e.message); }
+
   // Intervals: 20 expand/collapse cycles must not accumulate.
   card.switchWater('lower-sacramento');
   const before = window.__live;

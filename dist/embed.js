@@ -13,15 +13,24 @@
      re-ask a free public service for the same answer. Per tab, five minutes, and a miss or a
      storage error just means a fetch. */
   const TTL = 5 * 60 * 1000;
-  function cached(key, fetcher) {
+  /* The namespace carries a schema version, and every hit is checked against what this build
+     actually needs before it is trusted. A five-minute TTL does not catch the case that matters:
+     a payload written by an older build is not stale, it is the wrong shape, and reading it back
+     leaves the card rendering a flow with no sparkline and no way to know why. `valid` also gates
+     writes, so a degraded result -- the latest-value fallback, which has no series -- is never
+     cached in place of a good one. */
+  const CACHE = 'hm1:';
+  function cached(key, fetcher, valid) {
+    const k = CACHE + key;
     let hit = null;
-    try { hit = JSON.parse(sessionStorage.getItem('hm:' + key) || 'null'); } catch (e) { /* private mode, quota, disabled */ }
-    if (hit && Date.now() - hit.at < TTL) return Promise.resolve(hit.v);
+    try { hit = JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { /* private mode, quota, disabled */ }
+    if (hit && Date.now() - hit.at < TTL && (!valid || valid(hit.v))) return Promise.resolve(hit.v);
     return fetcher().then(v => {
-      try { sessionStorage.setItem('hm:' + key, JSON.stringify({ at: Date.now(), v })); } catch (e) { /* nothing to do */ }
+      try { if (!valid || valid(v)) sessionStorage.setItem(k, JSON.stringify({ at: Date.now(), v })); } catch (e) { /* nothing to do */ }
       return v;
     });
   }
+  const hasSeries = f => !!f && Array.isArray(f.series) && f.series.length > 0;
 
   const ACCENTS = { orange: ['#FF7124', '#081215'], burnt: ['#D4632A', '#081215'], spruce: ['#2E7D4F', '#F5EDE0'] };
   const SLOTS = ['morning', 'midday', 'afternoon', 'last light'];
@@ -286,7 +295,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     // Daily means: no sub-daily data, so no six-hour delta. That frame is dropped, not invented.
     return { value: last.value, at: last.iso, delta: null, hours: null, series: vals.map(v => v.value), days: vals.length, trend: '', live: false, source: 'waterservices.usgs.gov/nwis/dv' };
   };
-  const fetchWindow = (site, win) => cached(`win:${site}:${win.join('/')}`, () => fetchWindowLive(site, win));
+  const fetchWindow = (site, win) => cached(`win:${site}:${win.join('/')}`, () => fetchWindowLive(site, win), hasSeries);
   async function fetchFlowLive(site, win) {
     const errors = [];
     if (win) return fetchWindow(site, win);
@@ -324,13 +333,13 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     } catch (e) { errors.push(`ogcapi: ${e.message}`); }
     throw new Error(errors.join(' | '));
   }
-  const fetchFlow = (site, win) => win ? fetchWindow(site, win) : cached(`flow:${site}`, () => fetchFlowLive(site));
+  const fetchFlow = (site, win) => win ? fetchWindow(site, win) : cached(`flow:${site}`, () => fetchFlowLive(site), hasSeries);
   /* Water temperature (00010, Celsius) and turbidity (63680, FNU) off the same instantaneous-values
      service the flow comes from, so they cost one request and inherit its CORS. Neither is carried
      at every gauge -- Keswick reports neither, verified against the site's own series catalog on
      Sep 4 2026 -- so both are optional and a missing one drops its frame or its row. Nothing here
      substitutes air temperature for water, or derives a number from a word. */
-  const fetchAux = site => cached(`aux:${site}`, () => fetchAuxLive(site));
+  const fetchAux = site => cached(`aux:${site}`, () => fetchAuxLive(site), a => !!a && typeof a === 'object' && 'temp' in a && 'turbidity' in a);
   async function fetchAuxLive(site) {
     const out = { temp: null, turbidity: null };
     try {
@@ -348,7 +357,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     return out;
   }
   const WX = c => c === 0 ? 'clear' : c <= 2 ? 'mostly clear' : c === 3 ? 'clouds' : c <= 48 ? 'fog' : c <= 57 ? 'drizzle' : c <= 67 ? 'rain' : c <= 77 ? 'snow' : c <= 82 ? 'showers' : c <= 86 ? 'snow' : 'storms';
-  const fetchWeather = (lat, lon) => cached(`wx:${lat},${lon}`, () => fetchWeatherLive(lat, lon));
+  const fetchWeather = (lat, lon) => cached(`wx:${lat},${lon}`, () => fetchWeatherLive(lat, lon), wx => Array.isArray(wx) && wx.length > 0 && wx[0].hi != null);
   async function fetchWeatherLive(lat, lon) {
     const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&temperature_unit=fahrenheit&timezone=auto&forecast_days=3`);
     if (!r.ok) throw new Error(r.status);
