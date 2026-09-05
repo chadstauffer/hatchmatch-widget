@@ -130,8 +130,10 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   a 440px card with a three-figure reading draws 62 columns across 280px where it used to draw 30
   across 150. `fitSparkline()` measures after layout and redraws the graph once if the width wants
   a different count -- one correction, never a loop, because the second pass agrees with itself.
-- The newest column carries an accent underline and an accent trace cell. Without it nothing said
-  which end of the graph is now, and reading it right to left is an easy mistake to make once.
+- The newest column's trace cell is the accent, and it pulses -- but only while the reading is
+  actually live. A pulse on a historical window or a stale gauge would claim something the data
+  does not support. Reduced motion stops it.  Without it nothing said which end of the graph is now, and reading it right to left is an easy
+  mistake to make once.
 - The axis and the labels stand clear of the plot. Week ticks are positioned across
   `100% - 1px` so the last one lands inside rather than a pixel past, which had been putting a
   hairline of overflow on the flow row at every width.

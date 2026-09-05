@@ -132,7 +132,10 @@ img{display:block}
    A two-by-two grid so the labels and the value rules resolve their percentages against the plot
    area alone. As a flex row they measured against the whole graph including the day axis, which
    put every label and every rule three pixels low -- enough, at 3px rows, to name the wrong one. */
-.spark{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 26px;grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:4px;height:48px;flex:1 1 auto;min-width:0;max-width:280px;color:var(--muted)}
+.spark{position:relative;display:grid;grid-template-columns:minmax(0,1fr) calc(var(--lab,3) * (1ch + .06em));grid-template-rows:minmax(0,1fr) auto;column-gap:4px;row-gap:4px;height:48px;flex:1 1 auto;min-width:0;max-width:280px;color:var(--muted)}
+/* The gutter is exactly as wide as its longest label. An auto column cannot do it -- the labels are
+   absolutely positioned, so they lend the column no intrinsic width and it collapsed to nothing,
+   putting the numbers on top of the plot. The face is monospace, so character count is exact. */
 .spark .yaxis{position:relative;grid-area:1/2;font-size:9px;letter-spacing:.06em}
 /* The top label sits on the top edge rather than centred across it, so it does not hang half
    outside the graph; the midpoint one is centred on its own line. */
@@ -147,8 +150,11 @@ img{display:block}
 .spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
 /* The newest column, marked. Without it nothing on the graph says which end is now, and reading
    it right to left is an easy mistake to make once. */
-.spark .col.cur::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:1px;background:var(--accent)}
 .spark .col.cur i.top{background:var(--accent)}
+/* The newest reading breathes, but only when it is actually live: a pulse on a historical window
+   or on a stale gauge would be claiming something the data does not support. */
+.spark.live .col.cur i.top{animation:hm-pulse 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.spark.live .col.cur i.top{animation:none}}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
 .spark .axis{position:relative;grid-area:2/1;height:5px}
@@ -830,7 +836,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const rules = ticksY.map(v => `<span class="rule" style="top:${at(v)}%"></span>`).join('');
       const seen = src.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS, scale ${num(F.min)} to ${num(F.max)}`;
-      return `<span class="spark" role="img" aria-label="${label}">`
+      const widest = ticksY.reduce((n, v) => Math.max(n, fmt(v).length), 2);
+      return `<span class="spark${f.live ? ' live' : ''}" style="--lab:${widest}" role="img" aria-label="${label}">`
         + `<span class="yaxis" aria-hidden="true">${ylab}</span>`
         + `<span class="grid">${cells}${rules}</span>`
         + `<span class="axis" aria-hidden="true">${ticks}</span>`
