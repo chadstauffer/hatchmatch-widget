@@ -107,6 +107,10 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   mode, it is that on the Lower Sac the wading limit and the water sit at the same height, so the
   dashed line runs through the plotted level. The per-cell colour split resolves it -- a solid
   below-limit block with one above-limit row on top reads as "just over the limit, all week".
+- The wading limit is drawn as explicit 3px dashes over the plot, with a one-pixel dark edge.
+  `border-top: dashed` gives roughly 1px segments that vanish against a filled column, and when
+  the limit lands on a cell boundary -- the common case -- the line hid inside the 2px inter-cell
+  gap and its own background halo finished the job.
 - The caret is the accent at 16px, not muted at 11px. Specified muted and shipped that way twice;
   next to a 44px figure it was not visible at real size. Verified in a screenshot this time, not
   through the render path -- a caret that renders in the DOM and cannot be seen has not shipped.

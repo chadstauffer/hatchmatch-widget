@@ -151,7 +151,11 @@ img{display:block}
    carries a 1px halo in the card's own background to separate it from the cells it crosses. */
 /* Flush with the cells, not bled past them: a 3px overhang on an absolutely positioned child
    still counts as overflow, and it put 3px of horizontal scroll on the flow row at every width. */
-.spark .lim{position:absolute;left:0;right:0;z-index:1;height:0;border-top:1px dashed var(--text);pointer-events:none;box-shadow:0 -1px 0 var(--bg),0 1px 0 var(--bg)}
+/* The limit, drawn over the plot. border-top:dashed gives roughly 1px segments that vanish
+   against a filled column -- and when the threshold lands on a cell boundary, which is the common
+   case, the line hid inside the 2px inter-cell gap and its own background halo finished the job.
+   Explicit 3px dashes at full contrast, above the cells, no halo. */
+.spark .lim{position:absolute;left:0;right:0;z-index:2;height:1px;pointer-events:none;background:repeating-linear-gradient(to right,var(--text) 0 3px,transparent 3px 6px);filter:drop-shadow(0 1px 0 rgba(0,0,0,.55))}
 .bar{position:relative;display:flex;gap:2px;height:14px;align-items:center}
 .bar i{flex:1;height:10px;border-radius:1px;background:var(--off)}
 .bar.tall{height:16px}.bar.tall i{height:12px}
