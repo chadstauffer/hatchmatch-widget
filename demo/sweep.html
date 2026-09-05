@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260905225803"></script>
+<script src="../dist/embed.js?b=20260905230349"></script>
 <script>
 window.SWEEP = async function () {
   const STATES = ['', 'aging', 'stale', 'oos', 'noflow'];
@@ -101,6 +101,17 @@ window.SWEEP = async function () {
       // Every card state must render a header, tabs and a pinned block.
       for (const sel of ['.head', '.tabs', '.buybar', '.panel']) {
         if (!card.root.querySelector(sel)) out.invariants.push(`${w}: missing ${sel}`);
+      }
+      // The flow graph must have a plot with real height. A class collision collapsed it to the
+      // sum of its gaps once -- cells at zero height, value rules stacked on top of each other --
+      // and nothing else in the sweep noticed.
+      card.set({ open: true, tab: 'now' });
+      const plot = card.root.querySelector('.spark .grid');
+      if (plot) {
+        const h = plot.getBoundingClientRect().height;
+        if (h < 20) out.invariants.push(`${w}: flow graph plot collapsed to ${Math.round(h)}px`);
+        const cell = plot.querySelector('.col i');
+        if (cell && cell.getBoundingClientRect().height < 1) out.invariants.push(`${w}: flow graph cells have no height`);
       }
       card.set({ open: false });
       out.waters.push(`${w} ok (${shown} flies${ro ? ', read-only' : ', pack'})`);

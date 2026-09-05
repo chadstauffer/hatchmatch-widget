@@ -119,7 +119,12 @@ img{display:block}
    auto-scaling would draw a dependable tailwater week as a mountain range, which on this river
    would say the opposite of the truth. The dotted line is the wading threshold, which turns
    "is it rising" into "has it been fishable this week" -- the question a flat week can answer. */
-/* A hydrograph rasterized onto a dot matrix. Thirty columns by ten rows: 14 x 6 failed because
+/* Class names inside this graphic are prefixed hg- wherever they are a state modifier or a
+   generic word. Two collisions have already been shipped here: .live is the live strip's class
+   and silently gave the graph display:flex and height:16px, collapsing the plot to nine pixels;
+   .rule is the card's divider and added a border to every value line. Scoped descendants are
+   safe, bare modifiers are not.
+   A hydrograph rasterized onto a dot matrix. Thirty columns by ten rows: 14 x 6 failed because
    84 states cannot describe a curve, and 300 can. Three states per cell, which is what puts water
    underneath the trace -- the top lit cell of a column is the trace at full brightness, the cells
    beneath it are the water at 60%, the rest are the grid the shape sits on at 12%.
@@ -145,7 +150,7 @@ img{display:block}
 
 .spark .grid{position:relative;grid-area:1/1;display:flex;gap:1px;min-height:0}
 /* A rule at each labelled value, at its exact height, so a 9px label can name a 3px row. */
-.spark .rule{position:absolute;left:0;right:0;height:1px;background:currentColor;opacity:.22;pointer-events:none}
+.spark .hg-rule{position:absolute;left:0;right:0;height:1px;background:currentColor;opacity:.22;pointer-events:none}
 .spark .col{display:flex;flex-direction:column-reverse;gap:1px;flex:1 1 0;min-width:0}
 .spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
 /* The newest column, marked. Without it nothing on the graph says which end is now, and reading
@@ -153,8 +158,8 @@ img{display:block}
 .spark .col.cur i.top{background:var(--accent)}
 /* The newest reading breathes, but only when it is actually live: a pulse on a historical window
    or on a stale gauge would be claiming something the data does not support. */
-.spark.live .col.cur i.top{animation:hm-pulse 2.4s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.spark.live .col.cur i.top{animation:none}}
+.spark.hg-live .col.cur i.top{animation:hm-pulse 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.spark.hg-live .col.cur i.top{animation:none}}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
 .spark .axis{position:relative;grid-area:2/1;height:5px}
@@ -833,11 +838,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const at = v => (100 - (v - F.min) / span * 100).toFixed(2);
       const ticksY = this.scaleTicks(F.max);
       const ylab = ticksY.map(v => `<b style="top:${at(v)}%">${fmt(v)}</b>`).join('');
-      const rules = ticksY.map(v => `<span class="rule" style="top:${at(v)}%"></span>`).join('');
+      const rules = ticksY.map(v => `<span class="hg-rule" style="top:${at(v)}%"></span>`).join('');
       const seen = src.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS, scale ${num(F.min)} to ${num(F.max)}`;
       const widest = ticksY.reduce((n, v) => Math.max(n, fmt(v).length), 2);
-      return `<span class="spark${f.live ? ' live' : ''}" style="--lab:${widest}" role="img" aria-label="${label}">`
+      return `<span class="spark${f.live ? ' hg-live' : ''}" style="--lab:${widest}" role="img" aria-label="${label}">`
         + `<span class="yaxis" aria-hidden="true">${ylab}</span>`
         + `<span class="grid">${cells}${rules}</span>`
         + `<span class="axis" aria-hidden="true">${ticks}</span>`

@@ -105,6 +105,13 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 
 ## Round 6c — a month, and a labelled scale
 
+- Class names inside the flow graph are prefixed `hg-` wherever they are a state modifier or a
+  generic word. Two collisions shipped before that rule existed: `.live` is the live strip's class
+  and silently gave the graph `display:flex` and `height:16px`, collapsing the plot to the 9px sum
+  of its own gaps; `.rule` is the card's divider and added a border to every value line. Scoped
+  descendants are safe, bare modifiers are not. `demo/sweep.html` now asserts the plot has real
+  height, because nothing else in it noticed.
+
 - The window is thirty days, not seven. A week is too short a swath on a dam-controlled river:
   the Lower Sac's seven-day spread is about 9% of its scale and its thirty-day spread is 41%, so
   the month is where the shape is. Thirty columns over thirty days is a day a column, one request
