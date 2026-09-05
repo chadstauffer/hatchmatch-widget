@@ -20,7 +20,7 @@
 // and are absent here: these fixtures are read-only until someone sets them.
 
 import { readFile, writeFile } from 'node:fs/promises';
-import { dailyStats, deriveScale } from './scales.mjs';
+import { dailyStats, deriveScale, applyOverrides } from './scales.mjs';
 
 const SRC = 'https://www.theflyshop.com/streamreport.html';
 
@@ -164,22 +164,32 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     : await (await fetch(SRC, { headers: { 'user-agent': 'Mozilla/5.0 (HatchMatch fixture builder)' } })).text();
   const reports = parsePage(html);
   console.error(`${reports.length} regional rivers parsed from ${html.length.toLocaleString()} bytes\n`);
-  // Scale from measured record. The wading threshold is not derived and stays null: that is a
-  // person deciding what is safe, and it should stay a person's call.
+  // Scale from measured record, then let anything a shop or guide has set override it. The
+  // wading threshold is never derived: that is a person deciding what is safe.
+  const OVERRIDES = await readFile('data/waters.json', 'utf8').then(t => JSON.parse(t).waters).catch(() => ({}));
   for (const r of reports) {
-    if (!r.water.usgsSite) continue;
-    try {
-      const sc = deriveScale(await dailyStats(r.water.usgsSite));
-      if (sc) r.water.flow = { min: sc.min, max: sc.max, threshold: null, thresholdLabel: 'wading limit',
-        scaleSource: `USGS daily statistics ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the 70th percentile of daily p95, rounded up`,
-        lastReading: { value: 0, at: new Date().toISOString() } };
-    } catch (e) { console.error(`  ! ${r.water.shortName}: scale unavailable (${e.message})`); }
+    const ov = OVERRIDES[r.water.id] || null;
+    if (ov) {
+      if (ov.sections) r.water.sections = ov.sections;
+      if (ov.packName) r.water.packName = ov.packName;
+    }
+    let sc = null;
+    if (r.water.usgsSite) {
+      try { sc = deriveScale(await dailyStats(r.water.usgsSite)); }
+      catch (e) { console.error(`  ! ${r.water.shortName}: scale unavailable (${e.message})`); }
+    }
+    const flow = applyOverrides(sc ? { min: sc.min, max: sc.max } : null, ov);
+    if (flow) {
+      r.water.flow = { ...flow, lastReading: { value: 0, at: new Date().toISOString() } };
+      if (sc) r.water.flow.scaleSource = `USGS daily statistics ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the 70th percentile of daily p95, rounded up`;
+    }
   }
   for (const r of reports) {
     const file = `${outDir}/${r.water.id}-${r.report.publishedAt}.json`;
     await writeFile(file, JSON.stringify(r, null, 2) + '\n');
     const noLink = r.picks.filter(p => !p.reportLink).length;
-    const sc = r.water.flow ? `0-${r.water.flow.max.toLocaleString()}` : 'no scale';
+    const f = r.water.flow;
+    const sc = f && f.max != null ? `0-${f.max.toLocaleString()}${f.source && f.source.max === 'shop' ? '*' : ''}` : 'no scale';
     console.error(`  ${r.water.shortName.padEnd(11)} ${String(r.report.publishedAt).padEnd(11)} ${String(r.report.rating || 'no rating').padEnd(13)} ${String(r.picks.length).padStart(2)} flies` +
       (noLink ? `, ${noLink} unlinked` : '').padEnd(13) + ` ${sc.padEnd(10)} -> ${file}`);
   }

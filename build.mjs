@@ -55,6 +55,19 @@ for (const page of ['demo/review.html', 'demo/sweep.html', 'demo/measure.html', 
 console.error(`dist/embed.js build ${build}, ${(out.length / 1024).toFixed(0)} KB (${slim.length} waters, ${(JSON.stringify(slim).length / 1024).toFixed(0)} KB, font ${(font.length / 1024).toFixed(0)} KB)`);
 for (const r of slim) console.error(`  ${r.water.shortName.padEnd(11)} ${r.picks.length} picks${r.readOnly ? ', read-only' : ''}`);
 
+// The production shape, so the claim the pilot rests on is measured rather than asserted: the
+// renderer with no reports inlined. In production the reports come from the HatchMatch API and
+// the host calls HatchMatch.mount(el, reports). Nothing about the card changes.
+const renderer = src
+  .replace('"__HM_BUILD__"', JSON.stringify(build))
+  .replace('"__HM_DATA__"', '[]')
+  .replace('"__HM_FONT__"', JSON.stringify(`data:font/ttf;base64,${font.toString('base64')}`))
+  .replace('"__HM_STONEFLY__"', JSON.stringify(stonefly.trim()));
+await writeFile('dist/embed.renderer.js', renderer);
+const noFont = renderer.replace(JSON.stringify(`data:font/ttf;base64,${font.toString('base64')}`), '""');
+console.error(`dist/embed.renderer.js ${(renderer.length / 1024).toFixed(0)} KB with the font inlined, ${(noFont.length / 1024).toFixed(0)} KB without`);
+console.error(`  reports are ${(JSON.stringify(slim).length / 1024).toFixed(0)} KB of the ${(out.length / 1024).toFixed(0)} KB demo bundle and none of them ship`);
+
 // The flag list, for the demo page's "what we found" panel. Their page's problems, next to a card
 // that has them right. Built from the Lower Sac, which is the one with a pack to sell.
 const full = reports.find(r => r.water.id === 'lower-sacramento') || reports[0];

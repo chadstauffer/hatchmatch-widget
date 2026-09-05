@@ -59,6 +59,22 @@ export function deriveScale(stats) {
            years: `${stats.beginYr}\u2013${stats.endYr}` };
 }
 
+/** Precedence: a number a shop or a guide set always beats a derived one. This is the rule, not a
+    carve-out for the Lower Sac -- every onboarding will have a water whose owner knows better than
+    the record does, and nothing computed may quietly replace what they wrote.
+    Returns the flow block to ship, and says which parts came from where. */
+export function applyOverrides(derived, override) {
+  const shop = (override && override.flow) || null;
+  if (!derived && !shop) return null;
+  const out = { min: 0, max: null, threshold: null, thresholdLabel: 'wading limit', ...(derived || {}) };
+  const from = { min: derived ? 'derived' : 'default', max: derived ? 'derived' : 'none', threshold: 'unset' };
+  for (const k of ['min', 'max', 'threshold', 'thresholdLabel']) {
+    if (shop && shop[k] != null) { out[k] = shop[k]; if (k in from) from[k] = 'shop'; }
+  }
+  out.source = from;
+  return out;
+}
+
 /** Where the threshold lands on the derived scale. Outside 25-75% the split stops informing. */
 export function checkThreshold(scale, threshold) {
   if (scale == null || threshold == null) return { ok: null, pct: null };

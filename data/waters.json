@@ -1,0 +1,17 @@
+{
+  "note": "Numbers a shop or a guide has set. These always win over anything the engine derives. A derived scale is a good default from measured record; a number someone who fishes the water chose is better, and nothing computed may quietly replace it. Add a water here at onboarding and the next scrape keeps what is written rather than overwriting it.",
+  "fields": {
+    "flow.min / flow.max": "the scale the bar and sparkline draw against. Derived from USGS daily statistics when absent.",
+    "flow.threshold / flow.thresholdLabel": "the wading limit. Never derived: this is a person deciding what is safe.",
+    "sections": "named reaches the pack can be shaped to.",
+    "packName": "the shop's own name for the pack."
+  },
+  "waters": {
+    "lower-sacramento": {
+      "why": "Chad set this scale and threshold by hand. 7,500 on 0-15,000 puts the wading limit at 50% of the bar, which is why the two-colour split reads as well as it does. The derivation would give 0-30,000 and a limit at 25%.",
+      "flow": { "min": 0, "max": 15000, "threshold": 7500, "thresholdLabel": "wading limit" },
+      "sections": ["Up top", "Lower"],
+      "packName": "Sac Pack"
+    }
+  }
+}

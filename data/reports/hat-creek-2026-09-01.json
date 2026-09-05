@@ -15,11 +15,16 @@
       "max": 200,
       "threshold": null,
       "thresholdLabel": "wading limit",
-      "scaleSource": "USGS daily statistics 1927–2026, 192 CFS at the 70th percentile of daily p95, rounded up",
+      "source": {
+        "min": "derived",
+        "max": "derived",
+        "threshold": "unset"
+      },
       "lastReading": {
         "value": 0,
-        "at": "2026-09-05T19:50:22.078Z"
-      }
+        "at": "2026-09-05T20:22:22.832Z"
+      },
+      "scaleSource": "USGS daily statistics 1927–2026, 192 CFS at the 70th percentile of daily p95, rounded up"
     },
     "sections": [],
     "guidePhone": "800-669-3474",

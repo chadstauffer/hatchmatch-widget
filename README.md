@@ -3,9 +3,19 @@
 An embeddable river report that sells flies. This repo is the engine and the card, built to spec v0.2. First target: The Fly Shop, Redding, Lower Sacramento River.
 
 ```
-<div id="hatchmatch" data-shop="theflyshop" data-water="lower-sacramento"></div>
-<script src="https://cdn.hatchmatch.app/embed.js" async></script>
+<div id="hatchmatch"></div>
+<script src="https://cdn.hatchmatch.app/embed.js"></script>
+<script>
+  const reports = await (await fetch('https://api.hatchmatch.app/waters/theflyshop')).json();
+  HatchMatch.mount(document.getElementById('hatchmatch'), reports);
+</script>
 ```
+
+The shipped bundle carries no reports: **167 KB with the font inlined, 88 KB without**, against a
+370 KB demo bundle whose 205 KB of reports never leave the repo. `dist/embed.renderer.js` is that
+bundle and `demo/production.html` mounts it against a fetched payload, so the claim is measured
+rather than asserted. `mount()` is idempotent -- handing an already-mounted element a new set of
+reports replaces them in place -- and auto-boot only fires when reports were inlined at build time.
 
 ## Layout
 
@@ -14,6 +24,7 @@ engine/
   ingest.mjs          Shopify storefront -> data/catalog/flies.json (one line per variant: id, SKU, color, size, price, stock, image)
   scrape.mjs          theflyshop.com/streamreport.html -> one fixture per regional river
   scales.mjs          USGS daily statistics -> the flow scale each river's bar and sparkline use
+data/waters.json      numbers a shop or guide has set. These always win over anything derived.
   resolve.mjs         report fixture + catalog -> <report>.resolved.json and <report>.unresolved.md
   lib/shopify.mjs     public storefront reads, paged, no credentials
   lib/variants.mjs    color and size parsing across the shop's option shapes; CDN thumbnail sizing
@@ -30,6 +41,7 @@ widget/
   assets/             Kode Mono (OFL), stonefly.svg (currentColor)
 build.mjs             inlines the resolved report, font and mark into dist/embed.js for the static demo
 demo/index.html       the pitch page
+demo/production.html  the renderer with no reports inlined, fed a payload the way the API would
 demo/review.html      the review bench: one live card, every display variable a switch
 demo/measure.html     the height harness the panel numbers come from
 demo/sweep.html       every state x theme x width x tab, plus the invariants
