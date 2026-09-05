@@ -131,14 +131,11 @@ img{display:block}
    put every label and every rule three pixels low -- enough, at 3px rows, to name the wrong one. */
 .spark{position:relative;margin-left:auto;display:grid;grid-template-columns:24px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:4px;width:150px;height:48px;flex:0 1 auto;min-width:0;color:var(--muted)}
 .spark .yaxis{position:relative;grid-area:1/1;font-size:9px;letter-spacing:.06em}
+/* The top label sits on the top edge rather than centred across it, so it does not hang half
+   outside the graph; the midpoint one is centred on its own line. */
 .spark .yaxis b{position:absolute;right:0;transform:translateY(-50%);font-weight:400;white-space:nowrap;opacity:.75;line-height:1}
+.spark .yaxis b.hi{transform:none}
 
-/* A rule at each labelled value, at its exact height. Without it a 9px label cannot point at a
-   3px row: the text straddles two or three of them, so "is the water above or below 10K" was a
-   question the graph could not answer even when the cells were right. The axis is exact and the
-   raster is an approximation of it -- drawing the rule at the true value rather than snapping it
-   to a row keeps that distinction honest. */
-.spark .rule{position:absolute;left:0;right:0;height:1px;background:currentColor;opacity:.22;pointer-events:none}
 .spark .grid{position:relative;grid-area:1/2;display:flex;gap:1px;min-height:0}
 .spark .col{display:flex;flex-direction:column-reverse;gap:1px;flex:1 1 0;min-width:0}
 .spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
@@ -768,17 +765,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const arrow = d => `<span class="ar" role="img" aria-label="${f.trend}">${CARET(d === 'up')}</span>`;
       return `<span class="unitstack">${dir === 'up' ? arrow('up') : ''}<span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${dir === 'down' ? arrow('down') : ''}</span>`;
     }
-    /** Nice round values to label the vertical scale: two or three, on a 1-2-2.5-5 ladder, so a
-        0-15,000 river reads 5K / 10K / 15K rather than thirds of an arbitrary number. */
-    scaleTicks(max) {
-      const raw = max / 4, e = Math.floor(Math.log10(raw)), base = 10 ** e;
-      const step = [1, 2, 2.5, 5, 10].map(m => m * base).find(v => v >= raw) || 10 * base;
-      const out = [];
-      // Interior values only. The top of the grid is the scale max by definition, and a label
-      // centred on the very top edge hangs half outside the graph.
-      for (let v = step; v < max - 1e-9; v += step) out.push(v);
-      return out;
-    }
+    /** Two labels, at the top of the scale and at its midpoint. Any other pair has to be drawn
+        with a rule to say which height it names -- 10K on a 0-15,000 river sits at two thirds,
+        and a 9px label cannot point at a 3px row on its own. The top edge and the halfway line
+        are positions the eye finds without help, so these two need no furniture. */
+    scaleTicks(max) { return [max, max / 2]; }
     /** The month as a hydrograph, rasterized onto a cell grid. The sampled series and the fixed
         scale are unchanged -- only how it is drawn. A column the gauge never reported lights
         nothing, and a real reading always lights at least one cell, so low water and no data
@@ -812,19 +803,15 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const ticks = Array.from({ length: weeks + 1 }, (_, d) =>
         `<i style="--f:${(d / weeks).toFixed(4)}"></i>`).join('');
       const fmt = v => v >= 1000 ? `${+(v / 1000).toFixed(1)}K` : String(Math.round(v));
-      // Labels and their rules sit at the value's exact height, not snapped to a row. The cells
-      // are the approximation; the axis should not be. What makes them readable together is the
-      // rule, which lets you see where the water sits against the mark instead of judging it off
-      // a label three rows tall.
-      const at = v => (100 - (v - F.min) / span * 100).toFixed(2);
+      // Exact heights, never snapped to a row: the cells are the approximation, the axis is not.
       const ticksY = this.scaleTicks(F.max);
-      const ylab = ticksY.map(v => `<b style="top:${at(v)}%">${fmt(v)}</b>`).join('');
-      const rules = ticksY.map(v => `<span class="rule" style="top:${at(v)}%"></span>`).join('');
+      const ylab = ticksY.map((v, i) =>
+        `<b class="${i === 0 ? 'hi' : ''}" style="top:${(100 - (v - F.min) / span * 100).toFixed(2)}%">${fmt(v)}</b>`).join('');
       const seen = src.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS, scale ${num(F.min)} to ${num(F.max)}`;
       return `<span class="spark" role="img" aria-label="${label}">`
         + `<span class="yaxis" aria-hidden="true">${ylab}</span>`
-        + `<span class="grid">${cells}${rules}</span>`
+        + `<span class="grid">${cells}</span>`
         + `<span class="axis" aria-hidden="true">${ticks}</span>`
         + `</span>`;
     }
