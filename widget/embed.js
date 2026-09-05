@@ -126,28 +126,32 @@ img{display:block}
    Cells are 3px square at every width; only the column count changes when the row is tight, so a
    cell never changes shape. The axis and the value labels stand clear of the plot rather than
    touching it. */
-/* A two-by-two grid so the labels and the value rules resolve their percentages against the plot
+/* The value axis is on the right, beside the newest column: the right edge is now, so the scale
+   sits next to the reading being checked, and on the left it sat between the CFS figure and the
+   plot, close enough to read as an annotation on the number rather than on the graph.
+   A two-by-two grid so the labels and the value rules resolve their percentages against the plot
    area alone. As a flex row they measured against the whole graph including the day axis, which
    put every label and every rule three pixels low -- enough, at 3px rows, to name the wrong one. */
-.spark{position:relative;margin-left:auto;display:grid;grid-template-columns:24px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:4px;width:150px;height:48px;flex:0 1 auto;min-width:0;color:var(--muted)}
-.spark .yaxis{position:relative;grid-area:1/1;font-size:9px;letter-spacing:.06em}
+.spark{position:relative;margin-left:auto;display:grid;grid-template-columns:minmax(0,1fr) 26px;grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:4px;width:150px;height:48px;flex:0 1 auto;min-width:0;color:var(--muted)}
+.spark .yaxis{position:relative;grid-area:1/2;font-size:9px;letter-spacing:.06em}
 /* The top label sits on the top edge rather than centred across it, so it does not hang half
    outside the graph; the midpoint one is centred on its own line. */
-.spark .yaxis b{position:absolute;right:0;transform:translateY(-50%);font-weight:400;white-space:nowrap;opacity:.75;line-height:1}
-.spark .yaxis b.hi{transform:none}
+.spark .yaxis b{position:absolute;left:0;transform:translateY(-50%);font-weight:400;white-space:nowrap;opacity:.75;line-height:1}
 
-.spark .grid{position:relative;grid-area:1/2;display:flex;gap:1px;min-height:0}
+.spark .grid{position:relative;grid-area:1/1;display:flex;gap:1px;min-height:0}
+/* A rule at each labelled value, at its exact height, so a 9px label can name a 3px row. */
+.spark .rule{position:absolute;left:0;right:0;height:1px;background:currentColor;opacity:.22;pointer-events:none}
 .spark .col{display:flex;flex-direction:column-reverse;gap:1px;flex:1 1 0;min-width:0}
 .spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
-.spark .axis{position:relative;grid-area:2/2;height:5px}
+.spark .axis{position:relative;grid-area:2/1;height:5px}
 /* Positioned across (100% - 1px) so the last tick's own width lands inside the plot instead of
    one pixel past it, which put a hairline of overflow on the flow row at every width. */
 .spark .axis i{position:absolute;bottom:2px;left:calc(var(--f) * (100% - 1px));width:1px;height:3px;background:currentColor;opacity:.3}
 .spark .axis::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.35}
 /* Tight rows drop the value labels rather than the resolution: the plot keeps its cells. */
-@container (max-width:344px){.spark{width:96px;grid-template-columns:minmax(0,1fr);column-gap:0}.spark .yaxis{display:none}.spark .grid{grid-area:1/1}.spark .axis{grid-area:2/1}}
+@container (max-width:344px){.spark{width:96px;grid-template-columns:minmax(0,1fr);column-gap:0}.spark .yaxis{display:none}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -765,11 +769,18 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const arrow = d => `<span class="ar" role="img" aria-label="${f.trend}">${CARET(d === 'up')}</span>`;
       return `<span class="unitstack">${dir === 'up' ? arrow('up') : ''}<span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${dir === 'down' ? arrow('down') : ''}</span>`;
     }
-    /** Two labels, at the top of the scale and at its midpoint. Any other pair has to be drawn
-        with a rule to say which height it names -- 10K on a 0-15,000 river sits at two thirds,
-        and a 9px label cannot point at a 3px row on its own. The top edge and the halfway line
-        are positions the eye finds without help, so these two need no furniture. */
-    scaleTicks(max) { return [max, max / 2]; }
+    /** Round values on a 1-2-2.5-5 ladder, so a 0-15,000 river reads 5K and 10K. They sit at one
+        third and two thirds rather than anywhere the eye finds unaided, so each carries a rule
+        across the plot: a 9px label cannot point at a 3px row on its own. */
+    scaleTicks(max) {
+      const raw = max / 4, e = Math.floor(Math.log10(raw)), base = 10 ** e;
+      const step = [1, 2, 2.5, 5, 10].map(m => m * base).find(v => v >= raw) || 10 * base;
+      const out = [];
+      // Interior values only: the top of the grid is the scale max by definition, and a label
+      // centred on that edge hangs half outside.
+      for (let v = step; v < max - 1e-9; v += step) out.push(v);
+      return out;
+    }
     /** The month as a hydrograph, rasterized onto a cell grid. The sampled series and the fixed
         scale are unchanged -- only how it is drawn. A column the gauge never reported lights
         nothing, and a real reading always lights at least one cell, so low water and no data
@@ -804,14 +815,15 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         `<i style="--f:${(d / weeks).toFixed(4)}"></i>`).join('');
       const fmt = v => v >= 1000 ? `${+(v / 1000).toFixed(1)}K` : String(Math.round(v));
       // Exact heights, never snapped to a row: the cells are the approximation, the axis is not.
+      const at = v => (100 - (v - F.min) / span * 100).toFixed(2);
       const ticksY = this.scaleTicks(F.max);
-      const ylab = ticksY.map((v, i) =>
-        `<b class="${i === 0 ? 'hi' : ''}" style="top:${(100 - (v - F.min) / span * 100).toFixed(2)}%">${fmt(v)}</b>`).join('');
+      const ylab = ticksY.map(v => `<b style="top:${at(v)}%">${fmt(v)}</b>`).join('');
+      const rules = ticksY.map(v => `<span class="rule" style="top:${at(v)}%"></span>`).join('');
       const seen = src.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS, scale ${num(F.min)} to ${num(F.max)}`;
       return `<span class="spark" role="img" aria-label="${label}">`
         + `<span class="yaxis" aria-hidden="true">${ylab}</span>`
-        + `<span class="grid">${cells}</span>`
+        + `<span class="grid">${cells}${rules}</span>`
         + `<span class="axis" aria-hidden="true">${ticks}</span>`
         + `</span>`;
     }
