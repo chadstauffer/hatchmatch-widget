@@ -108,32 +108,34 @@ img{display:block}
 .flowmod{display:flex;flex-direction:column;gap:10px}
 .flownum{display:flex;align-items:center;gap:8px}
 .numwrap{display:flex;align-items:stretch;gap:7px}
-/* Direction as a qualifier on the number, not an alert: muted, and offset by direction -- up
-   toward the cap height, down toward the baseline. */
-.trendcaret{display:flex;color:var(--muted);flex:none}
-.trendcaret svg{width:11px;height:11px;display:block}
-.trendcaret.up{align-items:flex-start;padding-top:3px}
-.trendcaret.down{align-items:flex-end;padding-bottom:4px}
+/* Offset by direction -- up toward the cap height, down toward the baseline. Specified muted at
+   11px and shipped that way twice; at real size, next to a 44px figure, it was not visible. It is
+   the accent now, at 16px, which is the same language the chip and title carets already use for a
+   small directional glyph. */
+.trendcaret{display:flex;color:var(--accent);flex:none}
+.trendcaret svg{width:16px;height:16px;display:block}
+.trendcaret.up{align-items:flex-start;padding-top:2px}
+.trendcaret.down{align-items:flex-end;padding-bottom:3px}
 /* Seven days of flow, right of the figure. Discrete cells in the meters' own language, never a
    smooth line. The scale is the segmented bar's own range, never the window's min and max:
    auto-scaling would draw a dependable tailwater week as a mountain range, which on this river
    would say the opposite of the truth. The dotted line is the wading threshold, which turns
    "is it rising" into "has it been fishable this week" -- the question a flat week can answer. */
-/* One lit cell per column against a faint grid, not columns filled from the bottom. Filled
-   columns at the same height render a steady week as a solid slab, which reads as a broken
-   graphic rather than as "steady". One cell per column makes a flat week a horizontal line and a
-   dropping week a descending one, and it works at every variance level instead of only on rivers
-   that move. The grid is what makes a single 6x4 cell legible -- without it the lit cells read as
-   marks floating in space. */
+/* Columns filled from the bottom to their level. Single lit cells were tried and reverted: they
+   read as a scatter of marks needing a legend, and a graphic that needs a legend has failed.
+   The flat-week problem they were meant to solve was misdiagnosed -- it is not the fill mode, it
+   is that on the Lower Sac the wading limit and the water sit at the same height, so the dashed
+   line runs through the plotted level. The colour split is what resolves that: a solid
+   below-limit block with a single above-limit row on top reads as "just over the limit, all
+   week", which is the actual story. */
 .spark{position:relative;display:flex;align-items:flex-end;gap:3px;margin-left:auto;height:34px;margin-bottom:5px;width:123px;flex:0 1 auto;min-width:0}
 /* The number is the fact; the graphic is the qualifier, so the graphic is what gives. Columns
    flex rather than being fixed, because what has to fit is content-dependent -- a six-character
    reading like the Upper Sac's 25,100 storm peak plus a trend caret costs the row 30px more than
    a steady four-figure one, and no width breakpoint can know that. All fourteen buckets survive;
    only the cells get narrower, so the window never lies about how much time it covers. */
-.spark .col{position:relative;display:flex;flex-direction:column-reverse;gap:2px;flex:1 1 0;min-width:2px}
-.spark .col i{width:100%;height:4px;background:currentColor;opacity:.13}
-.spark .col i.on{background:var(--seg);opacity:1}
+.spark .col{position:relative;display:flex;flex-direction:column-reverse;gap:2px;flex:1 1 0;min-width:1px}
+.spark .col i{width:100%;height:4px;background:var(--seg)}
 /* Which column is now, without spending the colour channel that carries the threshold. */
 .spark .col.cur::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--accent)}
 /* The full-size block fits to a 350px card, which is the binding width -- a 390x844 phone. Below
@@ -766,13 +768,15 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         const cur = i === f.series.length - 1;
         if (v == null) return `<span class="col"></span>`;
         const step = Math.max(1, Math.min(STEPS, Math.ceil((v - F.min) / span * STEPS)));
-        // Every cell is drawn; exactly one is lit, at this bucket's level. The lit one keeps the
-        // segmented bar's two colours split at the threshold, so the two graphics stay one
-        // instrument and the plot still says whether the week was fishable.
-        const seg = F.threshold != null && v > F.threshold ? 'var(--amber)'
-          : `color-mix(in srgb, var(--water1), var(--water2) 55%)`;
-        const cells = Array.from({ length: STEPS }, (_, k) =>
-          `<i class="${k === step - 1 ? 'on' : ''}"${k === step - 1 ? ` style="--seg:${seg}"` : ''}></i>`).join('');
+        // Filled to this bucket's level, and coloured per cell rather than per column: the cells
+        // under the wading limit take the bar's below-limit colour and the ones over it take the
+        // above-limit colour, so a week spent just over the line reads as a block with a cap.
+        const cells = Array.from({ length: step }, (_, k) => {
+          const top = F.min + (k + 1) * span / STEPS;
+          const seg = F.threshold != null && top > F.threshold ? 'var(--amber)'
+            : `color-mix(in srgb, var(--water1), var(--water2) 55%)`;
+          return `<i style="--seg:${seg}"></i>`;
+        }).join('');
         return `<span class="col${cur ? ' cur' : ''}">${cells}</span>`;
       }).join('');
       // The line is not redundant with the colour split: a column that never reaches the
