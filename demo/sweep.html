@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HatchMatch — sweep</title>
+<style>html,body{margin:0}body{background:#F4F1EC;font:12px/1.4 monospace}#stage{padding:0}</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+  // Count every interval the widget opens, so leaks across expand/collapse cycles are countable.
+  window.__live = 0;
+  const si = window.setInterval, ci = window.clearInterval;
+  window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
+  window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
+</script>
+<script src="../dist/embed.js"></script>
+<script>
+window.SWEEP = async function () {
+  const STATES = ['', 'aging', 'stale', 'oos', 'noflow'];
+  const THEMES = ['dark', 'light'];
+  const WIDTHS = [350, 335, 440];
+  const TABS = ['now', 'hatch', 'notes'];
+  const stage = document.getElementById('stage');
+  const out = { combos: 0, errors: [], invariants: [], waters: [] };
+
+  const money = n => Math.round(n * 100);
+
+  for (const state of STATES) {
+    for (const theme of THEMES) {
+      for (const w of WIDTHS) {
+        stage.innerHTML = '';
+        const host = document.createElement('div');
+        host.className = 'hatchmatch';
+        host.style.width = w + 'px';
+        host.dataset.theme = theme;
+        host.dataset.accent = 'orange';
+        if (state) host.dataset.demoState = state;
+        stage.appendChild(host);
+        let card;
+        try { card = window.HatchMatch.mount(host); } catch (e) { out.errors.push(`mount ${state}/${theme}/${w}: ${e.message}`); continue; }
+        for (const tab of TABS) {
+          for (const expandAll of [false, true]) {
+            try {
+              const exp = expandAll ? new Set(['morning', 'midday', 'afternoon', 'all day']) : card.s.expanded;
+              card.set({ open: true, tab, expanded: exp });
+              out.combos++;
+              // one buy button, always
+              const packs = card.root.querySelectorAll('.pack').length;
+              if (packs !== 1) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: ${packs} buy buttons`);
+              // group total == CTA total, and no pick lands in two groups or none
+              const listed = card.data.hatches.filter(h => !h.none).map(h => h.key);
+              const grouped = [...listed.map(k => card.rows(k)), card.rows(null, true)].flat().flatMap(g => g.flies);
+              const all = card.rows().flatMap(g => g.flies);
+              const gt = grouped.reduce((n, r) => n + (r.oos ? 0 : r.price), 0);
+              const k = card.pack();
+              const ids = grouped.map(r => r.p.id);
+              if (ids.length !== new Set(ids).size) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: a pick is in two groups`);
+              if (ids.length !== all.length) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: orphan pick, ${all.length} rows but ${ids.length} grouped`);
+              if (money(gt) !== money(k.total)) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: groups ${gt.toFixed(2)} != CTA ${k.total.toFixed(2)}`);
+            } catch (e) { out.errors.push(`${state||'default'}/${theme}/${w}/${tab}/${expandAll}: ${e.message}`); }
+          }
+        }
+        // compact too
+        try { card.set({ open: false }); out.combos++; } catch (e) { out.errors.push(`compact ${state}/${theme}/${w}: ${e.message}`); }
+      }
+    }
+  }
+
+  // Every water renders on every tab without throwing.
+  stage.innerHTML = '';
+  const host = document.createElement('div');
+  host.className = 'hatchmatch'; host.style.width = '350px'; host.dataset.theme = 'dark';
+  stage.appendChild(host);
+  const card = window.HatchMatch.mount(host);
+  for (const w of ['fall-river','hat-creek','klamath','lower-sacramento','mccloud','pit','trinity','upper-sacramento']) {
+    try {
+      card.switchWater(w);
+      for (const tab of ['now','hatch','notes']) card.set({ open: true, tab });
+      card.set({ picker: true }); card.set({ picker: false });
+      card.set({ open: false });
+      out.waters.push(w + ' ok');
+    } catch (e) { out.errors.push(`water ${w}: ${e.message}`); }
+  }
+
+  // Intervals: 20 expand/collapse cycles must not accumulate.
+  card.switchWater('lower-sacramento');
+  const before = window.__live;
+  for (let i = 0; i < 20; i++) { card.set({ open: true, tab: 'now' }); card.set({ open: false }); }
+  card.set({ open: false });
+  out.intervals = { before, after: window.__live, leaked: window.__live - before };
+  return out;
+};
+</script>
+</body>
+</html>

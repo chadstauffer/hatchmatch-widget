@@ -6,6 +6,26 @@
   const FONT = "__HM_FONT__";
   const STONEFLY = "__HM_STONEFLY__";
 
+  /* The eight waters the shop's stream report page carries. Metadata only, and only metadata that
+     was checked: every gauge id here was confirmed against the NWIS site service on Sep 4 2026 by
+     name and by asking for a live series. Fall River and the McCloud have USGS sites but no
+     real-time series at any of them, so they carry null rather than a plausible-looking guess --
+     a wrong gauge is worse than a missing one to anyone who knows these rivers.
+     Ratings, hatches, flies and flow ranges are the resolver's job (Phase B). Until it runs, a
+     water other than the resolved one renders its live gauge and weather and says plainly that
+     nobody has broken it out by hatch yet. Nothing on this list is invented. */
+  const WATERS = [
+    { id: 'fall-river',       name: 'Fall River',            shortName: 'Fall River', group: 'river', usgsSite: null,       gaugeName: null,                    lat: 41.0075,  lon: -121.4469, gaugeNote: 'No live USGS gauge. Sites exist at Fall River Mills; none reports a real-time series.' },
+    { id: 'hat-creek',        name: 'Hat Creek',             shortName: 'Hat Creek',  group: 'river', usgsSite: '11355500', gaugeName: 'USGS Hat Creek',        lat: 40.6891,  lon: -121.4228 },
+    { id: 'klamath',          name: 'Klamath River',         shortName: 'Klamath',    group: 'river', usgsSite: '11516530', gaugeName: 'USGS Iron Gate',        lat: 41.9279,  lon: -122.4442 },
+    { id: 'lower-sacramento', name: 'Lower Sacramento River',shortName: 'Lower Sac',  group: 'river', usgsSite: '11370500', gaugeName: 'USGS Keswick',          lat: 40.5865,  lon: -122.3917 },
+    { id: 'mccloud',          name: 'McCloud River',         shortName: 'McCloud',    group: 'river', usgsSite: null,       gaugeName: null,                    lat: 41.1252,  lon: -122.0686, gaugeNote: 'No live USGS gauge. Fourteen sites on the river; none reports a real-time series.' },
+    { id: 'pit',              name: 'Pit River',             shortName: 'Pit',        group: 'river', usgsSite: '11355010', gaugeName: 'USGS Pit No 1',         lat: 40.9832,  lon: -121.5119 },
+    { id: 'trinity',          name: 'Trinity River',         shortName: 'Trinity',    group: 'river', usgsSite: '11525500', gaugeName: 'USGS Lewiston',         lat: 40.7247,  lon: -122.8011 },
+    { id: 'upper-sacramento', name: 'Upper Sacramento River',shortName: 'Upper Sac',  group: 'river', usgsSite: '11342000', gaugeName: 'USGS Delta',            lat: 40.9396,  lon: -122.4172 },
+  ];
+  const GROUPS = [['river', 'Rivers'], ['stillwater', 'Stillwaters'], ['private', 'Private waters']];
+
   const ACCENTS = { orange: ['#FF7124', '#081215'], burnt: ['#D4632A', '#081215'], spruce: ['#2E7D4F', '#F5EDE0'] };
   const SLOTS = ['morning', 'midday', 'afternoon', 'last light'];
   const DAY = 86400000;
@@ -98,6 +118,8 @@ img{display:block}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
 .chev{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;font-size:9px;color:var(--accent);flex:none}
 .pack{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;height:48px;padding:0 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+/* Nothing to buy is not the primary action. Disabled loses the fill and reads as a state. */
+.pack[disabled]{background:none;border:1px solid var(--line);color:var(--muted);cursor:default}
 .pack>span{white-space:nowrap;flex:none}
 .pack span:nth-child(2){color:var(--on-accent);opacity:.8}
 .pack .packlabel{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -209,9 +231,24 @@ img{display:block}
 .allflies{display:flex;justify-content:space-between;align-items:center;gap:10px;height:28px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 .allflies span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .allflies span:last-child{color:var(--accent);flex:none}
+.allflies.muted span{color:var(--muted)}
 .powered{display:flex;justify-content:center;align-items:center;gap:6px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .powered svg{width:12px;height:12px;color:var(--accent);opacity:.8}
 .avatar{width:20px;height:20px;border-radius:50%;background:var(--off);flex:none}
+/* The title is the water switcher. A bare caret at text size on the baseline -- never a second
+   circular chevron, because the circle already means expand/collapse. */
+button.title{display:inline-flex;align-items:baseline;gap:7px;max-width:100%}
+button.title .tcare{font-size:8px;color:var(--accent);flex:none}
+/* Picker mode: the panel is taken over, not covered, so it inherits the scrolling already built. */
+.waters{padding:4px 16px 16px;display:flex;flex-direction:column}
+.wgroup{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding:14px 0 4px}
+.wrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;min-height:56px;padding:9px 0;border-top:1px solid var(--line)}
+.wrow[aria-current=true] .wname{color:var(--accent)}
+.wname{grid-area:1/1;font-size:14px;font-weight:600;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wrow .lamp{grid-area:1/2;justify-self:end;font-size:10px}
+.wsub{grid-area:2/1;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;min-width:0}
+.wdate{grid-area:2/2;justify-self:end;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.empty{padding:20px 16px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted);line-height:1.6}
 `;
 
   let fontInjected = false;
@@ -286,15 +323,14 @@ img{display:block}
   /* ---------- instance ---------- */
   class Card {
     constructor(host, data) {
-      this.host = host; this.data = data;
+      this.host = host; this.data = data; this.resolved = data;
       this.root = host.attachShadow({ mode: 'open' });
       const demo = new URLSearchParams(location.search).get('state') || host.dataset.demoState || '';
       this.demo = demo;
       this.frame = 0; this.cycler = null; this.poll = null; this.scrollPos = {}; this.shownTab = null;
-      this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, expanded: new Set(), added: false, filled: false,
+      this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, picker: false, expanded: new Set(), added: false, filled: false,
         flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', delta: null, hours: null, live: false, failed: false }, weather: null, temp: null, turbidity: null, lightbox: null, tip: null };
-      this.picks = data.picks.filter(p => p.variant);
-      this.byId = new Map(this.picks.map(p => [p.id, p]));
+      this.useReport(data);
       // Open the slot the angler is standing in, if it has a hatch. The rest start closed.
       const now = data.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
@@ -321,15 +357,58 @@ img{display:block}
       requestAnimationFrame(() => { this.s.filled = true; });
       this.load();
     }
+    /** Swaps which report the card is rendering. Phase B replaces pendingReport() with a real
+        resolved report per water; everything downstream of here already works on one. */
+    useReport(data) {
+      this.data = data;
+      this.picks = (data.picks || []).filter(p => p.variant);
+      this.byId = new Map(this.picks.map(p => [p.id, p]));
+    }
+    /** A water the resolver has not run on yet. Its gauge, its coordinates and its name are real;
+        everything the guide would supply is absent and says so. This is spec 7.4's partial state,
+        and after Phase B it is what a water with no hatch breakout still looks like. */
+    pendingReport(w) {
+      const r = this.resolved;
+      return {
+        storeUrl: r.storeUrl, shop: r.shop, roles: r.roles, fliesCollection: r.fliesCollection,
+        water: { id: w.id, name: w.name, shortName: w.shortName, group: w.group, packName: null,
+          usgsSite: w.usgsSite, gaugeName: w.gaugeName, gaugeNote: w.gaugeNote || null, lat: w.lat, lon: w.lon,
+          flow: { min: null, max: null, threshold: null, thresholdLabel: '', lastReading: { value: 0, at: new Date().toISOString() } },
+          sections: [], guidePhone: r.water.guidePhone, closed: false },
+        report: { publishedAt: null, author: null, rating: null, clarity: null, notes: [], source: r.report.source },
+        hatches: [], picks: [], substitutes: {}, pending: true,
+      };
+    }
+    waterFor(id) { return WATERS.find(w => w.id === id); }
+    switchWater(id) {
+      const from = this.data.water.id;
+      if (id === from) { this.set({ picker: false }); return; }
+      const w = this.waterFor(id);
+      if (!w) return;
+      this.useReport(id === this.resolved.water.id ? this.resolved : this.pendingReport(w));
+      clearInterval(this.poll); this.poll = null;
+      this.s.section = this.data.water.sections[0];
+      this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set();
+      this.s.flow = { value: this.data.water.flow.lastReading.value, at: this.data.water.flow.lastReading.at, trend: '', delta: null, hours: null, live: false, failed: !this.data.water.usgsSite };
+      this.s.weather = null; this.s.temp = null; this.s.turbidity = null;
+      const now = this.data.hatches[this.slotNow()];
+      if (now && !now.none) this.s.expanded.add(now.slot);
+      this.set({ picker: false });
+      this.emit('water_switched', { from, to: id });
+      this.load();
+    }
     async load() {
       const w = this.data.water;
-      if (this.demo === 'noflow') { this.s.flow.failed = true; this.render(); }
-      else fetchFlow(w.usgsSite).then(f => { this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
-        .catch(e => { this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
-      fetchAux(w.usgsSite).then(a => { if (a.temp != null || a.turbidity != null) { this.s.temp = a.temp; this.s.turbidity = a.turbidity; this.emit('water_aux', a); this.render(); } });
+      // No gauge on file is not a failed fetch: nothing is tried, and the card says which it is.
+      if (!w.usgsSite || this.demo === 'noflow') { this.s.flow.failed = true; this.render(); }
+      else {
+        fetchFlow(w.usgsSite).then(f => { this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
+          .catch(e => { this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
+        fetchAux(w.usgsSite).then(a => { if (a.temp != null || a.turbidity != null) { this.s.temp = a.temp; this.s.turbidity = a.turbidity; this.emit('water_aux', a); this.render(); } });
+        this.watchFlow();
+      }
       fetchWeather(w.lat, w.lon).then(wx => { this.s.weather = wx; this.render(); })
         .catch(e => { console.warn('[hatchmatch] weather unavailable, showing the report\'s outlook:', e.message); this.emit('weather_unavailable', { error: e.message }); });
-      this.watchFlow();
     }
     /** LIVE has to be true to be worth saying. Re-read the gauge every five minutes, but only while
         the host is on screen. A refresh that fails keeps the last good number: only the first load
@@ -363,13 +442,17 @@ img{display:block}
       if (this.demo === 'stale') return 23; if (this.demo === 'aging') return 9;
       return Math.max(0, Math.floor((Date.now() - new Date(this.data.report.publishedAt + 'T12:00:00')) / DAY));
     }
-    fresh() {
-      const d = this.days(), label = 'Updated ' + shortDate(this.data.report.publishedAt);
-      return { days: d, label, color: d < 7 ? 'var(--green)' : d < 14 ? 'var(--amber)' : 'var(--red)', stale: d >= 14 };
+    freshFor(publishedAt) {
+      if (!publishedAt) return null;
+      const d = this.demo === 'stale' ? 23 : this.demo === 'aging' ? 9
+        : Math.max(0, Math.floor((Date.now() - new Date(publishedAt + 'T12:00:00')) / DAY));
+      return { days: d, label: 'Updated ' + shortDate(publishedAt), color: d < 7 ? 'var(--green)' : d < 14 ? 'var(--amber)' : 'var(--red)', stale: d >= 14 };
     }
+    fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, label: 'No report yet', color: 'var(--off)', stale: false }; }
     slotNow() { const h = new Date().getHours(); return h < 11 ? 0 : h < 15 ? 1 : h < 19 ? 2 : 3; }
     hatchNow() {
       const H = this.data.hatches, i = this.slotNow(), now = H[i];
+      if (!H.some(h => !h.none)) return null;
       if (now && !now.none) return { h: now, label: 'Hatching now', when: 'this ' + SLOTS[i] };
       const j = H.findIndex((h, k) => k > i && !h.none);
       const next = j >= 0 ? H[j] : H.find(h => !h.none);
@@ -446,6 +529,9 @@ img{display:block}
     ticks(count, idx, color) { return `<div class="ticks" aria-hidden="true">${Array.from({ length: count }, (_, i) => `<i class="${i === idx ? 'on' : ''}" style="--c:${color}"></i>`).join('')}</div>`; }
     flowBar(tall) {
       const F = this.data.water.flow, f = this.s.flow, segs = 24;
+      // No published range for this water yet. A bar without a scale is a decoration, so there
+      // isn't one -- the number and the strip still carry the real reading.
+      if (F.max == null) return '';
       const filled = f.failed ? 0 : Math.round((f.value - F.min) / (F.max - F.min) * segs);
       const tick = ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
       const cells = Array.from({ length: segs }, (_, i) => {
@@ -455,18 +541,18 @@ img{display:block}
       }).join('');
       return `<div class="bar${tall ? ' tall' : ''}" role="img" aria-label="${num(f.value)} CFS on a scale of ${num(F.min)} to ${num(F.max)}, ${F.thresholdLabel} ${num(F.threshold)}">${cells}<span class="tick" style="left:${tick}"></span></div>`;
     }
-    rating() {
-      const r = this.data.report.rating, n = { Poor: 1, Fair: 2, 'Fair to Good': 3, Good: 4, Great: 5 }[r] || 0;
-      return { label: r, n };
-    }
+    ratingOf(r) { return { label: r, n: { Poor: 1, Fair: 2, 'Fair to Good': 3, Good: 4, Great: 5 }[r] || 0 }; }
+    rating() { return this.ratingOf(this.data.report.rating); }
     wading() {
       const F = this.data.water.flow, f = this.s.flow;
+      if (F.threshold == null) return null;
       const ok = !f.failed && f.value < F.threshold;
       return { label: ok ? 'Wadeable' : 'Not today', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
     }
     /** Only reached when both endpoints failed. The live reading says the same things in the strip. */
     flowNote() {
-      const f = this.s.flow;
+      const w = this.data.water, f = this.s.flow;
+      if (!w.usgsSite) return w.gaugeNote || 'No live gauge on file for this water.';
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
       return `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.`;
     }
@@ -474,6 +560,7 @@ img{display:block}
     packName() { const w = this.data.water; return w.packName || `${w.shortName} pack`; }
     packButton() {
       const k = this.pack();
+      if (this.data.pending) return `<button class="pack" disabled><span class="packlabel"><b>No pack yet</b><em>No pack</em></span><span></span><span>&mdash;</span></button>`;
       if (this.s.added) return `<button class="pack" data-action="viewcart"><span>Added</span><span></span><span>View cart</span></button>`;
       // Three columns, always. When it will not all fit, the water name is the part that goes:
       // the count and the price are the promise. See fitPackLabel().
@@ -482,12 +569,20 @@ img{display:block}
     /** One header for both states. Only the chevron changes: the two facts never move. */
     header(open) {
       const fr = this.fresh(), r = this.rating();
-      return `<div class="between"><div class="title">${esc(this.data.water.name)}</div>${open
+      // The title is the water switcher, and only when the card is open -- compact, the whole face
+      // is already one button and a button cannot hold another. A bare caret at text size on the
+      // baseline: the circle in the corner already means expand, and two actions must not share a
+      // shape. Compact keeps a plain title.
+      const name = esc(this.data.water.name);
+      const title = open && WATERS.length > 1
+        ? `<button class="title" data-action="waters" data-focus="waters" aria-expanded="${this.s.picker}" aria-label="Switch water. Currently ${name}"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span><span class="tcare" aria-hidden="true">&#9662;</span></button>`
+        : `<div class="title">${name}</div>`;
+      return `<div class="between">${title}${open
         ? `<button class="chev" data-action="collapse" aria-label="Collapse">&#9650;</button>`
         : `<span class="chev" aria-hidden="true">&#9660;</span>`}</div>
     <div class="between">
       <span class="lamp" style="--c:${fr.color};font-size:11px"><i></i>${fr.label}</span>
-      <span class="row" style="gap:8px"><span class="label">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>
+      ${r.n ? `<span class="row" style="gap:8px"><span class="label">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>` : `<span class="label">Not rated yet</span>`}
     </div>`;
     }
     /** Report age and live flow are different facts. The lamp above owns the age and stays still;
@@ -528,11 +623,11 @@ img{display:block}
         range labels under the bar and nothing else. */
     flowModule(expanded) {
       const F = this.data.water.flow, f = this.s.flow;
-      const tick = ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
+      const tick = F.max == null ? '0%' : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
       return `<div class="flowmod">
-      <div class="flownum"><span class="numwrap"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.flowCaret()}</span><span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span></div>
+      ${this.data.water.usgsSite ? `<div class="flownum"><span class="numwrap"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.flowCaret()}</span><span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span></div>` : ''}
       ${this.flowBar(true)}
-      ${expanded ? `<div class="ranges"><span style="left:0">${num(F.min)}</span><span class="mid" style="left:${tick}">${num(F.threshold)} ${esc(F.thresholdLabel)}</span><span style="right:0">${num(F.max)}</span></div>` : ''}
+      ${expanded && F.max != null ? `<div class="ranges"><span style="left:0">${num(F.min)}</span><span class="mid" style="left:${tick}">${num(F.threshold)} ${esc(F.thresholdLabel)}</span><span style="right:0">${num(F.max)}</span></div>` : ''}
       ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>` : this.liveStrip()}
     </div>`;
     }
@@ -564,14 +659,14 @@ img{display:block}
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
     <div class="sec">
       ${this.flowModule(false)}
-      ${f.failed ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
+      ${f.failed || !w ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
-    <div class="row rule" style="padding-top:10px">
+    ${hn ? `<div class="row rule" style="padding-top:10px">
       <span class="label" style="white-space:nowrap">${hn.label}</span>
       <span style="font-weight:600;white-space:nowrap">${esc(hn.h.insect)} <span class="muted" style="font-weight:400">${esc(hn.h.size)}</span></span>
       <span class="lamp" style="text-transform:none;letter-spacing:0;font-size:11px;--c:${hn.h.intensity >= 4 ? 'var(--accent)' : hn.h.intensity >= 2 ? 'var(--green)' : 'var(--amber)'}"><i></i>${esc(hn.h.word)}</span>
       <span class="muted" style="margin-left:auto;font-size:10px;text-align:right">${hn.when}</span>
-    </div>`}
+    </div>` : `<div class="muted rule" style="padding-top:10px;font-size:12px">No guide's report on this water yet. Flow and weather are live.</div>`}`}
   </button>
   ${closed ? `<a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>` : this.packButton()}
 </div>`;
@@ -586,10 +681,12 @@ img{display:block}
   <div class="tabs" role="tablist" aria-label="Report">
     ${tabs.map(k => `<button class="tab" role="tab" id="tab-${k}" aria-selected="${tab === k}" aria-controls="panel-${k}" tabindex="${tab === k ? 0 : -1}" data-action="tab" data-tab="${k}" data-focus="tab-${k}">${k}</button>`).join('')}
   </div>
-  <div class="panelwrap"><div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div></div>
+  <div class="panelwrap">${this.s.picker
+    ? `<div class="panel" role="region" aria-label="Choose a water" tabindex="0">${this.tab_waters()}</div>`
+    : `<div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div>`}</div>
   <div class="buybar">
     ${this.tripRow()}
-    <button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>
+    ${d.pending ? `<div class="allflies muted"><span>Not resolved yet</span></div>` : `<button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>`}
     ${this.packButton()}
     <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
   </div>
@@ -621,23 +718,23 @@ img{display:block}
       const wx = this.s.weather;
       return `<div class="now">
   ${this.flowModule(true)}
-  <div class="two rule" style="padding-top:14px">
-    <div class="sec"><div class="label">Wading</div><div class="lamp" style="--c:${w.color};font-size:13px;font-weight:600;letter-spacing:.1em"><i style="width:8px;height:8px"></i>${w.label}</div><div class="muted" style="font-size:12px">${w.note}</div></div>
-    <div class="sec"><div class="label">Clarity</div><div class="accent caps" style="font-weight:600;letter-spacing:.1em;font-size:13px">${esc(d.report.clarity)}${turb != null ? `<span class="muted" style="letter-spacing:.06em"> &middot; ${turb} FNU</span>` : ''}</div>${this.ticks(24, clarity, 'var(--accent)')}</div>
-  </div>
+  ${w || d.report.clarity ? `<div class="two rule" style="padding-top:14px">
+    ${w ? `<div class="sec"><div class="label">Wading</div><div class="lamp" style="--c:${w.color};font-size:13px;font-weight:600;letter-spacing:.1em"><i style="width:8px;height:8px"></i>${w.label}</div><div class="muted" style="font-size:12px">${w.note}</div></div>` : ''}
+    ${d.report.clarity ? `<div class="sec"><div class="label">Clarity</div><div class="accent caps" style="font-weight:600;letter-spacing:.1em;font-size:13px">${esc(d.report.clarity)}${turb != null ? `<span class="muted" style="letter-spacing:.06em"> &middot; ${turb} FNU</span>` : ''}</div>${this.ticks(24, clarity, 'var(--accent)')}</div>` : ''}
+  </div>` : ''}
   ${this.tempRow()}
   <div class="sec rule" style="padding-top:14px;gap:10px">
     <div class="between"><span class="label">Next three days</span><span class="muted" style="font-size:10px">${wx ? 'High, low, rain chance' : 'From the report'}</span></div>
     <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', icon: 'clouds' }, { day: 'Day 2', label: 'Sprinkles', icon: 'drizzle' }, { day: 'Day 3', label: 'Sprinkles', icon: 'drizzle' }]).map(x => `
       <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
   </div>
-  <div class="sec rule" style="padding-top:14px">
+  ${d.report.publishedAt ? `<div class="sec rule" style="padding-top:14px">
     <div class="between"><span class="label">Report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.label}</span></div>
     ${this.ticks(28, Math.min(27, Math.round(fr.days / 14 * 27)), fr.color)}
     <div class="between" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)"><span>${fr.days === 0 ? 'Today' : fr.days + (fr.days === 1 ? ' day ago' : ' days ago')}</span><span>7 days</span><span>14 days</span></div>
     ${fr.stale ? `<div class="note">Conditions may have changed since this report. Flow and weather are live.</div>` : ''}
     ${d.report.author ? `<div class="muted" style="padding-top:10px">Report by ${esc(d.report.author)}</div>` : ''}
-  </div>
+  </div>` : ''}
   <a class="ghost guide" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
 </div>`;
     }
@@ -645,6 +742,11 @@ img{display:block}
         live in the same place: time-of-day rows, flies nested under the row that calls for them. */
     tab_hatch() {
       const d = this.data, now = this.slotNow();
+      if (d.pending) return `<div class="empty">
+    <div style="color:var(--text);font-weight:600">Nobody has broken this water out by hatch yet.</div>
+    <div>The shop's page lists ${esc(d.water.shortName)} with a rating and a hot-fly list, but not by time of day. Sixty seconds of a guide's time turns this panel into what the ${esc(this.resolved.water.shortName)} has: a hatch for each part of the day, and the flies that answer it.</div>
+    ${d.water.usgsSite ? `<div>Flow and weather above are live from ${esc(d.water.gaugeName)} either way.</div>` : ''}
+  </div>`;
       // A slot with no hatch is hidden unless the angler is standing in it. The fallback text is
       // the guide's own prose -- worth reading at dusk, noise at 2pm. A rule, not a special case:
       // a guide who does list a last-light hatch still gets it shown.
@@ -737,8 +839,30 @@ img{display:block}
   </div>
 </div>`;
     }
+    /** A panel takeover rather than an overlay, so it inherits the scrolling already built and the
+        pinned block keeps showing the current water's pack while you look. */
+    tab_waters() {
+      const cur = this.data.water.id, resolvedId = this.resolved.water.id;
+      const groups = GROUPS.map(([key, label]) => {
+        const rows = WATERS.filter(w => w.group === key);
+        if (!rows.length) return '';
+        return `<div class="wgroup">${label}</div>` + rows.map(w => {
+          const isRes = w.id === resolvedId;
+          const fr = isRes ? this.freshFor(this.resolved.report.publishedAt) : null;
+          const r = isRes ? this.ratingOf(this.resolved.report.rating) : null;
+          return `<button class="wrow" data-action="water" data-id="${esc(w.id)}" data-focus="w-${esc(w.id)}" aria-current="${w.id === cur}">
+      <span class="wname">${esc(w.name)}</span>
+      <span class="lamp" style="--c:${fr ? fr.color : 'var(--off)'}"><i></i>${fr ? 'Report' : 'No report yet'}</span>
+      <span class="wsub">${r ? `${esc(r.label)} ${this.meter(r.n, false, `Fishing ${esc(r.label)}, ${r.n} of 5`)}` : (w.usgsSite ? 'Live gauge only, not broken out by hatch' : 'No live gauge on file')}</span>
+      <span class="wdate">${fr ? esc(shortDate(this.resolved.report.publishedAt)) : ''}</span>
+    </button>`;
+        }).join('');
+      }).join('');
+      return `<div class="waters">${groups}</div>`;
+    }
     tab_notes() {
       const d = this.data;
+      if (!d.report.notes.length) return `<div class="empty"><div style="color:var(--text);font-weight:600">No guide's notes for this water yet.</div><div>When the shop publishes prose for ${esc(d.water.shortName)}, it appears here as written and is never edited by the system.</div></div>`;
       return `<div class="notes">
   <div class="between"><span class="label">Guide's notes, ${shortDate(d.report.publishedAt)}</span><span class="label" style="letter-spacing:.1em">${esc(d.report.author || 'The Fly Shop')}</span></div>
   <div class="prose">${d.report.notes.map(p => `<p>${esc(p)}</p>`).join('')}</div>
@@ -799,7 +923,7 @@ img{display:block}
       switch (a) {
         case 'expand': this.set({ open: true }); this.emit('card_expanded'); this.root.querySelector('[data-action="collapse"]')?.focus(); break;
         case 'collapse': this.set({ open: false }); this.root.querySelector('[data-action="expand"]')?.focus(); break;
-        case 'tab': this.set({ tab: el.dataset.tab }); if (el.dataset.tab === 'notes') this.emit('notes_expanded'); break;
+        case 'tab': this.set({ tab: el.dataset.tab, picker: false }); if (el.dataset.tab === 'notes') this.emit('notes_expanded'); break;
         case 'slot': {
           const key = el.dataset.slot, open = new Set(s.expanded);
           open.has(key) ? open.delete(key) : open.add(key);
@@ -825,6 +949,13 @@ img{display:block}
           break;
         }
         case 'lbclose': this.closeLightbox(); break;
+        case 'waters': {
+          const open = !s.picker;
+          this.set({ picker: open, tip: null });
+          if (open) this.emit('water_list_opened', {});
+          break;
+        }
+        case 'water': this.switchWater(el.dataset.id); break;
       }
     }
     closeLightbox() {
