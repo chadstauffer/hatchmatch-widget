@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HatchMatch — review bench</title>
 <style>
@@ -55,7 +57,7 @@
   <div class="panel" id="panel"></div>
 </main>
 
-<script src="../dist/embed.js"></script>
+<script src="../dist/embed.js?b=20260905201817"></script>
 <script>
 /* The bench remounts the card whenever a variable can only be set at construction time
    (demo state, flow window). Everything else is a state patch or a host attribute. */
@@ -138,6 +140,7 @@
     const k = card.data.pending ? null : card.pack();
     const steps = [...card.root.querySelectorAll('.spark .col')].map(c => c.children.length);
     d.innerHTML = [
+      `<b>build ${window.HatchMatch.build}</b>`,
       `<b>${w.name}</b>`,
       `gauge ${w.usgsSite || 'none'}${w.gaugeName ? ' · ' + w.gaugeName : ''}`,
       `flow ${f.failed ? 'unavailable' : f.value.toLocaleString() + ' CFS'}${f.live ? ' · live' : f.failed ? '' : ' · historical'}`,

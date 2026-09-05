@@ -30,14 +30,29 @@ const slim = reports.map(full => {
   return s;
 });
 
+// A stamp that changes on every build. It namespaces the runtime cache, so a cached payload can
+// never outlive the code that wrote it, and it cache-busts the demo's script tag, so a rebuild is
+// always the thing the browser runs.
+const build = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
 const out = src
+  .replace('"__HM_BUILD__"', JSON.stringify(build))
   .replace('"__HM_DATA__"', JSON.stringify(slim))
   .replace('"__HM_FONT__"', JSON.stringify(`data:font/ttf;base64,${font.toString('base64')}`))
   .replace('"__HM_STONEFLY__"', JSON.stringify(stonefly.trim()));
 
 await mkdir('dist', { recursive: true });
 await writeFile('dist/embed.js', out);
-console.error(`dist/embed.js ${(out.length / 1024).toFixed(0)} KB (${slim.length} waters, ${(JSON.stringify(slim).length / 1024).toFixed(0)} KB, font ${(font.length / 1024).toFixed(0)} KB)`);
+
+// The demo is served by python3 -m http.server, which sends no Cache-Control, so a browser will
+// happily run a stale bundle. Stamp the harness script tags so a rebuild is always what loads.
+for (const page of ['demo/review.html', 'demo/sweep.html', 'demo/measure.html', 'demo/index.html']) {
+  try {
+    const html = await readFile(page, 'utf8');
+    const next = html.replace(/(<script src="\.\.\/dist\/embed\.js)(\?b=[0-9]+)?(")/g, `$1?b=${build}$3`);
+    if (next !== html) await writeFile(page, next);
+  } catch (e) { /* a page that isn't there yet is not an error */ }
+}
+console.error(`dist/embed.js build ${build}, ${(out.length / 1024).toFixed(0)} KB (${slim.length} waters, ${(JSON.stringify(slim).length / 1024).toFixed(0)} KB, font ${(font.length / 1024).toFixed(0)} KB)`);
 for (const r of slim) console.error(`  ${r.water.shortName.padEnd(11)} ${r.picks.length} picks${r.readOnly ? ', read-only' : ''}`);
 
 // The flag list, for the demo page's "what we found" panel. Their page's problems, next to a card

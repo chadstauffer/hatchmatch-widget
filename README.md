@@ -37,6 +37,11 @@ demo/sweep.html       every state x theme x width x tab, plus the invariants
 
 ## Run
 
+The demo is served by `python3 -m http.server`, which sends no `Cache-Control`. The pages carry
+`no-store` and `build.mjs` stamps the bundle's script tag, so a rebuild is always what loads. If
+you were running the demo before that landed, **hard-reload once** (Cmd+Shift+R) to evict the
+page the browser already has. The bench prints the build id it is running, top of the readout.
+
 ```
 npm run ingest     # pull the catalog (about 2 seconds, four pages)
 npm run resolve    # pin every pick to a variant, write the flag list

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
 <title>HatchMatch — sweep</title>
 <style>html,body{margin:0}body{background:#F4F1EC;font:12px/1.4 monospace}#stage{padding:0}</style>
 </head>
@@ -14,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js"></script>
+<script src="../dist/embed.js?b=20260905201817"></script>
 <script>
 window.SWEEP = async function () {
   const STATES = ['', 'aging', 'stale', 'oos', 'noflow'];

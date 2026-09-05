@@ -5,6 +5,7 @@
   const DATA = "__HM_DATA__";
   const FONT = "__HM_FONT__";
   const STONEFLY = "__HM_STONEFLY__";
+  const BUILD = "__HM_BUILD__";
 
   /* The waters ship as resolved reports. Group order for the picker; anything else falls last. */
   const GROUPS = [['river', 'Rivers'], ['stillwater', 'Stillwaters'], ['private', 'Private waters']];
@@ -19,7 +20,9 @@
      leaves the card rendering a flow with no sparkline and no way to know why. `valid` also gates
      writes, so a degraded result -- the latest-value fallback, which has no series -- is never
      cached in place of a good one. */
-  const CACHE = 'hm1:';
+  // Namespaced by build. Any rebuild invalidates every entry, so a payload can never outlive the
+  // code that wrote it -- which is the failure that took a graph off the card with no error.
+  const CACHE = `hm:${BUILD}:`;
   function cached(key, fetcher, valid) {
     const k = CACHE + key;
     let hit = null;
@@ -1099,6 +1102,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
 
   /* ---------- mount ---------- */
   const HM = window.HatchMatch = window.HatchMatch || { events: [], cards: [] };
+  HM.build = BUILD;
   HM.mount = function (host, data) {
     injectFont();
     const card = new Card(host, data || DATA);
