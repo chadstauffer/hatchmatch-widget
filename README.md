@@ -108,8 +108,8 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 - Class names inside the flow graph are prefixed `hg-` wherever they are a state modifier or a
   generic word. Two collisions shipped before that rule existed: `.live` is the live strip's class
   and silently gave the graph `display:flex` and `height:16px`, collapsing the plot to the 9px sum
-  of its own gaps; `.rule` is the card's divider and added a border to every value line. Scoped
-  descendants are safe, bare modifiers are not. `demo/sweep.html` now asserts the plot has real
+  of its own gaps; `.rule` was the card's divider and added a border to every value line it was
+  used for. Scoped descendants are safe, bare modifiers are not. `demo/sweep.html` now asserts the plot has real
   height, because nothing else in it noticed.
 
 - The window is thirty days, not seven. A week is too short a swath on a dam-controlled river:
@@ -117,8 +117,7 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   the month is where the shape is. Thirty columns over thirty days is a day a column, one request
   (`period=P30D`, ~226 KB, ~320ms).
 - Value labels on a 1-2-2.5-5 ladder -- 5K and 10K on the Lower Sac, 50/100/150 on Hat Creek --
-  each with a rule across the plot at its exact height, because a 9px label cannot point at a 3px
-  row on its own.
+  at their exact heights, with nothing drawn across the plot.
 - The value labels are right-aligned, so they share a right edge with the `15,000` on the range
   row directly beneath them. Left-aligned in their gutter they were ragged and stopped short of it.
 - The value axis sits on the **right**, beside the newest column. The right edge is now, so the
