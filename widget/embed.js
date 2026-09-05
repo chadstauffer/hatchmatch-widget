@@ -269,8 +269,26 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
   /* ---------- live data ---------- */
   /* USGS, two endpoints. The instantaneous-values service gives a six-hour series (for the trend);
      the newer OGC API gives the latest value only. Either reports CORS * as of Sep 2026. */
-  async function fetchFlow(site) {
+  /** A fixed historical window, for showing the card against a week the river actually did
+      something -- a storm, spring runoff -- instead of whatever it happens to be doing today.
+      It has to be the daily-values service, not the instantaneous one: nwis/iv answers 403 to a
+      browser for any startDT/endDT, and for period=P365D, while accepting P7D and P30D. curl
+      gets 200 for all of them, so this is only visible from a page. nwis/dv takes date ranges
+      and returns one mean per day, which is 14 columns over 14 days. Never labelled live. */
+  async function fetchWindow(site, win) {
+    const r = await fetch(`https://waterservices.usgs.gov/nwis/dv/?format=json&sites=${site}&parameterCd=00060&statCd=00003&startDT=${win[0]}&endDT=${win[1]}`);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const ts = (await r.json()).value.timeSeries[0];
+    if (!ts) throw new Error('no series for that window');
+    const vals = ts.values[0].value.map(v => ({ value: +v.value, iso: v.dateTime })).filter(v => v.value >= 0).slice(-14);
+    if (!vals.length) throw new Error('empty window');
+    const last = vals[vals.length - 1];
+    // Daily means: no sub-daily data, so no six-hour delta. That frame is dropped, not invented.
+    return { value: last.value, at: last.iso, delta: null, hours: null, series: vals.map(v => v.value), days: vals.length, trend: '', live: false, source: 'waterservices.usgs.gov/nwis/dv' };
+  }
+  async function fetchFlow(site, win) {
     const errors = [];
+    if (win) return fetchWindow(site, win);
     try {
       // Seven days, not six hours. Keswick releases move in discrete steps every few days, so a
       // six-hour window on a tailwater is flat noise -- it would draw a broken graph, not a calm
@@ -345,7 +363,10 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       this.root = host.attachShadow({ mode: 'open' });
       const demo = new URLSearchParams(location.search).get('state') || host.dataset.demoState || '';
       this.demo = demo;
-      this.frame = 0; this.cycler = null; this.poll = null; this.scrollPos = {}; this.shownTab = null;
+      // data-demo-window="2026-01-01/2026-01-08" shows the card against that week instead of now.
+      const win = (host.dataset.demoWindow || '').split('/').filter(Boolean);
+      this.window = win.length === 2 ? win : null;
+      this.frame = 0; this.cycler = null; this.poll = null; this.loadToken = 0; this.scrollPos = {}; this.shownTab = null;
       this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, picker: false, expanded: new Set(), added: false, filled: false,
         flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: false }, weather: null, temp: null, turbidity: null, lightbox: null, tip: null };
       this.useReport(data);
@@ -415,17 +436,21 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       this.emit('water_switched', { from, to: id });
       this.load();
     }
+    /** Every load carries a token. Switching water starts a new one, and a response from an
+        older load is dropped rather than painted -- otherwise a slow first request lands after
+        the switch and puts one river's number under another river's gauge name. */
     async load() {
-      const w = this.data.water;
+      const w = this.data.water, token = ++this.loadToken;
+      const live = () => token === this.loadToken;
       // No gauge on file is not a failed fetch: nothing is tried, and the card says which it is.
       if (!w.usgsSite || this.demo === 'noflow') { this.s.flow.failed = true; this.render(); }
       else {
-        fetchFlow(w.usgsSite).then(f => { this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
-          .catch(e => { this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
-        fetchAux(w.usgsSite).then(a => { if (a.temp != null || a.turbidity != null) { this.s.temp = a.temp; this.s.turbidity = a.turbidity; this.emit('water_aux', a); this.render(); } });
+        fetchFlow(w.usgsSite, this.window).then(f => { if (!live()) return; this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
+          .catch(e => { if (!live()) return; this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
+        fetchAux(w.usgsSite).then(a => { if (!live()) return; if (a.temp != null || a.turbidity != null) { this.s.temp = a.temp; this.s.turbidity = a.turbidity; this.emit('water_aux', a); this.render(); } });
         this.watchFlow();
       }
-      fetchWeather(w.lat, w.lon).then(wx => { this.s.weather = wx; this.render(); })
+      fetchWeather(w.lat, w.lon).then(wx => { if (!live()) return; this.s.weather = wx; this.render(); })
         .catch(e => { console.warn('[hatchmatch] weather unavailable, showing the report\'s outlook:', e.message); this.emit('weather_unavailable', { error: e.message }); });
     }
     /** LIVE has to be true to be worth saying. Re-read the gauge every five minutes, but only while
@@ -433,8 +458,10 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         is allowed to set `failed`, because that is the only one with nothing to fall back to. */
     watchFlow() {
       if (this.demo === 'noflow' || !window.IntersectionObserver) return;
-      const tick = () => fetchFlow(this.data.water.usgsSite)
-        .then(f => { this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
+      if (this.window) return;   // a fixed historical window has nothing to refresh
+      const site = this.data.water.usgsSite, token = this.loadToken;
+      const tick = () => fetchFlow(site)
+        .then(f => { if (token !== this.loadToken) return; this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
         .catch(e => console.warn('[hatchmatch] flow refresh failed, keeping the last reading:', e.message));
       new IntersectionObserver(([e]) => {
         clearInterval(this.poll); this.poll = null;

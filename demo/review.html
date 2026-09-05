@@ -3,71 +3,225 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HatchMatch, revision round 3 — review sheet</title>
+<title>HatchMatch — review bench</title>
 <style>
+  :root{color-scheme:light}
+  *{box-sizing:border-box}
   body{margin:0;background:#EDE9E2;color:#2B2B2B;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-  main{padding:28px 20px 60px}
-  h1{font-size:18px;margin:0 0 2px}
-  p.sub{color:#6B6B6B;margin:0 0 24px}
-  .grid{display:flex;flex-direction:column;gap:22px;align-items:flex-start}
-  figure{margin:0}
-  figcaption{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8A8377;margin:0 0 8px}
-  .stage{padding:20px;border-radius:14px;display:inline-block}
-  .stage.dark{background:#F4F1EC}
-  .stage.light{background:#fff;border:1px solid #E3DED4}
+  main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start;padding:24px 24px 60px;max-width:1160px;margin:0 auto}
+  h1{font-size:17px;margin:0 0 2px}
+  p.sub{color:#6B6B6B;margin:0 0 20px;font-size:13px}
+  header{grid-column:1/-1}
+
+  /* One card. The stage is a plain host page: the card keeps its own look on any site. */
+  .stage{background:#F4F1EC;border:1px solid #E3DED4;border-radius:14px;padding:20px;display:flex;justify-content:center}
+  .stage.light{background:#fff}
+  .stage.wide{padding:20px 12px}
+
+  .panel{background:#fff;border:1px solid #E3DED4;border-radius:12px;padding:4px 16px 16px;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;overscroll-behavior:contain}
+  .grp{border-top:1px solid #EFEAE2;padding:10px 0 0;margin-top:10px}
+  .grp:first-of-type{border-top:0;margin-top:0}
+  .grp > b{display:block;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8A8377;margin-bottom:6px}
+  .opts{display:flex;flex-wrap:wrap;gap:6px}
+  button.opt{font:inherit;font-size:12px;padding:5px 10px;border:1px solid #CFC9BF;border-radius:999px;background:#fff;color:#2B2B2B;cursor:pointer;line-height:1.35}
+  button.opt:hover{border-color:#8A8377}
+  button.opt[aria-pressed="true"]{background:#2B2B2B;color:#fff;border-color:#2B2B2B}
+  button.opt:focus-visible{outline:2px solid #2F4A9E;outline-offset:2px}
+  .stepline{display:flex;align-items:center;gap:8px}
+  .stepline span.v{font-variant-numeric:tabular-nums;min-width:18px;text-align:center;font-weight:600}
+  .readout{margin-top:14px;padding-top:12px;border-top:1px solid #EFEAE2;font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#5D6875;word-break:break-word}
+  .readout b{color:#2B2B2B;font-weight:600}
+  .note{margin-top:10px;font-size:12px;line-height:1.5;color:#8A6A2F;background:#F7EEDD;border:1px solid #E4D2AE;border-radius:8px;padding:9px 11px}
+  .note:empty{display:none}
+  @media (max-width:900px){
+    main{grid-template-columns:minmax(0,1fr)}
+    .panel{position:static}
+  }
 </style>
 </head>
 <body>
 <main>
-  <h1>HatchMatch widget — revision round 3</h1>
-  <p class="sub">Round 2 plus the seven-day flow sparkline. Cards are live: flow and weather are real. Add <code>?shot=0</code>&hellip;<code>N</code> for one at a time. Sparkline comparison is at <code>/demo/spark.html</code>.</p>
-  <div class="grid" id="grid"></div>
+  <header>
+    <h1>HatchMatch review bench</h1>
+    <p class="sub">One live card. Every display variable is a switch — nothing here is a mock. Flow and weather are real; the flow window can be pointed at a historical week.</p>
+  </header>
+
+  <div>
+    <div class="stage" id="stage">
+      <div class="hatchmatch" id="card" data-theme="dark" data-accent="orange"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel"></div>
 </main>
-<script>
-  // Each figure mounts its own card, then is driven into the state it is meant to show.
-  // Card width is what matters, not viewport: the demo host page pads 20px each side,
-  // so a 390px phone gives a 350px card. 440px is the card's own max-width.
-  const A = ['morning','midday','afternoon','all day'];
-  const SHOTS = [
-    ['Compact · dark · 350px card (390px phone)', 'dark',  {open:false}, 350],
-    ['Compact · light · 350px card',              'light', {open:false}, 350],
-    ['NOW · dark',                                'dark',  {open:true, tab:'now'}, 350],
-    ['NOW · light',                               'light', {open:true, tab:'now'}, 350],
-    ['HATCH · dark · now-slot open on load',      'dark',  {open:true, tab:'hatch'}, 350],
-    ['HATCH · dark · every slot open',            'dark',  {open:true, tab:'hatch', expanded:new Set(A)}, 350],
-    ['HATCH · light · every slot open',           'light', {open:true, tab:'hatch', expanded:new Set(A)}, 350],
-    ['HATCH · dark · 2 anglers, 2 days',          'dark',  {open:true, tab:'hatch', anglers:2, days:2}, 350],
-    ['HATCH · dark · 440px',                      'dark',  {open:true, tab:'hatch', expanded:new Set(A)}, 440],
-    ['HATCH · dark · 335px (375px phone)',        'dark',  {open:true, tab:'hatch'}, 335],
-    ['NOTES · dark',                              'dark',  {open:true, tab:'notes'}, 350],
-    ['NOTES · light',                             'light', {open:true, tab:'notes'}, 350],
-    ['WATER LIST · dark',                         'dark',  {open:true, picker:true}, 350],
-    ['WATER LIST · light',                        'light', {open:true, picker:true}, 350],
-    ['TRINITY · dark · live gauge, no report',    'dark',  {open:true, tab:'now'}, 350, 'trinity'],
-    ['TRINITY · dark · HATCH, not broken out',    'dark',  {open:true, tab:'hatch'}, 350, 'trinity'],
-    ['McCLOUD · dark · no gauge, no report',      'dark',  {open:true, tab:'now'}, 350, 'mccloud'],
-    ['McCLOUD · light · compact',                 'light', {open:false}, 350, 'mccloud'],
-  ];
-  // ?shot=N renders a single figure, so a screenshot never has to scroll.
-  const only = new URLSearchParams(location.search).get('shot');
-  const grid = document.getElementById('grid');
-  SHOTS.forEach(([label, theme, state, w], i) => {
-    if (only !== null && String(i) !== only) return;
-    const fig = document.createElement('figure');
-    fig.innerHTML = `<figcaption>${label}</figcaption><div class="stage ${theme}"><div class="hatchmatch" style="width:${w}px" data-theme="${theme}" data-accent="orange" data-shot="${i}"></div></div>`;
-    grid.appendChild(fig);
-  });
-  addEventListener('load', () => setTimeout(() => {
-    SHOTS.forEach(([, , state, , water], i) => {
-      if (only !== null && String(i) !== only) return;
-      const host = document.querySelector(`[data-shot="${i}"]`);
-      const card = window.HatchMatch.cards.find(c => c.host === host);
-      if (!card) return;
-      if (water) card.switchWater(water);
-      card.set(state);
-    });
-  }, 1500));
-</script>
+
 <script src="../dist/embed.js"></script>
+<script>
+/* The bench remounts the card whenever a variable can only be set at construction time
+   (demo state, flow window). Everything else is a state patch or a host attribute. */
+(function () {
+  const WATERS = [
+    ['lower-sacramento','Lower Sac'], ['trinity','Trinity'], ['hat-creek','Hat Creek'],
+    ['klamath','Klamath'], ['pit','Pit'], ['upper-sacramento','Upper Sac'],
+    ['mccloud','McCloud'], ['fall-river','Fall River'],
+  ];
+  // Scales derived from USGS daily statistics (statTypeCd=all, max of p95 rounded up).
+  // Measured history, not invention -- a preview of what Phase B will resolve per water.
+  const DERIVED_SCALE = {
+    'upper-sacramento': { min: 0, max: 15000, threshold: null, thresholdLabel: '' },
+  };
+  // Historical windows use daily means over 14 days -- 14 columns, same as the live view.
+  const WINDOWS = [
+    ['', 'Live · last 7 days'],
+    ['2026-01-01/2026-01-14', 'Upper Sac storm · Jan 1–14 2026'],
+    ['2026-04-01/2026-04-14', 'Upper Sac spring · Apr 1–14 2026'],
+    ['2026-05-20/2026-06-02', 'Upper Sac snowmelt · late May 2026'],
+  ];
+
+  const S = {
+    theme: 'dark', accent: 'orange', width: 350, open: true, tab: 'now',
+    water: 'lower-sacramento', state: '', window: '',
+    anglers: 1, days: 1, slots: 'now', picker: false,
+  };
+
+  // host is re-read after every remount: replaceWith leaves the old reference detached, and
+  // calling replaceWith on a detached node silently does nothing.
+  let host = document.getElementById('card');
+  const stage = document.getElementById('stage'), panel = document.getElementById('panel');
+  let card = null;
+
+  function opts(label, key, list, onPick) {
+    const g = document.createElement('div'); g.className = 'grp';
+    g.innerHTML = `<b>${label}</b>`;
+    const box = document.createElement('div'); box.className = 'opts';
+    list.forEach(([val, text]) => {
+      const b = document.createElement('button');
+      b.className = 'opt'; b.type = 'button'; b.textContent = text;
+      b.setAttribute('aria-pressed', String(S[key] === val));
+      b.addEventListener('click', () => { S[key] = val; (onPick || apply)(); build(); });
+      box.appendChild(b);
+    });
+    g.appendChild(box); panel.appendChild(g);
+  }
+
+  function stepper(label, key, min, max) {
+    const g = document.createElement('div'); g.className = 'grp';
+    g.innerHTML = `<b>${label}</b>`;
+    const row = document.createElement('div'); row.className = 'opts stepline';
+    const mk = (t, d) => { const b = document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=t;
+      b.addEventListener('click', () => { S[key] = Math.min(max, Math.max(min, S[key] + d)); apply(); build(); }); return b; };
+    const v = document.createElement('span'); v.className='v'; v.textContent = S[key];
+    row.append(mk('−',-1), v, mk('+',1));
+    g.appendChild(row); panel.appendChild(g);
+  }
+
+  function build() {
+    panel.innerHTML = '';
+    opts('Card state', 'open', [[false,'Compact'],[true,'Expanded']]);
+    if (S.open) opts('Tab', 'tab', [['now','NOW'],['hatch','HATCH'],['notes','NOTES'],['picker','Water list']]);
+    opts('Water', 'water', WATERS, switchTo);
+    opts('Theme', 'theme', [['dark','Dark'],['light','Light']]);
+    opts('Accent', 'accent', [['orange','Orange'],['burnt','Burnt'],['spruce','Spruce']]);
+    opts('Card width', 'width', [[440,'440'],[390,'390'],[350,'350'],[335,'335'],[320,'320']]);
+    opts('Flow window', 'window', WINDOWS, remount);
+    opts('Report state', 'state', [['','Fresh'],['aging','Aging'],['stale','Stale'],['oos','Out of stock'],['noflow','No flow']], remount);
+    if (S.open && S.tab === 'hatch') opts('Hatch slots', 'slots', [['now','Now only'],['all','All open']]);
+    stepper('Anglers', 'anglers', 1, 6);
+    stepper('Days', 'days', 1, 7);
+    readout();
+  }
+
+  function readout() {
+    const d = document.createElement('div'); d.className = 'readout';
+    if (!card) { d.textContent = 'mounting…'; panel.appendChild(d); return; }
+    const f = card.s.flow, w = card.data.water;
+    const k = card.data.pending ? null : card.pack();
+    const steps = [...card.root.querySelectorAll('.spark .col')].map(c => c.children.length);
+    d.innerHTML = [
+      `<b>${w.name}</b>`,
+      `gauge ${w.usgsSite || 'none'}${w.gaugeName ? ' · ' + w.gaugeName : ''}`,
+      `flow ${f.failed ? 'unavailable' : f.value.toLocaleString() + ' CFS'}${f.live ? ' · live' : f.failed ? '' : ' · historical'}`,
+      `scale ${w.flow.max == null ? 'none published' : w.flow.min.toLocaleString() + '–' + w.flow.max.toLocaleString()}`
+        + ` · limit ${w.flow.threshold == null ? 'none' : w.flow.threshold.toLocaleString()}`,
+      steps.length ? `sparkline [${steps.join('')}] · ${new Set(steps).size} level${new Set(steps).size===1?'':'s'}` : 'sparkline not rendered',
+      k ? `pack ${k.flies} flies · $${k.total.toFixed(2)}` : 'pack none — not resolved',
+    ].join('<br>');
+    panel.appendChild(d);
+
+    const n = document.createElement('div'); n.className = 'note';
+    if (S.window && S.water !== 'upper-sacramento') n.textContent = 'The historical windows are Upper Sac dates. Switch the water to Upper Sac to see them.';
+    else if (S.window && DERIVED_SCALE[S.water]) n.textContent = 'Scale derived from USGS daily statistics (max of p95, rounded up). Measured history — a preview of what Phase B resolves per water.';
+    else if (card.data.pending) n.textContent = 'No published flow range for this water yet, so no bar and no sparkline. Phase B supplies it.';
+    panel.appendChild(n);
+  }
+
+  function apply() {
+    host.dataset.theme = S.theme;
+    host.dataset.accent = S.accent;
+    host.style.width = S.width + 'px';
+    stage.classList.toggle('light', S.theme === 'light');
+    stage.classList.toggle('wide', S.width >= 440);
+    if (!card) return;
+    const patch = { open: S.open, anglers: S.anglers, days: S.days, picker: false };
+    if (S.open) {
+      if (S.tab === 'picker') { patch.picker = true; }
+      else patch.tab = S.tab;
+    }
+    if (S.slots === 'all') patch.expanded = new Set(['morning','midday','afternoon','all day']);
+    card.set(patch);
+    readoutRefresh();
+  }
+
+  let refreshTimer = null;
+  function readoutRefresh() {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => { build(); }, 900);
+  }
+
+  /** Water changes in place. Only demo state and the flow window are read at construction time,
+      so only those two need a fresh card. */
+  function switchTo() {
+    if (!card) return remount();
+    card.switchWater(S.water);
+    if (S.window && DERIVED_SCALE[S.water]) Object.assign(card.data.water.flow, DERIVED_SCALE[S.water]);
+    apply();
+    setTimeout(build, 1400);
+  }
+
+  function remount() {
+    if (card) { clearInterval(card.poll); clearInterval(card.cycler); }
+    const idx = window.HatchMatch.cards.indexOf(card);
+    if (idx >= 0) window.HatchMatch.cards.splice(idx, 1);
+    // A fresh element, never a clone of one that already hosts a shadow tree: attachShadow
+    // throws on a second call and the bench would wedge.
+    const fresh = document.createElement('div');
+    fresh.id = 'card'; fresh.className = 'hatchmatch';
+    host.replaceWith(fresh);
+    host = fresh;
+    fresh.dataset.theme = S.theme; fresh.dataset.accent = S.accent;
+    fresh.style.width = S.width + 'px';
+    if (S.state) fresh.dataset.demoState = S.state; else delete fresh.dataset.demoState;
+    if (S.window) fresh.dataset.demoWindow = S.window; else delete fresh.dataset.demoWindow;
+    card = window.HatchMatch.mount(fresh);
+    if (S.water !== 'lower-sacramento') card.switchWater(S.water);
+    // A window needs a scale to draw against; Phase B will carry these per water.
+    if (S.window && DERIVED_SCALE[S.water]) {
+      Object.assign(card.data.water.flow, DERIVED_SCALE[S.water]);
+    }
+    window.HM_CARD = card;
+    apply();
+    setTimeout(build, 1600);
+  }
+
+  // The mount script auto-mounts anything matching .hatchmatch, so take over that instance.
+  addEventListener('load', () => setTimeout(() => {
+    host = document.getElementById('card');
+    card = window.HatchMatch.cards.find(c => c.host === host);
+    window.HM_CARD = card;
+    apply(); build();
+  }, 1200));
+  build();
+})();
+</script>
 </body>
 </html>

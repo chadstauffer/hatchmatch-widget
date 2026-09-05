@@ -28,10 +28,9 @@ widget/
   assets/             Kode Mono (OFL), stonefly.svg (currentColor)
 build.mjs             inlines the resolved report, font and mark into dist/embed.js for the static demo
 demo/index.html       the pitch page
-demo/review.html      the revision review sheet, one figure per state
+demo/review.html      the review bench: one live card, every display variable a switch
 demo/measure.html     the height harness the panel numbers come from
 demo/sweep.html       every state x theme x width x tab, plus the invariants
-demo/spark.html       the flow sparkline next to the segmented bar, magnified and at real size
 ```
 
 ## Run
@@ -58,6 +57,16 @@ The demo also works straight from `demo/index.html` on disk. Live flow and weath
 Demo states for the pitch, as a query string on the demo page: `?state=aging`, `?state=stale`, `?state=oos` (takes the Weiss Nymph out of stock so the substitute row shows), `?state=noflow`.
 
 ## Round 3
+
+- `demo/review.html` is one live card with a control panel, not a grid of screens. Theme, accent,
+  card width, tab, water, report state, anglers, days, slot expansion and the flow window are all
+  switches, and a readout prints the gauge, scale, sparkline quantization and pack totals.
+- The flow window can be pointed at a real historical week (`data-demo-window="2026-01-01/2026-01-14"`).
+  It uses the daily-values service: `nwis/iv` answers 403 to a browser for any `startDT`/`endDT`
+  and for `period=P365D`, while accepting `P7D` and `P30D`. curl gets 200 for all of them, so this
+  is only visible from a page. Windowed data is never labelled live.
+- A load token means a response from the water you just switched away from is dropped rather than
+  painted under the new water's gauge name.
 
 - Flow is fetched over `P7D`, not `PT6H`: Keswick releases move in discrete steps every few
   days, so a six-hour window on a tailwater is flat noise. Still one request -- the strip's
