@@ -136,7 +136,9 @@ img{display:block}
 .spark .yaxis{position:relative;grid-area:1/2;font-size:9px;letter-spacing:.06em}
 /* The top label sits on the top edge rather than centred across it, so it does not hang half
    outside the graph; the midpoint one is centred on its own line. */
-.spark .yaxis b{position:absolute;left:0;transform:translateY(-50%);font-weight:400;white-space:nowrap;opacity:.75;line-height:1}
+/* Right-aligned, so 5K and 10K share a right edge with the 15,000 on the range row directly
+   below them. Left-aligned they were ragged and stopped short of it. */
+.spark .yaxis b{position:absolute;right:0;transform:translateY(-50%);font-weight:400;white-space:nowrap;opacity:.75;line-height:1}
 
 .spark .grid{position:relative;grid-area:1/1;display:flex;gap:1px;min-height:0}
 /* A rule at each labelled value, at its exact height, so a 9px label can name a 3px row. */

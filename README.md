@@ -112,6 +112,8 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 - Value labels on a 1-2-2.5-5 ladder -- 5K and 10K on the Lower Sac, 50/100/150 on Hat Creek --
   each with a rule across the plot at its exact height, because a 9px label cannot point at a 3px
   row on its own.
+- The value labels are right-aligned, so they share a right edge with the `15,000` on the range
+  row directly beneath them. Left-aligned in their gutter they were ragged and stopped short of it.
 - The value axis sits on the **right**, beside the newest column. The right edge is now, so the
   scale is next to the reading being checked; on the left it sat between the CFS figure and the
   plot, close enough to read as an annotation on the number rather than on the graph.
