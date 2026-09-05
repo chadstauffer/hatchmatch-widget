@@ -113,7 +113,10 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   the limit against a labelled scale. No captions and no legend -- if it needs copy to be
   understood, it is the wrong graphic.
 - Trend stacks with the unit, not the number: an accent arrow above `CFS` when the river is
-  rising, below `CFS` when it is dropping, never both, nothing when steady. Earlier rounds put it
+  rising, below `CFS` when it is dropping, never both, nothing when steady. It reads the same
+  seven-day window the sparkline draws, not the last six hours -- across six hours a tailwater is
+  permanently steady, so the arrow never appeared on the pilot river, and on the Pit the short
+  window pointed the opposite way to the graph beside it. Earlier rounds put it
   beside the figure, which is not what was asked for and, muted at 11px, was not visible either.
 
 ## Round 4 — the flow module again

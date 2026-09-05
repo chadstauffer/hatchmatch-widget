@@ -310,6 +310,20 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
   /* ---------- live data ---------- */
   /* USGS, two endpoints. The instantaneous-values service gives a six-hour series (for the trend);
      the newer OGC API gives the latest value only. Either reports CORS * as of Sep 2026. */
+  /** Which way the river is going over the window the sparkline draws, not over the last six
+      hours. Read across six hours a tailwater is permanently steady -- the Lower Sac moves 80 CFS
+      while the week moves 1,148 -- so the arrow never appeared on the pilot river. Worse, a short
+      window can point the opposite way to the graph beside it: the Pit was down 256 CFS in six
+      hours and up 108 over the week. Five per cent of where the window started is the band; below
+      that the river is holding and no arrow is drawn. The strip keeps the six-hour delta, which
+      is a different fact and says so in words. */
+  function weekTrend(series) {
+    const v = (series || []).filter(x => x != null);
+    if (v.length < 2) return '';
+    const first = v[0], delta = v[v.length - 1] - first;
+    return Math.abs(delta) < Math.max(1, first * 0.05) ? 'Steady' : delta > 0 ? 'Rising' : 'Falling';
+  }
+
   /** A fixed historical window, for showing the card against a week the river actually did
       something -- a storm, spring runoff -- instead of whatever it happens to be doing today.
       It has to be the daily-values service, not the instantaneous one: nwis/iv answers 403 to a
@@ -325,7 +339,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     if (!vals.length) throw new Error('empty window');
     const last = vals[vals.length - 1];
     // Daily means: no sub-daily data, so no six-hour delta. That frame is dropped, not invented.
-    return { value: last.value, at: last.iso, delta: null, hours: null, series: vals.map(v => v.value), days: vals.length, trend: '', live: false, source: 'waterservices.usgs.gov/nwis/dv' };
+    const series = vals.map(v => v.value);
+    return { value: last.value, at: last.iso, delta: null, hours: null, series, days: vals.length, trend: weekTrend(series), live: false, source: 'waterservices.usgs.gov/nwis/dv' };
   };
   const fetchWindow = (site, win) => cached(`win:${site}:${win.join('/')}`, () => fetchWindowLive(site, win), hasSeries);
   async function fetchFlowLive(site, win) {
@@ -353,7 +368,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         if (i >= 0 && i < COLS) { acc[i].n++; acc[i].sum += v.value; }
       }
       const series = acc.map(b => b.n ? b.sum / b.n : null);
-      return { value: last.value, at: last.iso, delta, hours, series, days: 7, trend: Math.abs(delta) < Math.max(100, last.value * .02) ? 'Steady' : delta > 0 ? 'Rising' : 'Falling', live: true, source: 'waterservices.usgs.gov/nwis/iv' };
+      return { value: last.value, at: last.iso, delta, hours, series, days: 7, trend: weekTrend(series), live: true, source: 'waterservices.usgs.gov/nwis/iv' };
     } catch (e) { errors.push(`nwis/iv: ${e.message}`); }
     try {
       const r = await fetch(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/latest-continuous/items?monitoring_location_id=USGS-${site}&parameter_code=00060&f=json`);
