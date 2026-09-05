@@ -12,6 +12,8 @@ An embeddable river report that sells flies. This repo is the engine and the car
 ```
 engine/
   ingest.mjs          Shopify storefront -> data/catalog/flies.json (one line per variant: id, SKU, color, size, price, stock, image)
+  scrape.mjs          theflyshop.com/streamreport.html -> one fixture per regional river
+  scales.mjs          USGS daily statistics -> the flow scale each river's bar and sparkline use
   resolve.mjs         report fixture + catalog -> <report>.resolved.json and <report>.unresolved.md
   lib/shopify.mjs     public storefront reads, paged, no credentials
   lib/variants.mjs    color and size parsing across the shop's option shapes; CDN thumbnail sizing
@@ -55,6 +57,27 @@ The demo also works straight from `demo/index.html` on disk. Live flow and weath
 - Every tap is an event: `window.HatchMatch.events`, and a `hatchmatch` CustomEvent on the host. Add `data-debug` to the host to see them in the console. `pack_added` fires only for the full pack and is the monthly headline; the filtered add fires `fly_added` and is reported separately.
 
 Demo states for the pitch, as a query string on the demo page: `?state=aging`, `?state=stale`, `?state=oos` (takes the Weiss Nymph out of stock so the substitute row shows), `?state=noflow`.
+
+## Phase B — eight waters
+
+- `npm run scrape` reads the shop's stream report page into seven new fixtures. The page is
+  uniformly structured (`<h4>` name and date, a `label-default-danger` span for the live rating,
+  `div.report` for the prose, anchors under `Hot Flies:`), so this reads it rather than
+  transcribing it. It carries 26 report panes in all; the stillwaters and private waters parse
+  with the same code and are out of scope by decision, not by capability.
+- Nothing is written for the shop. The page gives no hatch slots, no roles and no quantities, so
+  those seven waters are `readOnly`: real flies at the shop's real prices, grouped under the
+  shop's own sub-heads, and no pack button. Inventing "two of each" is the same class of
+  invention as inventing a hatch slot.
+- 105 picks across 8 waters, **0 unresolved**. When a name matches nothing, the resolver now
+  follows the page's own link before giving up -- "Pheasant Tails" is not in the catalog as
+  written and the page links it to `pheasant-tail`. Flagged for the guide either way.
+- Flow scales come from USGS daily statistics (`statTypeCd=all`; asking for an explicit list
+  silently drops p90). `min` is 0 on every river. `max` is the 70th percentile of the daily-p95
+  distribution, rounded up a nice-number ladder -- see the trade-off recorded in `scales.mjs`.
+  The wading threshold is not derived and stays null: that is a person deciding what is safe.
+- Network reads are cached in `sessionStorage` for five minutes, keyed by gauge or window, so a
+  page with several cards asks a free public service once.
 
 ## Round 3
 

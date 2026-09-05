@@ -1,0 +1,102 @@
+{
+  "note": "Scraped from https://www.theflyshop.com/streamreport.html by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.",
+  "water": {
+    "id": "fall-river",
+    "shortName": "Fall River",
+    "group": "river",
+    "usgsSite": null,
+    "gaugeName": null,
+    "lat": 41.0075,
+    "lon": -121.4469,
+    "gaugeNote": "No live USGS gauge. Sites exist at Fall River Mills; none reports a real-time series.",
+    "name": "Fall River",
+    "packName": null,
+    "flow": null,
+    "sections": [],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-09-01",
+    "author": null,
+    "rating": "Good",
+    "clarity": null,
+    "wading": null,
+    "notes": [
+      "With the storms rolling in this week, this could be 'The Place' to be! When it's cloudy and stormy, the hatches can be epic. And there are more hatches overall the past week with PMDs being the main hatch. It is fishing well, the weeds are choking the bridges and the guides are working to open up lanes to get through. Smaller nymphs on a dry-dropper rig or swung are doing the most work. Tricos are still coming off and you can get a spinner fall in the super early mornings. Good dropper flies are Jim Nations, BP Weiss Nypmhs, Sweet Peas, Two-Bit Hookers, Red Micro Mays, and Russ' Sin City. For dries, the smaller Rusty Spinners, PMD Challenged and PMD Hackle Stackers, presented correctly, will get fish. Strip Pine Squirrel Leeches and Water Boatmen in the mid-day and afternoons. September is a great time to fish the Fall. If you would like to set up a day on the Fall, give a call Bryan in Outfitters at 800-669-3474 to set up a trip!"
+    ],
+    "notesPermission": "pending",
+    "source": {
+      "url": "https://www.theflyshop.com/streamreport.html",
+      "fetchedAt": "2026-09-05"
+    }
+  },
+  "hatches": [],
+  "readOnly": true,
+  "picks": [
+    {
+      "id": "lance-s-jigged-x-may",
+      "group": null,
+      "name": "Lance's Jigged X-May",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/lances-jigged-x-may/",
+      "asWritten": "Lance's Jigged X-May"
+    },
+    {
+      "id": "weiss-bp-nymph",
+      "group": null,
+      "name": "Weiss BP Nymph",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/weiss-bp-nymphs-18/",
+      "asWritten": "Weiss BP Nymph"
+    },
+    {
+      "id": "norman-s-wiggletails",
+      "group": null,
+      "name": "Norman's Wiggletails",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/normans-wiggletail-16/",
+      "asWritten": "Norman's Wiggletails"
+    },
+    {
+      "id": "pheasant-tails",
+      "group": null,
+      "name": "Pheasant Tails",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/pheasant-tail/",
+      "asWritten": "Pheasant Tails"
+    },
+    {
+      "id": "mercer-s-missing-link",
+      "group": null,
+      "name": "Mercer's Missing Link",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/mercers-missing-link/",
+      "asWritten": "Mercer's Missing Link"
+    },
+    {
+      "id": "zug-bugs",
+      "group": null,
+      "name": "Zug Bugs",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/zug-bug/",
+      "asWritten": "Zug Bugs"
+    },
+    {
+      "id": "zack-s-stillwater-swimming-l",
+      "group": null,
+      "name": "Zack's Stillwater Swimming Leeches",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
+      "asWritten": "Zack's Stillwater Swimming Leeches"
+    }
+  ],
+  "substitutes": {}
+}

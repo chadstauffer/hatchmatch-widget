@@ -164,5 +164,79 @@ window.HM_FINDINGS = {
    "flies": 25,
    "total": 75.25
   }
- }
+ },
+ "allWaters": [
+  {
+   "name": "Lower Sac",
+   "publishedAt": "2026-09-01",
+   "rating": "Great",
+   "picks": 17,
+   "confirm": 10,
+   "unresolved": 0,
+   "readOnly": false
+  },
+  {
+   "name": "Fall River",
+   "publishedAt": "2026-09-01",
+   "rating": "Good",
+   "picks": 7,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Hat Creek",
+   "publishedAt": "2026-09-01",
+   "rating": "Fair to Good",
+   "picks": 9,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Klamath",
+   "publishedAt": "2026-01-01",
+   "rating": "Poor",
+   "picks": 8,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "McCloud",
+   "publishedAt": "2026-08-11",
+   "rating": "Good",
+   "picks": 9,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Pit",
+   "publishedAt": "2026-08-25",
+   "rating": "Good",
+   "picks": 20,
+   "confirm": 15,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Trinity",
+   "publishedAt": "2026-09-04",
+   "rating": "Fair to Good",
+   "picks": 13,
+   "confirm": 10,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Upper Sac",
+   "publishedAt": "2026-08-25",
+   "rating": "Fair to Good",
+   "picks": 22,
+   "confirm": 13,
+   "unresolved": 0,
+   "readOnly": true
+  }
+ ]
 };

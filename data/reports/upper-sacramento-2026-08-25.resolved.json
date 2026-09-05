@@ -1,0 +1,1986 @@
+{
+ "generatedAt": "2026-09-05T19:50:39.506Z",
+ "shop": "catalog.theflyshop.com",
+ "storeUrl": "https://catalog.theflyshop.com",
+ "catalogPulledAt": "2026-09-04T21:06:20.237Z",
+ "water": {
+  "id": "upper-sacramento",
+  "shortName": "Upper Sac",
+  "group": "river",
+  "usgsSite": "11342000",
+  "gaugeName": "USGS Delta",
+  "lat": 40.9396,
+  "lon": -122.4172,
+  "name": "Upper Sacramento River",
+  "packName": null,
+  "flow": {
+   "min": 0,
+   "max": 6000,
+   "threshold": null,
+   "thresholdLabel": "wading limit",
+   "scaleSource": "USGS daily statistics 1945–2026, 5,310 CFS at the 70th percentile of daily p95, rounded up",
+   "lastReading": {
+    "value": 0,
+    "at": "2026-09-05T19:50:22.313Z"
+   }
+  },
+  "sections": [],
+  "guidePhone": "800-669-3474",
+  "closed": false
+ },
+ "report": {
+  "publishedAt": "2026-08-25",
+  "author": null,
+  "rating": "Fair to Good",
+  "clarity": null,
+  "wading": null,
+  "notes": [
+   "Temps on the lower end of the river have decreased over the past week and are now touching the underside of 67 F. No solid reports from anyone fishing, but generally fishing above around Dunsmuir should be solid. With the storms this week you should see epic BWO and midge hatches, bring your dry box! This is little black bug season on the Upper, so Zebras in #18 or smaller, BP Weiss nymphs, black S&Ms, black Micro Mays and any other teeny, tiny nymph chucked into the frothy stuff is the best tactic during the day. Midges are always a good idea to fish. Towards dark you can head hunt with smaller dark Missing links and Adams. The browns are moving up the river from the lake, so bring a streamer rod. Always have Rubberlegs, Perdigons, BP Weiss Nymphs, Poopahs, Zebra Midges and Bird's Nests to round out your offerings. Upper Sacramento Flows at Delta"
+  ],
+  "notesPermission": "pending",
+  "source": {
+   "url": "https://www.theflyshop.com/streamreport.html",
+   "fetchedAt": "2026-09-05"
+  }
+ },
+ "hatches": [],
+ "roles": [
+  {
+   "key": "dry",
+   "label": "Dry"
+  },
+  {
+   "key": "dropper",
+   "label": "Dropper"
+  },
+  {
+   "key": "point",
+   "label": "Point"
+  },
+  {
+   "key": "eggs",
+   "label": "Eggs"
+  }
+ ],
+ "picks": [
+  {
+   "id": "sedgeback-october-caddis",
+   "group": "Dry Flies",
+   "name": "Sedgeback October Caddis",
+   "colors": [],
+   "sizes": [
+    "#10"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/sedgeback-october-caddis-10/",
+   "asWritten": "Sedgeback October Caddis - - #10",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "sedgeback-october-caddis-10",
+    "title": "Sedgeback October Caddis - #10",
+    "vendor": "Fulling Mills",
+    "url": "https://catalog.theflyshop.com/products/sedgeback-october-caddis-10",
+    "type": "Caddis"
+   },
+   "variant": {
+    "id": 47234097578214,
+    "sku": "29681",
+    "color": null,
+    "size": "#10",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/4525761b-b71d-4741-8f0c-4f6e3f895854.png?v=1770640231&width=240",
+    "url": "https://catalog.theflyshop.com/products/sedgeback-october-caddis-10?variant=47234097578214"
+   },
+   "variants": [
+    {
+     "id": 47234097578214,
+     "sku": "29681",
+     "color": null,
+     "size": "#10",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/4525761b-b71d-4741-8f0c-4f6e3f895854.png?v=1770640231&width=240",
+     "url": "https://catalog.theflyshop.com/products/sedgeback-october-caddis-10?variant=47234097578214"
+    }
+   ],
+   "flags": []
+  },
+  {
+   "id": "low-water-baetis",
+   "group": "Dry Flies",
+   "name": "Low Water Baetis",
+   "colors": [],
+   "sizes": [
+    "#18"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/low-water-baetis/",
+   "asWritten": "Low Water Baetis - - #18",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "low-water-baetis-20",
+    "title": "Low Water Baetis - #20",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/low-water-baetis-20",
+    "type": "Spring Creek"
+   },
+   "variant": {
+    "id": 47233941536998,
+    "sku": "17050",
+    "color": null,
+    "size": "#20",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/39e12537-2f80-47ec-8c9b-9e0cd0323e14.png?v=1770640201&width=240",
+    "url": "https://catalog.theflyshop.com/products/low-water-baetis-20?variant=47233941536998"
+   },
+   "variants": [
+    {
+     "id": 47233941536998,
+     "sku": "17050",
+     "color": null,
+     "size": "#20",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/39e12537-2f80-47ec-8c9b-9e0cd0323e14.png?v=1770640201&width=240",
+     "url": "https://catalog.theflyshop.com/products/low-water-baetis-20?variant=47233941536998"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"low-water-baetis\", which is not in the catalog. Resolved by name to \"Low Water Baetis - #20\" ($2.95).",
+     "candidates": [
+      {
+       "handle": "low-water-baetis-20",
+       "title": "Low Water Baetis - #20",
+       "price": 2.95
+      }
+     ]
+    },
+    {
+     "severity": "confirm",
+     "text": "Report says #18; the shop carries #20. Showing all sizes."
+    }
+   ]
+  },
+  {
+   "id": "adams",
+   "group": "Dry Flies",
+   "name": "Adams",
+   "colors": [],
+   "sizes": [
+    "#12",
+    "#14",
+    "#16",
+    "#18",
+    "#20"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/adams/",
+   "asWritten": "Adams - - #12-20",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "adams",
+    "title": "Adams",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/adams",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234092204262,
+    "sku": "1F-1107",
+    "color": null,
+    "size": "#16",
+    "price": 2,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1F_Adams.png?v=1769012558&width=240",
+    "url": "https://catalog.theflyshop.com/products/adams?variant=47234092204262"
+   },
+   "variants": [
+    {
+     "id": 47234088861926,
+     "sku": "1F-683",
+     "color": null,
+     "size": "#12",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1F_Adams.png?v=1769012558&width=240",
+     "url": "https://catalog.theflyshop.com/products/adams?variant=47234088861926"
+    },
+    {
+     "id": 47234088894694,
+     "sku": "1F-723",
+     "color": null,
+     "size": "#14",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1F_Adams.png?v=1769012558&width=240",
+     "url": "https://catalog.theflyshop.com/products/adams?variant=47234088894694"
+    },
+    {
+     "id": 47234092204262,
+     "sku": "1F-1107",
+     "color": null,
+     "size": "#16",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1F_Adams.png?v=1769012558&width=240",
+     "url": "https://catalog.theflyshop.com/products/adams?variant=47234092204262"
+    },
+    {
+     "id": 47234092237030,
+     "sku": "1F-1108",
+     "color": null,
+     "size": "#18",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1F_Adams.png?v=1769012558&width=240",
+     "url": "https://catalog.theflyshop.com/products/adams?variant=47234092237030"
+    },
+    {
+     "id": 47234092269798,
+     "sku": "1F-1109",
+     "color": null,
+     "size": "#20",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1F_Adams.png?v=1769012558&width=240",
+     "url": "https://catalog.theflyshop.com/products/adams?variant=47234092269798"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report gives a range (#12, #14, #16, #18, #20). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-missing-link",
+   "group": "Dry Flies",
+   "name": "Mercer's Missing Link",
+   "colors": [
+    "Dark"
+   ],
+   "sizes": [
+    "#14",
+    "#16"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/mercers-missing-link/",
+   "asWritten": "Mercer's Missing Link - - Dark #14-16",
+   "status": "resolved",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "mercers-missing-link",
+    "title": "Mercer's Missing Link",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-missing-link",
+    "type": "Caddis"
+   },
+   "variant": {
+    "id": 47268438474982,
+    "sku": "139F-231",
+    "color": "Natural Dark",
+    "size": "#16",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
+   },
+   "variants": [
+    {
+     "id": 47268438442214,
+     "sku": "139F-95",
+     "color": "Natural Dark",
+     "size": "#14",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438442214"
+    },
+    {
+     "id": 47268438474982,
+     "sku": "139F-231",
+     "color": "Natural Dark",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report gives a range (#14, #16). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "parachute-adams",
+   "group": "Dry Flies",
+   "name": "Parachute Adams",
+   "colors": [],
+   "sizes": [
+    "#14",
+    "#16",
+    "#18"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/parachute-adams/",
+   "asWritten": "Parachute Adams - - #14-18",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "parachute-adams",
+    "title": "Parachute Adams",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/parachute-adams",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234280456422,
+    "sku": "2F-5060",
+    "color": null,
+    "size": "#16",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/e2530452-40bb-44c1-9578-f2c9ee9a00be.png?v=1770640070&width=240",
+    "url": "https://catalog.theflyshop.com/products/parachute-adams?variant=47234280456422"
+   },
+   "variants": [
+    {
+     "id": 47234280325350,
+     "sku": "2F-5059",
+     "color": null,
+     "size": "#14",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/e2530452-40bb-44c1-9578-f2c9ee9a00be.png?v=1770640070&width=240",
+     "url": "https://catalog.theflyshop.com/products/parachute-adams?variant=47234280325350"
+    },
+    {
+     "id": 47234280456422,
+     "sku": "2F-5060",
+     "color": null,
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/e2530452-40bb-44c1-9578-f2c9ee9a00be.png?v=1770640070&width=240",
+     "url": "https://catalog.theflyshop.com/products/parachute-adams?variant=47234280456422"
+    },
+    {
+     "id": 47234280587494,
+     "sku": "2F-5061",
+     "color": null,
+     "size": "#18",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/e2530452-40bb-44c1-9578-f2c9ee9a00be.png?v=1770640070&width=240",
+     "url": "https://catalog.theflyshop.com/products/parachute-adams?variant=47234280587494"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report gives a range (#14, #16, #18). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-tungsten-october-pu",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercer's Tungsten October Pupa",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/mercers-tungsten-october-pupa/",
+   "asWritten": "Mercer's Tungsten October Pupa",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "mercers-tungsten-october-pupa",
+    "title": "Mercer's Tungsten October Pupa",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa",
+    "type": "Caddis"
+   },
+   "variant": {
+    "id": 47268438704358,
+    "sku": "359F-19455",
+    "color": null,
+    "size": "#10",
+    "price": 4.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/975db13c-5f6c-4e4b-bfeb-c45258ba6992_93a7e7a5-a8f9-47c9-aac8-9d21d5d50f2f.png?v=1770640068&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa?variant=47268438704358"
+   },
+   "variants": [
+    {
+     "id": 47268438671590,
+     "sku": "359F-114",
+     "color": null,
+     "size": "#8",
+     "price": 4.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/975db13c-5f6c-4e4b-bfeb-c45258ba6992_93a7e7a5-a8f9-47c9-aac8-9d21d5d50f2f.png?v=1770640068&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa?variant=47268438671590"
+    },
+    {
+     "id": 47268438704358,
+     "sku": "359F-19455",
+     "color": null,
+     "size": "#10",
+     "price": 4.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/975db13c-5f6c-4e4b-bfeb-c45258ba6992_93a7e7a5-a8f9-47c9-aac8-9d21d5d50f2f.png?v=1770640068&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa?variant=47268438704358"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #8, #10. Defaulted to the middle, #10."
+    }
+   ]
+  },
+  {
+   "id": "skip-s-tb-october-caddis",
+   "group": "Nymphs/Wet Flies",
+   "name": "Skip's TB October Caddis",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/skips-tb-october-caddis-8/",
+   "asWritten": "Skip's TB October Caddis",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "skip-s-tb-october-caddis-8",
+    "title": "Skip’s TB October Caddis - #8",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/skip-s-tb-october-caddis-8",
+    "type": "Caddis"
+   },
+   "variant": {
+    "id": 47233935933670,
+    "sku": "402",
+    "color": null,
+    "size": "#8",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/dfbc7353-b671-49a0-b067-9f33c824a789.png?v=1770640184&width=240",
+    "url": "https://catalog.theflyshop.com/products/skip-s-tb-october-caddis-8?variant=47233935933670"
+   },
+   "variants": [
+    {
+     "id": 47233935933670,
+     "sku": "402",
+     "color": null,
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/dfbc7353-b671-49a0-b067-9f33c824a789.png?v=1770640184&width=240",
+     "url": "https://catalog.theflyshop.com/products/skip-s-tb-october-caddis-8?variant=47233935933670"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"skips-tb-october-caddis-8\", which is not in the catalog. Resolved by name to \"Skip’s TB October Caddis - #8\" ($2.95).",
+     "candidates": [
+      {
+       "handle": "skip-s-tb-october-caddis-8",
+       "title": "Skip’s TB October Caddis - #8",
+       "price": 2.95
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cb-birds-nest",
+   "group": "Nymphs/Wet Flies",
+   "name": "CB Birds Nest",
+   "colors": [],
+   "sizes": [
+    "#10",
+    "#12",
+    "#14"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/",
+   "asWritten": "CB Birds Nest - - #10-14",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "cb-birds-nest",
+    "title": "CB Birds Nest",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/cb-birds-nest",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233962901734,
+    "sku": "616F-2512",
+    "color": null,
+    "size": "#14",
+    "price": 2.25,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/616F_CBBirdsNest.png?v=1769037824&width=240",
+    "url": "https://catalog.theflyshop.com/products/cb-birds-nest?variant=47233962901734"
+   },
+   "variants": [
+    {
+     "id": 47233962541286,
+     "sku": "616F-2511",
+     "color": null,
+     "size": "#12",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/616F_CBBirdsNest.png?v=1769037824&width=240",
+     "url": "https://catalog.theflyshop.com/products/cb-birds-nest?variant=47233962541286"
+    },
+    {
+     "id": 47233962901734,
+     "sku": "616F-2512",
+     "color": null,
+     "size": "#14",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/616F_CBBirdsNest.png?v=1769037824&width=240",
+     "url": "https://catalog.theflyshop.com/products/cb-birds-nest?variant=47233962901734"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report gives a range (#10, #12, #14). Defaulted to the middle, #14; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "red-copper-john",
+   "group": "Nymphs/Wet Flies",
+   "name": "Red Copper John",
+   "colors": [],
+   "sizes": [
+    "#16",
+    "#18"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
+   "asWritten": "Red Copper John - - #16-18",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "copper-john-red",
+    "title": "Copper John - Red",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233991180518,
+    "sku": "755F-5732",
+    "color": "Red",
+    "size": "#18",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991180518"
+   },
+   "variants": [
+    {
+     "id": 47233991082214,
+     "sku": "755F-5731",
+     "color": "Red",
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991082214"
+    },
+    {
+     "id": 47233991180518,
+     "sku": "755F-5732",
+     "color": "Red",
+     "size": "#18",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991180518"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Red Copper John\" to \"Copper John - Red\" by fuzzy match (score 1.00). Confirm.",
+     "candidates": [
+      {
+       "handle": "copper-john-red",
+       "title": "Copper John - Red",
+       "score": 1
+      },
+      {
+       "handle": "copper-john-black",
+       "title": "Copper John - Black",
+       "score": 0.8
+      },
+      {
+       "handle": "copper-john-blue",
+       "title": "Copper John - Blue",
+       "score": 0.8
+      },
+      {
+       "handle": "copper-john-copper",
+       "title": "Copper John - Copper",
+       "score": 0.8
+      },
+      {
+       "handle": "jigged-copper-john",
+       "title": "Jigged Copper John",
+       "score": 0.67
+      }
+     ]
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#16, #18). Defaulted to the middle, #18; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "zebra-midge",
+   "group": "Nymphs/Wet Flies",
+   "name": "Zebra Midge",
+   "colors": [],
+   "sizes": [
+    "#18",
+    "#20"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/beaded-zebra-midge/",
+   "asWritten": "Zebra Midge - - #18-20",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "beaded-zebra-midge",
+    "title": "Beaded Zebra Midge",
+    "vendor": "Dreamcast Flies",
+    "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge",
+    "type": "Midge Flies"
+   },
+   "variant": {
+    "id": 47234244935910,
+    "sku": "833F-6409",
+    "color": "Black/Silver",
+    "size": "#20",
+    "price": 1.9,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_BlackSilver.png?v=1769032698&width=240",
+    "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234244935910"
+   },
+   "variants": [
+    {
+     "id": 47234244837606,
+     "sku": "833F-6408",
+     "color": "Black/Silver",
+     "size": "#18",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_BlackSilver.png?v=1769032698&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234244837606"
+    },
+    {
+     "id": 47234244935910,
+     "sku": "833F-6409",
+     "color": "Black/Silver",
+     "size": "#20",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_BlackSilver.png?v=1769032698&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234244935910"
+    },
+    {
+     "id": 47234244542694,
+     "sku": "833F-6411",
+     "color": "Red/Silver",
+     "size": "#18",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_RedSilver.png?v=1769032700&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234244542694"
+    },
+    {
+     "id": 47234244640998,
+     "sku": "833F-6412",
+     "color": "Red/Silver",
+     "size": "#20",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_RedSilver.png?v=1769032700&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234244640998"
+    },
+    {
+     "id": 47234245198054,
+     "sku": "833F-6451",
+     "color": "Brown/Silver",
+     "size": "#18",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_BrownSilver.png?v=1769032703&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234245198054"
+    },
+    {
+     "id": 47234245296358,
+     "sku": "833F-6452",
+     "color": "Brown/Silver",
+     "size": "#20",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_BrownSilver.png?v=1769032703&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234245296358"
+    },
+    {
+     "id": 47234245460198,
+     "sku": "833F-24428",
+     "color": "Olive/Copper",
+     "size": "#18",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_OliveCopper.png?v=1769032705&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234245460198"
+    },
+    {
+     "id": 47234245558502,
+     "sku": "833F-24429",
+     "color": "Olive/Copper",
+     "size": "#20",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/833F_BeadedZebraMidges_OliveCopper.png?v=1769032705&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-zebra-midge?variant=47234245558502"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Zebra Midge\" to \"Beaded Zebra Midge\" by fuzzy match (score 0.80). Confirm.",
+     "candidates": [
+      {
+       "handle": "beaded-zebra-midge",
+       "title": "Beaded Zebra Midge",
+       "score": 0.8
+      }
+     ]
+    },
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Black/Silver, Red/Silver, Brown/Silver, Olive/Copper. Showing Black/Silver first; the rest are chips."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#18, #20). Defaulted to the middle, #20; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "mercury-black-beauty",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercury Black Beauty",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/mercury-black-beauty-20/",
+   "asWritten": "Mercury Black Beauty",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "mercury-black-beauty-20",
+    "title": "Mercury Black Beauty - #20",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/mercury-black-beauty-20",
+    "type": "Midge Flies"
+   },
+   "variant": {
+    "id": 47234110226662,
+    "sku": "6268",
+    "color": null,
+    "size": "#20",
+    "price": 1.9,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/dbc887e4-abe7-439e-8410-74c236f12d33.png?v=1770640248&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercury-black-beauty-20?variant=47234110226662"
+   },
+   "variants": [
+    {
+     "id": 47234110226662,
+     "sku": "6268",
+     "color": null,
+     "size": "#20",
+     "price": 1.9,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/dbc887e4-abe7-439e-8410-74c236f12d33.png?v=1770640248&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercury-black-beauty-20?variant=47234110226662"
+    }
+   ],
+   "flags": []
+  },
+  {
+   "id": "mercer-s-glass-bead-micro-ma",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercer's Glass Bead Micro May",
+   "colors": [],
+   "sizes": [
+    "#22"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/mercers-glass-bead-micro-may-22/",
+   "asWritten": "Mercer's Glass Bead Micro May - - #22",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "mercers-glass-bead-micro-may-22",
+    "title": "Mercer's Glass Bead Micro May - #22",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-glass-bead-micro-may-22",
+    "type": "Mayfly"
+   },
+   "variant": {
+    "id": 47234279375078,
+    "sku": "109F-2195",
+    "color": "Brown",
+    "size": "#22",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_ae1ac426-0118-4a89-8d7c-781c21032543.png?v=1769101822&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-glass-bead-micro-may-22?variant=47234279375078"
+   },
+   "variants": [
+    {
+     "id": 47234279375078,
+     "sku": "109F-2195",
+     "color": "Brown",
+     "size": "#22",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_ae1ac426-0118-4a89-8d7c-781c21032543.png?v=1769101822&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-glass-bead-micro-may-22?variant=47234279375078"
+    },
+    {
+     "id": 47234279506150,
+     "sku": "109F-2194",
+     "color": "Olive",
+     "size": "#22",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_e28f67b3-8d92-428c-82ab-0c7d5334ba58.png?v=1769101822&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-glass-bead-micro-may-22?variant=47234279506150"
+    },
+    {
+     "id": 47234279276774,
+     "sku": "109F-6353",
+     "color": "Black",
+     "size": "#22",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_7f575c5f-8807-49e2-9377-770a9c272aec.png?v=1769101822&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-glass-bead-micro-may-22?variant=47234279276774"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Brown, Olive, Black. Showing Brown first; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-gb-dark-stone",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercer's GB Dark Stone",
+   "colors": [],
+   "sizes": [
+    "#8"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/mercers-gb-poxyback-dark-stone/",
+   "asWritten": "Mercer's GB Dark Stone - - #8",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "mercers-gb-poxyback-dark-stone",
+    "title": "Mercer's GB Poxyback Dark Stone",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-gb-poxyback-dark-stone",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47234278523110,
+    "sku": "592F-5467",
+    "color": null,
+    "size": "#8",
+    "price": 4.95,
+    "available": false,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/f3aca70b-fbc8-467f-94f9-44a8c361738f.png?v=1770640100&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-gb-poxyback-dark-stone?variant=47234278523110"
+   },
+   "variants": [
+    {
+     "id": 47234278523110,
+     "sku": "592F-5467",
+     "color": null,
+     "size": "#8",
+     "price": 4.95,
+     "available": false,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/f3aca70b-fbc8-467f-94f9-44a8c361738f.png?v=1770640100&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-gb-poxyback-dark-stone?variant=47234278523110"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Mercer's GB Dark Stone\" to \"Mercer's GB Poxyback Dark Stone\" by fuzzy match (score 0.89). Confirm.",
+     "candidates": [
+      {
+       "handle": "mercers-gb-poxyback-dark-stone",
+       "title": "Mercer's GB Poxyback Dark Stone",
+       "score": 0.89
+      },
+      {
+       "handle": "mercers-poxyback-dark-stone-6",
+       "title": "Mercer's Poxyback Dark Stone - #6",
+       "score": 0.75
+      }
+     ]
+    },
+    {
+     "severity": "stock",
+     "text": "Out of stock at the shop right now (592F-5467)."
+    },
+    {
+     "severity": "stock",
+     "text": "Out of stock and no in-stock substitute listed."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-dark-stone",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercer's Dark Stone",
+   "colors": [],
+   "sizes": [
+    "#6"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/mercers-poxyback-dark-stone-6/",
+   "asWritten": "Mercer's Dark Stone - - #6",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "mercers-poxyback-dark-stone-6",
+    "title": "Mercer's Poxyback Dark Stone - #6",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-poxyback-dark-stone-6",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47234098495718,
+    "sku": "2503",
+    "color": null,
+    "size": "#6",
+    "price": 4.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/da238049-11c6-4f4e-905b-33a4ab94c70b.png?v=1770640232&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-poxyback-dark-stone-6?variant=47234098495718"
+   },
+   "variants": [
+    {
+     "id": 47234098495718,
+     "sku": "2503",
+     "color": null,
+     "size": "#6",
+     "price": 4.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/da238049-11c6-4f4e-905b-33a4ab94c70b.png?v=1770640232&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-poxyback-dark-stone-6?variant=47234098495718"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Mercer's Dark Stone\" to \"Mercer's Poxyback Dark Stone - #6\" by fuzzy match (score 0.86). Confirm.",
+     "candidates": [
+      {
+       "handle": "mercers-poxyback-dark-stone-6",
+       "title": "Mercer's Poxyback Dark Stone - #6",
+       "score": 0.86
+      },
+      {
+       "handle": "mercers-gb-poxyback-dark-stone",
+       "title": "Mercer's GB Poxyback Dark Stone",
+       "score": 0.75
+      },
+      {
+       "handle": "mercers-stubby-stone",
+       "title": "Mercer's Stubby Stone",
+       "score": 0.67
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pat-s-rubber-legs",
+   "group": "Nymphs/Wet Flies",
+   "name": "Pat's Rubber Legs",
+   "colors": [
+    "Brown"
+   ],
+   "sizes": [
+    "#6",
+    "#8"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+   "asWritten": "Pat's Rubber Legs - - Brown #6-8",
+   "status": "resolved",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "pats-rubberlegs-jimmy-legs",
+    "title": "Pat's Rubberlegs (Jimmy Legs)",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47248704536806,
+    "sku": "825F-149",
+    "color": "Brown",
+    "size": "#8",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704536806"
+   },
+   "variants": [
+    {
+     "id": 47340473549030,
+     "sku": "825F-1188",
+     "color": "Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+    },
+    {
+     "id": 47248704536806,
+     "sku": "825F-149",
+     "color": "Brown",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704536806"
+    },
+    {
+     "id": 47248704700646,
+     "sku": "825F-1231",
+     "color": "Orange/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_OrangeBrown_928a2b48-eedb-49dd-9218-3123e27be434.png?v=1781198094&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704700646"
+    },
+    {
+     "id": 47248704733414,
+     "sku": "825F-5703",
+     "color": "Yellow/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_YellowBrown_c70988d6-1fe6-4ed3-9f3c-854cecdc3aaf.png?v=1781198100&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704733414"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report gives a range (#6, #8). Defaulted to the middle, #8; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "jigged-birds-nest",
+   "group": "Nymphs/Wet Flies",
+   "name": "Jigged Birds Nest",
+   "colors": [],
+   "sizes": [
+    "#14",
+    "#16"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/",
+   "asWritten": "Jigged Birds Nest - - #14-16",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "zacks-jigged-birds-nest",
+    "title": "Zack's Jigged Birds Nest",
+    "vendor": "The Fly Shop",
+    "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234254602470,
+    "sku": "189F-24370",
+    "color": "Natural",
+    "size": "#16",
+    "price": 3.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Natural.png?v=1769035780&width=240",
+    "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254602470"
+   },
+   "variants": [
+    {
+     "id": 47234254504166,
+     "sku": "189F-24369",
+     "color": "Natural",
+     "size": "#14",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Natural.png?v=1769035780&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254504166"
+    },
+    {
+     "id": 47234254602470,
+     "sku": "189F-24370",
+     "color": "Natural",
+     "size": "#16",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Natural.png?v=1769035780&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254602470"
+    },
+    {
+     "id": 47234253881574,
+     "sku": "189F-29842",
+     "color": "Tan",
+     "size": "#14",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Tan.png?v=1769035783&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234253881574"
+    },
+    {
+     "id": 47234254012646,
+     "sku": "189F-29843",
+     "color": "Tan",
+     "size": "#16",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Tan.png?v=1769035783&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254012646"
+    },
+    {
+     "id": 47234254110950,
+     "sku": "189F-29781",
+     "color": "Black",
+     "size": "#14",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Black.png?v=1769035785&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254110950"
+    },
+    {
+     "id": 47234254209254,
+     "sku": "189F-29782",
+     "color": "Black",
+     "size": "#16",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Black.png?v=1769035785&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254209254"
+    },
+    {
+     "id": 47234254274790,
+     "sku": "189F-29783",
+     "color": "Olive",
+     "size": "#14",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Olive.png?v=1769035788&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254274790"
+    },
+    {
+     "id": 47234254373094,
+     "sku": "189F-29784",
+     "color": "Olive",
+     "size": "#16",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Olive.png?v=1769035788&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254373094"
+    },
+    {
+     "id": 47234254700774,
+     "sku": "189F-31004",
+     "color": "Hot Spot",
+     "size": "#14",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_HotSpot.png?v=1769035790&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254700774"
+    },
+    {
+     "id": 47234254799078,
+     "sku": "189F-31005",
+     "color": "Hot Spot",
+     "size": "#16",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_HotSpot.png?v=1769035790&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254799078"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
+     "candidates": [
+      {
+       "handle": "zacks-jigged-birds-nest",
+       "title": "Zack's Jigged Birds Nest",
+       "price": 3.95
+      },
+      {
+       "handle": "cb-birds-nest",
+       "title": "CB Birds Nest",
+       "price": 2.25
+      }
+     ]
+    },
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Natural, Tan, Black, Olive, Hot Spot. Showing Natural first; the rest are chips."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#14, #16). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "gordon-s-amber-wing-prince",
+   "group": "Nymphs/Wet Flies",
+   "name": "Gordon's Amber Wing Prince",
+   "colors": [],
+   "sizes": [
+    "#12",
+    "#14",
+    "#16",
+    "#18"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
+   "asWritten": "Gordon's Amber Wing Prince - - #12-18",
+   "status": "confirm",
+   "matchedBy": "link",
+   "product": {
+    "handle": "fred-gordons-prince-nymph",
+    "title": "Fred Gordon's Prince Nymph",
+    "vendor": "Steve Overley Flies",
+    "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234191360230,
+    "sku": "118F-6904",
+    "color": null,
+    "size": "#16",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+    "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191360230"
+   },
+   "variants": [
+    {
+     "id": 47234191294694,
+     "sku": "118F-6903",
+     "color": null,
+     "size": "#14",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+     "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191294694"
+    },
+    {
+     "id": 47234191360230,
+     "sku": "118F-6904",
+     "color": null,
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+     "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191360230"
+    },
+    {
+     "id": 47234191425766,
+     "sku": "118F-7366",
+     "color": null,
+     "size": "#18",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+     "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191425766"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "No catalog product matches \"Gordon's Amber Wing Prince\" by name. Resolved by the page's own link to \"Fred Gordon's Prince Nymph\". Confirm."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#12, #14, #16, #18). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-cb-micro-mayfly",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercer's CB Micro Mayfly",
+   "colors": [],
+   "sizes": [
+    "#16",
+    "#18"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/mercers-cb-micro-mayfly/",
+   "asWritten": "Mercer's CB Micro Mayfly - - #16-18",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "mercers-cb-micro-mayfly",
+    "title": "Mercer's CB Micro Mayfly",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly",
+    "type": "Mayfly"
+   },
+   "variant": {
+    "id": 47234009759974,
+    "sku": "100F-3378",
+    "color": "Olive",
+    "size": "#18",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/100F_MercersCBMicroMay_Olive.png?v=1769099781&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly?variant=47234009759974"
+   },
+   "variants": [
+    {
+     "id": 47234009694438,
+     "sku": "100F-2450",
+     "color": "Olive",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/100F_MercersCBMicroMay_Olive.png?v=1769099781&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly?variant=47234009694438"
+    },
+    {
+     "id": 47234009759974,
+     "sku": "100F-3378",
+     "color": "Olive",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/100F_MercersCBMicroMay_Olive.png?v=1769099781&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly?variant=47234009759974"
+    },
+    {
+     "id": 47234009301222,
+     "sku": "100F-5810",
+     "color": "Black",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/100F_MercersCBMicroMay_Black.png?v=1769099783&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly?variant=47234009301222"
+    },
+    {
+     "id": 47234009432294,
+     "sku": "100F-5811",
+     "color": "Black",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/100F_MercersCBMicroMay_Black.png?v=1769099783&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly?variant=47234009432294"
+    },
+    {
+     "id": 47234009563366,
+     "sku": "100F-5788",
+     "color": "Brown",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/100F_MercersCBMicroMay_Brown.png?v=1769099786&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly?variant=47234009563366"
+    },
+    {
+     "id": 47234009628902,
+     "sku": "100F-5789",
+     "color": "Brown",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/100F_MercersCBMicroMay_Brown.png?v=1769099786&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-cb-micro-mayfly?variant=47234009628902"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Olive, Black, Brown. Showing Olive first; the rest are chips."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#16, #18). Defaulted to the middle, #18; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "walt-s-worm",
+   "group": "Nymphs/Wet Flies",
+   "name": "Walt's Worm",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/walts-worm-14/",
+   "asWritten": "Walt's Worm",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "walts-worm-14",
+    "title": "Walt's Worm - #14",
+    "vendor": "Andrew Laraway Flies",
+    "url": "https://catalog.theflyshop.com/products/walts-worm-14",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234110816486,
+    "sku": "30874",
+    "color": null,
+    "size": "#14",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1ee160ec-5fb9-4681-ba45-d04a2c151028.png?v=1772121177&width=240",
+    "url": "https://catalog.theflyshop.com/products/walts-worm-14?variant=47234110816486"
+   },
+   "variants": [
+    {
+     "id": 47234110816486,
+     "sku": "30874",
+     "color": null,
+     "size": "#14",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1ee160ec-5fb9-4681-ba45-d04a2c151028.png?v=1772121177&width=240",
+     "url": "https://catalog.theflyshop.com/products/walts-worm-14?variant=47234110816486"
+    }
+   ],
+   "flags": []
+  },
+  {
+   "id": "sheila-sculpin",
+   "group": "Nymphs/Wet Flies",
+   "name": "Sheila Sculpin",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/sheila-sculpin-4/",
+   "asWritten": "Sheila Sculpin",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "sheila-sculpin-4",
+    "title": "Sheila Sculpin - #4",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/sheila-sculpin-4",
+    "type": "Streamers & Leeches"
+   },
+   "variant": {
+    "id": 47234278654182,
+    "sku": "5487",
+    "color": null,
+    "size": "#4",
+    "price": 3.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/4cb2831a-57d0-4870-8a7a-618b22fce4d9.png?v=1770640203&width=240",
+    "url": "https://catalog.theflyshop.com/products/sheila-sculpin-4?variant=47234278654182"
+   },
+   "variants": [
+    {
+     "id": 47234278654182,
+     "sku": "5487",
+     "color": null,
+     "size": "#4",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/4cb2831a-57d0-4870-8a7a-618b22fce4d9.png?v=1770640203&width=240",
+     "url": "https://catalog.theflyshop.com/products/sheila-sculpin-4?variant=47234278654182"
+    }
+   ],
+   "flags": []
+  },
+  {
+   "id": "woolly-buggers",
+   "group": "Nymphs/Wet Flies",
+   "name": "Woolly Buggers",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/wooly-bugger/",
+   "asWritten": "Woolly Buggers",
+   "status": "confirm",
+   "matchedBy": "link",
+   "product": {
+    "handle": "wooly-bugger",
+    "title": "Wooly Bugger",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/wooly-bugger",
+    "type": "Streamers & Leeches"
+   },
+   "variant": {
+    "id": 47234249654502,
+    "sku": "182F-24179",
+    "color": "Black",
+    "size": "#10",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/182F_WoolyBugger_Black.png?v=1769107037&width=240",
+    "url": "https://catalog.theflyshop.com/products/wooly-bugger?variant=47234249654502"
+   },
+   "variants": [
+    {
+     "id": 47234249523430,
+     "sku": "182F-2378",
+     "color": "Black",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/182F_WoolyBugger_Black.png?v=1769107037&width=240",
+     "url": "https://catalog.theflyshop.com/products/wooly-bugger?variant=47234249523430"
+    },
+    {
+     "id": 47234249654502,
+     "sku": "182F-24179",
+     "color": "Black",
+     "size": "#10",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/182F_WoolyBugger_Black.png?v=1769107037&width=240",
+     "url": "https://catalog.theflyshop.com/products/wooly-bugger?variant=47234249654502"
+    },
+    {
+     "id": 47234249752806,
+     "sku": "182F-24180",
+     "color": "Brown",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/182F_WoolyBugger_Brown.png?v=1769107039&width=240",
+     "url": "https://catalog.theflyshop.com/products/wooly-bugger?variant=47234249752806"
+    },
+    {
+     "id": 47234249851110,
+     "sku": "182F-24181",
+     "color": "Brown",
+     "size": "#10",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/182F_WoolyBugger_Brown.png?v=1769107039&width=240",
+     "url": "https://catalog.theflyshop.com/products/wooly-bugger?variant=47234249851110"
+    },
+    {
+     "id": 47234249949414,
+     "sku": "182F-24182",
+     "color": "Olive",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/182F_WoolyBugger_Olive.png?v=1769107041&width=240",
+     "url": "https://catalog.theflyshop.com/products/wooly-bugger?variant=47234249949414"
+    },
+    {
+     "id": 47234250080486,
+     "sku": "182F-24183",
+     "color": "Olive",
+     "size": "#10",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/182F_WoolyBugger_Olive.png?v=1769107041&width=240",
+     "url": "https://catalog.theflyshop.com/products/wooly-bugger?variant=47234250080486"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "No catalog product matches \"Woolly Buggers\" by name. Resolved by the page's own link to \"Wooly Bugger\". Confirm."
+    },
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Black, Brown, Olive. Showing Black first; the rest are chips."
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #8, #10. Defaulted to the middle, #10."
+    }
+   ]
+  },
+  {
+   "id": "zack-s-stillwater-swimming-l",
+   "group": "Nymphs/Wet Flies",
+   "name": "Zack's Stillwater Swimming Leech",
+   "colors": [],
+   "sizes": [
+    "#8"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
+   "asWritten": "Zack's Stillwater Swimming Leech - - #8 Regional Still Waters Baum Lake: Poor Fair Fair to Good Good Great Iron Canyon Reservoir: Poor Fair Fair to Good Good Great Keswick Reservoir: --> --> --> Poor--> Fair--> Fair to Good--> Good--> Great--> --> Lake Shasta: Poor Fair Fair to Good Good Great Lewiston Lake: Poor Fair Fair to Good Good Great Manzanita Lake: Poor Fair Fair to Good Good Great McCloud Reservoir: Poor Fair Fair to Good Good Great Pyramid Lake:",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "zacks-stillwater-swimming-leech-8",
+    "title": "Zack's Stillwater Swimming Leech - #8",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8",
+    "type": "Streamers & Leeches"
+   },
+   "variant": {
+    "id": 47234257125606,
+    "sku": "368F-3037",
+    "color": "Black",
+    "size": "#8",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Black.png?v=1769107701&width=240",
+    "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257125606"
+   },
+   "variants": [
+    {
+     "id": 47234257125606,
+     "sku": "368F-3037",
+     "color": "Black",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Black.png?v=1769107701&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257125606"
+    },
+    {
+     "id": 47234257322214,
+     "sku": "368F-3040",
+     "color": "Brown Olive",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BrownOlive.png?v=1769107704&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257322214"
+    },
+    {
+     "id": 47234257158374,
+     "sku": "368F-3046",
+     "color": "Brown",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Brown.png?v=1769107707&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257158374"
+    },
+    {
+     "id": 47234257223910,
+     "sku": "368F-3038",
+     "color": "Olive",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Olive.png?v=1769107710&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257223910"
+    },
+    {
+     "id": 47234257387750,
+     "sku": "368F-3039",
+     "color": "Burnt Orange",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BurntOrange.png?v=1769107713&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257387750"
+    },
+    {
+     "id": 47234257256678,
+     "sku": "368F-15433",
+     "color": "Burgundy",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Burgundy.png?v=1769107717&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257256678"
+    },
+    {
+     "id": 47234257453286,
+     "sku": "368F-15434",
+     "color": "Brown/Olive - Mixed Tail",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BrownOliveMix.png?v=1769107722&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257453286"
+    },
+    {
+     "id": 47234257584358,
+     "sku": "368F-15436",
+     "color": "Burnt Orange/Olive - Mixed Tail",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BurntOrangeOliveMix.png?v=1769107724&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257584358"
+    },
+    {
+     "id": 47234257518822,
+     "sku": "368F-15435",
+     "color": "Black/Burgundy - Mixed Tail",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BlackBurgundyMix.png?v=1769107727&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257518822"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Black, Brown Olive, Brown, Olive, Burnt Orange, Burgundy, Brown/Olive - Mixed Tail, Burnt Orange/Olive - Mixed Tail, Black/Burgundy - Mixed Tail. Showing Black first; the rest are chips."
+    }
+   ]
+  }
+ ],
+ "substitutes": {},
+ "readOnly": true,
+ "packs": {},
+ "summary": {
+  "picks": 22,
+  "resolved": 9,
+  "confirm": 13,
+  "unresolved": 0,
+  "priceMin": 1.9,
+  "priceMax": 4.95
+ },
+ "unresolved": [
+  {
+   "pickId": "low-water-baetis",
+   "name": "Low Water Baetis",
+   "severity": "wronglink",
+   "text": "The page links to \"low-water-baetis\", which is not in the catalog. Resolved by name to \"Low Water Baetis - #20\" ($2.95).",
+   "candidates": [
+    {
+     "handle": "low-water-baetis-20",
+     "title": "Low Water Baetis - #20",
+     "price": 2.95
+    }
+   ]
+  },
+  {
+   "pickId": "low-water-baetis",
+   "name": "Low Water Baetis",
+   "severity": "confirm",
+   "text": "Report says #18; the shop carries #20. Showing all sizes."
+  },
+  {
+   "pickId": "mercer-s-tungsten-october-pu",
+   "name": "Mercer's Tungsten October Pupa",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #8, #10. Defaulted to the middle, #10."
+  },
+  {
+   "pickId": "skip-s-tb-october-caddis",
+   "name": "Skip's TB October Caddis",
+   "severity": "wronglink",
+   "text": "The page links to \"skips-tb-october-caddis-8\", which is not in the catalog. Resolved by name to \"Skip’s TB October Caddis - #8\" ($2.95).",
+   "candidates": [
+    {
+     "handle": "skip-s-tb-october-caddis-8",
+     "title": "Skip’s TB October Caddis - #8",
+     "price": 2.95
+    }
+   ]
+  },
+  {
+   "pickId": "red-copper-john",
+   "name": "Red Copper John",
+   "severity": "confirm",
+   "text": "Matched \"Red Copper John\" to \"Copper John - Red\" by fuzzy match (score 1.00). Confirm.",
+   "candidates": [
+    {
+     "handle": "copper-john-red",
+     "title": "Copper John - Red",
+     "score": 1
+    },
+    {
+     "handle": "copper-john-black",
+     "title": "Copper John - Black",
+     "score": 0.8
+    },
+    {
+     "handle": "copper-john-blue",
+     "title": "Copper John - Blue",
+     "score": 0.8
+    },
+    {
+     "handle": "copper-john-copper",
+     "title": "Copper John - Copper",
+     "score": 0.8
+    },
+    {
+     "handle": "jigged-copper-john",
+     "title": "Jigged Copper John",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "zebra-midge",
+   "name": "Zebra Midge",
+   "severity": "confirm",
+   "text": "Matched \"Zebra Midge\" to \"Beaded Zebra Midge\" by fuzzy match (score 0.80). Confirm.",
+   "candidates": [
+    {
+     "handle": "beaded-zebra-midge",
+     "title": "Beaded Zebra Midge",
+     "score": 0.8
+    }
+   ]
+  },
+  {
+   "pickId": "zebra-midge",
+   "name": "Zebra Midge",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Black/Silver, Red/Silver, Brown/Silver, Olive/Copper. Showing Black/Silver first; the rest are chips."
+  },
+  {
+   "pickId": "mercer-s-glass-bead-micro-ma",
+   "name": "Mercer's Glass Bead Micro May",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Brown, Olive, Black. Showing Brown first; the rest are chips."
+  },
+  {
+   "pickId": "mercer-s-gb-dark-stone",
+   "name": "Mercer's GB Dark Stone",
+   "severity": "confirm",
+   "text": "Matched \"Mercer's GB Dark Stone\" to \"Mercer's GB Poxyback Dark Stone\" by fuzzy match (score 0.89). Confirm.",
+   "candidates": [
+    {
+     "handle": "mercers-gb-poxyback-dark-stone",
+     "title": "Mercer's GB Poxyback Dark Stone",
+     "score": 0.89
+    },
+    {
+     "handle": "mercers-poxyback-dark-stone-6",
+     "title": "Mercer's Poxyback Dark Stone - #6",
+     "score": 0.75
+    }
+   ]
+  },
+  {
+   "pickId": "mercer-s-gb-dark-stone",
+   "name": "Mercer's GB Dark Stone",
+   "severity": "stock",
+   "text": "Out of stock at the shop right now (592F-5467)."
+  },
+  {
+   "pickId": "mercer-s-gb-dark-stone",
+   "name": "Mercer's GB Dark Stone",
+   "severity": "stock",
+   "text": "Out of stock and no in-stock substitute listed."
+  },
+  {
+   "pickId": "mercer-s-dark-stone",
+   "name": "Mercer's Dark Stone",
+   "severity": "confirm",
+   "text": "Matched \"Mercer's Dark Stone\" to \"Mercer's Poxyback Dark Stone - #6\" by fuzzy match (score 0.86). Confirm.",
+   "candidates": [
+    {
+     "handle": "mercers-poxyback-dark-stone-6",
+     "title": "Mercer's Poxyback Dark Stone - #6",
+     "score": 0.86
+    },
+    {
+     "handle": "mercers-gb-poxyback-dark-stone",
+     "title": "Mercer's GB Poxyback Dark Stone",
+     "score": 0.75
+    },
+    {
+     "handle": "mercers-stubby-stone",
+     "title": "Mercer's Stubby Stone",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "jigged-birds-nest",
+   "name": "Jigged Birds Nest",
+   "severity": "wronglink",
+   "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
+   "candidates": [
+    {
+     "handle": "zacks-jigged-birds-nest",
+     "title": "Zack's Jigged Birds Nest",
+     "price": 3.95
+    },
+    {
+     "handle": "cb-birds-nest",
+     "title": "CB Birds Nest",
+     "price": 2.25
+    }
+   ]
+  },
+  {
+   "pickId": "jigged-birds-nest",
+   "name": "Jigged Birds Nest",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Natural, Tan, Black, Olive, Hot Spot. Showing Natural first; the rest are chips."
+  },
+  {
+   "pickId": "gordon-s-amber-wing-prince",
+   "name": "Gordon's Amber Wing Prince",
+   "severity": "confirm",
+   "text": "No catalog product matches \"Gordon's Amber Wing Prince\" by name. Resolved by the page's own link to \"Fred Gordon's Prince Nymph\". Confirm."
+  },
+  {
+   "pickId": "mercer-s-cb-micro-mayfly",
+   "name": "Mercer's CB Micro Mayfly",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Olive, Black, Brown. Showing Olive first; the rest are chips."
+  },
+  {
+   "pickId": "woolly-buggers",
+   "name": "Woolly Buggers",
+   "severity": "confirm",
+   "text": "No catalog product matches \"Woolly Buggers\" by name. Resolved by the page's own link to \"Wooly Bugger\". Confirm."
+  },
+  {
+   "pickId": "woolly-buggers",
+   "name": "Woolly Buggers",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Black, Brown, Olive. Showing Black first; the rest are chips."
+  },
+  {
+   "pickId": "woolly-buggers",
+   "name": "Woolly Buggers",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #8, #10. Defaulted to the middle, #10."
+  },
+  {
+   "pickId": "zack-s-stillwater-swimming-l",
+   "name": "Zack's Stillwater Swimming Leech",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Black, Brown Olive, Brown, Olive, Burnt Orange, Burgundy, Brown/Olive - Mixed Tail, Burnt Orange/Olive - Mixed Tail, Black/Burgundy - Mixed Tail. Showing Black first; the rest are chips."
+  }
+ ],
+ "observations": [
+  "Rating: Fair to Good.",
+  "Prices from the catalog: 22 picks run $1.90 to $4.95; 7 are $2.95.",
+  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap."
+ ]
+}

@@ -1,0 +1,203 @@
+{
+  "note": "Scraped from https://www.theflyshop.com/streamreport.html by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.",
+  "water": {
+    "id": "trinity",
+    "shortName": "Trinity",
+    "group": "river",
+    "usgsSite": "11525500",
+    "gaugeName": "USGS Lewiston",
+    "lat": 40.7247,
+    "lon": -122.8011,
+    "name": "Trinity River",
+    "packName": null,
+    "flow": {
+      "min": 0,
+      "max": 4000,
+      "threshold": null,
+      "thresholdLabel": "wading limit",
+      "scaleSource": "USGS daily statistics 1962–2026, 3,480 CFS at the 70th percentile of daily p95, rounded up",
+      "lastReading": {
+        "value": 0,
+        "at": "2026-09-05T19:50:22.237Z"
+      }
+    },
+    "sections": [],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-09-04",
+    "author": null,
+    "rating": "Fair to Good",
+    "clarity": null,
+    "wading": null,
+    "notes": [
+      "The1,200 CFS flows will continue through September 21st. The restoration channel below the Cemetery Hole was adding turbidity to the river yesterday, it is now cleared up below it with 4+ foot visibility. Fish are stacking in around Junction City. This flow bump should bring fish up that have been holding below Cedar Flat, expect a push of new summers coming into the Juction City area soon. Now would be a great time to swing one up below Pigeon Point. A lot of salmon have piled into holes in the upper river pushing fish into other areas to hold, so keep that in mind. We have quite a few fish in the 18-22\" range from Lewiston on downstream with a few large adults thrown in the mix. Fish are pretty grabby right now, it is a good time to swing and skate. For now, the water temps at Hoopa are below 67 F and with the clouds and rain we will see, they should drop further. We've got guides available right now that can get you out, give us a call or you can go directly to our Trinity guide page and book a trip now. Trinity River Flows: Trinity River Releases from Lewiston Trinity River Flow at Pigeon Point Shuttle Services: • Bill & Caryl Dickens (Gold Coast Shuttle) at 530-623-1905 Access To the Trinity River The Trinity has many publicly accessible areas with good wading opportunities during the steelhead season. Stop by the shop and we'd be happy to point you in the right direction. Steelhead Fishing Can be Frustrating These anadromous rainbow trout are known as the 'Fish of a Thousand Casts.' For good reason! The learning curve can be quite steep learning when and where to go, and what type of water to target. Our Professional Guide Staff has decades of experience guiding the Trinity River for steelhead. A day spent with one of our guides will get you up to speed much more quickly. Recommended Equipment & Setups Early Summer Run Steelhead on the Trinity River will take swung flies readily. Spey rods are becoming an increasingly popular method to swing flies. The Fly Shop's Signature Spey Rods are an economical way to get into a great Spey rig."
+    ],
+    "notesPermission": "pending",
+    "source": {
+      "url": "https://www.theflyshop.com/streamreport.html",
+      "fetchedAt": "2026-09-05"
+    }
+  },
+  "hatches": [],
+  "readOnly": true,
+  "picks": [
+    {
+      "id": "pat-s-rubberlegs",
+      "group": "Nymphs/Wet Flies",
+      "name": "Pat's Rubberlegs",
+      "colors": [
+        "Brown",
+        "Black"
+      ],
+      "sizes": [
+        "#4",
+        "#6",
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+      "asWritten": "Pat's Rubberlegs - Brown and Black, #4-8"
+    },
+    {
+      "id": "mercer-s-psycho-prince",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's Psycho Prince",
+      "colors": [],
+      "sizes": [
+        "#12",
+        "#14",
+        "#16"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/mercers-psycho-prince/",
+      "asWritten": "Mercer's Psycho Prince - - #12-16"
+    },
+    {
+      "id": "tb-solitude-stone",
+      "group": "Nymphs/Wet Flies",
+      "name": "TB Solitude Stone",
+      "colors": [],
+      "sizes": [
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/tb-golden-stone/",
+      "asWritten": "TB Solitude Stone - - #8"
+    },
+    {
+      "id": "coppertop-duracell",
+      "group": "Nymphs/Wet Flies",
+      "name": "Coppertop Duracell",
+      "colors": [],
+      "sizes": [
+        "#16"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
+      "asWritten": "Coppertop Duracell - - #16"
+    },
+    {
+      "id": "mercer-s-gold-bead-biot-epox",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's Gold Bead Biot Epoxy Golden Stone",
+      "colors": [],
+      "sizes": [
+        "#8",
+        "#10"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-gold-bead-biot-epoxy-golden-stone/",
+      "asWritten": "Mercer's Gold Bead Biot Epoxy Golden Stone - - #8-10"
+    },
+    {
+      "id": "copper-john-red",
+      "group": "Nymphs/Wet Flies",
+      "name": "Copper John Red",
+      "colors": [],
+      "sizes": [
+        "#10",
+        "#12",
+        "#14"
+      ],
+      "reportLink": null,
+      "asWritten": "Copper John Red - #10-14"
+    },
+    {
+      "id": "clown-egg",
+      "group": "Eggs",
+      "name": "Clown Egg",
+      "colors": [],
+      "sizes": [
+        "#4",
+        "#6",
+        "#8",
+        "#10"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/clown-egg/",
+      "asWritten": "Clown Egg - - #4-10"
+    },
+    {
+      "id": "micro-spawn-eggs",
+      "group": "Eggs",
+      "name": "Micro Spawn Eggs",
+      "colors": [
+        "Pink",
+        "Salmon Egg"
+      ],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/",
+      "asWritten": "Micro Spawn Eggs - - Pink & Salmon Egg"
+    },
+    {
+      "id": "boles-bazookas",
+      "group": "Eggs",
+      "name": "Boles Bazookas",
+      "colors": [],
+      "sizes": [
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/boles-bazookas-8/",
+      "asWritten": "Boles Bazookas - - #8"
+    },
+    {
+      "id": "ho-bo-spey",
+      "group": "Swing Flies",
+      "name": "Ho-bo Spey",
+      "colors": [],
+      "sizes": [
+        "#6"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/hoh-bo-spey-black-green-butt-6/",
+      "asWritten": "Ho-bo Spey - - #6"
+    },
+    {
+      "id": "beaded-assassins",
+      "group": "Swing Flies",
+      "name": "Beaded Assassins",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/beaded-assassins-6/",
+      "asWritten": "Beaded Assassins"
+    },
+    {
+      "id": "hoody-s-hangers",
+      "group": "Swing Flies",
+      "name": "Hoody's Hangers",
+      "colors": [],
+      "sizes": [
+        "#4"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/hoodys-hangers-4/",
+      "asWritten": "Hoody's Hangers - - #4"
+    },
+    {
+      "id": "brett-s-klamath-skater",
+      "group": "Swing Flies",
+      "name": "Brett's Klamath Skater",
+      "colors": [],
+      "sizes": [
+        "#7"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/bretts-klamath-skater-7/",
+      "asWritten": "Brett's Klamath Skater - - #7"
+    }
+  ],
+  "substitutes": {}
+}

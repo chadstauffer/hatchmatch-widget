@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-04T23:37:44.868Z",
+ "generatedAt": "2026-09-05T19:50:38.530Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -1427,6 +1427,7 @@
    "ms"
   ]
  },
+ "readOnly": false,
  "packs": {
   "Up top": {
    "flies": 21,

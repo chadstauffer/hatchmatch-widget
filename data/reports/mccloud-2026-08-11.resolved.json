@@ -1,0 +1,886 @@
+{
+ "generatedAt": "2026-09-05T19:50:38.785Z",
+ "shop": "catalog.theflyshop.com",
+ "storeUrl": "https://catalog.theflyshop.com",
+ "catalogPulledAt": "2026-09-04T21:06:20.237Z",
+ "water": {
+  "id": "mccloud",
+  "shortName": "McCloud",
+  "group": "river",
+  "usgsSite": null,
+  "gaugeName": null,
+  "lat": 41.1252,
+  "lon": -122.0686,
+  "gaugeNote": "No live USGS gauge. Fourteen sites on the river; none reports a real-time series.",
+  "name": "McCloud River",
+  "packName": null,
+  "flow": null,
+  "sections": [],
+  "guidePhone": "800-669-3474",
+  "closed": false
+ },
+ "report": {
+  "publishedAt": "2026-08-11",
+  "author": null,
+  "rating": "Good",
+  "clarity": null,
+  "wading": null,
+  "notes": [
+   "To close the chapter on the bear thing in the Conservancy, we heard someone sprayed the bear which we hope will deter them from interacting with humans in the future. Good reports coming in on the angling still, and the storms this week should stir up the pot hatch-wise. Clarity is excellent and the temps are holding in the upper river. Overall the river is fishing well, best before and after the sun is on the water. Look to see more browns in the river as they get ready to spawn this fall. Dry-dropper with a Chubby Chernobyl hanging a Weiss Firefly, Walt's Worm, Olive Hotspot, or Sweet Pea is a good setup. The Yellow Sallies are coming off in the afternoons, so swap your dropper with a UV Sally or Jiggy Yellow Sally. The Browns are moving up from the lake into the upper section of the river as they ready to spawn, so streamer fishing can get you hooked up to a big one. To reserve a day with one of our expert guides to experience one of the most picturesque streams in the north state, call Bryan in Outfitters at 800-669-3474."
+  ],
+  "notesPermission": "pending",
+  "source": {
+   "url": "https://www.theflyshop.com/streamreport.html",
+   "fetchedAt": "2026-09-05"
+  }
+ },
+ "hatches": [],
+ "roles": [
+  {
+   "key": "dry",
+   "label": "Dry"
+  },
+  {
+   "key": "dropper",
+   "label": "Dropper"
+  },
+  {
+   "key": "point",
+   "label": "Point"
+  },
+  {
+   "key": "eggs",
+   "label": "Eggs"
+  }
+ ],
+ "picks": [
+  {
+   "id": "morrish-s-adult-october-cadd",
+   "group": null,
+   "name": "Morrish's Adult October Caddis",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/morrishs-adult-october-caddis-8/",
+   "asWritten": "Morrish's Adult October Caddis",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "morrishs-adult-october-caddis-8",
+    "title": "Morrish's Adult October Caddis - #8",
+    "vendor": "Dreamcast Flies",
+    "url": "https://catalog.theflyshop.com/products/morrishs-adult-october-caddis-8",
+    "type": "Caddis"
+   },
+   "variant": {
+    "id": 47234326626534,
+    "sku": "590",
+    "color": null,
+    "size": "#8",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/68722bc2-ac0e-4b8b-ae0b-7b9223b7de76.png?v=1770640527&width=240",
+    "url": "https://catalog.theflyshop.com/products/morrishs-adult-october-caddis-8?variant=47234326626534"
+   },
+   "variants": [
+    {
+     "id": 47234326626534,
+     "sku": "590",
+     "color": null,
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/68722bc2-ac0e-4b8b-ae0b-7b9223b7de76.png?v=1770640527&width=240",
+     "url": "https://catalog.theflyshop.com/products/morrishs-adult-october-caddis-8?variant=47234326626534"
+    }
+   ],
+   "flags": []
+  },
+  {
+   "id": "pat-s-rubberlegs",
+   "group": null,
+   "name": "Pat's Rubberlegs",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+   "asWritten": "Pat's Rubberlegs",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "pats-rubberlegs-jimmy-legs",
+    "title": "Pat's Rubberlegs (Jimmy Legs)",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47340473549030,
+    "sku": "825F-1188",
+    "color": "Brown",
+    "size": "#6",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+   },
+   "variants": [
+    {
+     "id": 47248704504038,
+     "sku": "825F-147",
+     "color": "Brown",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704504038"
+    },
+    {
+     "id": 47340473549030,
+     "sku": "825F-1188",
+     "color": "Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+    },
+    {
+     "id": 47248704536806,
+     "sku": "825F-149",
+     "color": "Brown",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704536806"
+    },
+    {
+     "id": 47248704569574,
+     "sku": "825F-1219",
+     "color": "Coffee/Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_CoffeeBlack_668f63ce-4313-43b9-9367-1eb1dd644d41.png?v=1781198082&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704569574"
+    },
+    {
+     "id": 47248704602342,
+     "sku": "825F-33154",
+     "color": "Black",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704602342"
+    },
+    {
+     "id": 47248704635110,
+     "sku": "825F-5685",
+     "color": "Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704635110"
+    },
+    {
+     "id": 47248704667878,
+     "sku": "825F-33155",
+     "color": "Black",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704667878"
+    },
+    {
+     "id": 47248704700646,
+     "sku": "825F-1231",
+     "color": "Orange/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_OrangeBrown_928a2b48-eedb-49dd-9218-3123e27be434.png?v=1781198094&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704700646"
+    },
+    {
+     "id": 47248704733414,
+     "sku": "825F-5703",
+     "color": "Yellow/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_YellowBrown_c70988d6-1fe6-4ed3-9f3c-854cecdc3aaf.png?v=1781198100&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704733414"
+    },
+    {
+     "id": 47248704766182,
+     "sku": "825F-5696",
+     "color": "Rust/Olive",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_RustOlive_c26f7d58-e316-47d6-910d-bf5d1a806101.png?v=1781198106&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704766182"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Brown, Coffee/Black, Black, Orange/Brown, Yellow/Brown, Rust/Olive. Showing Brown first; the rest are chips."
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #4, #6, #8. Defaulted to the middle, #6."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-tungsten-october-pu",
+   "group": null,
+   "name": "Mercer's Tungsten October Pupa",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/mercers-tungsten-october-pupa/",
+   "asWritten": "Mercer's Tungsten October Pupa",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "mercers-tungsten-october-pupa",
+    "title": "Mercer's Tungsten October Pupa",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa",
+    "type": "Caddis"
+   },
+   "variant": {
+    "id": 47268438704358,
+    "sku": "359F-19455",
+    "color": null,
+    "size": "#10",
+    "price": 4.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/975db13c-5f6c-4e4b-bfeb-c45258ba6992_93a7e7a5-a8f9-47c9-aac8-9d21d5d50f2f.png?v=1770640068&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa?variant=47268438704358"
+   },
+   "variants": [
+    {
+     "id": 47268438671590,
+     "sku": "359F-114",
+     "color": null,
+     "size": "#8",
+     "price": 4.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/975db13c-5f6c-4e4b-bfeb-c45258ba6992_93a7e7a5-a8f9-47c9-aac8-9d21d5d50f2f.png?v=1770640068&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa?variant=47268438671590"
+    },
+    {
+     "id": 47268438704358,
+     "sku": "359F-19455",
+     "color": null,
+     "size": "#10",
+     "price": 4.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/975db13c-5f6c-4e4b-bfeb-c45258ba6992_93a7e7a5-a8f9-47c9-aac8-9d21d5d50f2f.png?v=1770640068&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-tungsten-october-pupa?variant=47268438704358"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #8, #10. Defaulted to the middle, #10."
+    }
+   ]
+  },
+  {
+   "id": "olive-hotspot",
+   "group": null,
+   "name": "Olive Hotspot",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/hot-spot-jig-olive/",
+   "asWritten": "Olive Hotspot",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "hot-spot-jig-olive",
+    "title": "Hot Spot Jig - Olive",
+    "vendor": "Fulling Mills",
+    "url": "https://catalog.theflyshop.com/products/hot-spot-jig-olive",
+    "type": "Mayfly"
+   },
+   "variant": {
+    "id": 47234268135654,
+    "sku": "354F-28045",
+    "color": "Olive",
+    "size": "#18",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/354F_OliveHotSpotJig_Olive.png?v=1769098945&width=240",
+    "url": "https://catalog.theflyshop.com/products/hot-spot-jig-olive?variant=47234268135654"
+   },
+   "variants": [
+    {
+     "id": 47234268102886,
+     "sku": "354F-26438",
+     "color": "Olive",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/354F_OliveHotSpotJig_Olive.png?v=1769098945&width=240",
+     "url": "https://catalog.theflyshop.com/products/hot-spot-jig-olive?variant=47234268102886"
+    },
+    {
+     "id": 47234268135654,
+     "sku": "354F-28045",
+     "color": "Olive",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/354F_OliveHotSpotJig_Olive.png?v=1769098945&width=240",
+     "url": "https://catalog.theflyshop.com/products/hot-spot-jig-olive?variant=47234268135654"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+    }
+   ]
+  },
+  {
+   "id": "coppertop-duracell",
+   "group": null,
+   "name": "Coppertop Duracell",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
+   "asWritten": "Coppertop Duracell",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "coppertop-duracell",
+    "title": "Coppertop Duracell",
+    "vendor": "Fulling Mills",
+    "url": "https://catalog.theflyshop.com/products/coppertop-duracell",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233991475430,
+    "sku": "931F-29700",
+    "color": null,
+    "size": "#16",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+    "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991475430"
+   },
+   "variants": [
+    {
+     "id": 47233991344358,
+     "sku": "931F-33197",
+     "color": null,
+     "size": "#14",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+     "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991344358"
+    },
+    {
+     "id": 47233991475430,
+     "sku": "931F-29700",
+     "color": null,
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+     "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991475430"
+    },
+    {
+     "id": 47233991606502,
+     "sku": "931F-33198",
+     "color": null,
+     "size": "#18",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+     "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991606502"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"coppertop-duracell-16\", which is not in the catalog. Resolved by name to \"Coppertop Duracell\" ($3.50).",
+     "candidates": [
+      {
+       "handle": "coppertop-duracell",
+       "title": "Coppertop Duracell",
+       "price": 3.5
+      }
+     ]
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #14, #16, #18. Defaulted to the middle, #16."
+    }
+   ]
+  },
+  {
+   "id": "sweet-pea",
+   "group": null,
+   "name": "Sweet Pea",
+   "colors": [],
+   "sizes": [
+    "#16"
+   ],
+   "reportLink": null,
+   "asWritten": "Sweet Pea - #16/",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "dougs-sweet-pea-jigged",
+    "title": "Doug's Sweet Pea",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/dougs-sweet-pea-jigged",
+    "type": "Flies"
+   },
+   "variant": {
+    "id": 47293618946278,
+    "sku": "230F - 18262",
+    "color": "Olive",
+    "size": "#16",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/94a55dbf-b8a5-4ce5-9def-e8c82f89995e.png?v=1769280721&width=240",
+    "url": "https://catalog.theflyshop.com/products/dougs-sweet-pea-jigged?variant=47293618946278"
+   },
+   "variants": [
+    {
+     "id": 47293618946278,
+     "sku": "230F - 18262",
+     "color": "Olive",
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/94a55dbf-b8a5-4ce5-9def-e8c82f89995e.png?v=1769280721&width=240",
+     "url": "https://catalog.theflyshop.com/products/dougs-sweet-pea-jigged?variant=47293618946278"
+    },
+    {
+     "id": 47268228235494,
+     "sku": "230F-34044",
+     "color": "Pea-MD",
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/c7d2ac5e-d634-4843-9005-90af9a42035c.png?v=1769280779&width=240",
+     "url": "https://catalog.theflyshop.com/products/dougs-sweet-pea-jigged?variant=47268228235494"
+    },
+    {
+     "id": 47268228301030,
+     "sku": "230F-34045",
+     "color": "Purple",
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/4eb7fe16-465c-49bb-a08b-8d0fcd2ad929.png?v=1769280821&width=240",
+     "url": "https://catalog.theflyshop.com/products/dougs-sweet-pea-jigged?variant=47268228301030"
+    },
+    {
+     "id": 47268228137190,
+     "sku": "230F-34046",
+     "color": "Tart",
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/c2bb0408-af7c-47af-9a47-d9f9e63262fd.png?v=1769280858&width=240",
+     "url": "https://catalog.theflyshop.com/products/dougs-sweet-pea-jigged?variant=47268228137190"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Sweet Pea\" to \"Doug's Sweet Pea\" by fuzzy match (score 0.80). Confirm.",
+     "candidates": [
+      {
+       "handle": "dougs-sweet-pea-jigged",
+       "title": "Doug's Sweet Pea",
+       "score": 0.8
+      }
+     ]
+    },
+    {
+     "severity": "nolink",
+     "text": "Named on the page without a link. Resolved by name."
+    },
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Olive, Pea-MD, Purple, Tart. Showing Olive first; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "copper-john-red",
+   "group": null,
+   "name": "Copper John Red",
+   "colors": [],
+   "sizes": [
+    "#16"
+   ],
+   "reportLink": null,
+   "asWritten": "Copper John Red - #16/",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "copper-john-red",
+    "title": "Copper John - Red",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233991082214,
+    "sku": "755F-5731",
+    "color": "Red",
+    "size": "#16",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991082214"
+   },
+   "variants": [
+    {
+     "id": 47233991082214,
+     "sku": "755F-5731",
+     "color": "Red",
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991082214"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Copper John Red\" to \"Copper John - Red\" by fuzzy match (score 1.00). Confirm.",
+     "candidates": [
+      {
+       "handle": "copper-john-red",
+       "title": "Copper John - Red",
+       "score": 1
+      },
+      {
+       "handle": "copper-john-black",
+       "title": "Copper John - Black",
+       "score": 0.8
+      },
+      {
+       "handle": "copper-john-blue",
+       "title": "Copper John - Blue",
+       "score": 0.8
+      },
+      {
+       "handle": "copper-john-copper",
+       "title": "Copper John - Copper",
+       "score": 0.8
+      },
+      {
+       "handle": "jigged-copper-john",
+       "title": "Jigged Copper John",
+       "score": 0.67
+      }
+     ]
+    },
+    {
+     "severity": "nolink",
+     "text": "Named on the page without a link. Resolved by name."
+    }
+   ]
+  },
+  {
+   "id": "jigged-birds-nest",
+   "group": null,
+   "name": "Jigged Birds Nest",
+   "colors": [
+    "Natural",
+    "Hot Spot"
+   ],
+   "sizes": [
+    "#14",
+    "#16"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/",
+   "asWritten": "Jigged Birds Nest - - Natural, Hot Spot #14-16",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "zacks-jigged-birds-nest",
+    "title": "Zack's Jigged Birds Nest",
+    "vendor": "The Fly Shop",
+    "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234254602470,
+    "sku": "189F-24370",
+    "color": "Natural",
+    "size": "#16",
+    "price": 3.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Natural.png?v=1769035780&width=240",
+    "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254602470"
+   },
+   "variants": [
+    {
+     "id": 47234254504166,
+     "sku": "189F-24369",
+     "color": "Natural",
+     "size": "#14",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Natural.png?v=1769035780&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254504166"
+    },
+    {
+     "id": 47234254602470,
+     "sku": "189F-24370",
+     "color": "Natural",
+     "size": "#16",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_Natural.png?v=1769035780&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254602470"
+    },
+    {
+     "id": 47234254700774,
+     "sku": "189F-31004",
+     "color": "Hot Spot",
+     "size": "#14",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_HotSpot.png?v=1769035790&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254700774"
+    },
+    {
+     "id": 47234254799078,
+     "sku": "189F-31005",
+     "color": "Hot Spot",
+     "size": "#16",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/189F_ZTJiggedBirdsNest_HotSpot.png?v=1769035790&width=240",
+     "url": "https://catalog.theflyshop.com/products/zacks-jigged-birds-nest?variant=47234254799078"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
+     "candidates": [
+      {
+       "handle": "zacks-jigged-birds-nest",
+       "title": "Zack's Jigged Birds Nest",
+       "price": 3.95
+      },
+      {
+       "handle": "cb-birds-nest",
+       "title": "CB Birds Nest",
+       "price": 2.25
+      }
+     ]
+    },
+    {
+     "severity": "info",
+     "text": "Report lists Natural and Hot Spot. Showing Natural first; the other is a chip."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#14, #16). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "walt-s-worm",
+   "group": null,
+   "name": "Walt's Worm",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/walts-worm-14/",
+   "asWritten": "Walt's Worm",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "walts-worm-14",
+    "title": "Walt's Worm - #14",
+    "vendor": "Andrew Laraway Flies",
+    "url": "https://catalog.theflyshop.com/products/walts-worm-14",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234110816486,
+    "sku": "30874",
+    "color": null,
+    "size": "#14",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1ee160ec-5fb9-4681-ba45-d04a2c151028.png?v=1772121177&width=240",
+    "url": "https://catalog.theflyshop.com/products/walts-worm-14?variant=47234110816486"
+   },
+   "variants": [
+    {
+     "id": 47234110816486,
+     "sku": "30874",
+     "color": null,
+     "size": "#14",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1ee160ec-5fb9-4681-ba45-d04a2c151028.png?v=1772121177&width=240",
+     "url": "https://catalog.theflyshop.com/products/walts-worm-14?variant=47234110816486"
+    }
+   ],
+   "flags": []
+  }
+ ],
+ "substitutes": {},
+ "readOnly": true,
+ "packs": {},
+ "summary": {
+  "picks": 9,
+  "resolved": 2,
+  "confirm": 7,
+  "unresolved": 0,
+  "priceMin": 2.5,
+  "priceMax": 4.5
+ },
+ "unresolved": [
+  {
+   "pickId": "pat-s-rubberlegs",
+   "name": "Pat's Rubberlegs",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Brown, Coffee/Black, Black, Orange/Brown, Yellow/Brown, Rust/Olive. Showing Brown first; the rest are chips."
+  },
+  {
+   "pickId": "pat-s-rubberlegs",
+   "name": "Pat's Rubberlegs",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #4, #6, #8. Defaulted to the middle, #6."
+  },
+  {
+   "pickId": "mercer-s-tungsten-october-pu",
+   "name": "Mercer's Tungsten October Pupa",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #8, #10. Defaulted to the middle, #10."
+  },
+  {
+   "pickId": "olive-hotspot",
+   "name": "Olive Hotspot",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+  },
+  {
+   "pickId": "coppertop-duracell",
+   "name": "Coppertop Duracell",
+   "severity": "wronglink",
+   "text": "The page links to \"coppertop-duracell-16\", which is not in the catalog. Resolved by name to \"Coppertop Duracell\" ($3.50).",
+   "candidates": [
+    {
+     "handle": "coppertop-duracell",
+     "title": "Coppertop Duracell",
+     "price": 3.5
+    }
+   ]
+  },
+  {
+   "pickId": "coppertop-duracell",
+   "name": "Coppertop Duracell",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #14, #16, #18. Defaulted to the middle, #16."
+  },
+  {
+   "pickId": "sweet-pea",
+   "name": "Sweet Pea",
+   "severity": "confirm",
+   "text": "Matched \"Sweet Pea\" to \"Doug's Sweet Pea\" by fuzzy match (score 0.80). Confirm.",
+   "candidates": [
+    {
+     "handle": "dougs-sweet-pea-jigged",
+     "title": "Doug's Sweet Pea",
+     "score": 0.8
+    }
+   ]
+  },
+  {
+   "pickId": "sweet-pea",
+   "name": "Sweet Pea",
+   "severity": "nolink",
+   "text": "Named on the page without a link. Resolved by name."
+  },
+  {
+   "pickId": "sweet-pea",
+   "name": "Sweet Pea",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Olive, Pea-MD, Purple, Tart. Showing Olive first; the rest are chips."
+  },
+  {
+   "pickId": "copper-john-red",
+   "name": "Copper John Red",
+   "severity": "confirm",
+   "text": "Matched \"Copper John Red\" to \"Copper John - Red\" by fuzzy match (score 1.00). Confirm.",
+   "candidates": [
+    {
+     "handle": "copper-john-red",
+     "title": "Copper John - Red",
+     "score": 1
+    },
+    {
+     "handle": "copper-john-black",
+     "title": "Copper John - Black",
+     "score": 0.8
+    },
+    {
+     "handle": "copper-john-blue",
+     "title": "Copper John - Blue",
+     "score": 0.8
+    },
+    {
+     "handle": "copper-john-copper",
+     "title": "Copper John - Copper",
+     "score": 0.8
+    },
+    {
+     "handle": "jigged-copper-john",
+     "title": "Jigged Copper John",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "copper-john-red",
+   "name": "Copper John Red",
+   "severity": "nolink",
+   "text": "Named on the page without a link. Resolved by name."
+  },
+  {
+   "pickId": "jigged-birds-nest",
+   "name": "Jigged Birds Nest",
+   "severity": "wronglink",
+   "text": "The page links to \"CB Birds Nest\" ($2.25, one color). The words match \"Zack's Jigged Birds Nest\" ($3.95). Resolved to the words; confirm which.",
+   "candidates": [
+    {
+     "handle": "zacks-jigged-birds-nest",
+     "title": "Zack's Jigged Birds Nest",
+     "price": 3.95
+    },
+    {
+     "handle": "cb-birds-nest",
+     "title": "CB Birds Nest",
+     "price": 2.25
+    }
+   ]
+  }
+ ],
+ "observations": [
+  "Rating: Good.",
+  "Prices from the catalog: 9 picks run $2.50 to $4.50; 3 are $2.95.",
+  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap."
+ ]
+}

@@ -1,0 +1,129 @@
+{
+  "note": "Scraped from https://www.theflyshop.com/streamreport.html by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.",
+  "water": {
+    "id": "hat-creek",
+    "shortName": "Hat Creek",
+    "group": "river",
+    "usgsSite": "11355500",
+    "gaugeName": "USGS Hat Creek",
+    "lat": 40.6891,
+    "lon": -121.4228,
+    "name": "Hat Creek",
+    "packName": null,
+    "flow": {
+      "min": 0,
+      "max": 200,
+      "threshold": null,
+      "thresholdLabel": "wading limit",
+      "scaleSource": "USGS daily statistics 1927–2026, 192 CFS at the 70th percentile of daily p95, rounded up",
+      "lastReading": {
+        "value": 0,
+        "at": "2026-09-05T19:50:22.078Z"
+      }
+    },
+    "sections": [],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-09-01",
+    "author": null,
+    "rating": "Fair to Good",
+    "clarity": null,
+    "wading": null,
+    "notes": [
+      "With storms rolling in and the weather cooling, the Blue Wing Olives and midges should be pouring off. Look for rising fish in the flats, the riffles below the Hwy 299 bridge will yield fish on Rubberlegs and Golden Stone nymphs. Dry-dropper rigs will allow you to pick up a fish or two on the dry, BP Weiss and the Weiss Firefly, Olive Hotspots, Sweet Peas, Zebra Midges and anything #18 or smaller is the name of the game for a dropper there. Bring the small dries, #18 - 22 Adams, and any Baetis dries you have. BWO nymphs to bring are the Sweet Pea, Zack's BWO Jig Nation, Olive S&M, Black Micro May, Rubberlegs, and whatever is jammed in the fly cup stuffed on the bottom of your pack - sometimes on Hat you get the inside slider when you're looking for the fastball. Hat Creek is fun in the fall!"
+    ],
+    "notesPermission": "pending",
+    "source": {
+      "url": "https://www.theflyshop.com/streamreport.html",
+      "fetchedAt": "2026-09-05"
+    }
+  },
+  "hatches": [],
+  "readOnly": true,
+  "picks": [
+    {
+      "id": "lance-s-jigged-x-may",
+      "group": null,
+      "name": "Lance's Jigged X-May",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/lances-jigged-x-may/",
+      "asWritten": "Lance's Jigged X-May"
+    },
+    {
+      "id": "rubberlegs",
+      "group": null,
+      "name": "Rubberlegs",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+      "asWritten": "Rubberlegs"
+    },
+    {
+      "id": "sweet-pea-jigged-baetis",
+      "group": null,
+      "name": "Sweet Pea Jigged Baetis",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/sweet-pea-jigged-baetis-16/",
+      "asWritten": "Sweet Pea Jigged Baetis"
+    },
+    {
+      "id": "pheasant-tails",
+      "group": null,
+      "name": "Pheasant Tails",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/pheasant-tail/",
+      "asWritten": "Pheasant Tails"
+    },
+    {
+      "id": "mercer-s-missing-link",
+      "group": null,
+      "name": "Mercer's Missing Link",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/mercers-missing-link/",
+      "asWritten": "Mercer's Missing Link"
+    },
+    {
+      "id": "s-m-nymph",
+      "group": null,
+      "name": "S&M Nymph",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/hogans-s-m-nymph/",
+      "asWritten": "S&M Nymph"
+    },
+    {
+      "id": "walt-s-worm",
+      "group": null,
+      "name": "Walt's Worm",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/walts-worm-14/",
+      "asWritten": "Walt's Worm"
+    },
+    {
+      "id": "peaches-n-green",
+      "group": null,
+      "name": "Peaches n' Green",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/peaches-n-green-olive-18/",
+      "asWritten": "Peaches n' Green"
+    },
+    {
+      "id": "bp-weiss-nymph",
+      "group": null,
+      "name": "BP Weiss Nymph",
+      "colors": [],
+      "sizes": [],
+      "reportLink": null,
+      "asWritten": "BP Weiss Nymph"
+    }
+  ],
+  "substitutes": {}
+}

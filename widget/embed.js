@@ -6,25 +6,22 @@
   const FONT = "__HM_FONT__";
   const STONEFLY = "__HM_STONEFLY__";
 
-  /* The eight waters the shop's stream report page carries. Metadata only, and only metadata that
-     was checked: every gauge id here was confirmed against the NWIS site service on Sep 4 2026 by
-     name and by asking for a live series. Fall River and the McCloud have USGS sites but no
-     real-time series at any of them, so they carry null rather than a plausible-looking guess --
-     a wrong gauge is worse than a missing one to anyone who knows these rivers.
-     Ratings, hatches, flies and flow ranges are the resolver's job (Phase B). Until it runs, a
-     water other than the resolved one renders its live gauge and weather and says plainly that
-     nobody has broken it out by hatch yet. Nothing on this list is invented. */
-  const WATERS = [
-    { id: 'fall-river',       name: 'Fall River',            shortName: 'Fall River', group: 'river', usgsSite: null,       gaugeName: null,                    lat: 41.0075,  lon: -121.4469, gaugeNote: 'No live USGS gauge. Sites exist at Fall River Mills; none reports a real-time series.' },
-    { id: 'hat-creek',        name: 'Hat Creek',             shortName: 'Hat Creek',  group: 'river', usgsSite: '11355500', gaugeName: 'USGS Hat Creek',        lat: 40.6891,  lon: -121.4228 },
-    { id: 'klamath',          name: 'Klamath River',         shortName: 'Klamath',    group: 'river', usgsSite: '11516530', gaugeName: 'USGS Iron Gate',        lat: 41.9279,  lon: -122.4442 },
-    { id: 'lower-sacramento', name: 'Lower Sacramento River',shortName: 'Lower Sac',  group: 'river', usgsSite: '11370500', gaugeName: 'USGS Keswick',          lat: 40.5865,  lon: -122.3917 },
-    { id: 'mccloud',          name: 'McCloud River',         shortName: 'McCloud',    group: 'river', usgsSite: null,       gaugeName: null,                    lat: 41.1252,  lon: -122.0686, gaugeNote: 'No live USGS gauge. Fourteen sites on the river; none reports a real-time series.' },
-    { id: 'pit',              name: 'Pit River',             shortName: 'Pit',        group: 'river', usgsSite: '11355010', gaugeName: 'USGS Pit No 1',         lat: 40.9832,  lon: -121.5119 },
-    { id: 'trinity',          name: 'Trinity River',         shortName: 'Trinity',    group: 'river', usgsSite: '11525500', gaugeName: 'USGS Lewiston',         lat: 40.7247,  lon: -122.8011 },
-    { id: 'upper-sacramento', name: 'Upper Sacramento River',shortName: 'Upper Sac',  group: 'river', usgsSite: '11342000', gaugeName: 'USGS Delta',            lat: 40.9396,  lon: -122.4172 },
-  ];
+  /* The waters ship as resolved reports. Group order for the picker; anything else falls last. */
   const GROUPS = [['river', 'Rivers'], ['stillwater', 'Stillwaters'], ['private', 'Private waters']];
+
+  /* A short cache so a page with several cards, or a person clicking through waters, does not
+     re-ask a free public service for the same answer. Per tab, five minutes, and a miss or a
+     storage error just means a fetch. */
+  const TTL = 5 * 60 * 1000;
+  function cached(key, fetcher) {
+    let hit = null;
+    try { hit = JSON.parse(sessionStorage.getItem('hm:' + key) || 'null'); } catch (e) { /* private mode, quota, disabled */ }
+    if (hit && Date.now() - hit.at < TTL) return Promise.resolve(hit.v);
+    return fetcher().then(v => {
+      try { sessionStorage.setItem('hm:' + key, JSON.stringify({ at: Date.now(), v })); } catch (e) { /* nothing to do */ }
+      return v;
+    });
+  }
 
   const ACCENTS = { orange: ['#FF7124', '#081215'], burnt: ['#D4632A', '#081215'], spruce: ['#2E7D4F', '#F5EDE0'] };
   const SLOTS = ['morning', 'midday', 'afternoon', 'last light'];
@@ -122,6 +119,9 @@ img{display:block}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
+/* "Fair to Good" plus the word FISHING plus the meter overruns a 350px card. The word is the
+   part that gives: a rating beside a lamp needs no caption. */
+@container (max-width:409px){.fishlabel{display:none}}
 .chev{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;font-size:9px;color:var(--accent);flex:none}
 .pack{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;height:48px;padding:0 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 /* Nothing to buy is not the primary action. Disabled loses the fill and reads as a state. */
@@ -275,7 +275,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       browser for any startDT/endDT, and for period=P365D, while accepting P7D and P30D. curl
       gets 200 for all of them, so this is only visible from a page. nwis/dv takes date ranges
       and returns one mean per day, which is 14 columns over 14 days. Never labelled live. */
-  async function fetchWindow(site, win) {
+  const fetchWindowLive = async (site, win) => {
     const r = await fetch(`https://waterservices.usgs.gov/nwis/dv/?format=json&sites=${site}&parameterCd=00060&statCd=00003&startDT=${win[0]}&endDT=${win[1]}`);
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const ts = (await r.json()).value.timeSeries[0];
@@ -285,8 +285,9 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     const last = vals[vals.length - 1];
     // Daily means: no sub-daily data, so no six-hour delta. That frame is dropped, not invented.
     return { value: last.value, at: last.iso, delta: null, hours: null, series: vals.map(v => v.value), days: vals.length, trend: '', live: false, source: 'waterservices.usgs.gov/nwis/dv' };
-  }
-  async function fetchFlow(site, win) {
+  };
+  const fetchWindow = (site, win) => cached(`win:${site}:${win.join('/')}`, () => fetchWindowLive(site, win));
+  async function fetchFlowLive(site, win) {
     const errors = [];
     if (win) return fetchWindow(site, win);
     try {
@@ -323,12 +324,14 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     } catch (e) { errors.push(`ogcapi: ${e.message}`); }
     throw new Error(errors.join(' | '));
   }
+  const fetchFlow = (site, win) => win ? fetchWindow(site, win) : cached(`flow:${site}`, () => fetchFlowLive(site));
   /* Water temperature (00010, Celsius) and turbidity (63680, FNU) off the same instantaneous-values
      service the flow comes from, so they cost one request and inherit its CORS. Neither is carried
      at every gauge -- Keswick reports neither, verified against the site's own series catalog on
      Sep 4 2026 -- so both are optional and a missing one drops its frame or its row. Nothing here
      substitutes air temperature for water, or derives a number from a word. */
-  async function fetchAux(site) {
+  const fetchAux = site => cached(`aux:${site}`, () => fetchAuxLive(site));
+  async function fetchAuxLive(site) {
     const out = { temp: null, turbidity: null };
     try {
       const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${site}&parameterCd=00010,63680&period=PT2H`);
@@ -345,7 +348,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     return out;
   }
   const WX = c => c === 0 ? 'clear' : c <= 2 ? 'mostly clear' : c === 3 ? 'clouds' : c <= 48 ? 'fog' : c <= 57 ? 'drizzle' : c <= 67 ? 'rain' : c <= 77 ? 'snow' : c <= 82 ? 'showers' : c <= 86 ? 'snow' : 'storms';
-  async function fetchWeather(lat, lon) {
+  const fetchWeather = (lat, lon) => cached(`wx:${lat},${lon}`, () => fetchWeatherLive(lat, lon));
+  async function fetchWeatherLive(lat, lon) {
     const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&temperature_unit=fahrenheit&timezone=auto&forecast_days=3`);
     if (!r.ok) throw new Error(r.status);
     const d = (await r.json()).daily;
@@ -359,7 +363,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
   /* ---------- instance ---------- */
   class Card {
     constructor(host, data) {
-      this.host = host; this.data = data; this.resolved = data;
+      // DATA is every water the shop publishes. The first is the one the card opens on.
+      const list = Array.isArray(data) ? data : [data];
+      this.host = host; this.reports = new Map(list.map(r => [r.water.id, r]));
+      this.waters = list.map(r => ({ ...r.water, publishedAt: r.report.publishedAt, rating: r.report.rating, readOnly: !!r.readOnly }));
+      this.resolved = list[0]; this.data = list[0];
       this.root = host.attachShadow({ mode: 'open' });
       const demo = new URLSearchParams(location.search).get('state') || host.dataset.demoState || '';
       this.demo = demo;
@@ -367,11 +375,14 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const win = (host.dataset.demoWindow || '').split('/').filter(Boolean);
       this.window = win.length === 2 ? win : null;
       this.frame = 0; this.cycler = null; this.poll = null; this.loadToken = 0; this.scrollPos = {}; this.shownTab = null;
-      this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, picker: false, expanded: new Set(), added: false, filled: false,
-        flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: false }, weather: null, temp: null, turbidity: null, lightbox: null, tip: null };
-      this.useReport(data);
+      const r0 = this.resolved;
+      this.s = { open: false, tab: 'now', section: (r0.water.sections || [])[0], anglers: 1, days: 1, qty: {}, variant: {}, picker: false, expanded: new Set(), added: false, filled: false,
+        flow: { value: 0, at: new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: false }, weather: null, temp: null, turbidity: null, lightbox: null, tip: null };
+      this.useReport(r0);
+      this.s.flow.value = this.data.water.flow.lastReading.value;
+      this.s.flow.at = this.data.water.flow.lastReading.at;
       // Open the slot the angler is standing in, if it has a hatch. The rest start closed.
-      const now = data.hatches[this.slotNow()];
+      const now = r0.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
       this.events = [];
       this.root.addEventListener('click', e => this.onClick(e));
@@ -392,39 +403,26 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       this.root.addEventListener('keydown', e => this.onKey(e));
       new MutationObserver(() => this.render()).observe(host, { attributes: true, attributeFilter: ['data-theme', 'data-accent', 'data-on-accent'] });
       this.render();
-      this.emit('pack_viewed', { water: data.water.id, report: data.report.publishedAt });
+      this.emit('pack_viewed', { water: r0.water.id, report: r0.report.publishedAt });
       requestAnimationFrame(() => { this.s.filled = true; });
       this.load();
     }
     /** Swaps which report the card is rendering. Phase B replaces pendingReport() with a real
         resolved report per water; everything downstream of here already works on one. */
     useReport(data) {
+      // A water with no gauge has no published flow block at all. Normalise it once here so every
+      // reader downstream sees the same shape and the existing null guards do the rest.
+      if (!data.water.flow) data.water.flow = { min: null, max: null, threshold: null, thresholdLabel: '', lastReading: { value: 0, at: new Date().toISOString() } };
       this.data = data;
       this.picks = (data.picks || []).filter(p => p.variant);
       this.byId = new Map(this.picks.map(p => [p.id, p]));
     }
-    /** A water the resolver has not run on yet. Its gauge, its coordinates and its name are real;
-        everything the guide would supply is absent and says so. This is spec 7.4's partial state,
-        and after Phase B it is what a water with no hatch breakout still looks like. */
-    pendingReport(w) {
-      const r = this.resolved;
-      return {
-        storeUrl: r.storeUrl, shop: r.shop, roles: r.roles, fliesCollection: r.fliesCollection,
-        water: { id: w.id, name: w.name, shortName: w.shortName, group: w.group, packName: null,
-          usgsSite: w.usgsSite, gaugeName: w.gaugeName, gaugeNote: w.gaugeNote || null, lat: w.lat, lon: w.lon,
-          flow: { min: null, max: null, threshold: null, thresholdLabel: '', lastReading: { value: 0, at: new Date().toISOString() } },
-          sections: [], guidePhone: r.water.guidePhone, closed: false },
-        report: { publishedAt: null, author: null, rating: null, clarity: null, notes: [], source: r.report.source },
-        hatches: [], picks: [], substitutes: {}, pending: true,
-      };
-    }
-    waterFor(id) { return WATERS.find(w => w.id === id); }
     switchWater(id) {
       const from = this.data.water.id;
       if (id === from) { this.set({ picker: false }); return; }
-      const w = this.waterFor(id);
-      if (!w) return;
-      this.useReport(id === this.resolved.water.id ? this.resolved : this.pendingReport(w));
+      const next = this.reports.get(id);
+      if (!next) return;
+      this.useReport(next);
       clearInterval(this.poll); this.poll = null;
       this.s.section = this.data.water.sections[0];
       this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set();
@@ -515,6 +513,19 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     rows(hatch = undefined, anytime = false) {
       const mult = this.s.anglers * this.s.days;
       const pick = p => hatch === undefined ? true : anytime ? this.groupOf(p) === null : this.groupOf(p) === hatch;
+      // A read-only water has no roles and no sections -- the page gives neither. Its flies group
+      // under the shop's own sub-heads ("Nymphs/Wet Flies", "Eggs", "Swing Flies") where the page
+      // has them, and under one heading where it does not. Nothing is invented to fill the gap.
+      if (this.data.readOnly) {
+        const seen = [...new Set(this.picks.map(p => p.group || 'Hot flies'))];
+        return seen.map(label => ({
+          role: { key: label, label },
+          flies: this.picks.filter(p => (p.group || 'Hot flies') === label && pick(p)).map(p => {
+            const v = this.variantOf(p);
+            return { p, use: p, v, per: null, qty: null, sub: null, price: v.price, oos: this.unavailable(v, p) };
+          }),
+        })).filter(g => g.flies.length);
+      }
       const out = [];
       for (const role of this.data.roles) {
         const flies = this.picks
@@ -534,6 +545,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     }
     /** The pack is the whole rig for the section. There is exactly one of these, and one buy button. */
     pack() {
+      // No quantities, no pack. The all-flies link still works: it is a catalog link, not a cart.
+      if (this.data.readOnly) return { items: [], flies: 0, total: 0, url: null };
       const items = this.rows().flatMap(g => g.flies).filter(r => r.qty > 0 && !r.oos);
       const flies = items.reduce((n, r) => n + r.qty, 0), total = items.reduce((n, r) => n + r.price, 0);
       return { items, flies, total, url: this.cartUrl(items) };
@@ -609,7 +622,9 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     packName() { const w = this.data.water; return w.packName || `${w.shortName} pack`; }
     packButton() {
       const k = this.pack();
-      if (this.data.pending) return `<button class="pack" disabled><span class="packlabel"><b>No pack yet</b><em>No pack</em></span><span></span><span>&mdash;</span></button>`;
+      // The page lists this water's flies but sets no quantities, so there is no pack to add.
+      // Inventing "two of each" is the same class of invention as inventing a hatch slot.
+      if (this.data.readOnly) return `<button class="pack" disabled><span class="packlabel"><b>No pack for the ${esc(this.data.water.shortName)} yet</b><em>No pack yet</em></span><span></span><span>&mdash;</span></button>`;
       if (this.s.added) return `<button class="pack" data-action="viewcart"><span>Added</span><span></span><span>View cart</span></button>`;
       // Three columns, always. When it will not all fit, the water name is the part that goes:
       // the count and the price are the promise. See fitPackLabel().
@@ -623,7 +638,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       // baseline: the circle in the corner already means expand, and two actions must not share a
       // shape. Compact keeps a plain title.
       const name = esc(this.data.water.name);
-      const title = open && WATERS.length > 1
+      const title = open && this.waters.length > 1
         ? `<button class="title" data-action="waters" data-focus="waters" aria-expanded="${this.s.picker}" aria-label="Switch water. Currently ${name}"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span><span class="tcare" aria-hidden="true">&#9662;</span></button>`
         : `<div class="title">${name}</div>`;
       return `<div class="between">${title}${open
@@ -631,7 +646,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         : `<span class="chev" aria-hidden="true">&#9660;</span>`}</div>
     <div class="between">
       <span class="lamp" style="--c:${fr.color};font-size:11px"><i></i>${fr.label}</span>
-      ${r.n ? `<span class="row" style="gap:8px"><span class="label">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>` : `<span class="label">Not rated yet</span>`}
+      ${r.n ? `<span class="row" style="gap:8px"><span class="label fishlabel">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>` : `<span class="label">Not rated yet</span>`}
     </div>`;
     }
     /** Report age and live flow are different facts. The lamp above owns the age and stays still;
@@ -760,7 +775,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     : `<div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div>`}</div>
   <div class="buybar">
     ${this.tripRow()}
-    ${d.pending ? `<div class="allflies muted"><span>Not resolved yet</span></div>` : `<button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>`}
+    <button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>
     ${this.packButton()}
     <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
   </div>
@@ -776,6 +791,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         same pack. A water with one section shows no control rather than a select with one option. */
     tripRow() {
       const secs = this.data.water.sections;
+      // Anglers and days shape a pack. A water with no pack has nothing for them to shape.
+      if (this.data.readOnly) return '';
       return `<div class="triprow">
     ${this.tripStepper('Anglers', 'anglers', this.s.anglers)}
     ${this.tripStepper('Days', 'days', this.s.days)}
@@ -816,10 +833,14 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         live in the same place: time-of-day rows, flies nested under the row that calls for them. */
     tab_hatch() {
       const d = this.data, now = this.slotNow();
-      if (d.pending) return `<div class="empty">
-    <div style="color:var(--text);font-weight:600">Nobody has broken this water out by hatch yet.</div>
-    <div>The shop's page lists ${esc(d.water.shortName)} with a rating and a hot-fly list, but not by time of day. Sixty seconds of a guide's time turns this panel into what the ${esc(this.resolved.water.shortName)} has: a hatch for each part of the day, and the flies that answer it.</div>
-    ${d.water.usgsSite ? `<div>Flow and weather above are live from ${esc(d.water.gaugeName)} either way.</div>` : ''}
+      // The flies are real and the prices are the shop's. What is missing is the guide's minute:
+      // which hatch, what time of day, how many. That gap is the whole pitch, said plainly.
+      if (d.readOnly) return `<div class="slots">
+    <div class="empty" style="padding:14px 0 4px">
+      <div style="color:var(--text);font-weight:600">A guide hasn't broken the ${esc(d.water.shortName)} out by hatch yet.</div>
+      <div>These are the shop's own hot flies for this water, on real SKUs at the shop's prices. What the ${esc(this.resolved.water.shortName)} has and this doesn't is a hatch for each part of the day, and how many of each to carry.</div>
+    </div>
+    ${this.flyGroups(this.rows())}
   </div>`;
       // A slot with no hatch is hidden unless the angler is standing in it. The fallback text is
       // the guide's own prose -- worth reading at dusk, noise at 2pm. A rule, not a special case:
@@ -875,8 +896,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     flyRow(r) {
       const { p, use, v, per, qty, sub } = r, id = p.id;
       const mult = this.s.anglers * this.s.days;
+      // A null quantity means this water sells no pack: show the shop's unit price and stock, and
+      // nothing that implies the row is being bought.
       const lamp = r.oos ? ['var(--red)', 'Out of stock'] : (v.lowStock ? ['var(--amber)', 'Low stock'] : ['var(--green)', 'In stock']);
-      const only = p.sections.length === 1 ? `<span class="only">${esc(p.sections[0])} only</span>` : '';
+      // A water with no sections has no "up top only" to say.
+      const only = (p.sections || []).length === 1 ? `<span class="only">${esc(p.sections[0])} only</span>` : '';
       const meta = sub ? `<i></i>Instead of ${esc(sub.name)}, out of stock` : esc([v.color, v.size].filter(Boolean).join('  ')) + only;
       const chips = p.variants.length > 1 && !sub ? p.variants.map(x => {
         const bothVary = new Set(p.variants.map(y => y.color)).size > 1 && new Set(p.variants.map(y => y.size)).size > 1;
@@ -886,7 +910,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       return `<div class="fly${qty === 0 ? ' zero' : ''}">
     ${v.image ? `<button class="thumb" data-action="image" data-id="${id}" data-focus="img-${id}" aria-label="Larger picture of ${esc(use.name)}"><img src="${esc(v.image)}" alt="" loading="lazy" width="36" height="36"></button>` : `<div class="thumb"></div>`}
     <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><a class="name" href="${esc(v.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" data-action="fly" data-id="${id}">${esc(use.name)}</a><span class="meta">${meta}</span></div>
-    <div class="right"><span class="qtyline">${r.oos ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
+    <div class="right"><span class="qtyline">${qty == null ? '' : r.oos ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
   </div>
   ${chips ? `<div class="edit">
     <span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Option</span>${chips}
@@ -916,19 +940,19 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     /** A panel takeover rather than an overlay, so it inherits the scrolling already built and the
         pinned block keeps showing the current water's pack while you look. */
     tab_waters() {
-      const cur = this.data.water.id, resolvedId = this.resolved.water.id;
+      const cur = this.data.water.id;
       const groups = GROUPS.map(([key, label]) => {
-        const rows = WATERS.filter(w => w.group === key);
+        const rows = this.waters.filter(w => w.group === key);
         if (!rows.length) return '';
         return `<div class="wgroup">${label}</div>` + rows.map(w => {
-          const isRes = w.id === resolvedId;
-          const fr = isRes ? this.freshFor(this.resolved.report.publishedAt) : null;
-          const r = isRes ? this.ratingOf(this.resolved.report.rating) : null;
+          // Every water has a real report now, so every row carries its own rating and date --
+          // including the Klamath's January one, which the lamp renders red without being told to.
+          const fr = this.freshFor(w.publishedAt), r = this.ratingOf(w.rating);
           return `<button class="wrow" data-action="water" data-id="${esc(w.id)}" data-focus="w-${esc(w.id)}" aria-current="${w.id === cur}">
       <span class="wname">${esc(w.name)}</span>
-      <span class="lamp" style="--c:${fr ? fr.color : 'var(--off)'}"><i></i>${fr ? 'Report' : 'No report yet'}</span>
-      <span class="wsub">${r ? `${esc(r.label)} ${this.meter(r.n, false, `Fishing ${esc(r.label)}, ${r.n} of 5`)}` : (w.usgsSite ? 'Live gauge only, not broken out by hatch' : 'No live gauge on file')}</span>
-      <span class="wdate">${fr ? esc(shortDate(this.resolved.report.publishedAt)) : ''}</span>
+      <span class="lamp" style="--c:${fr ? fr.color : 'var(--off)'}"><i></i>${fr ? esc(shortDate(w.publishedAt)) : 'No date'}</span>
+      <span class="wsub">${r.n ? `${esc(r.label)} ${this.meter(r.n, false, `Fishing ${esc(r.label)}, ${r.n} of 5`)}` : 'Not rated'}</span>
+      <span class="wdate">${w.readOnly ? 'Flies only' : 'Full pack'}</span>
     </button>`;
         }).join('');
       }).join('');

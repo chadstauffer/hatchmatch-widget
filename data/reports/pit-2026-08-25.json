@@ -1,0 +1,270 @@
+{
+  "note": "Scraped from https://www.theflyshop.com/streamreport.html by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.",
+  "water": {
+    "id": "pit",
+    "shortName": "Pit",
+    "group": "river",
+    "usgsSite": "11355010",
+    "gaugeName": "USGS Pit No 1",
+    "lat": 40.9832,
+    "lon": -121.5119,
+    "name": "Pit River",
+    "packName": null,
+    "flow": {
+      "min": 0,
+      "max": 5000,
+      "threshold": null,
+      "thresholdLabel": "wading limit",
+      "scaleSource": "USGS daily statistics 1975–2026, 4,920 CFS at the 70th percentile of daily p95, rounded up",
+      "lastReading": {
+        "value": 0,
+        "at": "2026-09-05T19:50:22.188Z"
+      }
+    },
+    "sections": [],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-08-25",
+    "author": null,
+    "rating": "Good",
+    "clarity": null,
+    "wading": null,
+    "notes": [
+      "The latest news on the Pit is the clarity is good, flows are where they should be, and the temps are not too warm for the fish in Pit 3 and 4. Fishing has been good as well with nymphs & Euronymph set ups. The fish will clump up in the drainages with cold seeps/creek mouths. Keep a thermometer handy and call it quits when you get readings above 65 F. Good flies are always Perdigons, Hotspots, Rubberlegs, and don't discount a well-fished crayfish pattern. Some people fish Woolly Buggers, TJ Hookers can be very effective. The fall will be a good one on the Pit! This is a great river to fish a Euro rod and we highly recommend it. Be careful though, this can be a slippery river to wade. We recommend a wading staff when fishing the Pit. Be aware that the flows on the Pit can and will change without notice, so definitely check before you go! And be prepared to get out when the river begins to rise. Here are some useful links to monitor the flows: Pit 3 - Below Pit 3 Dam Pit 5 - Through Big Bend"
+    ],
+    "notesPermission": "pending",
+    "source": {
+      "url": "https://www.theflyshop.com/streamreport.html",
+      "fetchedAt": "2026-09-05"
+    }
+  },
+  "hatches": [],
+  "readOnly": true,
+  "picks": [
+    {
+      "id": "stimulator",
+      "group": "Dry Flies",
+      "name": "Stimulator",
+      "colors": [
+        "Orange"
+      ],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/stimulator-orange/",
+      "asWritten": "Stimulator - - Orange"
+    },
+    {
+      "id": "foam-october-caddis",
+      "group": "Dry Flies",
+      "name": "Foam October Caddis",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/foam-october-caddis-8/",
+      "asWritten": "Foam October Caddis"
+    },
+    {
+      "id": "potter-s-october-caddis",
+      "group": "Dry Flies",
+      "name": "Potter's October Caddis",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/potters-october-caddis-8/",
+      "asWritten": "Potter's October Caddis"
+    },
+    {
+      "id": "mercer-s-skating-october-cad",
+      "group": "Dry Flies",
+      "name": "Mercer's Skating October Caddis",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/mercers-skating-october-caddis-8/",
+      "asWritten": "Mercer's Skating October Caddis"
+    },
+    {
+      "id": "adams",
+      "group": "Dry Flies",
+      "name": "Adams",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/adams/",
+      "asWritten": "Adams - - #14-18"
+    },
+    {
+      "id": "mayfly-cripples",
+      "group": "Dry Flies",
+      "name": "Mayfly Cripples",
+      "colors": [],
+      "sizes": [
+        "#12",
+        "#14",
+        "#16"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mayfly-cripple/",
+      "asWritten": "Mayfly Cripples - - #12-16"
+    },
+    {
+      "id": "mercer-s-tungsten-october-pu",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's Tungsten October Pupa",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/mercers-tungsten-october-pupa/",
+      "asWritten": "Mercer's Tungsten October Pupa"
+    },
+    {
+      "id": "skip-s-tb-october-caddis",
+      "group": "Nymphs/Wet Flies",
+      "name": "Skip’s TB October Caddis",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/skips-tb-october-caddis-8/",
+      "asWritten": "Skip’s TB October Caddis"
+    },
+    {
+      "id": "dark-lords",
+      "group": "Nymphs/Wet Flies",
+      "name": "Dark Lords",
+      "colors": [],
+      "sizes": [
+        "#12",
+        "#14",
+        "#16"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/harts-dark-lord/",
+      "asWritten": "Dark Lords - - #12-16"
+    },
+    {
+      "id": "flashback-pheasant-tail",
+      "group": "Nymphs/Wet Flies",
+      "name": "Flashback Pheasant Tail",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/flashback-pheasant-tail-pt/",
+      "asWritten": "Flashback Pheasant Tail - - #14-16"
+    },
+    {
+      "id": "beaded-zebra-midge",
+      "group": "Nymphs/Wet Flies",
+      "name": "Beaded Zebra Midge",
+      "colors": [],
+      "sizes": [
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/beaded-zebra-midge/",
+      "asWritten": "Beaded Zebra Midge - - #18"
+    },
+    {
+      "id": "mercer-s-poxyback-dark-stone",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's Poxyback Dark Stone",
+      "colors": [],
+      "sizes": [
+        "#6"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-poxyback-dark-stone-6/",
+      "asWritten": "Mercer's Poxyback Dark Stone - - #6"
+    },
+    {
+      "id": "gb-black-a-p",
+      "group": "Nymphs/Wet Flies",
+      "name": "GB Black A.P.",
+      "colors": [],
+      "sizes": [
+        "#10",
+        "#12"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/gb-black-a-p-andre-puyans/",
+      "asWritten": "GB Black A.P. - - #10-12"
+    },
+    {
+      "id": "cb-micro-mayflies",
+      "group": "Nymphs/Wet Flies",
+      "name": "CB Micro Mayflies",
+      "colors": [],
+      "sizes": [
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-cb-micro-mayfly/",
+      "asWritten": "CB Micro Mayflies - - #16-18"
+    },
+    {
+      "id": "red-copper-johns",
+      "group": "Nymphs/Wet Flies",
+      "name": "Red Copper Johns",
+      "colors": [],
+      "sizes": [
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
+      "asWritten": "Red Copper Johns - - #16-18"
+    },
+    {
+      "id": "pat-s-brown-rubberleg",
+      "group": "Nymphs/Wet Flies",
+      "name": "Pat's Brown Rubberleg",
+      "colors": [],
+      "sizes": [
+        "#6",
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+      "asWritten": "Pat's Brown Rubberleg - - #6-8"
+    },
+    {
+      "id": "gordon-s-amber-wing-prince",
+      "group": "Nymphs/Wet Flies",
+      "name": "Gordon's Amber Wing Prince",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
+      "asWritten": "Gordon's Amber Wing Prince - - #14-18"
+    },
+    {
+      "id": "jigged-birds-nest",
+      "group": "Nymphs/Wet Flies",
+      "name": "Jigged Birds Nest",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/zacks-jigged-birds-nest/",
+      "asWritten": "Jigged Birds Nest - - #14-16"
+    },
+    {
+      "id": "walt-s-worm",
+      "group": "Nymphs/Wet Flies",
+      "name": "Walt's Worm",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/walts-worm-14/",
+      "asWritten": "Walt's Worm"
+    },
+    {
+      "id": "zack-s-swimming-leech",
+      "group": "Nymphs/Wet Flies",
+      "name": "Zack's Swimming Leech",
+      "colors": [],
+      "sizes": [
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
+      "asWritten": "Zack's Swimming Leech - - #8"
+    }
+  ],
+  "substitutes": {}
+}

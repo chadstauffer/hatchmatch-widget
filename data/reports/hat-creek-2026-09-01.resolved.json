@@ -1,0 +1,991 @@
+{
+ "generatedAt": "2026-09-05T19:50:37.977Z",
+ "shop": "catalog.theflyshop.com",
+ "storeUrl": "https://catalog.theflyshop.com",
+ "catalogPulledAt": "2026-09-04T21:06:20.237Z",
+ "water": {
+  "id": "hat-creek",
+  "shortName": "Hat Creek",
+  "group": "river",
+  "usgsSite": "11355500",
+  "gaugeName": "USGS Hat Creek",
+  "lat": 40.6891,
+  "lon": -121.4228,
+  "name": "Hat Creek",
+  "packName": null,
+  "flow": {
+   "min": 0,
+   "max": 200,
+   "threshold": null,
+   "thresholdLabel": "wading limit",
+   "scaleSource": "USGS daily statistics 1927–2026, 192 CFS at the 70th percentile of daily p95, rounded up",
+   "lastReading": {
+    "value": 0,
+    "at": "2026-09-05T19:50:22.078Z"
+   }
+  },
+  "sections": [],
+  "guidePhone": "800-669-3474",
+  "closed": false
+ },
+ "report": {
+  "publishedAt": "2026-09-01",
+  "author": null,
+  "rating": "Fair to Good",
+  "clarity": null,
+  "wading": null,
+  "notes": [
+   "With storms rolling in and the weather cooling, the Blue Wing Olives and midges should be pouring off. Look for rising fish in the flats, the riffles below the Hwy 299 bridge will yield fish on Rubberlegs and Golden Stone nymphs. Dry-dropper rigs will allow you to pick up a fish or two on the dry, BP Weiss and the Weiss Firefly, Olive Hotspots, Sweet Peas, Zebra Midges and anything #18 or smaller is the name of the game for a dropper there. Bring the small dries, #18 - 22 Adams, and any Baetis dries you have. BWO nymphs to bring are the Sweet Pea, Zack's BWO Jig Nation, Olive S&M, Black Micro May, Rubberlegs, and whatever is jammed in the fly cup stuffed on the bottom of your pack - sometimes on Hat you get the inside slider when you're looking for the fastball. Hat Creek is fun in the fall!"
+  ],
+  "notesPermission": "pending",
+  "source": {
+   "url": "https://www.theflyshop.com/streamreport.html",
+   "fetchedAt": "2026-09-05"
+  }
+ },
+ "hatches": [],
+ "roles": [
+  {
+   "key": "dry",
+   "label": "Dry"
+  },
+  {
+   "key": "dropper",
+   "label": "Dropper"
+  },
+  {
+   "key": "point",
+   "label": "Point"
+  },
+  {
+   "key": "eggs",
+   "label": "Eggs"
+  }
+ ],
+ "picks": [
+  {
+   "id": "lance-s-jigged-x-may",
+   "group": null,
+   "name": "Lance's Jigged X-May",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/lances-jigged-x-may/",
+   "asWritten": "Lance's Jigged X-May",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "lances-jigged-x-may",
+    "title": "Lance's Jigged X-May",
+    "vendor": "The Fly Shop",
+    "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233971060966,
+    "sku": "258F-29786",
+    "color": "Olive",
+    "size": "#18",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
+    "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971060966"
+   },
+   "variants": [
+    {
+     "id": 47233970864358,
+     "sku": "258F-29785",
+     "color": "Olive",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
+     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970864358"
+    },
+    {
+     "id": 47233971060966,
+     "sku": "258F-29786",
+     "color": "Olive",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
+     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971060966"
+    },
+    {
+     "id": 47233970471142,
+     "sku": "258F-29787",
+     "color": "Brown",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Brown.png?v=1769096170&width=240",
+     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970471142"
+    },
+    {
+     "id": 47233970700518,
+     "sku": "258F-29788",
+     "color": "Brown",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Brown.png?v=1769096170&width=240",
+     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970700518"
+    },
+    {
+     "id": 47233971192038,
+     "sku": "258F-29791",
+     "color": "Olive Hot Spot",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_OliveHotSpot.png?v=1769096173&width=240",
+     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971192038"
+    },
+    {
+     "id": 47233971323110,
+     "sku": "258F-29792",
+     "color": "Olive Hot Spot",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_OliveHotSpot.png?v=1769096173&width=240",
+     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971323110"
+    },
+    {
+     "id": 47233970340070,
+     "sku": "258F-29790",
+     "color": "Black",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Black.png?v=1769096174&width=240",
+     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970340070"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Olive, Brown, Olive Hot Spot, Black. Showing Olive first; the rest are chips."
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+    }
+   ]
+  },
+  {
+   "id": "rubberlegs",
+   "group": null,
+   "name": "Rubberlegs",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+   "asWritten": "Rubberlegs",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "pats-rubberlegs-jimmy-legs",
+    "title": "Pat's Rubberlegs (Jimmy Legs)",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47340473549030,
+    "sku": "825F-1188",
+    "color": "Brown",
+    "size": "#6",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+   },
+   "variants": [
+    {
+     "id": 47248704504038,
+     "sku": "825F-147",
+     "color": "Brown",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704504038"
+    },
+    {
+     "id": 47340473549030,
+     "sku": "825F-1188",
+     "color": "Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+    },
+    {
+     "id": 47248704536806,
+     "sku": "825F-149",
+     "color": "Brown",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704536806"
+    },
+    {
+     "id": 47248704569574,
+     "sku": "825F-1219",
+     "color": "Coffee/Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_CoffeeBlack_668f63ce-4313-43b9-9367-1eb1dd644d41.png?v=1781198082&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704569574"
+    },
+    {
+     "id": 47248704602342,
+     "sku": "825F-33154",
+     "color": "Black",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704602342"
+    },
+    {
+     "id": 47248704635110,
+     "sku": "825F-5685",
+     "color": "Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704635110"
+    },
+    {
+     "id": 47248704667878,
+     "sku": "825F-33155",
+     "color": "Black",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704667878"
+    },
+    {
+     "id": 47248704700646,
+     "sku": "825F-1231",
+     "color": "Orange/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_OrangeBrown_928a2b48-eedb-49dd-9218-3123e27be434.png?v=1781198094&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704700646"
+    },
+    {
+     "id": 47248704733414,
+     "sku": "825F-5703",
+     "color": "Yellow/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_YellowBrown_c70988d6-1fe6-4ed3-9f3c-854cecdc3aaf.png?v=1781198100&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704733414"
+    },
+    {
+     "id": 47248704766182,
+     "sku": "825F-5696",
+     "color": "Rust/Olive",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_RustOlive_c26f7d58-e316-47d6-910d-bf5d1a806101.png?v=1781198106&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704766182"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Brown, Coffee/Black, Black, Orange/Brown, Yellow/Brown, Rust/Olive. Showing Brown first; the rest are chips."
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #4, #6, #8. Defaulted to the middle, #6."
+    }
+   ]
+  },
+  {
+   "id": "sweet-pea-jigged-baetis",
+   "group": null,
+   "name": "Sweet Pea Jigged Baetis",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/sweet-pea-jigged-baetis-16/",
+   "asWritten": "Sweet Pea Jigged Baetis",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "jigged-baetis-16",
+    "title": "Jigged Baetis - #16",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/jigged-baetis-16",
+    "type": "Mayfly"
+   },
+   "variant": {
+    "id": 47234014544102,
+    "sku": "26416",
+    "color": null,
+    "size": "#16",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/bbac2b1d-a822-41e2-a282-16ce1f75f8a1.png?v=1770640556&width=240",
+    "url": "https://catalog.theflyshop.com/products/jigged-baetis-16?variant=47234014544102"
+   },
+   "variants": [
+    {
+     "id": 47234014544102,
+     "sku": "26416",
+     "color": null,
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/bbac2b1d-a822-41e2-a282-16ce1f75f8a1.png?v=1770640556&width=240",
+     "url": "https://catalog.theflyshop.com/products/jigged-baetis-16?variant=47234014544102"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Sweet Pea Jigged Baetis\" to \"Jigged Baetis - #16\" by fuzzy match (score 0.67). Confirm.",
+     "candidates": [
+      {
+       "handle": "jigged-baetis-16",
+       "title": "Jigged Baetis - #16",
+       "score": 0.67
+      }
+     ]
+    },
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"sweet-pea-jigged-baetis-16\", which is not in the catalog. Resolved by name to \"Jigged Baetis - #16\" ($2.95).",
+     "candidates": [
+      {
+       "handle": "jigged-baetis-16",
+       "title": "Jigged Baetis - #16",
+       "price": 2.95
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pheasant-tails",
+   "group": null,
+   "name": "Pheasant Tails",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/pheasant-tail/",
+   "asWritten": "Pheasant Tails",
+   "status": "confirm",
+   "matchedBy": "link",
+   "product": {
+    "handle": "pheasant-tail",
+    "title": "Pheasant Tail",
+    "vendor": "Dreamcast Flies",
+    "url": "https://catalog.theflyshop.com/products/pheasant-tail",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47268375232742,
+    "sku": "122F-2489",
+    "color": null,
+    "size": "#12",
+    "price": 2,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+    "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375232742"
+   },
+   "variants": [
+    {
+     "id": 47268375232742,
+     "sku": "122F-2489",
+     "color": null,
+     "size": "#12",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375232742"
+    },
+    {
+     "id": 47268375429350,
+     "sku": "122F-2490",
+     "color": null,
+     "size": "#14",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375429350"
+    },
+    {
+     "id": 47268375462118,
+     "sku": "122F-2491",
+     "color": null,
+     "size": "#16",
+     "price": 2,
+     "available": false,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375462118"
+    },
+    {
+     "id": 47268375527654,
+     "sku": "122F-2492",
+     "color": null,
+     "size": "#18",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375527654"
+    },
+    {
+     "id": 47268375593190,
+     "sku": "122F-2493",
+     "color": null,
+     "size": "#20",
+     "price": 2,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375593190"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "No catalog product matches \"Pheasant Tails\" by name. Resolved by the page's own link to \"Pheasant Tail\". Confirm."
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #12, #14, #16, #18, #20. Defaulted to the middle, #12."
+    },
+    {
+     "severity": "info",
+     "text": "Some options are out of stock: #16."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-missing-link",
+   "group": null,
+   "name": "Mercer's Missing Link",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/mercers-missing-link/",
+   "asWritten": "Mercer's Missing Link",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "mercers-missing-link",
+    "title": "Mercer's Missing Link",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-missing-link",
+    "type": "Caddis"
+   },
+   "variant": {
+    "id": 47268438474982,
+    "sku": "139F-231",
+    "color": "Natural Dark",
+    "size": "#16",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
+   },
+   "variants": [
+    {
+     "id": 47268438409446,
+     "sku": "139F-26359",
+     "color": "Natural Dark",
+     "size": "#12",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438409446"
+    },
+    {
+     "id": 47268438442214,
+     "sku": "139F-95",
+     "color": "Natural Dark",
+     "size": "#14",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438442214"
+    },
+    {
+     "id": 47268438474982,
+     "sku": "139F-231",
+     "color": "Natural Dark",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
+    },
+    {
+     "id": 47268438507750,
+     "sku": "139F-1581",
+     "color": "Natural Dark",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438507750"
+    },
+    {
+     "id": 47268438311142,
+     "sku": "139F-1953",
+     "color": "Red",
+     "size": "#14",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438311142"
+    },
+    {
+     "id": 47268438343910,
+     "sku": "139F-1954",
+     "color": "Red",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438343910"
+    },
+    {
+     "id": 47268438376678,
+     "sku": "139F-1955",
+     "color": "Red",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438376678"
+    },
+    {
+     "id": 47268438540518,
+     "sku": "139F-26360",
+     "color": "Amber",
+     "size": "#12",
+     "price": 2.95,
+     "available": false,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438540518"
+    },
+    {
+     "id": 47268438573286,
+     "sku": "139F-26361",
+     "color": "Amber",
+     "size": "#14",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438573286"
+    },
+    {
+     "id": 47268438606054,
+     "sku": "139F-26362",
+     "color": "Amber",
+     "size": "#16",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438606054"
+    },
+    {
+     "id": 47268438638822,
+     "sku": "139F-26363",
+     "color": "Amber",
+     "size": "#18",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438638822"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Natural Dark, Red, Amber. Showing Natural Dark first; the rest are chips."
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #12, #14, #16, #18. Defaulted to the middle, #16."
+    },
+    {
+     "severity": "info",
+     "text": "Some options are out of stock: Amber #12."
+    }
+   ]
+  },
+  {
+   "id": "s-m-nymph",
+   "group": null,
+   "name": "S&M Nymph",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/hogans-s-m-nymph/",
+   "asWritten": "S&M Nymph",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "hogans-s-m-nymph",
+    "title": "Hogan's S&M Nymph",
+    "vendor": "Rio Products",
+    "url": "https://catalog.theflyshop.com/products/hogans-s-m-nymph",
+    "type": "Mayfly"
+   },
+   "variant": {
+    "id": 47234265841894,
+    "sku": "499F-2220",
+    "color": "Olive",
+    "size": "#18",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/499F_HogansS_MNymph_Olive.png?v=1769099065&width=240",
+    "url": "https://catalog.theflyshop.com/products/hogans-s-m-nymph?variant=47234265841894"
+   },
+   "variants": [
+    {
+     "id": 47234265809126,
+     "sku": "499F-2219",
+     "color": "Olive",
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/499F_HogansS_MNymph_Olive.png?v=1769099065&width=240",
+     "url": "https://catalog.theflyshop.com/products/hogans-s-m-nymph?variant=47234265809126"
+    },
+    {
+     "id": 47234265841894,
+     "sku": "499F-2220",
+     "color": "Olive",
+     "size": "#18",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/499F_HogansS_MNymph_Olive.png?v=1769099065&width=240",
+     "url": "https://catalog.theflyshop.com/products/hogans-s-m-nymph?variant=47234265841894"
+    },
+    {
+     "id": 47234265743590,
+     "sku": "499F-3350",
+     "color": "Brown",
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/499F_HogansS_MNymph_Brown.png?v=1769099062&width=240",
+     "url": "https://catalog.theflyshop.com/products/hogans-s-m-nymph?variant=47234265743590"
+    },
+    {
+     "id": 47234265776358,
+     "sku": "499F-3351",
+     "color": "Brown",
+     "size": "#18",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/499F_HogansS_MNymph_Brown.png?v=1769099062&width=240",
+     "url": "https://catalog.theflyshop.com/products/hogans-s-m-nymph?variant=47234265776358"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"S&M Nymph\" to \"Hogan's S&M Nymph\" by fuzzy match (score 0.86). Confirm.",
+     "candidates": [
+      {
+       "handle": "hogans-s-m-nymph",
+       "title": "Hogan's S&M Nymph",
+       "score": 0.86
+      }
+     ]
+    },
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Olive, Brown. Showing Olive first; the rest are chips."
+    },
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+    }
+   ]
+  },
+  {
+   "id": "walt-s-worm",
+   "group": null,
+   "name": "Walt's Worm",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/walts-worm-14/",
+   "asWritten": "Walt's Worm",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "walts-worm-14",
+    "title": "Walt's Worm - #14",
+    "vendor": "Andrew Laraway Flies",
+    "url": "https://catalog.theflyshop.com/products/walts-worm-14",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234110816486,
+    "sku": "30874",
+    "color": null,
+    "size": "#14",
+    "price": 2.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1ee160ec-5fb9-4681-ba45-d04a2c151028.png?v=1772121177&width=240",
+    "url": "https://catalog.theflyshop.com/products/walts-worm-14?variant=47234110816486"
+   },
+   "variants": [
+    {
+     "id": 47234110816486,
+     "sku": "30874",
+     "color": null,
+     "size": "#14",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1ee160ec-5fb9-4681-ba45-d04a2c151028.png?v=1772121177&width=240",
+     "url": "https://catalog.theflyshop.com/products/walts-worm-14?variant=47234110816486"
+    }
+   ],
+   "flags": []
+  },
+  {
+   "id": "peaches-n-green",
+   "group": null,
+   "name": "Peaches n' Green",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/peaches-n-green-olive-18/",
+   "asWritten": "Peaches n' Green",
+   "status": "resolved",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "peaches-n-green-olive-18",
+    "title": "Peaches 'n Green - Olive #18",
+    "vendor": "Jordan Taylor Flies",
+    "url": "https://catalog.theflyshop.com/products/peaches-n-green-olive-18",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234296512742,
+    "sku": "30773",
+    "color": "Olive",
+    "size": "#18",
+    "price": 3.25,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_0cd95b83-bde2-4a23-b6e2-8184f151216d.png?v=1767178382&width=240",
+    "url": "https://catalog.theflyshop.com/products/peaches-n-green-olive-18?variant=47234296512742"
+   },
+   "variants": [
+    {
+     "id": 47234296512742,
+     "sku": "30773",
+     "color": "Olive",
+     "size": "#18",
+     "price": 3.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_0cd95b83-bde2-4a23-b6e2-8184f151216d.png?v=1767178382&width=240",
+     "url": "https://catalog.theflyshop.com/products/peaches-n-green-olive-18?variant=47234296512742"
+    }
+   ],
+   "flags": []
+  },
+  {
+   "id": "bp-weiss-nymph",
+   "group": null,
+   "name": "BP Weiss Nymph",
+   "colors": [],
+   "sizes": [],
+   "reportLink": null,
+   "asWritten": "BP Weiss Nymph",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "weiss-bp-nymphs-18",
+    "title": "Weiss BP Nymphs - #18",
+    "vendor": "Fulling Mills",
+    "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234236023014,
+    "sku": "326F-29689",
+    "color": "Dark",
+    "size": "#18",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
+    "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236023014"
+   },
+   "variants": [
+    {
+     "id": 47234236023014,
+     "sku": "326F-29689",
+     "color": "Dark",
+     "size": "#18",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
+     "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236023014"
+    },
+    {
+     "id": 47234236186854,
+     "sku": "326F-29690",
+     "color": "Light",
+     "size": "#18",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
+     "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236186854"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "nolink",
+     "text": "Named on the page without a link. Resolved by name."
+    },
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Dark, Light. Showing Dark first; the rest are chips."
+    }
+   ]
+  }
+ ],
+ "substitutes": {},
+ "readOnly": true,
+ "packs": {},
+ "summary": {
+  "picks": 9,
+  "resolved": 2,
+  "confirm": 7,
+  "unresolved": 0,
+  "priceMin": 2,
+  "priceMax": 3.5
+ },
+ "unresolved": [
+  {
+   "pickId": "lance-s-jigged-x-may",
+   "name": "Lance's Jigged X-May",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Olive, Brown, Olive Hot Spot, Black. Showing Olive first; the rest are chips."
+  },
+  {
+   "pickId": "lance-s-jigged-x-may",
+   "name": "Lance's Jigged X-May",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+  },
+  {
+   "pickId": "rubberlegs",
+   "name": "Rubberlegs",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Brown, Coffee/Black, Black, Orange/Brown, Yellow/Brown, Rust/Olive. Showing Brown first; the rest are chips."
+  },
+  {
+   "pickId": "rubberlegs",
+   "name": "Rubberlegs",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #4, #6, #8. Defaulted to the middle, #6."
+  },
+  {
+   "pickId": "sweet-pea-jigged-baetis",
+   "name": "Sweet Pea Jigged Baetis",
+   "severity": "confirm",
+   "text": "Matched \"Sweet Pea Jigged Baetis\" to \"Jigged Baetis - #16\" by fuzzy match (score 0.67). Confirm.",
+   "candidates": [
+    {
+     "handle": "jigged-baetis-16",
+     "title": "Jigged Baetis - #16",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "sweet-pea-jigged-baetis",
+   "name": "Sweet Pea Jigged Baetis",
+   "severity": "wronglink",
+   "text": "The page links to \"sweet-pea-jigged-baetis-16\", which is not in the catalog. Resolved by name to \"Jigged Baetis - #16\" ($2.95).",
+   "candidates": [
+    {
+     "handle": "jigged-baetis-16",
+     "title": "Jigged Baetis - #16",
+     "price": 2.95
+    }
+   ]
+  },
+  {
+   "pickId": "pheasant-tails",
+   "name": "Pheasant Tails",
+   "severity": "confirm",
+   "text": "No catalog product matches \"Pheasant Tails\" by name. Resolved by the page's own link to \"Pheasant Tail\". Confirm."
+  },
+  {
+   "pickId": "pheasant-tails",
+   "name": "Pheasant Tails",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #12, #14, #16, #18, #20. Defaulted to the middle, #12."
+  },
+  {
+   "pickId": "mercer-s-missing-link",
+   "name": "Mercer's Missing Link",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Natural Dark, Red, Amber. Showing Natural Dark first; the rest are chips."
+  },
+  {
+   "pickId": "mercer-s-missing-link",
+   "name": "Mercer's Missing Link",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #12, #14, #16, #18. Defaulted to the middle, #16."
+  },
+  {
+   "pickId": "s-m-nymph",
+   "name": "S&M Nymph",
+   "severity": "confirm",
+   "text": "Matched \"S&M Nymph\" to \"Hogan's S&M Nymph\" by fuzzy match (score 0.86). Confirm.",
+   "candidates": [
+    {
+     "handle": "hogans-s-m-nymph",
+     "title": "Hogan's S&M Nymph",
+     "score": 0.86
+    }
+   ]
+  },
+  {
+   "pickId": "s-m-nymph",
+   "name": "S&M Nymph",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Olive, Brown. Showing Olive first; the rest are chips."
+  },
+  {
+   "pickId": "s-m-nymph",
+   "name": "S&M Nymph",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+  },
+  {
+   "pickId": "bp-weiss-nymph",
+   "name": "BP Weiss Nymph",
+   "severity": "nolink",
+   "text": "Named on the page without a link. Resolved by name."
+  },
+  {
+   "pickId": "bp-weiss-nymph",
+   "name": "BP Weiss Nymph",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Dark, Light. Showing Dark first; the rest are chips."
+  }
+ ],
+ "observations": [
+  "Rating: Fair to Good.",
+  "Prices from the catalog: 9 picks run $2.00 to $3.50; 4 are $2.95.",
+  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap."
+ ]
+}

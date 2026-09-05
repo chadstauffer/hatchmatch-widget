@@ -78,8 +78,30 @@ window.SWEEP = async function () {
       card.switchWater(w);
       for (const tab of ['now','hatch','notes']) card.set({ open: true, tab });
       card.set({ picker: true }); card.set({ picker: false });
+      card.set({ open: true, tab: 'hatch' });
+      const ro = !!card.data.readOnly;
+      const shown = [...card.root.querySelectorAll('.fly')].length;
+      const steppers = card.root.querySelectorAll('.fly .step').length;
+      const pack = card.root.querySelector('.pack');
+      const rows = card.rows().flatMap(g => g.flies);
+      const ids = rows.map(r => r.p.id);
+      // Read-only: every resolved pick is shown exactly once, no row offers a quantity, and the
+      // buy button is disabled. A water that cannot price a pack must not look like it can.
+      if (ro) {
+        if (shown !== card.picks.length) out.invariants.push(`${w}: ${card.picks.length} picks but ${shown} rows`);
+        if (steppers) out.invariants.push(`${w}: read-only but ${steppers} quantity steppers`);
+        if (!pack || !pack.disabled) out.invariants.push(`${w}: read-only but the buy button is live`);
+        if (card.pack().flies !== 0) out.invariants.push(`${w}: read-only but pack reports ${card.pack().flies} flies`);
+      } else {
+        if (!pack || pack.disabled) out.invariants.push(`${w}: sells a pack but the buy button is disabled`);
+      }
+      if (ids.length !== new Set(ids).size) out.invariants.push(`${w}: a pick appears in two groups`);
+      // Every card state must render a header, tabs and a pinned block.
+      for (const sel of ['.head', '.tabs', '.buybar', '.panel']) {
+        if (!card.root.querySelector(sel)) out.invariants.push(`${w}: missing ${sel}`);
+      }
       card.set({ open: false });
-      out.waters.push(w + ' ok');
+      out.waters.push(`${w} ok (${shown} flies${ro ? ', read-only' : ', pack'})`);
     } catch (e) { out.errors.push(`water ${w}: ${e.message}`); }
   }
 

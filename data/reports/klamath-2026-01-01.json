@@ -1,0 +1,137 @@
+{
+  "note": "Scraped from https://www.theflyshop.com/streamreport.html by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.",
+  "water": {
+    "id": "klamath",
+    "shortName": "Klamath",
+    "group": "river",
+    "usgsSite": "11516530",
+    "gaugeName": "USGS Iron Gate",
+    "lat": 41.9279,
+    "lon": -122.4442,
+    "name": "Klamath River",
+    "packName": null,
+    "flow": {
+      "min": 0,
+      "max": 8000,
+      "threshold": null,
+      "thresholdLabel": "wading limit",
+      "scaleSource": "USGS daily statistics 1961–2026, 6,060 CFS at the 70th percentile of daily p95, rounded up",
+      "lastReading": {
+        "value": 0,
+        "at": "2026-09-05T19:50:22.127Z"
+      }
+    },
+    "sections": [],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-01-01",
+    "author": null,
+    "rating": "Poor",
+    "clarity": null,
+    "wading": null,
+    "notes": [
+      "The river is definitely showing signs from the last storm and we will see big flows and probably colored water over the next few weeks. The upper river will probably see some more fish coming through, and we hope, up into Oregon! If you are fishing, swing low and slow for best success. We're looking forward to June when the halfpounders and early summer run fish show up!"
+    ],
+    "notesPermission": "pending",
+    "source": {
+      "url": "https://www.theflyshop.com/streamreport.html",
+      "fetchedAt": "2026-09-05"
+    }
+  },
+  "hatches": [],
+  "readOnly": true,
+  "picks": [
+    {
+      "id": "clown-egg",
+      "group": "Eggs",
+      "name": "Clown Egg",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/clown-egg/",
+      "asWritten": "Clown Egg"
+    },
+    {
+      "id": "micro-spawn",
+      "group": "Eggs",
+      "name": "Micro Spawn",
+      "colors": [
+        "Shrimp Pink",
+        "Salmon Egg"
+      ],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/",
+      "asWritten": "Micro Spawn - - Shrimp Pink or Salmon Egg"
+    },
+    {
+      "id": "boles-bazookas",
+      "group": "Eggs",
+      "name": "Boles Bazookas",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/boles-bazookas-8/",
+      "asWritten": "Boles Bazookas"
+    },
+    {
+      "id": "pat-s-rubberlegs",
+      "group": "Nymphs",
+      "name": "Pat's Rubberlegs",
+      "colors": [],
+      "sizes": [
+        "#4",
+        "#6",
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+      "asWritten": "Pat's Rubberlegs - - #4-8"
+    },
+    {
+      "id": "coppertop-duracell",
+      "group": "Nymphs",
+      "name": "Coppertop Duracell",
+      "colors": [],
+      "sizes": [
+        "#16"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
+      "asWritten": "Coppertop Duracell - - #16"
+    },
+    {
+      "id": "red-copper-johns",
+      "group": "Nymphs",
+      "name": "Red Copper Johns",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
+      "asWritten": "Red Copper Johns - - #14-18"
+    },
+    {
+      "id": "gordon-s-amber-wing-prince",
+      "group": "Nymphs",
+      "name": "Gordon's Amber Wing Prince",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
+      "asWritten": "Gordon's Amber Wing Prince - - #14-18"
+    },
+    {
+      "id": "beaded-assassins",
+      "group": "Nymphs",
+      "name": "Beaded Assassins",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/beaded-assassins-6/",
+      "asWritten": "Beaded Assassins"
+    }
+  ],
+  "substitutes": {}
+}
