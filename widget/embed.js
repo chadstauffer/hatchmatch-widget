@@ -119,20 +119,28 @@ img{display:block}
    auto-scaling would draw a dependable tailwater week as a mountain range, which on this river
    would say the opposite of the truth. The dotted line is the wading threshold, which turns
    "is it rising" into "has it been fishable this week" -- the question a flat week can answer. */
-/* A hydrograph, not a block chart. Fourteen buckets by six levels is 84 possible states -- a
-   pattern, not a curve, which is why it read as decoration however the cells were coloured. This
-   samples one point per pixel column and drops the level quantization entirely: the stepped look
-   comes from 1px columns, the way it does on a watch face, not from a coarse grid.
-   The viewBox is a fixed 128 units wide and stretched by CSS, so one unit is about one pixel at
-   full width and the trace simply compresses when the row is tight. */
-.spark{position:relative;margin-left:auto;height:40px;width:123px;flex:0 1 auto;min-width:0;margin-bottom:4px;color:var(--muted)}
-.spark svg{display:block;width:100%;height:100%;overflow:visible}
-.spark .fill{fill:color-mix(in srgb,var(--water1),var(--water2) 55%);fill-opacity:.55}
-.spark .trace{fill:none;stroke:color-mix(in srgb,var(--water1),var(--water2) 75%);stroke-width:1;stroke-linejoin:round;stroke-linecap:round}
-.spark .base{stroke:currentColor;stroke-opacity:.35;stroke-width:1}
-/* Seven ticks reads as seven days without a word of copy. */
-.spark .tick{stroke:currentColor;stroke-opacity:.28;stroke-width:1}
-@container (max-width:344px){.spark{height:32px;width:82px}}
+/* A hydrograph rasterized onto a dot matrix. The curve is the right shape -- the smooth vector
+   version proved that -- but every other meter on this card is discrete lit cells, so this one is
+   too. Roughly 30 columns by 10 rows: 14 x 6 failed because 84 states cannot describe a curve,
+   and 300 can. Three states per cell, which is what puts water underneath the trace: the top lit
+   cell of a column is the trace at full brightness, the cells beneath it are the water at 60%,
+   and the rest are the grid the shape sits on at 12%. */
+/* 44px, not 40: ten rows of 3px cells with 1px gaps need 39px of grid, and the axis takes 5.
+   At 40 the cells came out 2.6px tall against 3.1 wide, which is not a square. 44 also matches
+   the CFS figure's own height exactly, so the graph pairs with the number without growing the
+   row. */
+.spark{position:relative;margin-left:auto;width:123px;height:44px;flex:0 1 auto;min-width:0;color:var(--muted);display:flex;flex-direction:column;gap:1px}
+.spark .grid{display:flex;gap:1px;flex:1 1 auto;min-height:0}
+.spark .col{display:flex;flex-direction:column-reverse;gap:1px;flex:1 1 0;min-width:0}
+.spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
+.spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
+.spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
+/* The axis sits outside the grid so it does not compete with it. Seven ticks reads as seven days
+   without a word of copy. */
+.spark .axis{position:relative;height:4px;flex:none}
+.spark .axis i{position:absolute;bottom:1px;width:1px;height:3px;background:currentColor;opacity:.3}
+.spark .axis::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.35}
+@container (max-width:344px){.spark{height:34px;width:82px}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -750,45 +758,40 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const arrow = d => `<span class="ar" role="img" aria-label="${f.trend}">${CARET(d === 'up')}</span>`;
       return `<span class="unitstack">${dir === 'up' ? arrow('up') : ''}<span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${dir === 'down' ? arrow('down') : ''}</span>`;
     }
-    /** The week as a hydrograph: an area fill for the water, a trace on top, a baseline rule and
-        seven day ticks. The scale is the segmented bar's own fixed range, never the window's own
-        min and max -- auto-scaling would draw every river as a dramatic curve regardless of what
-        it is doing, which is the fabrication this graphic has refused for five rounds. */
+    /** The week as a hydrograph, rasterized onto a cell grid. The sampled series and the fixed
+        scale are unchanged -- only how it is drawn. A column the gauge never reported lights
+        nothing, and a real reading always lights at least one cell, so low water and no data
+        never look the same. */
     sparkline() {
       const F = this.data.water.flow, f = this.s.flow;
       if (f.failed || !f.series || F.max == null) return '';
-      const W = 128, H = 40, span = F.max - F.min, pts = f.series, n = pts.length;
-      if (n < 2) return '';
-      const x = i => (i / (n - 1)) * W;
-      // A real reading never renders as nothing: the fill is floored at one unit, which is one
-      // pixel at full height. An empty column means no data, and the two must not look alike.
-      const y = v => Math.min(H - 1, H - Math.max(0, Math.min(1, (v - F.min) / span)) * H);
-      // Runs of consecutive readings. A gap the gauge never reported breaks the trace rather than
-      // being drawn across.
-      const runs = []; let run = [];
-      pts.forEach((v, i) => {
-        if (v == null) { if (run.length) runs.push(run); run = []; }
-        else run.push([x(i), y(v)]);
+      const narrow = this.cardWidth() <= 344;
+      const COLS = narrow ? 20 : 30, ROWS = 10;
+      const span = F.max - F.min, src = f.series;
+      if (src.length < 2) return '';
+      // Resample to the column count. Same data, coarser raster.
+      const cols = Array.from({ length: COLS }, (_, c) => {
+        const lo = Math.floor(c * src.length / COLS), hi = Math.max(lo + 1, Math.floor((c + 1) * src.length / COLS));
+        let n = 0, sum = 0;
+        for (let i = lo; i < hi && i < src.length; i++) if (src[i] != null) { n++; sum += src[i]; }
+        return n ? sum / n : null;
       });
-      if (run.length) runs.push(run);
-      if (!runs.length) return '';
-      const pt = p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`;
-      const shapes = runs.map(r => {
-        const line = r.map(pt).join(' ');
-        const area = `${r[0][0].toFixed(1)},${H} ${line} ${r[r.length - 1][0].toFixed(1)},${H}`;
-        return `<polygon class="fill" points="${area}"/><polyline class="trace" points="${line}" vector-effect="non-scaling-stroke"/>`;
+      const cells = cols.map(v => {
+        if (v == null) return `<span class="col">${'<i></i>'.repeat(ROWS)}</span>`;
+        const lit = Math.max(1, Math.min(ROWS, Math.ceil((v - F.min) / span * ROWS)));
+        return `<span class="col">${Array.from({ length: ROWS }, (_, r) =>
+          `<i class="${r < lit - 1 ? 'on' : r === lit - 1 ? 'on top' : ''}"></i>`).join('')}</span>`;
       }).join('');
-      const ticks = Array.from({ length: 7 }, (_, d) => {
-        const tx = (d / 7 * W).toFixed(1);
-        return `<line class="tick" x1="${tx}" y1="${H - 0.5}" x2="${tx}" y2="${H - 3.5}" vector-effect="non-scaling-stroke"/>`;
-      }).join('');
-      const seen = pts.filter(v => v != null);
+      const ticks = Array.from({ length: 7 }, (_, d) => `<i style="left:${(d / 7 * 100).toFixed(2)}%"></i>`).join('');
+      const seen = src.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS`;
-      return `<span class="spark" role="img" aria-label="${label}">`
-        + `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">`
-        + `${shapes}${ticks}`
-        + `<line class="base" x1="0" y1="${H - 0.5}" x2="${W}" y2="${H - 0.5}" vector-effect="non-scaling-stroke"/>`
-        + `</svg></span>`;
+      return `<span class="spark" role="img" aria-label="${label}"><span class="grid">${cells}</span><span class="axis" aria-hidden="true">${ticks}</span></span>`;
+    }
+    /** The container query that sizes the graph keys off the card, so the renderer has to ask the
+        same question to pick a column count. */
+    cardWidth() {
+      const el = this.root.querySelector('.card');
+      return el ? el.getBoundingClientRect().width : 440;
     }
     /** The whole flow instrument. Compact and expanded render the same thing; expanded adds the
         range labels under the bar and nothing else. */

@@ -100,6 +100,20 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   left the card rendering a flow with no sparkline and no way to know why. `demo/sweep.html`
   checks this.
 
+## Round 6b — the hydrograph is a dot matrix
+
+- Same sampled series, same fixed scale, same fill logic; only the drawing changed. The smooth
+  vector version proved the shape was right, but every other meter on this card is discrete lit
+  cells, so this one is too.
+- 30 columns x 10 rows at full width, 20 x 10 below a 344px card. 14 x 6 failed because 84 states
+  cannot describe a curve; 300 can. At the compressed floor the graph is 75px wide and still holds
+  20 columns.
+- Three cell states, which is what puts water under the trace: the top lit cell of a column at
+  full brightness, the cells beneath it at 60%, the rest at 12% as the grid the shape sits on.
+- 44px tall, not 40: ten rows of 3px cells with 1px gaps need 39px of grid and the axis takes 5.
+  At 40 the cells came out 2.6px tall against 3.1 wide. 44 also matches the CFS figure exactly,
+  so the graph pairs with the number without growing the row.
+
 ## Round 6 — the flow graph is a hydrograph
 
 - Rebuilt as SVG: an area fill for the water, a 1px trace on top, a baseline rule and seven day
