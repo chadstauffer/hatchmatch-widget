@@ -788,9 +788,13 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         for (let i = lo; i < hi && i < src.length; i++) if (src[i] != null) { n++; sum += src[i]; }
         return n ? sum / n : null;
       });
+      // Round, not ceil. Ceil put 7,690 CFS on a 0-15,000 scale six rows up, whose top edge is
+      // 9,000 -- overstating by 1,310 and rendering just under the 10K label. Rounding lands it
+      // on five rows, 7,500, which is 190 out and reads correctly against the labels.
+      const row = v => Math.max(1, Math.min(ROWS, Math.round((v - F.min) / span * ROWS)));
       const cells = cols.map(v => {
         if (v == null) return `<span class="col">${'<i></i>'.repeat(ROWS)}</span>`;
-        const lit = Math.max(1, Math.min(ROWS, Math.ceil((v - F.min) / span * ROWS)));
+        const lit = row(v);
         return `<span class="col">${Array.from({ length: ROWS }, (_, r) =>
           `<i class="${r < lit - 1 ? 'on' : r === lit - 1 ? 'on top' : ''}"></i>`).join('')}</span>`;
       }).join('');
@@ -799,8 +803,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const ticks = Array.from({ length: weeks + 1 }, (_, d) =>
         `<i style="--f:${(d / weeks).toFixed(4)}"></i>`).join('');
       const fmt = v => v >= 1000 ? `${+(v / 1000).toFixed(1)}K` : String(Math.round(v));
+      // Labels sit on the same ten-row grid the cells do. Placed continuously they measured
+      // against a different scale than the thing they label, so a column could top out below the
+      // 10K mark while standing for a value above it.
       const ylab = this.scaleTicks(F.max).map(v =>
-        `<b style="top:${(100 - (v - F.min) / span * 100).toFixed(2)}%">${fmt(v)}</b>`).join('');
+        `<b style="top:${(100 - row(v) / ROWS * 100).toFixed(2)}%">${fmt(v)}</b>`).join('');
       const seen = src.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS, scale ${num(F.min)} to ${num(F.max)}`;
       return `<span class="spark" role="img" aria-label="${label}">`
