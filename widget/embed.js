@@ -141,6 +141,13 @@ img{display:block}
 .chip{justify-self:stretch;width:100%;min-width:0;gap:8px;padding:0 10px 0 12px}
 .chip .word{font-size:11px;margin-left:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .chip .care{margin-left:auto;color:var(--accent);font-size:9px;flex:none;padding-left:6px}
+/* Same 9px accent glyph as the header chevron, deliberately not in a circle: the circle is the
+   expand/collapse shape, and two different actions must not look like one control. */
+.chip{position:relative}
+.chip .meter{cursor:help}
+.tip{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:6;padding:8px 10px;background:var(--surface2);border:1px solid var(--line);border-radius:8px;font-size:11px;line-height:1.45;letter-spacing:0;text-transform:none;color:var(--text);text-align:left;box-shadow:var(--shadow);display:none}
+.chip .meter:hover ~ .tip,.chip.tipopen .tip{display:block}
+@media (hover:none){.chip .meter:hover ~ .tip{display:none}}
 @container (max-width:399px){.chip .meter{display:none}}
 .flies{padding:0 0 6px}
 .only{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-radius:3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
@@ -150,18 +157,33 @@ img{display:block}
 .rig{padding:12px 16px 8px;display:flex;flex-direction:column;gap:4px}
 .filter{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:1px solid var(--accent);border-radius:10px;margin-top:4px}
 .group{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding:10px 0 4px}
-.fly{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;min-height:56px;padding:8px 0;border-top:1px solid var(--line)}
+.fly{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:56px;padding:5px 0;border-top:1px solid var(--line)}
+/* Zero dims the row but never removes it: a fly you took out has to be a fly you can put back. */
 .fly.zero{opacity:.45}
-.thumb{width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.thumb{width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--line);overflow:hidden;padding:0;display:block}
 .thumb img{width:100%;height:100%;object-fit:cover}
+.right .qtyline{display:flex;align-items:center;gap:8px}
+/* Lightbox. Inside the shadow root, so it inherits the card's theme and cannot be styled by the
+   host page. The name link still goes to the product; the image is its own affordance now. */
+.lb{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.72)}
+.lbcard{position:relative;width:min(360px,100%);max-height:100%;overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.lbimg{width:100%;aspect-ratio:1;border-radius:12px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.lbimg img{width:100%;height:100%;object-fit:contain}
+.lbclose{position:absolute;top:10px;right:10px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:50%;background:var(--bg);font-size:14px;line-height:1}
+@media (prefers-reduced-motion:no-preference){.lb{animation:hm-fade .16s ease-out both}}
+@keyframes hm-fade{from{opacity:0}to{opacity:1}}
 .name{font-size:14px;font-weight:600;line-height:1.2}
-.meta{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
+.meta{font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
 .meta i{width:6px;height:6px;border-radius:50%;background:var(--red);flex:none}
-.right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;white-space:nowrap}
+.right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;white-space:nowrap}
 .stock{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.stock i{width:6px;height:6px;border-radius:50%;background:var(--c)}
 .edit{display:flex;align-items:center;gap:8px;padding:0 0 10px 48px;flex-wrap:wrap}
 .step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;height:36px}
 .step button{width:36px;height:36px;font-size:16px;text-align:center}.step b{min-width:18px;text-align:center;font-size:13px}
+/* One stepper component, two sizes. The small one fits the fly row and the pinned trip row. */
+.step.sm{height:28px}
+.step.sm button{width:28px;height:28px;font-size:14px}
+.step.sm b{min-width:14px;font-size:12px}
 .vchip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;font-size:12px}
 .vchip[aria-pressed=true]{background:var(--surface2)}.vchip i{width:6px;height:6px;border-radius:50%;background:var(--off)}.vchip[aria-pressed=true] i{background:var(--accent)}
 .vchip.oos{color:var(--muted);text-decoration:line-through}
@@ -178,9 +200,6 @@ img{display:block}
 .triprow{display:flex;align-items:flex-end;gap:12px;min-height:44px}
 .tripctl{display:flex;flex-direction:column;align-items:flex-start;gap:3px;flex:none}
 .tripctl .lab{white-space:nowrap;line-height:1}
-.tripctl .step{height:28px}
-.tripctl .step button{width:28px;height:28px;font-size:14px}
-.tripctl .step b{min-width:14px;font-size:12px}
 .secsel{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-left:auto;flex:0 1 auto;min-width:0;max-width:150px}
 .secsel .lab{line-height:1}
 .secsel .box{position:relative;display:inline-flex;align-items:center;height:28px;max-width:100%}
@@ -273,7 +292,7 @@ img{display:block}
       this.demo = demo;
       this.frame = 0; this.cycler = null; this.poll = null; this.scrollPos = {}; this.shownTab = null;
       this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, expanded: new Set(), added: false, filled: false,
-        flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', delta: null, hours: null, live: false, failed: false }, weather: null, temp: null, turbidity: null };
+        flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', delta: null, hours: null, live: false, failed: false }, weather: null, temp: null, turbidity: null, lightbox: null, tip: null };
       this.picks = data.picks.filter(p => p.variant);
       this.byId = new Map(this.picks.map(p => [p.id, p]));
       // Open the slot the angler is standing in, if it has a hatch. The rest start closed.
@@ -281,6 +300,14 @@ img{display:block}
       if (now && !now.none) this.s.expanded.add(now.slot);
       this.events = [];
       this.root.addEventListener('click', e => this.onClick(e));
+      // Native title does not exist on touch, so the meter gets a long press. Hover is CSS.
+      this.root.addEventListener('touchstart', e => {
+        const chip = e.target.closest?.('.chip');
+        if (!chip || !e.target.closest?.('.meter')) return;
+        this.press = setTimeout(() => { this.pressed = true; this.set({ tip: chip.dataset.slot }); }, 450);
+      }, { passive: true });
+      ['touchend', 'touchmove', 'touchcancel'].forEach(t =>
+        this.root.addEventListener(t, () => clearTimeout(this.press), { passive: true }));
       this.root.addEventListener('change', e => {
         const el = e.target.closest('[data-action="section"]');
         if (!el) return;
@@ -410,7 +437,12 @@ img{display:block}
     }
 
     /* ---- templates ---- */
-    meter(n, wide) { return `<span class="meter${wide ? ' wide' : ''}" aria-hidden="true">${[0, 1, 2, 3, 4].map(i => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</span>`; }
+    /** Decorative by default. Given a label it becomes an image with a name, so the guide's word
+        and the value are reachable without hovering anything. */
+    meter(n, wide, label) {
+      const a = label ? ` role="img" aria-label="${label}"` : ' aria-hidden="true"';
+      return `<span class="meter${wide ? ' wide' : ''}"${a}>${[0, 1, 2, 3, 4].map(i => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</span>`;
+    }
     ticks(count, idx, color) { return `<div class="ticks" aria-hidden="true">${Array.from({ length: count }, (_, i) => `<i class="${i === idx ? 'on' : ''}" style="--c:${color}"></i>`).join('')}</div>`; }
     flowBar(tall) {
       const F = this.data.water.flow, f = this.s.flow, segs = 24;
@@ -567,7 +599,7 @@ img{display:block}
         causation is spatial. mathLine() used to narrate it in a sentence; the sentence is gone. */
     tripStepper(label, key, val) {
       const a = label.toLowerCase();
-      return `<span class="tripctl"><span class="label lab">${label}</span><span class="step"><button data-action="step" data-key="${key}" data-d="-1" aria-label="Fewer ${a}" data-focus="${key}-">−</button><b aria-live="polite">${val}</b><button data-action="step" data-key="${key}" data-d="1" aria-label="More ${a}" data-focus="${key}+">+</button></span></span>`;
+      return `<span class="tripctl"><span class="label lab">${label}</span><span class="step sm"><button data-action="step" data-key="${key}" data-d="-1" aria-label="Fewer ${a}" data-focus="${key}-">−</button><b aria-live="polite">${val}</b><button data-action="step" data-key="${key}" data-d="1" aria-label="More ${a}" data-focus="${key}+">+</button></span></span>`;
     }
     /** Section is a peer of anglers and days, not a property of the fly list: all three shape the
         same pack. A water with one section shows no control rather than a select with one option. */
@@ -613,12 +645,14 @@ img{display:block}
         live in the same place: time-of-day rows, flies nested under the row that calls for them. */
     tab_hatch() {
       const d = this.data, now = this.slotNow();
-      const slots = d.hatches.map((h, i) => this.slotRow(h, i, i === now)).join('');
+      // A slot with no hatch is hidden unless the angler is standing in it. The fallback text is
+      // the guide's own prose -- worth reading at dusk, noise at 2pm. A rule, not a special case:
+      // a guide who does list a last-light hatch still gets it shown.
+      const slots = d.hatches.map((h, i) => (h.none && i !== now) ? '' : this.slotRow(h, i, i === now)).join('');
       const anytime = this.anytimeRow();
       return `<div class="slots">
   <div class="between" style="padding:8px 0 4px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)"><span>Time of day</span><span>Hatch, size, the guide's word</span></div>
   ${slots}${anytime}
-  <div class="muted" style="padding:14px 0 4px;font-size:12px">Intensity is the guide's word for each hatch this week.</div>
 </div>`;
     }
     /** A hatch row and, underneath it, the flies for that hatch. The row is the disclosure. */
@@ -627,25 +661,28 @@ img{display:block}
       if (h.none) return `<div class="slot">${label}<div class="muted" style="font-size:12px">${esc(h.fallback)}</div></div>`;
       const open = this.s.expanded.has(h.slot), id = `flies-${h.slot.replace(/\s+/g, '-')}`;
       return `<div class="slot">${label}
-    <button class="chip" data-action="slot" data-slot="${esc(h.slot)}" data-focus="slot-${esc(h.slot)}" aria-expanded="${open}" aria-controls="${id}">
-      <span class="dot"></span><span style="font-weight:600">${esc(h.insect)}</span><span class="muted">${esc(h.size)}</span>${this.meter(h.intensity)}<span class="word muted">${esc(h.word)}</span><span class="care" aria-hidden="true">${open ? '&#9662;' : '&#9656;'}</span>
+    <button class="chip${this.s.tip === h.slot ? ' tipopen' : ''}" data-action="slot" data-slot="${esc(h.slot)}" data-focus="slot-${esc(h.slot)}" aria-expanded="${open}" aria-controls="${id}">
+      <span class="dot"></span><span style="font-weight:600">${esc(h.insect)}</span><span class="muted">${esc(h.size)}</span>${this.meter(h.intensity, false, `Intensity: ${esc(h.word)}, ${h.intensity} of 5`)}<span class="word muted">${esc(h.word)}</span><span class="care" aria-hidden="true">${open ? '&#9662;' : '&#9656;'}</span>
+      <span class="tip" role="tooltip">The guide's call on how strong this hatch has been this week.</span>
     </button>
   </div>
   <div class="flies" id="${id}"${open ? '' : ' hidden'}>${open ? this.flyGroups(this.rows(h.key)) : ''}</div>`;
     }
     /** Three picks carry hatch tags no listed slot matches -- one stonefly, two eggs. Without this
         row they would sit in the pack and in the count while appearing nowhere in the list. */
+    /** Stoneflies and eggs are not hatch-driven; they are fished through the day. ALL DAY is
+        angler-native and parallel in form to MORNING / MIDDAY / AFTERNOON. */
     anytimeRow() {
       const groups = this.rows(null, true);
       if (!groups.length) return '';
-      const open = this.s.expanded.has('anytime');
+      const open = this.s.expanded.has('all day');
       const tags = [...new Set(groups.flatMap(g => g.flies).flatMap(r => r.p.hatches))];
-      return `<div class="slot"><span class="label" style="color:var(--muted)">Anytime</span>
-    <button class="chip" data-action="slot" data-slot="anytime" data-focus="slot-anytime" aria-expanded="${open}" aria-controls="flies-anytime" aria-label="Flies not tied to a hatch">
+      return `<div class="slot"><span class="label" style="color:var(--muted)">All day</span>
+    <button class="chip" data-action="slot" data-slot="all day" data-focus="slot-all day" aria-expanded="${open}" aria-controls="flies-all-day" aria-label="Flies not tied to a hatch">
       <span class="dot"></span><span class="muted">${esc(tags.map(cap).join(', '))}</span><span class="care" aria-hidden="true">${open ? '&#9662;' : '&#9656;'}</span>
     </button>
   </div>
-  <div class="flies" id="flies-anytime"${open ? '' : ' hidden'}>${open ? this.flyGroups(groups) : ''}</div>`;
+  <div class="flies" id="flies-all-day"${open ? '' : ' hidden'}>${open ? this.flyGroups(groups) : ''}</div>`;
     }
     flyGroups(groups) {
       if (!groups.length) return `<div class="muted" style="padding:10px 0 14px;font-size:12px">No flies for this hatch in the ${esc(this.s.section)} section.</div>`;
@@ -654,8 +691,14 @@ img{display:block}
     ${g.flies.map(r => this.flyRow(r)).join('')}
   </div>`).join('');
     }
+    /** The stepper shows the number of flies the row actually buys, and the price beside it is the
+        price of exactly that many. State stores per-angler-per-day, so a tap moves the total by the
+        multiplier: with two anglers over two days, one more each per day is four more flies.
+        Nothing reaches the shop's cart until the CTA is pressed -- cross-domain, we cannot add
+        incrementally, and no per-tap request is fired. What is live is the pack and the totals. */
     flyRow(r) {
       const { p, use, v, per, qty, sub } = r, id = p.id;
+      const mult = this.s.anglers * this.s.days;
       const lamp = r.oos ? ['var(--red)', 'Out of stock'] : (v.lowStock ? ['var(--amber)', 'Low stock'] : ['var(--green)', 'In stock']);
       const only = p.sections.length === 1 ? `<span class="only">${esc(p.sections[0])} only</span>` : '';
       const meta = sub ? `<i></i>Instead of ${esc(sub.name)}, out of stock` : esc([v.color, v.size].filter(Boolean).join('  ')) + only;
@@ -665,13 +708,34 @@ img{display:block}
         return `<button class="vchip${this.unavailable(x, p) ? ' oos' : ''}" data-action="variant" data-id="${id}" data-vid="${x.id}" aria-pressed="${x.id === v.id}" data-focus="v-${x.id}"><i></i>${esc(label)}</button>`;
       }).join('') : '';
       return `<div class="fly${qty === 0 ? ' zero' : ''}">
-    <div class="thumb">${v.image ? `<img src="${esc(v.image)}" alt="" loading="lazy" width="36" height="36">` : ''}</div>
+    ${v.image ? `<button class="thumb" data-action="image" data-id="${id}" data-focus="img-${id}" aria-label="Larger picture of ${esc(use.name)}"><img src="${esc(v.image)}" alt="" loading="lazy" width="36" height="36"></button>` : `<div class="thumb"></div>`}
     <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><a class="name" href="${esc(v.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" data-action="fly" data-id="${id}">${esc(use.name)}</a><span class="meta">${meta}</span></div>
-    <div class="right"><span><span class="muted" style="font-size:11px">×${qty}</span> ${money(r.price)}</span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
+    <div class="right"><span class="qtyline">${r.oos ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
   </div>
   ${chips ? `<div class="edit">
     <span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Option</span>${chips}
   </div>` : ''}`;
+    }
+    /** Tap the thumbnail, get the picture. Lives in the shadow root, so it inherits the card's
+        theme and no host stylesheet can reach it. The name link still goes to the product page --
+        the image is now its own affordance rather than a decoration on someone else's link. */
+    lightbox() {
+      const id = this.s.lightbox;
+      if (!id) return '';
+      const p = this.byId.get(id);
+      if (!p) return '';
+      const v = this.variantOf(p);
+      const big = v.image ? v.image.replace(/([?&]width=)\d+/, '$1800') : null;
+      const meta = [v.color, v.size].filter(Boolean).join('  ');
+      return `<div class="lb" role="dialog" aria-modal="true" aria-label="${esc(p.name)}">
+  <div class="lbcard">
+    <button class="lbclose" data-action="lbclose" data-focus="lbclose" aria-label="Close">&#10005;</button>
+    <div class="lbimg">${big ? `<img src="${esc(big)}" alt="${esc(p.name)}">` : ''}</div>
+    <div class="between"><span style="font-size:15px;font-weight:600;line-height:1.2">${esc(p.name)}</span><span style="font-weight:600;white-space:nowrap">${money(v.price)}</span></div>
+    ${meta ? `<div class="muted" style="font-size:12px">${esc(meta)}</div>` : ''}
+    <a class="ghost" href="${esc(v.url)}" target="_blank" rel="noopener" data-action="fly" data-id="${esc(id)}"><span class="caps" style="font-weight:600">View on theflyshop.com</span><span class="accent" aria-hidden="true">&rarr;</span></a>
+  </div>
+</div>`;
     }
     tab_notes() {
       const d = this.data;
@@ -688,7 +752,7 @@ img{display:block}
       const panel = this.root.querySelector('.panel');
       if (panel && this.shownTab) this.scrollPos[this.shownTab] = panel.scrollTop;
       clearInterval(this.cycler); this.cycler = null;   // innerHTML is about to drop the nodes this drives
-      this.root.innerHTML = `<style>${CSS}</style><div class="hm" data-theme="${this.theme()}" style="--accent:${accent};--on-accent:${onAccent}">${this.s.open ? this.expanded() : this.compact()}</div>`;
+      this.root.innerHTML = `<style>${CSS}</style><div class="hm" data-theme="${this.theme()}" style="--accent:${accent};--on-accent:${onAccent}">${this.s.open ? this.expanded() : this.compact()}${this.lightbox()}</div>`;
       this.shownTab = this.s.open ? this.s.tab : null;
       const next = this.root.querySelector('.panel');
       if (next) {
@@ -724,7 +788,13 @@ img{display:block}
 
     /* ---- interaction ---- */
     onClick(e) {
-      const el = e.target.closest('[data-action]'); if (!el) return;
+      // A long press that opened the tooltip must not also toggle the row it sits in.
+      if (this.pressed) { this.pressed = false; e.preventDefault(); return; }
+      const lb = e.target.closest?.('.lb');
+      if (lb && e.target === lb) { this.closeLightbox(); return; }
+      const el = e.target.closest('[data-action]');
+      if (this.s.tip && !e.target.closest?.('.meter')) this.set({ tip: null });
+      if (!el) return;
       const a = el.dataset.action, s = this.s;
       switch (a) {
         case 'expand': this.set({ open: true }); this.emit('card_expanded'); this.root.querySelector('[data-action="collapse"]')?.focus(); break;
@@ -747,9 +817,38 @@ img{display:block}
         case 'viewcart': window.open(this.pack().url, '_blank', 'noopener'); break;
         case 'guide': this.emit('guide_cta_tapped'); break;
         case 'fly': this.emit('fly_opened', { pick: el.dataset.id }); break;
+        case 'image': {
+          this.lbReturn = el.dataset.focus;
+          this.set({ lightbox: el.dataset.id, tip: null });
+          this.emit('fly_image_opened', { pick: el.dataset.id });
+          this.root.querySelector('.lbclose')?.focus();
+          break;
+        }
+        case 'lbclose': this.closeLightbox(); break;
       }
     }
+    closeLightbox() {
+      if (!this.s.lightbox) return;
+      const back = this.lbReturn;
+      this.lbReturn = null;
+      this.set({ lightbox: null });
+      this.root.querySelector(`[data-focus="${back}"]`)?.focus();
+    }
+    /** While the dialog is open, Tab stays inside it and Escape leaves it -- and focus goes back to
+        the thumbnail that opened it, not to the top of the card. */
     onKey(e) {
+      if (e.key === 'Escape') {
+        if (this.s.lightbox) { e.preventDefault(); this.closeLightbox(); return; }
+        if (this.s.tip) { e.preventDefault(); this.set({ tip: null }); return; }
+      }
+      if (this.s.lightbox && e.key === 'Tab') {
+        const f = [...this.root.querySelectorAll('.lbcard button, .lbcard a[href]')];
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1], cur = this.root.activeElement;
+        if (e.shiftKey && (cur === first || !f.includes(cur))) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && (cur === last || !f.includes(cur))) { e.preventDefault(); first.focus(); }
+        return;
+      }
       const t = e.target.closest?.('[role="tab"]'); if (!t) return;
       const tabs = [...this.root.querySelectorAll('[role="tab"]')], i = tabs.indexOf(t);
       const go = j => { const k = tabs[(j + tabs.length) % tabs.length].dataset.tab; this.set({ tab: k }); this.root.querySelector(`[data-tab="${k}"]`).focus(); };
