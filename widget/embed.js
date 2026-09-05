@@ -132,7 +132,7 @@ img{display:block}
    A two-by-two grid so the labels and the value rules resolve their percentages against the plot
    area alone. As a flex row they measured against the whole graph including the day axis, which
    put every label and every rule three pixels low -- enough, at 3px rows, to name the wrong one. */
-.spark{position:relative;margin-left:auto;display:grid;grid-template-columns:minmax(0,1fr) 26px;grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:4px;width:150px;height:48px;flex:0 1 auto;min-width:0;color:var(--muted)}
+.spark{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 26px;grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:4px;height:48px;flex:1 1 auto;min-width:0;max-width:280px;color:var(--muted)}
 .spark .yaxis{position:relative;grid-area:1/2;font-size:9px;letter-spacing:.06em}
 /* The top label sits on the top edge rather than centred across it, so it does not hang half
    outside the graph; the midpoint one is centred on its own line. */
@@ -145,6 +145,10 @@ img{display:block}
 .spark .rule{position:absolute;left:0;right:0;height:1px;background:currentColor;opacity:.22;pointer-events:none}
 .spark .col{display:flex;flex-direction:column-reverse;gap:1px;flex:1 1 0;min-width:0}
 .spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
+/* The newest column, marked. Without it nothing on the graph says which end is now, and reading
+   it right to left is an easy mistake to make once. */
+.spark .col.cur::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:1px;background:var(--accent)}
+.spark .col.cur i.top{background:var(--accent)}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
 .spark .axis{position:relative;grid-area:2/1;height:5px}
@@ -153,7 +157,7 @@ img{display:block}
 .spark .axis i{position:absolute;bottom:2px;left:calc(var(--f) * (100% - 1px));width:1px;height:3px;background:currentColor;opacity:.3}
 .spark .axis::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.35}
 /* Tight rows drop the value labels rather than the resolution: the plot keeps its cells. */
-@container (max-width:344px){.spark{width:96px;grid-template-columns:minmax(0,1fr);column-gap:0}.spark .yaxis{display:none}}
+@container (max-width:344px){.spark{grid-template-columns:minmax(0,1fr);column-gap:0}.spark .yaxis{display:none}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -790,8 +794,10 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     sparkline() {
       const F = this.data.water.flow, f = this.s.flow;
       if (f.failed || !f.series || F.max == null) return '';
-      const narrow = this.cardWidth() <= 344;
-      const COLS = narrow ? 24 : 30, ROWS = 10;
+      // Columns follow the width the graph actually got, at a 4px pitch, so a wide card shows
+      // more of the month at finer resolution instead of leaving the space empty. render()
+      // measures and corrects this on the pass after the first.
+      const COLS = this.sparkCols || 30, ROWS = 10;
       const span = F.max - F.min, src = f.series;
       if (src.length < 2) return '';
       // Resample to the column count. Over thirty days at thirty columns that is a day a column.
@@ -805,10 +811,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       // 9,000 -- overstating by 1,310 and rendering just under the 10K label. Rounding lands it
       // on five rows, 7,500, which is 190 out and reads correctly against the labels.
       const row = v => Math.max(1, Math.min(ROWS, Math.round((v - F.min) / span * ROWS)));
-      const cells = cols.map(v => {
-        if (v == null) return `<span class="col">${'<i></i>'.repeat(ROWS)}</span>`;
+      const cells = cols.map((v, i) => {
+        const cur = i === cols.length - 1 ? ' cur' : '';
+        if (v == null) return `<span class="col${cur}">${'<i></i>'.repeat(ROWS)}</span>`;
         const lit = row(v);
-        return `<span class="col">${Array.from({ length: ROWS }, (_, r) =>
+        return `<span class="col${cur}">${Array.from({ length: ROWS }, (_, r) =>
           `<i class="${r < lit - 1 ? 'on' : r === lit - 1 ? 'on top' : ''}"></i>`).join('')}</span>`;
       }).join('');
       // A tick a week rather than a day: thirty daily ticks would be a second grid.
@@ -1110,8 +1117,26 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         next.parentElement.classList.toggle('fade', next.scrollHeight > next.clientHeight + 1);
       }
       if (focusKey) this.root.querySelector(`[data-focus="${focusKey}"]`)?.focus();
+      this.fitSparkline();
       this.fitPackLabel();
       this.startCycle();
+    }
+    /** The graph flexes to whatever the flow figure leaves it, so its column count is only
+        knowable after layout. Measure, and if the width wants a different number of columns,
+        redraw just the graph. One correction, never a loop: the second pass measures the same
+        width and agrees with itself. */
+    fitSparkline() {
+      const spark = this.root.querySelector('.spark');
+      if (!spark) { this.sparkCols = null; return; }
+      const grid = spark.querySelector('.grid');
+      if (!grid) return;
+      // 3px cell plus a 1px gap. Never finer than the series and never so coarse it stops being
+      // a curve; 120 is the whole 30-day series at six-hour resolution.
+      const want = Math.max(14, Math.min(120, Math.floor((grid.clientWidth + 1) / 4)));
+      if (want === this.sparkCols) return;
+      this.sparkCols = want;
+      const fresh = this.sparkline();
+      if (fresh) spark.outerHTML = fresh;
     }
     /** The count and price grow with the steppers, so the fit is not a width breakpoint. Lay the long
         label out, and if it clips, fall back to the generic one. Past roughly 336 flies on a 350px
