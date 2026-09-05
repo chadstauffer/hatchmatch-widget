@@ -20,7 +20,7 @@
 <body>
 <main>
   <h1>HatchMatch widget — revision round 1</h1>
-  <p class="sub">Tickets 1, 2 and 3. Cards are live: flow and weather are real. Add <code>?shot=0</code>&hellip;<code>6</code> for one at a time.</p>
+  <p class="sub">Tickets 1, 2 and 3. Cards are live: flow and weather are real. Add <code>?shot=0</code>&hellip;<code>10</code> for one at a time.</p>
   <div class="grid" id="grid"></div>
 </main>
 <script>
@@ -33,16 +33,15 @@
   const SHOTS = [
     ['Compact · dark · 350px card (390px phone)', 'dark',  {open:false}, 350],
     ['Compact · light · 350px card',              'light', {open:false}, 350],
-    ['NOW · dark · 350px card',                   'dark',  {open:true, tab:'now'}, 350],
-    ['NOW · light · 350px card',                  'light', {open:true, tab:'now'}, 350],
+    ['NOW · dark',                                'dark',  {open:true, tab:'now'}, 350],
     ['HATCH · dark · now-slot open on load',      'dark',  {open:true, tab:'hatch'}, 350],
-    ['HATCH · light · now-slot open on load',     'light', {open:true, tab:'hatch'}, 350],
     ['HATCH · dark · every slot open',            'dark',  {open:true, tab:'hatch', expanded:new Set(A)}, 350],
-    ['HATCH · dark · 440px (meter and word both fit)', 'dark', {open:true, tab:'hatch', expanded:new Set(A)}, 440],
-    ['HATCH · dark · Lower section, tags visible','dark',  {open:true, tab:'hatch', section:'Lower', expanded:new Set(A)}, 350],
-    ['HATCH · dark · Edit pack on',               'dark',  {open:true, tab:'hatch', customize:true, expanded:new Set(['afternoon'])}, 350],
-    ['Trip block · dark · 2 anglers, 2 days',     'dark',  {open:true, tab:'notes', anglers:2, days:2}, 350],
-    ['Trip block · light · 2 anglers, 2 days',    'light', {open:true, tab:'notes', anglers:2, days:2}, 350],
+    ['HATCH · light · every slot open',           'light', {open:true, tab:'hatch', expanded:new Set(A)}, 350],
+    ['TRIP · dark',                               'dark',  {open:true, tab:'trip'}, 350],
+    ['TRIP · light',                              'light', {open:true, tab:'trip'}, 350],
+    ['TRIP · dark · 2 anglers, 2 days',           'dark',  {open:true, tab:'trip', anglers:2, days:2}, 350],
+    ['HATCH · dark · 440px',                      'dark',  {open:true, tab:'hatch', expanded:new Set(A)}, 440],
+    ['NOTES · dark',                              'dark',  {open:true, tab:'notes'}, 350],
   ];
   // ?shot=N renders a single figure, so a screenshot never has to scroll.
   const only = new URLSearchParams(location.search).get('shot');
