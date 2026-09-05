@@ -100,6 +100,20 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   left the card rendering a flow with no sparkline and no way to know why. `demo/sweep.html`
   checks this.
 
+## Round 6 — the flow graph is a hydrograph
+
+- Rebuilt as SVG: an area fill for the water, a 1px trace on top, a baseline rule and seven day
+  ticks. Fourteen buckets by six levels is 84 possible states -- a pattern, not a curve, which is
+  why it read as decoration however the cells were coloured.
+- One sample per pixel column, and no level quantization. The gauge reports every fifteen minutes,
+  so a `P7D` window is around 672 readings; bucketing to fourteen threw away 98% of measured data
+  to fit a grid. The series is 128 points now and Y is continuous.
+- The viewBox is a fixed 128 units wide, stretched by CSS, so the trace compresses when the row is
+  tight instead of losing buckets. 123x40 down to 82x32.
+- Scale is still 0 to the derived max, never the window's own min and max. A flat river renders
+  flat and a low river renders as a sliver: a 1px minimum fill means a real reading always paints,
+  while a bucket the gauge never reported paints nothing and breaks the trace.
+
 ## Round 5 — corrections to round 4
 
 - The sparkline is back to filled columns. Single lit cells read as a scatter of marks needing a

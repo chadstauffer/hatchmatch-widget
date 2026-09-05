@@ -119,44 +119,20 @@ img{display:block}
    auto-scaling would draw a dependable tailwater week as a mountain range, which on this river
    would say the opposite of the truth. The dotted line is the wading threshold, which turns
    "is it rising" into "has it been fishable this week" -- the question a flat week can answer. */
-/* Columns filled from the bottom to their level. Single lit cells were tried and reverted: they
-   read as a scatter of marks needing a legend, and a graphic that needs a legend has failed.
-   The flat-week problem they were meant to solve was misdiagnosed -- it is not the fill mode, it
-   is that on the Lower Sac the wading limit and the water sit at the same height, so the dashed
-   line runs through the plotted level. The colour split is what resolves that: a solid
-   below-limit block with a single above-limit row on top reads as "just over the limit, all
-   week", which is the actual story. */
-.spark{position:relative;display:flex;align-items:flex-end;gap:3px;margin-left:auto;height:34px;margin-bottom:5px;width:123px;flex:0 1 auto;min-width:0}
-/* The number is the fact; the graphic is the qualifier, so the graphic is what gives. Columns
-   flex rather than being fixed, because what has to fit is content-dependent -- a six-character
-   reading like the Upper Sac's 25,100 storm peak plus a trend caret costs the row 30px more than
-   a steady four-figure one, and no width breakpoint can know that. All fourteen buckets survive;
-   only the cells get narrower, so the window never lies about how much time it covers. */
-.spark .col{position:relative;display:flex;flex-direction:column-reverse;gap:2px;flex:1 1 0;min-width:1px}
-.spark .col i{width:100%;height:4px;background:color-mix(in srgb,var(--water1),var(--water2) 55%)}
-/* Which column is now, without spending the colour channel that carries the threshold. */
-.spark .col.cur::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--accent)}
-/* The full-size block fits to a 350px card, which is the binding width -- a 390x844 phone. Below
-   that the cells narrow rather than the graphic being dropped or the row wrapping. The threshold
-   is 344 and not 330 because the trend caret costs the row another 18px when the river is moving,
-   and a 335px card has no slack for it. */
-@container (max-width:344px){
-  .spark{gap:2px;height:28px;width:82px}
-  .spark .col{gap:2px}
-  .spark .col i{height:3px}
-}
-/* Over the cells, not under them: on a flat week this line is the only thing that varies, so it
-   carries a 1px halo in the card's own background to separate it from the cells it crosses. */
-/* Flush with the cells, not bled past them: a 3px overhang on an absolutely positioned child
-   still counts as overflow, and it put 3px of horizontal scroll on the flow row at every width. */
-.bar{position:relative;display:flex;gap:2px;height:14px;align-items:center}
-.bar i{flex:1;height:10px;border-radius:1px;background:var(--off)}
-.bar.tall{height:16px}.bar.tall i{height:12px}
-.bar i.on{background:var(--seg)}
-.bar i.on.fill{animation:hm-lit 1ms linear both;animation-delay:calc(var(--i) * 32ms)}
-@keyframes hm-lit{from{background:var(--off)}to{background:var(--seg)}}
-.bar .tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--text);transform:translateX(-1px)}
-.bar.tall .tick{top:-4px;bottom:-4px}
+/* A hydrograph, not a block chart. Fourteen buckets by six levels is 84 possible states -- a
+   pattern, not a curve, which is why it read as decoration however the cells were coloured. This
+   samples one point per pixel column and drops the level quantization entirely: the stepped look
+   comes from 1px columns, the way it does on a watch face, not from a coarse grid.
+   The viewBox is a fixed 128 units wide and stretched by CSS, so one unit is about one pixel at
+   full width and the trace simply compresses when the row is tight. */
+.spark{position:relative;margin-left:auto;height:40px;width:123px;flex:0 1 auto;min-width:0;margin-bottom:4px;color:var(--muted)}
+.spark svg{display:block;width:100%;height:100%;overflow:visible}
+.spark .fill{fill:color-mix(in srgb,var(--water1),var(--water2) 55%);fill-opacity:.55}
+.spark .trace{fill:none;stroke:color-mix(in srgb,var(--water1),var(--water2) 75%);stroke-width:1;stroke-linejoin:round;stroke-linecap:round}
+.spark .base{stroke:currentColor;stroke-opacity:.35;stroke-width:1}
+/* Seven ticks reads as seven days without a word of copy. */
+.spark .tick{stroke:currentColor;stroke-opacity:.28;stroke-width:1}
+@container (max-width:344px){.spark{height:32px;width:82px}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -360,9 +336,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const first = six.length > 1 ? six[0] : vals[0];
       const delta = last.value - first.value;
       const hours = Math.max(1, Math.round((end - first.at) / 3600000));
-      // Fourteen twelve-hour buckets across the window, mean per bucket. A bucket the gauge did
-      // not report stays null and draws as a gap rather than being interpolated across.
-      const COLS = 14, SPAN = 12 * 3600e3, acc = Array.from({ length: COLS }, () => ({ n: 0, sum: 0 }));
+      // One sample per pixel column of the widest render, not fourteen blocks. The gauge reports
+      // every fifteen minutes, so a P7D window is around 672 real readings; bucketing to fourteen
+      // threw away 98% of measured data to fit a grid. A bucket the gauge did not report stays
+      // null and draws as a gap rather than being interpolated across.
+      const COLS = 128, SPAN = 7 * 24 * 3600e3 / COLS, acc = Array.from({ length: COLS }, () => ({ n: 0, sum: 0 }));
       for (const v of vals) {
         const i = COLS - 1 - Math.floor((end - v.at) / SPAN);
         if (i >= 0 && i < COLS) { acc[i].n++; acc[i].sum += v.value; }
@@ -772,26 +750,45 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const arrow = d => `<span class="ar" role="img" aria-label="${f.trend}">${CARET(d === 'up')}</span>`;
       return `<span class="unitstack">${dir === 'up' ? arrow('up') : ''}<span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${dir === 'down' ? arrow('down') : ''}</span>`;
     }
-    /** The week, quantized to six steps on the bar's own fixed scale. Renders wherever the bar
-        renders: without a published range there is no honest scale, and inventing one from the
-        window's own spread is the single thing this graphic must never do. */
+    /** The week as a hydrograph: an area fill for the water, a trace on top, a baseline rule and
+        seven day ticks. The scale is the segmented bar's own fixed range, never the window's own
+        min and max -- auto-scaling would draw every river as a dramatic curve regardless of what
+        it is doing, which is the fabrication this graphic has refused for five rounds. */
     sparkline() {
-      const F = this.data.water.flow, f = this.s.flow, STEPS = 6;
+      const F = this.data.water.flow, f = this.s.flow;
       if (f.failed || !f.series || F.max == null) return '';
-      const span = F.max - F.min;
-      const cols = f.series.map((v, i) => {
-        const cur = i === f.series.length - 1;
-        if (v == null) return `<span class="col"></span>`;
-        const step = Math.max(1, Math.min(STEPS, Math.ceil((v - F.min) / span * STEPS)));
-        // One colour, filled to this bucket's level. A threshold split and a limit line were
-        // both tried here and taken out: this graphic's job is the shape of the week, and the
-        // segmented bar directly below already carries the limit against a labelled scale.
-        const cells = '<i></i>'.repeat(step);
-        return `<span class="col${cur ? ' cur' : ''}">${cells}</span>`;
+      const W = 128, H = 40, span = F.max - F.min, pts = f.series, n = pts.length;
+      if (n < 2) return '';
+      const x = i => (i / (n - 1)) * W;
+      // A real reading never renders as nothing: the fill is floored at one unit, which is one
+      // pixel at full height. An empty column means no data, and the two must not look alike.
+      const y = v => Math.min(H - 1, H - Math.max(0, Math.min(1, (v - F.min) / span)) * H);
+      // Runs of consecutive readings. A gap the gauge never reported breaks the trace rather than
+      // being drawn across.
+      const runs = []; let run = [];
+      pts.forEach((v, i) => {
+        if (v == null) { if (run.length) runs.push(run); run = []; }
+        else run.push([x(i), y(v)]);
+      });
+      if (run.length) runs.push(run);
+      if (!runs.length) return '';
+      const pt = p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`;
+      const shapes = runs.map(r => {
+        const line = r.map(pt).join(' ');
+        const area = `${r[0][0].toFixed(1)},${H} ${line} ${r[r.length - 1][0].toFixed(1)},${H}`;
+        return `<polygon class="fill" points="${area}"/><polyline class="trace" points="${line}" vector-effect="non-scaling-stroke"/>`;
       }).join('');
-      const seen = f.series.filter(v => v != null);
+      const ticks = Array.from({ length: 7 }, (_, d) => {
+        const tx = (d / 7 * W).toFixed(1);
+        return `<line class="tick" x1="${tx}" y1="${H - 0.5}" x2="${tx}" y2="${H - 3.5}" vector-effect="non-scaling-stroke"/>`;
+      }).join('');
+      const seen = pts.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS`;
-      return `<span class="spark" role="img" aria-label="${label}">${cols}</span>`;
+      return `<span class="spark" role="img" aria-label="${label}">`
+        + `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">`
+        + `${shapes}${ticks}`
+        + `<line class="base" x1="0" y1="${H - 0.5}" x2="${W}" y2="${H - 0.5}" vector-effect="non-scaling-stroke"/>`
+        + `</svg></span>`;
     }
     /** The whole flow instrument. Compact and expanded render the same thing; expanded adds the
         range labels under the bar and nothing else. */

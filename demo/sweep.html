@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260905212746"></script>
+<script src="../dist/embed.js?b=20260905214253"></script>
 <script>
 window.SWEEP = async function () {
   const STATES = ['', 'aging', 'stale', 'oos', 'noflow'];
@@ -118,9 +118,10 @@ window.SWEEP = async function () {
     const c2 = window.HatchMatch.mount(host2);
     await new Promise(r => setTimeout(r, 4000));
     c2.set({ open: true, tab: 'now' });
-    const cols = c2.root.querySelectorAll('.spark .col').length;
-    out.cachePoison = cols ? `rejected the stale shape, ${cols} columns` : 'SERVED A STALE SHAPE, no sparkline';
-    if (!cols) out.invariants.push('cache: a payload from an older build was served back and the sparkline vanished');
+    // The graph is an SVG trace now, not a grid of cells: assert on what it actually renders.
+    const drawn = c2.root.querySelectorAll('.spark svg polyline.trace').length;
+    out.cachePoison = drawn ? `rejected the stale shape, ${drawn} trace(s) drawn` : 'SERVED A STALE SHAPE, no sparkline';
+    if (!drawn) out.invariants.push('cache: a payload from an older build was served back and the sparkline vanished');
     clearInterval(c2.poll); clearInterval(c2.cycler);
     host2.remove();
   } catch (e) { out.errors.push('cache poison check: ' + e.message); }
