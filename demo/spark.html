@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HatchMatch — sparkline vs bar</title>
+<style>
+  body{margin:0;background:#EDE9E2;color:#2B2B2B;font:13px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+  main{padding:16px 16px 40px}
+  h1{font-size:15px;margin:0 0 4px}
+  p.sub{color:#6B6B6B;margin:0 0 14px;font-size:12px;max-width:80ch}
+  h2{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8A8377;margin:20px 0 8px}
+  .zoombox{background:#081215;border-radius:8px;overflow:hidden;position:relative}
+  .zoombox .hatchmatch{position:absolute;transform-origin:0 0}
+  .live{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px;border-top:1px solid #DCD6CB;padding-top:14px}
+  figure{margin:0}
+  figcaption{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#8A8377;margin:0 0 6px}
+  .stage{background:#F4F1EC;padding:12px;border-radius:10px;display:inline-block}
+  .clip{overflow:hidden;border-radius:8px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Flow module — sparkline and segmented bar together</h1>
+  <p class="sub">Live Keswick data, 350px card, magnified 2×. <b>A</b> is what ships: cells in the segmented bar's own two colours split at the wading threshold, an accent underline on the current column, dashed threshold line. <b>B</b> is the ticket as written &mdash; muted history, accent current column. Below, both at real size.</p>
+  <div id="zoom"></div>
+  <h2>Real size · 390px and 350px cards</h2>
+  <div class="live" id="real"></div>
+</main>
+<script src="../dist/embed.js"></script>
+<script>
+  const V = ['A · as shipped — cells split at the wading threshold','B · ticket as written — muted history, accent current'];
+  const zoom = document.getElementById('zoom'), real = document.getElementById('real');
+  V.forEach((t, v) => {
+    const h = document.createElement('h2'); h.textContent = t; zoom.appendChild(h);
+    const box = document.createElement('div');
+    box.className = 'zoombox';
+    box.innerHTML = `<div class="hatchmatch" style="width:350px" data-theme="dark" data-accent="orange" data-v="${v}" data-zoomed="1"></div>`;
+    zoom.appendChild(box);
+  });
+  [[390,'Shipped · 390px card'],[350,'Shipped · 350px card (390×844 phone)'],[335,'Shipped · 335px card (375×667 phone)']].forEach(([w,label],i) => {
+    const fig = document.createElement('figure');
+    fig.innerHTML = `<figcaption>${label}</figcaption><div class="stage"><div class="clip"><div class="hatchmatch" style="width:${w}px" data-theme="dark" data-accent="orange" data-v="0"></div></div></div>`;
+    real.appendChild(fig);
+  });
+
+  // Variant B repaints the shipped sparkline back to the ticket's original spec, so the two can
+  // be compared side by side. Rendering only; the widget is untouched.
+  function paintB(card) {
+    card.root.querySelectorAll('.spark .col i').forEach(c => { c.style.background = 'var(--muted)'; });
+    const cur = card.root.querySelector('.spark .col.cur');
+    if (cur) cur.querySelectorAll('i').forEach(c => { c.style.background = 'var(--accent)'; });
+  }
+
+  addEventListener('load', () => setTimeout(() => {
+    document.querySelectorAll('.hatchmatch').forEach(host => {
+      const card = window.HatchMatch.cards.find(c => c.host === host);
+      if (!card) return;
+      card.set({ open: true, tab: 'now' });
+      if (host.dataset.v === '1') paintB(card);
+      const cardEl = card.root.querySelector('.card'), mod = card.root.querySelector('.flowmod');
+      const top = mod.getBoundingClientRect().top - cardEl.getBoundingClientRect().top;
+      const h = mod.getBoundingClientRect().height;
+      if (host.dataset.zoomed) {
+        const S = 2, PAD = 8;
+        host.style.transform = `scale(${S})`;
+        host.style.left = -12 * S + 'px';
+        host.style.top = -(top - PAD) * S + 'px';
+        host.parentElement.style.width = (350 - 24) * S + 'px';
+        host.parentElement.style.height = Math.round((h + PAD * 2) * S) + 'px';
+      } else {
+        host.closest('.clip').style.height = Math.round(top + h + 12) + 'px';
+      }
+    });
+  }, 2800));
+</script>
+</body>
+</html>
