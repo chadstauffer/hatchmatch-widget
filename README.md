@@ -100,6 +100,24 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   left the card rendering a flow with no sparkline and no way to know why. `demo/sweep.html`
   checks this.
 
+## Round 4 — the flow module again
+
+- The trend caret is back. It was deleted in round 3 on the reasoning that the sparkline says
+  direction, magnitude and shape; that holds on a river that moves and not on a stable tailwater,
+  which is the river the shop will actually look at. Direction appears twice on purpose: the
+  caret is precise and always legible, the sparkline is contextual and sometimes flat.
+- The sparkline lights exactly one cell per column against a faint grid, instead of filling
+  columns from the bottom. Filled columns at one level rendered a steady week as a solid slab,
+  which reads as a broken graphic. One cell per column makes a flat week a horizontal line, a
+  falling week a descending one, and it works at every variance level.
+- It is now 123x34 (82x28 below a 344px card), vertically centred on the CFS figure. Columns flex
+  rather than being fixed: what has to fit is content-dependent -- a six-figure reading plus a
+  caret costs 30px more than a steady four-figure one -- so the graphic compresses and all
+  fourteen buckets always survive. Zero row overflow across 24 width x value x trend combinations.
+- A gauge that has never answered no longer renders as a river at zero. `lastReading` is null
+  rather than a fabricated 0, and the card says which silence it is: no gauge on file, no reading
+  yet, or a last reading that has gone stale.
+
 ## Round 3
 
 - `demo/review.html` is one live card with a control panel, not a grid of screens. Theme, accent,

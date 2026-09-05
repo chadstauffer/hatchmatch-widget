@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-05T19:50:39.050Z",
+ "generatedAt": "2026-09-05T20:38:27.588Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -18,11 +18,13 @@
    "max": 5000,
    "threshold": null,
    "thresholdLabel": "wading limit",
-   "scaleSource": "USGS daily statistics 1975–2026, 4,920 CFS at the 70th percentile of daily p95, rounded up",
-   "lastReading": {
-    "value": 0,
-    "at": "2026-09-05T19:50:22.188Z"
-   }
+   "source": {
+    "min": "derived",
+    "max": "derived",
+    "threshold": "unset"
+   },
+   "lastReading": null,
+   "scaleSource": "USGS daily statistics 1975–2026, 4,920 CFS at the 70th percentile of daily p95, rounded up"
   },
   "sections": [],
   "guidePhone": "800-669-3474",

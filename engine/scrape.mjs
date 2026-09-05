@@ -180,7 +180,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     }
     const flow = applyOverrides(sc ? { min: sc.min, max: sc.max } : null, ov);
     if (flow) {
-      r.water.flow = { ...flow, lastReading: { value: 0, at: new Date().toISOString() } };
+      // No fabricated last reading. A gauge we have never read is not a gauge reading zero, and
+      // the card must not be able to render one as the other.
+      r.water.flow = { ...flow, lastReading: null };
       if (sc) r.water.flow.scaleSource = `USGS daily statistics ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the 70th percentile of daily p95, rounded up`;
     }
   }

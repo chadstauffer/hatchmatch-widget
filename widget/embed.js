@@ -107,16 +107,44 @@ img{display:block}
    compact and expanded; only the range labels are additive. */
 .flowmod{display:flex;flex-direction:column;gap:10px}
 .flownum{display:flex;align-items:center;gap:8px}
+.numwrap{display:flex;align-items:stretch;gap:7px}
+/* Direction as a qualifier on the number, not an alert: muted, and offset by direction -- up
+   toward the cap height, down toward the baseline. */
+.trendcaret{display:flex;color:var(--muted);flex:none}
+.trendcaret svg{width:11px;height:11px;display:block}
+.trendcaret.up{align-items:flex-start;padding-top:3px}
+.trendcaret.down{align-items:flex-end;padding-bottom:4px}
 /* Seven days of flow, right of the figure. Discrete cells in the meters' own language, never a
    smooth line. The scale is the segmented bar's own range, never the window's min and max:
    auto-scaling would draw a dependable tailwater week as a mountain range, which on this river
    would say the opposite of the truth. The dotted line is the wading threshold, which turns
    "is it rising" into "has it been fishable this week" -- the question a flat week can answer. */
-.spark{position:relative;display:flex;align-items:flex-end;gap:2px;flex:none;margin-left:auto;height:23px;margin-bottom:4px}
-.spark .col{position:relative;display:flex;flex-direction:column-reverse;gap:1px;width:3px}
-.spark .col i{width:3px;height:3px;background:var(--seg)}
+/* One lit cell per column against a faint grid, not columns filled from the bottom. Filled
+   columns at the same height render a steady week as a solid slab, which reads as a broken
+   graphic rather than as "steady". One cell per column makes a flat week a horizontal line and a
+   dropping week a descending one, and it works at every variance level instead of only on rivers
+   that move. The grid is what makes a single 6x4 cell legible -- without it the lit cells read as
+   marks floating in space. */
+.spark{position:relative;display:flex;align-items:flex-end;gap:3px;margin-left:auto;height:34px;margin-bottom:5px;width:123px;flex:0 1 auto;min-width:0}
+/* The number is the fact; the graphic is the qualifier, so the graphic is what gives. Columns
+   flex rather than being fixed, because what has to fit is content-dependent -- a six-character
+   reading like the Upper Sac's 25,100 storm peak plus a trend caret costs the row 30px more than
+   a steady four-figure one, and no width breakpoint can know that. All fourteen buckets survive;
+   only the cells get narrower, so the window never lies about how much time it covers. */
+.spark .col{position:relative;display:flex;flex-direction:column-reverse;gap:2px;flex:1 1 0;min-width:2px}
+.spark .col i{width:100%;height:4px;background:currentColor;opacity:.13}
+.spark .col i.on{background:var(--seg);opacity:1}
 /* Which column is now, without spending the colour channel that carries the threshold. */
-.spark .col.cur::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--accent)}
+.spark .col.cur::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--accent)}
+/* The full-size block fits to a 350px card, which is the binding width -- a 390x844 phone. Below
+   that the cells narrow rather than the graphic being dropped or the row wrapping. The threshold
+   is 344 and not 330 because the trend caret costs the row another 18px when the river is moving,
+   and a 335px card has no slack for it. */
+@container (max-width:344px){
+  .spark{gap:2px;height:28px;width:82px}
+  .spark .col{gap:2px}
+  .spark .col i{height:3px}
+}
 /* Over the cells, not under them: on a flat week this line is the only thing that varies, so it
    carries a 1px halo in the card's own background to separate it from the cells it crosses. */
 /* Flush with the cells, not bled past them: a 3px overhang on an absolutely positioned child
@@ -393,8 +421,9 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       this.s = { open: false, tab: 'now', section: (r0.water.sections || [])[0], anglers: 1, days: 1, qty: {}, variant: {}, picker: false, expanded: new Set(), added: false, filled: false,
         flow: { value: 0, at: new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: false }, weather: null, temp: null, turbidity: null, lightbox: null, tip: null };
       this.useReport(r0);
-      this.s.flow.value = this.data.water.flow.lastReading.value;
-      this.s.flow.at = this.data.water.flow.lastReading.at;
+      const lr0 = this.data.water.flow.lastReading;
+      this.s.flow.value = lr0 ? lr0.value : null;
+      this.s.flow.at = lr0 ? lr0.at : new Date().toISOString();
       // Open the slot the angler is standing in, if it has a hatch. The rest start closed.
       const now = r0.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
@@ -432,7 +461,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const w = this.data.water;
       this.s.section = (w.sections || [])[0];
       this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set();
-      this.s.flow = { value: w.flow.lastReading.value, at: w.flow.lastReading.at, trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !w.usgsSite };
+      const lrS = w.flow.lastReading;
+      this.s.flow = { value: lrS ? lrS.value : null, at: lrS ? lrS.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !w.usgsSite };
       this.s.weather = null; this.s.temp = null; this.s.turbidity = null;
       const now = this.data.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
@@ -446,7 +476,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     useReport(data) {
       // A water with no gauge has no published flow block at all. Normalise it once here so every
       // reader downstream sees the same shape and the existing null guards do the rest.
-      if (!data.water.flow) data.water.flow = { min: null, max: null, threshold: null, thresholdLabel: '', lastReading: { value: 0, at: new Date().toISOString() } };
+      if (!data.water.flow) data.water.flow = { min: null, max: null, threshold: null, thresholdLabel: '', lastReading: null };
       this.data = data;
       this.picks = (data.picks || []).filter(p => p.variant);
       this.byId = new Map(this.picks.map(p => [p.id, p]));
@@ -460,7 +490,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       clearInterval(this.poll); this.poll = null;
       this.s.section = this.data.water.sections[0];
       this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set();
-      this.s.flow = { value: this.data.water.flow.lastReading.value, at: this.data.water.flow.lastReading.at, trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !this.data.water.usgsSite };
+      const lrW = this.data.water.flow.lastReading;
+      this.s.flow = { value: lrW ? lrW.value : null, at: lrW ? lrW.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !this.data.water.usgsSite };
       this.s.weather = null; this.s.temp = null; this.s.turbidity = null;
       const now = this.data.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
@@ -621,9 +652,9 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     ticks(count, idx, color) { return `<div class="ticks" aria-hidden="true">${Array.from({ length: count }, (_, i) => `<i class="${i === idx ? 'on' : ''}" style="--c:${color}"></i>`).join('')}</div>`; }
     flowBar(tall) {
       const F = this.data.water.flow, f = this.s.flow, segs = 24;
-      // No published range for this water yet. A bar without a scale is a decoration, so there
-      // isn't one -- the number and the strip still carry the real reading.
-      if (F.max == null) return '';
+      // No published range, or nothing ever read from the gauge. A bar without a scale or without
+      // a value is a decoration, so there isn't one.
+      if (F.max == null || f.value == null) return '';
       // A range without a wading threshold is a real shape: not every water has a limit a guide
       // will stand behind. No tick, no amber, and the label says the range and nothing more.
       const lim = F.threshold != null;
@@ -641,14 +672,18 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     rating() { return this.ratingOf(this.data.report.rating); }
     wading() {
       const F = this.data.water.flow, f = this.s.flow;
-      if (F.threshold == null) return null;
+      if (F.threshold == null || f.value == null) return null;
       const ok = !f.failed && f.value < F.threshold;
       return { label: ok ? 'Wadeable' : 'Not today', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
     }
     /** Only reached when both endpoints failed. The live reading says the same things in the strip. */
+    /** Three different silences, said differently. No gauge on file, a gauge we have never read,
+        and a gauge that answered once and has stopped are not the same fact, and a gauge that is
+        unreachable must never render as a river at zero. */
     flowNote() {
       const w = this.data.water, f = this.s.flow;
       if (!w.usgsSite) return w.gaugeNote || 'No live gauge on file for this water.';
+      if (f.value == null) return `No reading from ${w.gaugeName || 'the gauge'} yet. Flow will appear here when it answers.`;
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
       return `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.`;
     }
@@ -710,6 +745,16 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const f = this.s.flow, at = this.frame % frames.length;
       return `<div class="live"><i class="${f.live ? 'pulse' : ''}"></i><b>${f.live ? 'Live' : 'Last reading'}</b><span class="frames">${frames.map((t, i) => `<span class="${i === at ? 'on' : ''}"${i === at ? '' : ' aria-hidden="true"'}>${t}</span>`).join('')}</span></div>`;
     }
+    /** REVERSAL of round 3: the caret is back. The sparkline says direction, magnitude and shape
+        on a river that moves -- and says none of them legibly on a stable tailwater, which is the
+        river the shop will actually look at. Direction now appears twice on purpose: the caret is
+        precise and always legible, the sparkline is contextual and sometimes flat. */
+    flowCaret() {
+      const f = this.s.flow;
+      if (f.failed || !f.trend || f.trend === 'Steady') return '';
+      const up = f.trend === 'Rising';
+      return `<span class="trendcaret ${up ? 'up' : 'down'}" role="img" aria-label="${f.trend}">${CARET(up)}</span>`;
+    }
     /** The week, quantized to six steps on the bar's own fixed scale. Renders wherever the bar
         renders: without a published range there is no honest scale, and inventing one from the
         window's own spread is the single thing this graphic must never do. */
@@ -721,17 +766,13 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         const cur = i === f.series.length - 1;
         if (v == null) return `<span class="col"></span>`;
         const step = Math.max(1, Math.min(STEPS, Math.ceil((v - F.min) / span * STEPS)));
-        // Only the lit cells: drawing the unlit ones made a solid 14x6 block that read as texture.
-        // Cells take the segmented bar's own two colours, split at the threshold, so the two
-        // graphics read as one instrument. Measured across all six gauges we carry, six steps on
-        // a fixed full-range scale yields one or two distinct levels -- these rivers genuinely
-        // have no shape to show in a week, so the threshold is what this graphic is for.
-        const cells = Array.from({ length: step }, (_, k) => {
-          const top = F.min + (k + 1) * span / STEPS;
-          const seg = F.threshold != null && top > F.threshold ? 'var(--amber)'
-            : `color-mix(in srgb, var(--water1), var(--water2) 55%)`;
-          return `<i style="--seg:${seg}"></i>`;
-        }).join('');
+        // Every cell is drawn; exactly one is lit, at this bucket's level. The lit one keeps the
+        // segmented bar's two colours split at the threshold, so the two graphics stay one
+        // instrument and the plot still says whether the week was fishable.
+        const seg = F.threshold != null && v > F.threshold ? 'var(--amber)'
+          : `color-mix(in srgb, var(--water1), var(--water2) 55%)`;
+        const cells = Array.from({ length: STEPS }, (_, k) =>
+          `<i class="${k === step - 1 ? 'on' : ''}"${k === step - 1 ? ` style="--seg:${seg}"` : ''}></i>`).join('');
         return `<span class="col${cur ? ' cur' : ''}">${cells}</span>`;
       }).join('');
       // The line is not redundant with the colour split: a column that never reaches the
@@ -748,7 +789,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const F = this.data.water.flow, f = this.s.flow;
       const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
       return `<div class="flowmod">
-      ${this.data.water.usgsSite ? `<div class="flownum"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span><span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${this.sparkline()}</div>` : ''}
+      ${this.data.water.usgsSite && f.value != null ? `<div class="flownum"><span class="numwrap"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.flowCaret()}</span><span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${this.sparkline()}</div>` : ''}
       ${this.flowBar(true)}
       ${expanded && F.max != null ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)} ${esc(F.thresholdLabel)}</span>` : ''}<span style="right:0">${num(F.max)}</span></div>` : ''}
       ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>` : this.liveStrip()}
