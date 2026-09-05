@@ -28,6 +28,9 @@ widget/
   assets/             Kode Mono (OFL), stonefly.svg (currentColor)
 build.mjs             inlines the resolved report, font and mark into dist/embed.js for the static demo
 demo/index.html       the pitch page
+demo/review.html      the revision review sheet, one figure per state
+demo/measure.html     the height harness the panel numbers come from
+demo/sweep.html       every state x theme x width x tab, plus the invariants
 ```
 
 ## Run
@@ -52,6 +55,33 @@ The demo also works straight from `demo/index.html` on disk. Live flow and weath
 - Every tap is an event: `window.HatchMatch.events`, and a `hatchmatch` CustomEvent on the host. Add `data-debug` to the host to see them in the console. `pack_added` fires only for the full pack and is the monthly headline; the filtered add fires `fly_added` and is reported separately.
 
 Demo states for the pitch, as a query string on the demo page: `?state=aging`, `?state=stale`, `?state=oos` (takes the Weiss Nymph out of stock so the substitute row shows), `?state=noflow`.
+
+## Round 2
+
+- Three tabs: NOW / HATCH / NOTES. The TRIP tab is gone. Anglers, days and section are one 44px
+  row pinned directly above the CTA on every tab, caption over control. Pinned block is 169px;
+  the panel is 370px at 390x844 and 232px at 375x667, up from 187px.
+- One `flowModule({expanded})` renders the flow in both card states. The number, trend caret,
+  bar and live strip are identical; expanded adds the range labels and nothing else.
+- The live strip's `LIVE` prefix is stationary and only the suffix cycles. The CFS value is never
+  in it. Frames: the read time and gauge, the signed six-hour delta, and water temperature where
+  the gauge reports it. A frame with no source is dropped, not faked.
+- Trend appears exactly once, as a caret on the flow figure. Up sits at the cap height, down at
+  the baseline, steady shows nothing.
+- Every fly row has a live 28px stepper. The CTA count and total move on every tap; nothing
+  reaches the shop's cart until the CTA is pressed. Tapping a thumbnail opens a lightbox in the
+  shadow root that traps and restores focus.
+- The title is the water switcher: a bare caret at text size, never a second circular chevron.
+  Eight waters; only the Lower Sac is resolved. The rest render live gauge and weather and say
+  plainly that no guide has broken them out.
+- Water temperature: CDEC carries it for Keswick (station KWK, sensor 25, `dur_code=H`) but sends
+  no `Access-Control-Allow-Origin`, so it is unreachable from the browser without a proxy. USGS
+  has no live water temp or turbidity anywhere on the Lower Sac. The band meter is built and
+  data-gated: it lights up on Hat Creek and the Trinity, which do report USGS 00010, and stays
+  dark here. No air temperature is ever substituted for water.
+- Clarity keeps the guide's word. USGS turbidity (63680) is requested on the same call and shown
+  as `EXCELLENT - 1.2 FNU` where a gauge reports it. Keswick does not, so the word stands alone.
+  No percentage is derived from a four-value ordinal.
 
 ## Decisions made in this pass
 

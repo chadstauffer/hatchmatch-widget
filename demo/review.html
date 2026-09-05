@@ -41,6 +41,12 @@
     ['HATCH · dark · 335px (375px phone)',        'dark',  {open:true, tab:'hatch'}, 335],
     ['NOTES · dark',                              'dark',  {open:true, tab:'notes'}, 350],
     ['NOTES · light',                             'light', {open:true, tab:'notes'}, 350],
+    ['WATER LIST · dark',                         'dark',  {open:true, picker:true}, 350],
+    ['WATER LIST · light',                        'light', {open:true, picker:true}, 350],
+    ['TRINITY · dark · live gauge, no report',    'dark',  {open:true, tab:'now'}, 350, 'trinity'],
+    ['TRINITY · dark · HATCH, not broken out',    'dark',  {open:true, tab:'hatch'}, 350, 'trinity'],
+    ['McCLOUD · dark · no gauge, no report',      'dark',  {open:true, tab:'now'}, 350, 'mccloud'],
+    ['McCLOUD · light · compact',                 'light', {open:false}, 350, 'mccloud'],
   ];
   // ?shot=N renders a single figure, so a screenshot never has to scroll.
   const only = new URLSearchParams(location.search).get('shot');
@@ -52,13 +58,15 @@
     grid.appendChild(fig);
   });
   addEventListener('load', () => setTimeout(() => {
-    SHOTS.forEach(([, , state], i) => {
+    SHOTS.forEach(([, , state, , water], i) => {
       if (only !== null && String(i) !== only) return;
       const host = document.querySelector(`[data-shot="${i}"]`);
       const card = window.HatchMatch.cards.find(c => c.host === host);
-      if (card) card.set(state);
+      if (!card) return;
+      if (water) card.switchWater(water);
+      card.set(state);
     });
-  }, 1200));
+  }, 1500));
 </script>
 <script src="../dist/embed.js"></script>
 </body>
