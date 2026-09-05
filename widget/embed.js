@@ -126,22 +126,31 @@ img{display:block}
    Cells are 3px square at every width; only the column count changes when the row is tight, so a
    cell never changes shape. The axis and the value labels stand clear of the plot rather than
    touching it. */
-.spark{position:relative;margin-left:auto;display:flex;align-items:stretch;gap:5px;width:150px;height:48px;flex:0 1 auto;min-width:0;color:var(--muted)}
-.spark .yaxis{position:relative;width:24px;flex:none;font-size:9px;letter-spacing:.06em}
+/* A two-by-two grid so the labels and the value rules resolve their percentages against the plot
+   area alone. As a flex row they measured against the whole graph including the day axis, which
+   put every label and every rule three pixels low -- enough, at 3px rows, to name the wrong one. */
+.spark{position:relative;margin-left:auto;display:grid;grid-template-columns:24px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:4px;width:150px;height:48px;flex:0 1 auto;min-width:0;color:var(--muted)}
+.spark .yaxis{position:relative;grid-area:1/1;font-size:9px;letter-spacing:.06em}
 .spark .yaxis b{position:absolute;right:0;transform:translateY(-50%);font-weight:400;white-space:nowrap;opacity:.75;line-height:1}
-.spark .plot{display:flex;flex-direction:column;flex:1 1 auto;min-width:0}
-.spark .grid{display:flex;gap:1px;flex:1 1 auto;min-height:0}
+
+/* A rule at each labelled value, at its exact height. Without it a 9px label cannot point at a
+   3px row: the text straddles two or three of them, so "is the water above or below 10K" was a
+   question the graph could not answer even when the cells were right. The axis is exact and the
+   raster is an approximation of it -- drawing the rule at the true value rather than snapping it
+   to a row keeps that distinction honest. */
+.spark .rule{position:absolute;left:0;right:0;height:1px;background:currentColor;opacity:.22;pointer-events:none}
+.spark .grid{position:relative;grid-area:1/2;display:flex;gap:1px;min-height:0}
 .spark .col{display:flex;flex-direction:column-reverse;gap:1px;flex:1 1 0;min-width:0}
 .spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
-.spark .axis{position:relative;height:5px;flex:none;margin-top:4px}
+.spark .axis{position:relative;grid-area:2/2;height:5px}
 /* Positioned across (100% - 1px) so the last tick's own width lands inside the plot instead of
    one pixel past it, which put a hairline of overflow on the flow row at every width. */
 .spark .axis i{position:absolute;bottom:2px;left:calc(var(--f) * (100% - 1px));width:1px;height:3px;background:currentColor;opacity:.3}
 .spark .axis::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.35}
 /* Tight rows drop the value labels rather than the resolution: the plot keeps its cells. */
-@container (max-width:344px){.spark{width:96px}.spark .yaxis{display:none}}
+@container (max-width:344px){.spark{width:96px;grid-template-columns:minmax(0,1fr);column-gap:0}.spark .yaxis{display:none}.spark .grid{grid-area:1/1}.spark .axis{grid-area:2/1}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -803,16 +812,20 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const ticks = Array.from({ length: weeks + 1 }, (_, d) =>
         `<i style="--f:${(d / weeks).toFixed(4)}"></i>`).join('');
       const fmt = v => v >= 1000 ? `${+(v / 1000).toFixed(1)}K` : String(Math.round(v));
-      // Labels sit on the same ten-row grid the cells do. Placed continuously they measured
-      // against a different scale than the thing they label, so a column could top out below the
-      // 10K mark while standing for a value above it.
-      const ylab = this.scaleTicks(F.max).map(v =>
-        `<b style="top:${(100 - row(v) / ROWS * 100).toFixed(2)}%">${fmt(v)}</b>`).join('');
+      // Labels and their rules sit at the value's exact height, not snapped to a row. The cells
+      // are the approximation; the axis should not be. What makes them readable together is the
+      // rule, which lets you see where the water sits against the mark instead of judging it off
+      // a label three rows tall.
+      const at = v => (100 - (v - F.min) / span * 100).toFixed(2);
+      const ticksY = this.scaleTicks(F.max);
+      const ylab = ticksY.map(v => `<b style="top:${at(v)}%">${fmt(v)}</b>`).join('');
+      const rules = ticksY.map(v => `<span class="rule" style="top:${at(v)}%"></span>`).join('');
       const seen = src.filter(v => v != null);
       const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS, scale ${num(F.min)} to ${num(F.max)}`;
       return `<span class="spark" role="img" aria-label="${label}">`
         + `<span class="yaxis" aria-hidden="true">${ylab}</span>`
-        + `<span class="plot"><span class="grid">${cells}</span><span class="axis" aria-hidden="true">${ticks}</span></span>`
+        + `<span class="grid">${cells}${rules}</span>`
+        + `<span class="axis" aria-hidden="true">${ticks}</span>`
         + `</span>`;
     }
     /** The container query that sizes the graph keys off the card, so the renderer has to ask the

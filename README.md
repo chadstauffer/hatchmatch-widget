@@ -109,8 +109,12 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   the Lower Sac's seven-day spread is about 9% of its scale and its thirty-day spread is 41%, so
   the month is where the shape is. Thirty columns over thirty days is a day a column, one request
   (`period=P30D`, ~226 KB, ~320ms).
-- Cells and value labels sit on the same ten-row grid, and the cell height rounds rather than
-  ceilings. Ceiling put 7,690 CFS on a 0-15,000 scale six rows up, whose top edge stands for
+- Each labelled value carries a rule across the plot at its exact height. A 9px label cannot
+  point at a 3px row -- the text straddles two or three of them -- so "is the water above or
+  below 10K" was a question the graph could not answer even when the cells were right. The axis
+  is exact; the raster is an approximation of it, and the rule is what lets you read one against
+  the other.
+- The cell height rounds rather than ceilings. Ceiling put 7,690 CFS on a 0-15,000 scale six rows up, whose top edge stands for
   9,000; continuous label placement then put the 10K mark just above it, so the graph read about
   9-10K while the number said 7,690. Rounding lands it on five rows, 7,500, and snapping the
   labels to the same grid means the two can never disagree again. Every water now renders within
