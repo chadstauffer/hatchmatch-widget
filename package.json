@@ -11,7 +11,7 @@
     "ingest": "node engine/ingest.mjs",
     "resolve": "for f in data/reports/*-20*.json; do case \"$f\" in *resolved*) continue;; esac; node engine/resolve.mjs \"$f\"; done",
     "build": "node build.mjs",
-    "demo": "python3 -m http.server 8787 --bind 127.0.0.1",
+    "demo": "node demo/serve.mjs",
     "all": "npm run ingest && npm run scrape && npm run resolve && npm run build",
     "scrape": "node engine/scrape.mjs",
     "scales": "node engine/scales.mjs"

@@ -40,6 +40,7 @@ widget/
   embed.js            the card. Vanilla JS, shadow root, no dependencies
   assets/             Kode Mono (OFL), stonefly.svg (currentColor)
 build.mjs             inlines the resolved report, font and mark into dist/embed.js for the static demo
+demo/serve.mjs        the static server behind `npm run demo`, no-store on every response
 demo/index.html       the pitch page
 demo/production.html  the renderer with no reports inlined, fed a payload the way the API would
 demo/review.html      the review bench: one live card, every display variable a switch
@@ -49,10 +50,12 @@ demo/sweep.html       every state x theme x width x tab, plus the invariants
 
 ## Run
 
-The demo is served by `python3 -m http.server`, which sends no `Cache-Control`. The pages carry
-`no-store` and `build.mjs` stamps the bundle's script tag, so a rebuild is always what loads. If
-you were running the demo before that landed, **hard-reload once** (Cmd+Shift+R) to evict the
-page the browser already has. The bench prints the build id it is running, top of the readout.
+`npm run demo` serves the repo through `demo/serve.mjs`, which sends
+`Cache-Control: no-store` on every response, so a refresh is always the current build. It was
+`python3 -m http.server` before, which sends no `Cache-Control` at all -- a `<meta http-equiv>`
+is not a dependable substitute, because browsers largely ignore it for the document itself, which
+is the case that matters on reload. The server prints the build id at startup and the bench
+prints it at the top of its readout, so "am I looking at the new code" is answerable by looking.
 
 ```
 npm run ingest     # pull the catalog (about 2 seconds, four pages)
