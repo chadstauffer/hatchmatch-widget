@@ -123,9 +123,6 @@ img{display:block}
 @container (max-width:399px){.chip .meter{display:none}}
 .flies{padding:0 0 6px}
 .only{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-radius:3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.catalog{margin-top:8px}
-.sel{display:inline-flex;align-items:center;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:999px}
-.sel select{font:inherit;font-size:12px;color:inherit;background:none;border:0;padding:0 2px;cursor:pointer;max-width:96px}
 .pill{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
 .pill[aria-pressed=true]{background:var(--surface2)}
 .pill i{width:7px;height:7px;border-radius:50%;background:var(--off)}.pill[aria-pressed=true] i{background:var(--accent)}
@@ -150,13 +147,28 @@ img{display:block}
 .notes{padding:16px;display:flex;flex-direction:column;gap:14px}
 .prose{font-size:15px;line-height:1.65;display:flex;flex-direction:column;gap:14px}.prose p{margin:0}
 .foot{font-size:11px;letter-spacing:.06em;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
-.trip{padding:16px;display:flex;flex-direction:column;gap:12px;min-height:100%}
-.buybar{border-top:1px solid var(--line);padding:10px 16px 10px;display:flex;flex-direction:column;gap:7px}
-.editrow{display:flex;justify-content:flex-end;margin-top:-6px}
-.trip .guide{border:0;border-top:1px solid var(--line);border-radius:0;padding:0;min-height:44px;margin-top:auto}
-.steps{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
-.steps .step button{width:30px}.steps .step b{min-width:12px}
-.link{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;height:36px}
+.buybar{border-top:1px solid var(--line);padding:6px 16px 10px;display:flex;flex-direction:column;gap:6px}
+/* The three pack-shaping controls, one row, directly above the CTA. Anglers and days are not a
+   destination -- they are a modifier on the buy action, so they sit on it. Section is their peer:
+   it shapes the pack the same way. Present on every tab, so the pinned height never changes.
+   Caption over control, not beside it. Measured: laid out inline the three need a 372px card and
+   a 375x667 phone gives 335. Stacked they need 232 and keep the whole word at every width, in
+   the same 44px -- so no label ever has to be dropped and no control ever has to shrink. */
+.triprow{display:flex;align-items:flex-end;gap:12px;min-height:44px}
+.tripctl{display:flex;flex-direction:column;align-items:flex-start;gap:3px;flex:none}
+.tripctl .lab{white-space:nowrap;line-height:1}
+.tripctl .step{height:28px}
+.tripctl .step button{width:28px;height:28px;font-size:14px}
+.tripctl .step b{min-width:14px;font-size:12px}
+.secsel{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-left:auto;flex:0 1 auto;min-width:0;max-width:150px}
+.secsel .lab{line-height:1}
+.secsel .box{position:relative;display:inline-flex;align-items:center;height:28px;max-width:100%}
+.secsel select{font:inherit;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:inherit;background:none;border:0;padding:0 14px 0 0;margin:0;cursor:pointer;appearance:none;-webkit-appearance:none;width:100%;text-overflow:ellipsis}
+.secsel .care{position:absolute;right:0;font-size:9px;color:var(--accent);pointer-events:none}
+/* Was a 48px bordered box inside the scroll. It is a link, not a second buy button. */
+.allflies{display:flex;justify-content:space-between;align-items:center;gap:10px;height:28px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.allflies span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.allflies span:last-child{color:var(--accent);flex:none}
 .powered{display:flex;justify-content:center;align-items:center;gap:6px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .powered svg{width:12px;height:12px;color:var(--accent);opacity:.8}
 .avatar{width:20px;height:20px;border-radius:50%;background:var(--off);flex:none}
@@ -214,7 +226,7 @@ img{display:block}
       const demo = new URLSearchParams(location.search).get('state') || host.dataset.demoState || '';
       this.demo = demo;
       this.frame = 0; this.cycler = null; this.poll = null; this.scrollPos = {}; this.shownTab = null;
-      this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, customize: false, expanded: new Set(), added: false, filled: false,
+      this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, expanded: new Set(), added: false, filled: false,
         flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', live: false, failed: false }, weather: null };
       this.picks = data.picks.filter(p => p.variant);
       this.byId = new Map(this.picks.map(p => [p.id, p]));
@@ -440,7 +452,7 @@ img{display:block}
     }
     expanded() {
       const d = this.data, tab = this.s.tab;
-      const tabs = ['now', 'hatch', 'trip', 'notes'];
+      const tabs = ['now', 'hatch', 'notes'];
       return `<div class="card open">
   <div class="head">
     ${this.header(true)}
@@ -450,18 +462,28 @@ img{display:block}
   </div>
   <div class="panelwrap"><div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div></div>
   <div class="buybar">
+    ${this.tripRow()}
+    <button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>
     ${this.packButton()}
     <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
   </div>
 </div>`;
     }
-    stepper(label, key, val) {
-      return `<div class="row" style="gap:6px"><span class="label" style="letter-spacing:.1em">${label}</span><span class="step"><button data-action="step" data-key="${key}" data-d="-1" aria-label="Fewer ${label.toLowerCase()}" data-focus="${key}-">−</button><b aria-live="polite">${val}</b><button data-action="step" data-key="${key}" data-d="1" aria-label="More ${label.toLowerCase()}" data-focus="${key}+">+</button></span></div>`;
+    /** The steppers sit directly above the button whose count and price they change, so the
+        causation is spatial. mathLine() used to narrate it in a sentence; the sentence is gone. */
+    tripStepper(label, key, val) {
+      const a = label.toLowerCase();
+      return `<span class="tripctl"><span class="label lab">${label}</span><span class="step"><button data-action="step" data-key="${key}" data-d="-1" aria-label="Fewer ${a}" data-focus="${key}-">−</button><b aria-live="polite">${val}</b><button data-action="step" data-key="${key}" data-d="1" aria-label="More ${a}" data-focus="${key}+">+</button></span></span>`;
     }
-    mathLine() {
-      const rows = this.rows().flatMap(g => g.flies).filter(r => !r.oos), per = rows.reduce((n, r) => n + r.per, 0), k = this.pack();
-      const a = this.s.anglers, dd = this.s.days;
-      return `${per} flies per angler per day × ${a} ${a === 1 ? 'angler' : 'anglers'} × ${dd} ${dd === 1 ? 'day' : 'days'} = ${k.flies} flies`;
+    /** Section is a peer of anglers and days, not a property of the fly list: all three shape the
+        same pack. A water with one section shows no control rather than a select with one option. */
+    tripRow() {
+      const secs = this.data.water.sections;
+      return `<div class="triprow">
+    ${this.tripStepper('Anglers', 'anglers', this.s.anglers)}
+    ${this.tripStepper('Days', 'days', this.s.days)}
+    ${secs.length > 1 ? `<span class="secsel"><span class="label lab">Section</span><span class="box"><select data-action="section" data-focus="section" aria-label="Section of the river">${secs.map(x => `<option value="${esc(x)}"${x === this.s.section ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select><span class="care" aria-hidden="true">&#9662;</span></span></span>` : ''}
+  </div>`;
     }
     tab_now() {
       const d = this.data, F = d.water.flow, f = this.s.flow, w = this.wading(), fr = this.fresh();
@@ -492,6 +514,7 @@ img{display:block}
     ${fr.stale ? `<div class="note">Conditions may have changed since this report. Flow and weather are live.</div>` : ''}
     ${d.report.author ? `<div class="muted" style="padding-top:10px">Report by ${esc(d.report.author)}</div>` : ''}
   </div>
+  <a class="ghost guide" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
 </div>`;
     }
     /** One panel. The angler's question is one question, so the hatch and the flies that answer it
@@ -503,8 +526,7 @@ img{display:block}
       return `<div class="slots">
   <div class="between" style="padding:8px 0 4px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)"><span>Time of day</span><span>Hatch, size, the guide's word</span></div>
   ${slots}${anytime}
-  <div class="muted" style="padding:14px 0 4px;font-size:12px">Intensity is the guide's word for each hatch this week.${this.s.customize ? ' Quantities are per angler per day.' : ''}</div>
-  <button class="ghost catalog" data-action="catalog" data-focus="catalog"><span class="caps" style="font-weight:600">All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>
+  <div class="muted" style="padding:14px 0 4px;font-size:12px">Intensity is the guide's word for each hatch this week.</div>
 </div>`;
     }
     /** A hatch row and, underneath it, the flies for that hatch. The row is the disclosure. */
@@ -555,24 +577,9 @@ img{display:block}
     <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><a class="name" href="${esc(v.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" data-action="fly" data-id="${id}">${esc(use.name)}</a><span class="meta">${meta}</span></div>
     <div class="right"><span><span class="muted" style="font-size:11px">×${qty}</span> ${money(r.price)}</span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
   </div>
-  ${this.s.customize ? `<div class="edit">
-    <span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">In pack</span>
-    <span class="step"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}" data-focus="q-${id}-">−</button><b>${per}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}" data-focus="q-${id}+">+</button></span>
-    ${chips ? `<span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding-left:4px">Option</span>${chips}` : ''}
+  ${chips ? `<div class="edit">
+    <span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Option</span>${chips}
   </div>` : ''}`;
-    }
-    /** The trip: how many anglers, how many days, which water, and the one buy button. It used to
-        sit under every tab and cost the panel a third of the card. Its own tab now. */
-    tab_trip() {
-      const d = this.data;
-      return `<div class="trip">
-  <div class="steps">${this.stepper('Anglers', 'anglers', this.s.anglers)}${this.stepper('Days', 'days', this.s.days)}
-    <span class="row" style="gap:6px"><span class="label" style="letter-spacing:.1em">Section</span><span class="sel"><select data-action="section" data-focus="section" aria-label="Section of the river">${d.water.sections.map(x => `<option value="${esc(x)}"${x === this.s.section ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select></span></span>
-  </div>
-  <div class="muted" style="font-size:11px">${this.mathLine()}</div>
-  <div class="editrow"><button class="link" data-action="customize" style="color:${this.s.customize ? 'var(--accent)' : 'var(--text)'}" data-focus="customize">${this.s.customize ? 'Done' : 'Edit pack'}</button></div>
-  <a class="ghost guide" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
-</div>`;
     }
     tab_notes() {
       const d = this.data;
@@ -638,7 +645,6 @@ img{display:block}
           if (!s.expanded.has(key)) { const h = this.data.hatches.find(x => x.slot === key); this.emit('hatch_expanded', { slot: key, insect: h ? h.insect : null }); }
           break;
         }
-        case 'customize': this.set({ customize: !s.customize, tab: 'hatch' }); if (!s.customize) this.emit('pack_customized'); break;
         case 'step': { const k = el.dataset.key, d = +el.dataset.d, max = k === 'anglers' ? 6 : 7; this.set({ [k]: Math.min(max, Math.max(1, s[k] + d)), added: false }); break; }
         case 'qty': { const id = el.dataset.id, p = this.byId.get(id), cur = s.qty[id] != null ? s.qty[id] : p.qty; this.set({ qty: { ...s.qty, [id]: Math.max(0, cur + +el.dataset.d) }, added: false }); break; }
         case 'variant': this.set({ variant: { ...s.variant, [el.dataset.id]: +el.dataset.vid }, added: false }); this.emit('size_changed', { pick: el.dataset.id, variant: +el.dataset.vid }); break;
