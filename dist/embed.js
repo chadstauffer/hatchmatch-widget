@@ -56,19 +56,35 @@ img{display:block}
 /* compact */
 .compact{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
 .compact .lamp{font-size:10px}
-/* live strip: overlapping frames, one visible at a time */
-.live{position:relative;height:16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.live>span{position:absolute;inset:0;display:flex;align-items:center;gap:7px;white-space:nowrap;opacity:0;transition:opacity .3s linear}
-.live>span.on{opacity:1}
+/* Live strip. The dot and the word LIVE are stationary -- only the suffix cycles, because a label
+   that restates itself every six seconds is motion spending space on nothing. The CFS value is
+   never in here: it is 44px tall, six pixels above. */
+.live{display:flex;align-items:center;gap:7px;height:16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .live i{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
 .live i.pulse{animation:hm-pulse 2s ease-in-out infinite}
+.live>b{font-weight:400;flex:none;white-space:nowrap}
+.live>b::after{content:'·';padding-left:7px;opacity:.7}
+.live .frames{position:relative;flex:1 1 auto;min-width:0;height:16px}
+.live .frames>span{position:absolute;inset:0;display:flex;align-items:center;gap:6px;white-space:nowrap;opacity:0;transition:opacity .3s linear}
+.live .frames>span.on{opacity:1}
+.live .frames svg{width:7px;height:7px;flex:none}
 @keyframes hm-pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@media (prefers-reduced-motion:reduce){.live>span{transition:none}.live i.pulse{animation:none}}
+@media (prefers-reduced-motion:reduce){.live .frames>span{transition:none}.live i.pulse{animation:none}}
 .expand{display:flex;flex-direction:column;gap:10px;width:100%;border-radius:8px}
 .big{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1}
 .big.xl{font-size:44px;letter-spacing:-.03em}
 .unit{font-size:10px;letter-spacing:.12em;color:var(--muted)}
-.flowrow{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+/* One flow module, both states. The number, the caret, the bar and the strip are identical
+   compact and expanded; only the range labels are additive. */
+.flowmod{display:flex;flex-direction:column;gap:10px}
+.flownum{display:flex;align-items:baseline;gap:8px}
+.numwrap{display:flex;align-items:stretch;gap:7px}
+/* Direction lives on the caret, so it is a qualifier on the number, not an alert: muted, and
+   offset by direction -- up toward the cap height, down toward the baseline. */
+.trendcaret{display:flex;color:var(--muted);flex:none}
+.trendcaret svg{width:11px;height:11px;display:block}
+.trendcaret.up{align-items:flex-start;padding-top:3px}
+.trendcaret.down{align-items:flex-end;padding-bottom:4px}
 .bar{position:relative;display:flex;gap:2px;height:14px;align-items:center}
 .bar i{flex:1;height:10px;border-radius:1px;background:var(--off)}
 .bar.tall{height:16px}.bar.tall i{height:12px}
@@ -112,6 +128,11 @@ img{display:block}
 .temps .lo{color:var(--muted);font-weight:400}
 .temps svg{width:8px;height:8px;flex:none}
 .note{font-size:13px;padding:10px 12px;border:1px solid var(--red);border-radius:10px}
+/* Water temperature band. Same visual language as the flow bar and its wading threshold: a real
+   measurement against a real threshold. Renders only when the gauge reports 00010. */
+.band i{flex:1;height:10px;border-radius:1px;background:var(--off)}
+.band i.in{background:color-mix(in srgb, var(--green), transparent 55%)}
+.band i.at{background:var(--text)}
 .slots{padding:8px 16px 16px;display:flex;flex-direction:column}
 .slot{display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px;align-items:center;min-height:64px;border-top:1px solid var(--line)}
 .chip{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 12px 0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);justify-self:start;max-width:100%}
@@ -195,16 +216,41 @@ img{display:block}
       const vals = ts.values[0].value.map(v => ({ value: +v.value, at: v.dateTime })).filter(v => v.value >= 0);
       if (!vals.length) throw new Error('empty series');
       const last = vals[vals.length - 1], first = vals[0], delta = last.value - first.value;
-      return { value: last.value, at: last.at, trend: Math.abs(delta) < Math.max(100, last.value * .02) ? 'Steady' : delta > 0 ? 'Rising' : 'Falling', live: true, source: 'waterservices.usgs.gov/nwis/iv' };
+      // The delta is what the trend word is derived from. Round 1 threw it away and printed the
+      // word; the number says how fast, which the word cannot. Keep both, print only the number.
+      const hours = Math.max(1, Math.round((new Date(last.at) - new Date(first.at)) / 3600000));
+      return { value: last.value, at: last.at, delta, hours, trend: Math.abs(delta) < Math.max(100, last.value * .02) ? 'Steady' : delta > 0 ? 'Rising' : 'Falling', live: true, source: 'waterservices.usgs.gov/nwis/iv' };
     } catch (e) { errors.push(`nwis/iv: ${e.message}`); }
     try {
       const r = await fetch(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/latest-continuous/items?monitoring_location_id=USGS-${site}&parameter_code=00060&f=json`);
       if (!r.ok) throw new Error('HTTP ' + r.status);
       const f = ((await r.json()).features || []).find(x => x.properties && x.properties.parameter_code === '00060');
       if (!f) throw new Error('no streamflow feature');
-      return { value: +f.properties.value, at: f.properties.time, trend: '', live: true, source: 'api.waterdata.usgs.gov' };
+      // Latest value only: no series, so no delta. That frame is dropped, not faked.
+      return { value: +f.properties.value, at: f.properties.time, delta: null, hours: null, trend: '', live: true, source: 'api.waterdata.usgs.gov' };
     } catch (e) { errors.push(`ogcapi: ${e.message}`); }
     throw new Error(errors.join(' | '));
+  }
+  /* Water temperature (00010, Celsius) and turbidity (63680, FNU) off the same instantaneous-values
+     service the flow comes from, so they cost one request and inherit its CORS. Neither is carried
+     at every gauge -- Keswick reports neither, verified against the site's own series catalog on
+     Sep 4 2026 -- so both are optional and a missing one drops its frame or its row. Nothing here
+     substitutes air temperature for water, or derives a number from a word. */
+  async function fetchAux(site) {
+    const out = { temp: null, turbidity: null };
+    try {
+      const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${site}&parameterCd=00010,63680&period=PT2H`);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      for (const ts of ((await r.json()).value.timeSeries || [])) {
+        const code = ts.variable.variableCode[0].value;
+        const vals = ts.values[0].value.map(v => +v.value).filter(v => v > -999);
+        if (!vals.length) continue;
+        const last = vals[vals.length - 1];
+        if (code === '00010') out.temp = Math.round(last * 9 / 5 + 32);
+        if (code === '63680') out.turbidity = Math.round(last * 10) / 10;
+      }
+    } catch (e) { console.debug('[hatchmatch] water temp / turbidity unavailable at this gauge:', e.message); }
+    return out;
   }
   const WX = c => c === 0 ? 'clear' : c <= 2 ? 'mostly clear' : c === 3 ? 'clouds' : c <= 48 ? 'fog' : c <= 57 ? 'drizzle' : c <= 67 ? 'rain' : c <= 77 ? 'snow' : c <= 82 ? 'showers' : c <= 86 ? 'snow' : 'storms';
   async function fetchWeather(lat, lon) {
@@ -227,7 +273,7 @@ img{display:block}
       this.demo = demo;
       this.frame = 0; this.cycler = null; this.poll = null; this.scrollPos = {}; this.shownTab = null;
       this.s = { open: false, tab: 'now', section: data.water.sections[0], anglers: 1, days: 1, qty: {}, variant: {}, expanded: new Set(), added: false, filled: false,
-        flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', live: false, failed: false }, weather: null };
+        flow: { value: data.water.flow.lastReading.value, at: data.water.flow.lastReading.at, trend: '', delta: null, hours: null, live: false, failed: false }, weather: null, temp: null, turbidity: null };
       this.picks = data.picks.filter(p => p.variant);
       this.byId = new Map(this.picks.map(p => [p.id, p]));
       // Open the slot the angler is standing in, if it has a hatch. The rest start closed.
@@ -253,6 +299,7 @@ img{display:block}
       if (this.demo === 'noflow') { this.s.flow.failed = true; this.render(); }
       else fetchFlow(w.usgsSite).then(f => { this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
         .catch(e => { this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
+      fetchAux(w.usgsSite).then(a => { if (a.temp != null || a.turbidity != null) { this.s.temp = a.temp; this.s.turbidity = a.turbidity; this.emit('water_aux', a); this.render(); } });
       fetchWeather(w.lat, w.lon).then(wx => { this.s.weather = wx; this.render(); })
         .catch(e => { console.warn('[hatchmatch] weather unavailable, showing the report\'s outlook:', e.message); this.emit('weather_unavailable', { error: e.message }); });
       this.watchFlow();
@@ -385,10 +432,11 @@ img{display:block}
       const ok = !f.failed && f.value < F.threshold;
       return { label: ok ? 'Wadeable' : 'Not today', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
     }
+    /** Only reached when both endpoints failed. The live reading says the same things in the strip. */
     flowNote() {
-      const f = this.s.flow, t = new Date(f.at);
-      const time = t.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
-      return f.failed ? `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.` : `USGS ${this.data.water.gaugeName.replace(/^USGS\s*/, '')}, ${time}`;
+      const f = this.s.flow;
+      const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+      return `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.`;
     }
     /** The shop's own name for the pack wins; otherwise the water's short name. */
     packName() { const w = this.data.water; return w.packName || `${w.shortName} pack`; }
@@ -411,21 +459,69 @@ img{display:block}
     </div>`;
     }
     /** Report age and live flow are different facts. The lamp above owns the age and stays still;
-        this strip owns what is actually changing. Frames crossfade; the dot pulses only when live. */
+        this strip owns what is actually changing. Each frame is a fact the card does not already
+        show: when it was read, how fast it is moving, how cold it is. A frame whose source is
+        missing is dropped, never faked -- one frame is a fine strip. Returns HTML, not text. */
     liveFrames() {
-      const f = this.s.flow;
+      const f = this.s.flow, out = [];
       if (f.failed) return [];
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      return [
-        [f.live ? 'Live' : 'Last reading', `${num(f.value)} CFS`, f.trend].filter(Boolean).join(' · '),
-        `Read ${time} · ${this.data.water.gaugeName}`,
-      ];
+      out.push(`Read ${esc(time)} &middot; ${esc(this.data.water.gaugeName)}`);
+      // Signed number, not a caret: the caret on the flow figure is the one place trend is stated,
+      // and it reads the classified trend. This reads the measurement, which can be -20 while the
+      // classification is still Steady. Two carets disagreeing six pixels apart is worse than none.
+      if (f.delta != null && f.hours) {
+        const d = Math.round(f.delta);
+        out.push(d === 0
+          ? `Holding for ${f.hours} hrs`
+          : `${d > 0 ? '+' : '\u2212'}${num(Math.abs(d))} CFS in ${f.hours} hrs`);
+      }
+      if (this.s.temp != null) out.push(`Water ${this.s.temp}&deg;`);
+      return out;
     }
     liveStrip() {
       const frames = this.liveFrames();
       if (!frames.length) return '';
-      const pulse = this.s.flow.live, at = this.frame % frames.length;
-      return `<div class="live">${frames.map((t, i) => `<span class="${i === at ? 'on' : ''}"${i === at ? '' : ' aria-hidden="true"'}><i class="${pulse ? 'pulse' : ''}"></i>${esc(t)}</span>`).join('')}</div>`;
+      const f = this.s.flow, at = this.frame % frames.length;
+      return `<div class="live"><i class="${f.live ? 'pulse' : ''}"></i><b>${f.live ? 'Live' : 'Last reading'}</b><span class="frames">${frames.map((t, i) => `<span class="${i === at ? 'on' : ''}"${i === at ? '' : ' aria-hidden="true"'}>${t}</span>`).join('')}</span></div>`;
+    }
+    /** Trend, once, as a shape. The word is gone from the strip and from the expanded header. */
+    flowCaret() {
+      const f = this.s.flow;
+      if (f.failed || !f.trend || f.trend === 'Steady') return '';
+      const up = f.trend === 'Rising';
+      return `<span class="trendcaret ${up ? 'up' : 'down'}" role="img" aria-label="${f.trend}">${CARET(up)}</span>`;
+    }
+    /** The whole flow instrument. Compact and expanded render the same thing; expanded adds the
+        range labels under the bar and nothing else. */
+    flowModule(expanded) {
+      const F = this.data.water.flow, f = this.s.flow;
+      const tick = ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
+      return `<div class="flowmod">
+      <div class="flownum"><span class="numwrap"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.flowCaret()}</span><span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span></div>
+      ${this.flowBar(true)}
+      ${expanded ? `<div class="ranges"><span style="left:0">${num(F.min)}</span><span class="mid" style="left:${tick}">${num(F.threshold)} ${esc(F.thresholdLabel)}</span><span style="right:0">${num(F.max)}</span></div>` : ''}
+      ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>` : this.liveStrip()}
+    </div>`;
+    }
+    /** Water temperature against the 50-65 trout-active band. A tailwater like the Lower Sac barely
+        moves; a freestone swings hard. Absent unless the gauge actually reports 00010. */
+    tempRow() {
+      const t = this.s.temp;
+      if (t == null) return '';
+      const lo = 40, hi = 75, a = 50, b = 65, segs = 34;
+      const pos = v => Math.max(0, Math.min(segs - 1, Math.round((v - lo) / (hi - lo) * (segs - 1))));
+      const at = pos(t), cells = Array.from({ length: segs }, (_, i) => {
+        const deg = lo + i * (hi - lo) / (segs - 1);
+        return `<i class="${i === at ? 'at' : (deg >= a && deg <= b ? 'in' : '')}"></i>`;
+      }).join('');
+      const mid = ((( (a + b) / 2) - lo) / (hi - lo) * 100).toFixed(2) + '%';
+      const pa = ((a - lo) / (hi - lo) * 100).toFixed(2) + '%', pb = ((b - lo) / (hi - lo) * 100).toFixed(2) + '%';
+      return `<div class="sec rule" style="padding-top:14px">
+    <div class="between"><span class="label">Water temp</span><span style="font-size:15px;font-weight:600">${t}&deg;</span></div>
+    <div class="bar tall band" role="img" aria-label="Water temperature ${t} degrees, trout-active band ${a} to ${b}">${cells}</div>
+    <div class="ranges"><span style="left:0">${lo}&deg;</span><span style="left:${pa}">${a}&deg;</span><span class="mid" style="left:${mid}">Prime</span><span style="left:${pb}">${b}&deg;</span><span style="right:0">${hi}&deg;</span></div>
+  </div>`;
     }
     compact() {
       const d = this.data, w = this.wading(), hn = this.hatchNow(), f = this.s.flow;
@@ -435,10 +531,8 @@ img{display:block}
     ${this.header(false)}
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
     <div class="sec">
-      <div class="flowrow"><div class="row" style="gap:5px;align-items:baseline"><span class="big" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span><span class="unit">CFS</span></div>${this.flowBar(false)}</div>
-      ${this.liveStrip()}
-      ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>`
-        : `<div class="row caps" style="letter-spacing:.12em"><span class="muted">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
+      ${this.flowModule(false)}
+      ${f.failed ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
     <div class="row rule" style="padding-top:10px">
       <span class="label" style="white-space:nowrap">${hn.label}</span>
@@ -486,22 +580,20 @@ img{display:block}
   </div>`;
     }
     tab_now() {
-      const d = this.data, F = d.water.flow, f = this.s.flow, w = this.wading(), fr = this.fresh();
+      const d = this.data, w = this.wading(), fr = this.fresh();
+      // Illustrative, not measured: these positions place a four-value ordinal on a 24-tick scale
+      // so it reads as an instrument. There is no percentage behind them and none is printed.
+      // The only real number here is turbidity, and only if the gauge actually reports 63680.
       const clarity = { Poor: 3, Fair: 9, Good: 15, Excellent: 22 }[d.report.clarity] ?? 12;
-      const tick = ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
+      const turb = this.s.turbidity;
       const wx = this.s.weather;
       return `<div class="now">
-  <div class="sec">
-    <div class="between"><span class="label">Flow, ${esc(d.water.gaugeName)}</span><span class="label">${f.failed ? '' : f.trend}</span></div>
-    <div class="row" style="gap:8px;align-items:baseline"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span><span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span></div>
-    ${this.flowBar(true)}
-    <div class="ranges"><span style="left:0">${num(F.min)}</span><span class="mid" style="left:${tick}">${num(F.threshold)} ${esc(F.thresholdLabel)}</span><span style="right:0">${num(F.max)}</span></div>
-    <div class="muted" style="font-size:11px">${f.failed ? this.flowNote() : `${f.live ? 'Live' : 'Last reading'}, ${this.flowNote()}`}</div>
-  </div>
+  ${this.flowModule(true)}
   <div class="two rule" style="padding-top:14px">
     <div class="sec"><div class="label">Wading</div><div class="lamp" style="--c:${w.color};font-size:13px;font-weight:600;letter-spacing:.1em"><i style="width:8px;height:8px"></i>${w.label}</div><div class="muted" style="font-size:12px">${w.note}</div></div>
-    <div class="sec"><div class="label">Clarity</div><div class="accent caps" style="font-weight:600;letter-spacing:.1em;font-size:13px">${esc(d.report.clarity)}</div>${this.ticks(24, clarity, 'var(--accent)')}</div>
+    <div class="sec"><div class="label">Clarity</div><div class="accent caps" style="font-weight:600;letter-spacing:.1em;font-size:13px">${esc(d.report.clarity)}${turb != null ? `<span class="muted" style="letter-spacing:.06em"> &middot; ${turb} FNU</span>` : ''}</div>${this.ticks(24, clarity, 'var(--accent)')}</div>
   </div>
+  ${this.tempRow()}
   <div class="sec rule" style="padding-top:14px;gap:10px">
     <div class="between"><span class="label">Next three days</span><span class="muted" style="font-size:10px">${wx ? 'High, low, rain chance' : 'From the report'}</span></div>
     <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', icon: 'clouds' }, { day: 'Day 2', label: 'Sprinkles', icon: 'drizzle' }, { day: 'Day 3', label: 'Sprinkles', icon: 'drizzle' }]).map(x => `
@@ -620,10 +712,10 @@ img{display:block}
     /** Advances the live strip in place rather than re-rendering: six seconds is a long time to hold
         a card that is otherwise still. Reduced motion gets frame one and nothing else. */
     startCycle() {
-      if (this.s.open || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (this.root.querySelectorAll('.live>span').length < 2) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (this.root.querySelectorAll('.live .frames>span').length < 2) return;
       this.cycler = setInterval(() => {
-        const frames = this.root.querySelectorAll('.live>span');
+        const frames = this.root.querySelectorAll('.live .frames>span');
         if (frames.length < 2) { clearInterval(this.cycler); this.cycler = null; return; }
         this.frame = (this.frame + 1) % frames.length;
         frames.forEach((el, i) => { el.classList.toggle('on', i === this.frame); el.toggleAttribute('aria-hidden', i !== this.frame); });
