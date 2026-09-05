@@ -107,10 +107,11 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   mode, it is that on the Lower Sac the wading limit and the water sit at the same height, so the
   dashed line runs through the plotted level. The per-cell colour split resolves it -- a solid
   below-limit block with one above-limit row on top reads as "just over the limit, all week".
-- The wading limit is drawn as explicit 3px dashes over the plot, with a one-pixel dark edge.
-  `border-top: dashed` gives roughly 1px segments that vanish against a filled column, and when
-  the limit lands on a cell boundary -- the common case -- the line hid inside the 2px inter-cell
-  gap and its own background halo finished the job.
+- The sparkline is one colour, filled to each bucket's level, and carries nothing else. A
+  threshold colour split and a dashed limit line were both built here and taken out: the
+  graphic's job is the shape of the week, and the segmented bar directly below already carries
+  the limit against a labelled scale. No captions and no legend -- if it needs copy to be
+  understood, it is the wrong graphic.
 - Trend stacks with the unit, not the number: an accent arrow above `CFS` when the river is
   rising, below `CFS` when it is dropping, never both, nothing when steady. Earlier rounds put it
   beside the figure, which is not what was asked for and, muted at 11px, was not visible either.

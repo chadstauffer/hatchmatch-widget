@@ -133,7 +133,7 @@ img{display:block}
    a steady four-figure one, and no width breakpoint can know that. All fourteen buckets survive;
    only the cells get narrower, so the window never lies about how much time it covers. */
 .spark .col{position:relative;display:flex;flex-direction:column-reverse;gap:2px;flex:1 1 0;min-width:1px}
-.spark .col i{width:100%;height:4px;background:var(--seg)}
+.spark .col i{width:100%;height:4px;background:color-mix(in srgb,var(--water1),var(--water2) 55%)}
 /* Which column is now, without spending the colour channel that carries the threshold. */
 .spark .col.cur::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--accent)}
 /* The full-size block fits to a 350px card, which is the binding width -- a 390x844 phone. Below
@@ -149,11 +149,6 @@ img{display:block}
    carries a 1px halo in the card's own background to separate it from the cells it crosses. */
 /* Flush with the cells, not bled past them: a 3px overhang on an absolutely positioned child
    still counts as overflow, and it put 3px of horizontal scroll on the flow row at every width. */
-/* The limit, drawn over the plot. border-top:dashed gives roughly 1px segments that vanish
-   against a filled column -- and when the threshold lands on a cell boundary, which is the common
-   case, the line hid inside the 2px inter-cell gap and its own background halo finished the job.
-   Explicit 3px dashes at full contrast, above the cells, no halo. */
-.spark .lim{position:absolute;left:0;right:0;z-index:2;height:1px;pointer-events:none;background:repeating-linear-gradient(to right,var(--text) 0 3px,transparent 3px 6px);filter:drop-shadow(0 1px 0 rgba(0,0,0,.55))}
 .bar{position:relative;display:flex;gap:2px;height:14px;align-items:center}
 .bar i{flex:1;height:10px;border-radius:1px;background:var(--off)}
 .bar.tall{height:16px}.bar.tall i{height:12px}
@@ -773,24 +768,15 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         const cur = i === f.series.length - 1;
         if (v == null) return `<span class="col"></span>`;
         const step = Math.max(1, Math.min(STEPS, Math.ceil((v - F.min) / span * STEPS)));
-        // Filled to this bucket's level, and coloured per cell rather than per column: the cells
-        // under the wading limit take the bar's below-limit colour and the ones over it take the
-        // above-limit colour, so a week spent just over the line reads as a block with a cap.
-        const cells = Array.from({ length: step }, (_, k) => {
-          const top = F.min + (k + 1) * span / STEPS;
-          const seg = F.threshold != null && top > F.threshold ? 'var(--amber)'
-            : `color-mix(in srgb, var(--water1), var(--water2) 55%)`;
-          return `<i style="--seg:${seg}"></i>`;
-        }).join('');
+        // One colour, filled to this bucket's level. A threshold split and a limit line were
+        // both tried here and taken out: this graphic's job is the shape of the week, and the
+        // segmented bar directly below already carries the limit against a labelled scale.
+        const cells = '<i></i>'.repeat(step);
         return `<span class="col${cur ? ' cur' : ''}">${cells}</span>`;
       }).join('');
-      // The line is not redundant with the colour split: a column that never reaches the
-      // threshold has no amber, so the line is the only thing saying where the limit is.
-      const lim = F.threshold == null ? '' : `<span class="lim" style="bottom:${((F.threshold - F.min) / span * 100).toFixed(2)}%"></span>`;
       const seen = f.series.filter(v => v != null);
-      const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS`
-        + (F.threshold == null ? '' : `, ${F.thresholdLabel} ${num(F.threshold)}`);
-      return `<span class="spark" role="img" aria-label="${label}">${cols}${lim}</span>`;
+      const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS`;
+      return `<span class="spark" role="img" aria-label="${label}">${cols}</span>`;
     }
     /** The whole flow instrument. Compact and expanded render the same thing; expanded adds the
         range labels under the bar and nothing else. */
