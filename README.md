@@ -31,6 +31,7 @@ demo/index.html       the pitch page
 demo/review.html      the revision review sheet, one figure per state
 demo/measure.html     the height harness the panel numbers come from
 demo/sweep.html       every state x theme x width x tab, plus the invariants
+demo/spark.html       the flow sparkline next to the segmented bar, magnified and at real size
 ```
 
 ## Run
@@ -55,6 +56,22 @@ The demo also works straight from `demo/index.html` on disk. Live flow and weath
 - Every tap is an event: `window.HatchMatch.events`, and a `hatchmatch` CustomEvent on the host. Add `data-debug` to the host to see them in the console. `pack_added` fires only for the full pack and is the monthly headline; the filtered add fires `fly_added` and is reported separately.
 
 Demo states for the pitch, as a query string on the demo page: `?state=aging`, `?state=stale`, `?state=oos` (takes the Weiss Nymph out of stock so the substitute row shows), `?state=noflow`.
+
+## Round 3
+
+- Flow is fetched over `P7D`, not `PT6H`: Keswick releases move in discrete steps every few
+  days, so a six-hour window on a tailwater is flat noise. Still one request -- the strip's
+  six-hour delta comes off the tail of the same series.
+- A 14-column sparkline sits right of the CFS figure. Twelve-hour buckets, six discrete steps,
+  on the segmented bar's own fixed range -- never the window's own min and max, which would draw
+  a dependable week as a mountain range. A bucket the gauge did not report draws as a gap.
+- Cells take the bar's two colours split at `water.flow.threshold`, with a dashed line at the
+  threshold and a 2px accent underline on the current column. Measured across all six gauges we
+  carry, six steps on a fixed range gives one or two distinct levels: these rivers have no shape
+  to show in a week, so the threshold is what the graphic is for.
+- The trend caret is gone. Flow direction appears once per card state, as the signed delta.
+- The wading threshold is optional throughout the flow module. Not every river has a limit a
+  guide will stand behind, and a range without one no longer crashes the bar.
 
 ## Round 2
 
