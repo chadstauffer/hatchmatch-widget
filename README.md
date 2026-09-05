@@ -111,9 +111,9 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   `border-top: dashed` gives roughly 1px segments that vanish against a filled column, and when
   the limit lands on a cell boundary -- the common case -- the line hid inside the 2px inter-cell
   gap and its own background halo finished the job.
-- The caret is the accent at 16px, not muted at 11px. Specified muted and shipped that way twice;
-  next to a 44px figure it was not visible at real size. Verified in a screenshot this time, not
-  through the render path -- a caret that renders in the DOM and cannot be seen has not shipped.
+- Trend stacks with the unit, not the number: an accent arrow above `CFS` when the river is
+  rising, below `CFS` when it is dropping, never both, nothing when steady. Earlier rounds put it
+  beside the figure, which is not what was asked for and, muted at 11px, was not visible either.
 
 ## Round 4 — the flow module again
 

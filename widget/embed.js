@@ -107,15 +107,13 @@ img{display:block}
    compact and expanded; only the range labels are additive. */
 .flowmod{display:flex;flex-direction:column;gap:10px}
 .flownum{display:flex;align-items:center;gap:8px}
-.numwrap{display:flex;align-items:stretch;gap:7px}
-/* Offset by direction -- up toward the cap height, down toward the baseline. Specified muted at
-   11px and shipped that way twice; at real size, next to a 44px figure, it was not visible. It is
-   the accent now, at 16px, which is the same language the chip and title carets already use for a
-   small directional glyph. */
-.trendcaret{display:flex;color:var(--accent);flex:none}
-.trendcaret svg{width:16px;height:16px;display:block}
-.trendcaret.up{align-items:flex-start;padding-top:2px}
-.trendcaret.down{align-items:flex-end;padding-bottom:3px}
+/* Direction stacks with the unit, not with the number: an arrow above CFS when the river is
+   coming up, below CFS when it is dropping, and never both. Reading it off the unit rather than
+   off the figure keeps the figure clean and puts the arrow where the eye already goes to check
+   what the number means. */
+.unitstack{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:none}
+.unitstack .ar{display:block;color:var(--accent);line-height:0}
+.unitstack .ar svg{width:12px;height:12px;display:block}
 /* Seven days of flow, right of the figure. Discrete cells in the meters' own language, never a
    smooth line. The scale is the segmented bar's own range, never the window's min and max:
    auto-scaling would draw a dependable tailwater week as a mountain range, which on this river
@@ -755,11 +753,14 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         on a river that moves -- and says none of them legibly on a stable tailwater, which is the
         river the shop will actually look at. Direction now appears twice on purpose: the caret is
         precise and always legible, the sparkline is contextual and sometimes flat. */
-    flowCaret() {
+    /** The unit, with an arrow above it when the river is rising and below it when it is falling.
+        Never both, and nothing at all when it is steady -- an arrow that is always there stops
+        meaning anything. */
+    unitStack() {
       const f = this.s.flow;
-      if (f.failed || !f.trend || f.trend === 'Steady') return '';
-      const up = f.trend === 'Rising';
-      return `<span class="trendcaret ${up ? 'up' : 'down'}" role="img" aria-label="${f.trend}">${CARET(up)}</span>`;
+      const dir = f.failed || !f.trend || f.trend === 'Steady' ? null : (f.trend === 'Rising' ? 'up' : 'down');
+      const arrow = d => `<span class="ar" role="img" aria-label="${f.trend}">${CARET(d === 'up')}</span>`;
+      return `<span class="unitstack">${dir === 'up' ? arrow('up') : ''}<span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${dir === 'down' ? arrow('down') : ''}</span>`;
     }
     /** The week, quantized to six steps on the bar's own fixed scale. Renders wherever the bar
         renders: without a published range there is no honest scale, and inventing one from the
@@ -797,7 +798,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const F = this.data.water.flow, f = this.s.flow;
       const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
       return `<div class="flowmod">
-      ${this.data.water.usgsSite && f.value != null ? `<div class="flownum"><span class="numwrap"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.flowCaret()}</span><span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${this.sparkline()}</div>` : ''}
+      ${this.data.water.usgsSite && f.value != null ? `<div class="flownum"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.unitStack()}${this.sparkline()}</div>` : ''}
       ${this.flowBar(true)}
       ${expanded && F.max != null ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)} ${esc(F.thresholdLabel)}</span>` : ''}<span style="right:0">${num(F.max)}</span></div>` : ''}
       ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>` : this.liveStrip()}
