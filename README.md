@@ -100,6 +100,21 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   left the card rendering a flow with no sparkline and no way to know why. `demo/sweep.html`
   checks this.
 
+## Round 6c — a month, and a labelled scale
+
+- The window is thirty days, not seven. A week is too short a swath on a dam-controlled river:
+  the Lower Sac's seven-day spread is about 9% of its scale and its thirty-day spread is 41%, so
+  the month is where the shape is. Thirty columns over thirty days is a day a column, one request
+  (`period=P30D`, ~226 KB, ~320ms).
+- The vertical scale carries nice round labels on a 1-2-2.5-5 ladder -- 5K / 10K on the Lower Sac,
+  50 / 100 / 150 on Hat Creek. Interior values only: the top of the grid is the scale max by
+  definition, and a label centred on the top edge hangs half outside the graph.
+- Cells are 3px square at every width. Only the column count changes when the row is tight
+  (30 down to 24), so a cell never changes shape.
+- The axis and the labels stand clear of the plot. Week ticks are positioned across
+  `100% - 1px` so the last one lands inside rather than a pixel past, which had been putting a
+  hairline of overflow on the flow row at every width.
+
 ## Round 6b — the hydrograph is a dot matrix
 
 - Same sampled series, same fixed scale, same fill logic; only the drawing changed. The smooth

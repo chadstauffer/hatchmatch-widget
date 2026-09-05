@@ -119,28 +119,29 @@ img{display:block}
    auto-scaling would draw a dependable tailwater week as a mountain range, which on this river
    would say the opposite of the truth. The dotted line is the wading threshold, which turns
    "is it rising" into "has it been fishable this week" -- the question a flat week can answer. */
-/* A hydrograph rasterized onto a dot matrix. The curve is the right shape -- the smooth vector
-   version proved that -- but every other meter on this card is discrete lit cells, so this one is
-   too. Roughly 30 columns by 10 rows: 14 x 6 failed because 84 states cannot describe a curve,
-   and 300 can. Three states per cell, which is what puts water underneath the trace: the top lit
-   cell of a column is the trace at full brightness, the cells beneath it are the water at 60%,
-   and the rest are the grid the shape sits on at 12%. */
-/* 44px, not 40: ten rows of 3px cells with 1px gaps need 39px of grid, and the axis takes 5.
-   At 40 the cells came out 2.6px tall against 3.1 wide, which is not a square. 44 also matches
-   the CFS figure's own height exactly, so the graph pairs with the number without growing the
-   row. */
-.spark{position:relative;margin-left:auto;width:123px;height:44px;flex:0 1 auto;min-width:0;color:var(--muted);display:flex;flex-direction:column;gap:1px}
+/* A hydrograph rasterized onto a dot matrix. Thirty columns by ten rows: 14 x 6 failed because
+   84 states cannot describe a curve, and 300 can. Three states per cell, which is what puts water
+   underneath the trace -- the top lit cell of a column is the trace at full brightness, the cells
+   beneath it are the water at 60%, the rest are the grid the shape sits on at 12%.
+   Cells are 3px square at every width; only the column count changes when the row is tight, so a
+   cell never changes shape. The axis and the value labels stand clear of the plot rather than
+   touching it. */
+.spark{position:relative;margin-left:auto;display:flex;align-items:stretch;gap:5px;width:150px;height:48px;flex:0 1 auto;min-width:0;color:var(--muted)}
+.spark .yaxis{position:relative;width:24px;flex:none;font-size:9px;letter-spacing:.06em}
+.spark .yaxis b{position:absolute;right:0;transform:translateY(-50%);font-weight:400;white-space:nowrap;opacity:.75;line-height:1}
+.spark .plot{display:flex;flex-direction:column;flex:1 1 auto;min-width:0}
 .spark .grid{display:flex;gap:1px;flex:1 1 auto;min-height:0}
 .spark .col{display:flex;flex-direction:column-reverse;gap:1px;flex:1 1 0;min-width:0}
 .spark .col i{flex:1 1 0;min-height:0;border-radius:1px;background:currentColor;opacity:.12}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
-/* The axis sits outside the grid so it does not compete with it. Seven ticks reads as seven days
-   without a word of copy. */
-.spark .axis{position:relative;height:4px;flex:none}
-.spark .axis i{position:absolute;bottom:1px;width:1px;height:3px;background:currentColor;opacity:.3}
+.spark .axis{position:relative;height:5px;flex:none;margin-top:4px}
+/* Positioned across (100% - 1px) so the last tick's own width lands inside the plot instead of
+   one pixel past it, which put a hairline of overflow on the flow row at every width. */
+.spark .axis i{position:absolute;bottom:2px;left:calc(var(--f) * (100% - 1px));width:1px;height:3px;background:currentColor;opacity:.3}
 .spark .axis::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.35}
-@container (max-width:344px){.spark{height:34px;width:82px}}
+/* Tight rows drop the value labels rather than the resolution: the plot keeps its cells. */
+@container (max-width:344px){.spark{width:96px}.spark .yaxis{display:none}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -334,7 +335,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       // Seven days, not six hours. Keswick releases move in discrete steps every few days, so a
       // six-hour window on a tailwater is flat noise -- it would draw a broken graph, not a calm
       // one. One request still: the six-hour delta is computed off the tail of this same series.
-      const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${site}&parameterCd=00060&period=P7D`);
+      const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${site}&parameterCd=00060&period=P30D`);
       if (!r.ok) throw new Error('HTTP ' + r.status);
       const ts = (await r.json()).value.timeSeries[0];
       const vals = ts.values[0].value.map(v => ({ value: +v.value, at: +new Date(v.dateTime), iso: v.dateTime })).filter(v => v.value >= 0 && v.at);
@@ -344,17 +345,17 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const first = six.length > 1 ? six[0] : vals[0];
       const delta = last.value - first.value;
       const hours = Math.max(1, Math.round((end - first.at) / 3600000));
-      // One sample per pixel column of the widest render, not fourteen blocks. The gauge reports
-      // every fifteen minutes, so a P7D window is around 672 real readings; bucketing to fourteen
-      // threw away 98% of measured data to fit a grid. A bucket the gauge did not report stays
+      // Thirty days in six-hour buckets. A week is too short a swath on a dam-controlled river:
+      // the Lower Sac's seven-day spread is about 9% of its scale and its thirty-day spread is
+      // 41%, so the month is where the shape actually is. A bucket the gauge did not report stays
       // null and draws as a gap rather than being interpolated across.
-      const COLS = 128, SPAN = 7 * 24 * 3600e3 / COLS, acc = Array.from({ length: COLS }, () => ({ n: 0, sum: 0 }));
+      const DAYS = 30, COLS = DAYS * 4, SPAN = DAYS * 24 * 3600e3 / COLS, acc = Array.from({ length: COLS }, () => ({ n: 0, sum: 0 }));
       for (const v of vals) {
         const i = COLS - 1 - Math.floor((end - v.at) / SPAN);
         if (i >= 0 && i < COLS) { acc[i].n++; acc[i].sum += v.value; }
       }
       const series = acc.map(b => b.n ? b.sum / b.n : null);
-      return { value: last.value, at: last.iso, delta, hours, series, days: 7, trend: weekTrend(series), live: true, source: 'waterservices.usgs.gov/nwis/iv' };
+      return { value: last.value, at: last.iso, delta, hours, series, days: DAYS, trend: weekTrend(series), live: true, source: 'waterservices.usgs.gov/nwis/iv' };
     } catch (e) { errors.push(`nwis/iv: ${e.message}`); }
     try {
       const r = await fetch(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/latest-continuous/items?monitoring_location_id=USGS-${site}&parameter_code=00060&f=json`);
@@ -758,7 +759,18 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const arrow = d => `<span class="ar" role="img" aria-label="${f.trend}">${CARET(d === 'up')}</span>`;
       return `<span class="unitstack">${dir === 'up' ? arrow('up') : ''}<span class="unit" style="font-size:11px;letter-spacing:.14em">CFS</span>${dir === 'down' ? arrow('down') : ''}</span>`;
     }
-    /** The week as a hydrograph, rasterized onto a cell grid. The sampled series and the fixed
+    /** Nice round values to label the vertical scale: two or three, on a 1-2-2.5-5 ladder, so a
+        0-15,000 river reads 5K / 10K / 15K rather than thirds of an arbitrary number. */
+    scaleTicks(max) {
+      const raw = max / 4, e = Math.floor(Math.log10(raw)), base = 10 ** e;
+      const step = [1, 2, 2.5, 5, 10].map(m => m * base).find(v => v >= raw) || 10 * base;
+      const out = [];
+      // Interior values only. The top of the grid is the scale max by definition, and a label
+      // centred on the very top edge hangs half outside the graph.
+      for (let v = step; v < max - 1e-9; v += step) out.push(v);
+      return out;
+    }
+    /** The month as a hydrograph, rasterized onto a cell grid. The sampled series and the fixed
         scale are unchanged -- only how it is drawn. A column the gauge never reported lights
         nothing, and a real reading always lights at least one cell, so low water and no data
         never look the same. */
@@ -766,10 +778,10 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const F = this.data.water.flow, f = this.s.flow;
       if (f.failed || !f.series || F.max == null) return '';
       const narrow = this.cardWidth() <= 344;
-      const COLS = narrow ? 20 : 30, ROWS = 10;
+      const COLS = narrow ? 24 : 30, ROWS = 10;
       const span = F.max - F.min, src = f.series;
       if (src.length < 2) return '';
-      // Resample to the column count. Same data, coarser raster.
+      // Resample to the column count. Over thirty days at thirty columns that is a day a column.
       const cols = Array.from({ length: COLS }, (_, c) => {
         const lo = Math.floor(c * src.length / COLS), hi = Math.max(lo + 1, Math.floor((c + 1) * src.length / COLS));
         let n = 0, sum = 0;
@@ -782,10 +794,19 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         return `<span class="col">${Array.from({ length: ROWS }, (_, r) =>
           `<i class="${r < lit - 1 ? 'on' : r === lit - 1 ? 'on top' : ''}"></i>`).join('')}</span>`;
       }).join('');
-      const ticks = Array.from({ length: 7 }, (_, d) => `<i style="left:${(d / 7 * 100).toFixed(2)}%"></i>`).join('');
+      // A tick a week rather than a day: thirty daily ticks would be a second grid.
+      const weeks = Math.max(2, Math.round(f.days / 7));
+      const ticks = Array.from({ length: weeks + 1 }, (_, d) =>
+        `<i style="--f:${(d / weeks).toFixed(4)}"></i>`).join('');
+      const fmt = v => v >= 1000 ? `${+(v / 1000).toFixed(1)}K` : String(Math.round(v));
+      const ylab = this.scaleTicks(F.max).map(v =>
+        `<b style="top:${(100 - (v - F.min) / span * 100).toFixed(2)}%">${fmt(v)}</b>`).join('');
       const seen = src.filter(v => v != null);
-      const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS`;
-      return `<span class="spark" role="img" aria-label="${label}"><span class="grid">${cells}</span><span class="axis" aria-hidden="true">${ticks}</span></span>`;
+      const label = `${f.days} days of flow, ${num(Math.round(Math.min(...seen)))} to ${num(Math.round(Math.max(...seen)))} CFS, scale ${num(F.min)} to ${num(F.max)}`;
+      return `<span class="spark" role="img" aria-label="${label}">`
+        + `<span class="yaxis" aria-hidden="true">${ylab}</span>`
+        + `<span class="plot"><span class="grid">${cells}</span><span class="axis" aria-hidden="true">${ticks}</span></span>`
+        + `</span>`;
     }
     /** The container query that sizes the graph keys off the card, so the renderer has to ask the
         same question to pick a column count. */
