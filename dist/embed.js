@@ -93,8 +93,8 @@ img{display:block}
 .tabs{display:flex;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0 8px}
 .tab{flex:1;height:44px;text-align:center;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tab);box-shadow:inset 0 -2px 0 transparent}
 .tab[aria-selected=true]{color:var(--text);box-shadow:inset 0 -2px 0 var(--accent)}
-.card.open{height:min(78vh,720px)}
-.head,.tabs,.brandbar{flex:none}
+.card.open{height:min(78vh,720px);min-height:360px}
+.head,.tabs,.buybar{flex:none}
 .panelwrap{position:relative;flex:1 1 auto;min-height:0;display:flex}
 .panelwrap.fade::after{content:'';position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(transparent,var(--bg));pointer-events:none}
 .panel{flex:1 1 280px;min-height:0;overflow-y:auto;overscroll-behavior:contain}
@@ -151,8 +151,8 @@ img{display:block}
 .prose{font-size:15px;line-height:1.65;display:flex;flex-direction:column;gap:14px}.prose p{margin:0}
 .foot{font-size:11px;letter-spacing:.06em;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
 .trip{padding:16px;display:flex;flex-direction:column;gap:12px;min-height:100%}
-.brandbar{border-top:1px solid var(--line);padding:8px 16px 10px}
-.editrow{display:flex;justify-content:flex-end;margin-top:-4px}
+.buybar{border-top:1px solid var(--line);padding:10px 16px 10px;display:flex;flex-direction:column;gap:7px}
+.editrow{display:flex;justify-content:flex-end;margin-top:-6px}
 .trip .guide{border:0;border-top:1px solid var(--line);border-radius:0;padding:0;min-height:44px;margin-top:auto}
 .steps{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
 .steps .step button{width:30px}.steps .step b{min-width:12px}
@@ -449,7 +449,10 @@ img{display:block}
     ${tabs.map(k => `<button class="tab" role="tab" id="tab-${k}" aria-selected="${tab === k}" aria-controls="panel-${k}" tabindex="${tab === k ? 0 : -1}" data-action="tab" data-tab="${k}" data-focus="tab-${k}">${k}</button>`).join('')}
   </div>
   <div class="panelwrap"><div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div></div>
-  <div class="brandbar"><div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div></div>
+  <div class="buybar">
+    ${this.packButton()}
+    <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
+  </div>
 </div>`;
     }
     stepper(label, key, val) {
@@ -567,7 +570,6 @@ img{display:block}
     <span class="row" style="gap:6px"><span class="label" style="letter-spacing:.1em">Section</span><span class="sel"><select data-action="section" data-focus="section" aria-label="Section of the river">${d.water.sections.map(x => `<option value="${esc(x)}"${x === this.s.section ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select></span></span>
   </div>
   <div class="muted" style="font-size:11px">${this.mathLine()}</div>
-  ${this.packButton()}
   <div class="editrow"><button class="link" data-action="customize" style="color:${this.s.customize ? 'var(--accent)' : 'var(--text)'}" data-focus="customize">${this.s.customize ? 'Done' : 'Edit pack'}</button></div>
   <a class="ghost guide" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
 </div>`;
