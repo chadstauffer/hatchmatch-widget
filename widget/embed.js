@@ -150,15 +150,18 @@ img{display:block}
    underneath the trace -- the top lit cell of a column is the trace at full brightness, the cells
    beneath it are the water at 60%, the rest are the grid the shape sits on at 12%.
    Cells are 3px square at every width; only the column count changes when the row is tight, so a
-   cell never changes shape. The axis and the value labels stand clear of the plot rather than
-   touching it. */
+   cell never changes shape.
+   The day axis -- a week tick and a baseline rule under the plot -- is gone. It marked time
+   across the window, which needs a caption to say so, and a graphic that needs copy to be
+   understood is the wrong graphic. The plot keeps its ten rows of 3px cells; the graph is 39px
+   now rather than 48, which is what those cells and their gaps actually need. */
 /* The value axis is on the right, beside the newest column: the right edge is now, so the scale
    sits next to the reading being checked, and on the left it sat between the CFS figure and the
    plot, close enough to read as an annotation on the number rather than on the graph.
    A two-by-two grid so the labels and the value rules resolve their percentages against the plot
-   area alone. As a flex row they measured against the whole graph including the day axis, which
-   put every label and every rule three pixels low -- enough, at 3px rows, to name the wrong one. */
-.spark{position:relative;display:grid;grid-template-columns:minmax(0,1fr) calc(var(--lab,3) * (1ch + .06em));grid-template-rows:minmax(0,1fr) auto;column-gap:4px;row-gap:4px;height:48px;flex:1 1 auto;min-width:0;max-width:280px;color:var(--muted)}
+   area alone. As a flex row they measured against the whole graph rather than the plot, which put
+   every label three pixels low -- enough, at 3px rows, to name the wrong one. */
+.spark{position:relative;display:grid;grid-template-columns:minmax(0,1fr) calc(var(--lab,3) * (1ch + .06em));grid-template-rows:minmax(0,1fr);column-gap:4px;height:39px;flex:1 1 auto;min-width:0;max-width:280px;color:var(--muted)}
 /* The gutter is exactly as wide as its longest label. An auto column cannot do it -- the labels are
    absolutely positioned, so they lend the column no intrinsic width and it collapsed to nothing,
    putting the numbers on top of the plot. The face is monospace, so character count is exact. */
@@ -181,11 +184,6 @@ img{display:block}
 @media (prefers-reduced-motion:reduce){.spark.hg-live .col.cur i.top{animation:none}}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
-.spark .axis{position:relative;grid-area:2/1;height:5px}
-/* Positioned across (100% - 1px) so the last tick's own width lands inside the plot instead of
-   one pixel past it, which put a hairline of overflow on the flow row at every width. */
-.spark .axis i{position:absolute;bottom:2px;left:calc(var(--f) * (100% - 1px));width:1px;height:3px;background:currentColor;opacity:.3}
-.spark .axis::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.35}
 /* Tight rows drop the value labels rather than the resolution: the plot keeps its cells. */
 @container (max-width:344px){.spark{grid-template-columns:minmax(0,1fr);column-gap:0}.spark .yaxis{display:none}}
 /* The segmented bar. Its CSS was deleted wholesale by a careless splice during the hydrograph
@@ -1017,12 +1015,8 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         return `<span class="col${cur}">${Array.from({ length: ROWS }, (_, r) =>
           `<i class="${r < lit - 1 ? 'on' : r === lit - 1 ? 'on top' : ''}"></i>`).join('')}</span>`;
       }).join('');
-      // A tick a week rather than a day: thirty daily ticks would be a second grid.
-      const weeks = Math.max(2, Math.round(f.days / 7));
-      const ticks = Array.from({ length: weeks + 1 }, (_, d) =>
-        `<i style="--f:${(d / weeks).toFixed(4)}"></i>`).join('');
       const fmt = v => v >= 1000 ? `${+(v / 1000).toFixed(1)}K` : String(Math.round(v));
-      // Exact heights, never snapped to a row: the cells are the approximation, the axis is not.
+      // Exact heights, never snapped to a row: the cells are the approximation, the labels are not.
       const at = v => (100 - (v - F.min) / span * 100).toFixed(2);
       const ticksY = this.scaleTicks(F.max);
       const ylab = ticksY.map(v => `<b style="top:${at(v)}%">${fmt(v)}</b>`).join('');
@@ -1032,7 +1026,6 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       return `<span class="spark${f.live ? ' hg-live' : ''}" style="--lab:${widest}" role="img" aria-label="${label}">`
         + `<span class="yaxis" aria-hidden="true">${ylab}</span>`
         + `<span class="grid">${cells}</span>`
-        + `<span class="axis" aria-hidden="true">${ticks}</span>`
         + `</span>`;
     }
     /** The container query that sizes the graph keys off the card, so the renderer has to ask the

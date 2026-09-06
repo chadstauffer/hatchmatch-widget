@@ -130,6 +130,12 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The flow graph's day axis is gone** -- the week ticks and the baseline rule under the plot.
+  It marked time across the window, which is a thing you have to be told before you can read it,
+  and the standing rule here is that a graphic needing copy to be understood is the wrong graphic.
+  The plot is untouched: thirty columns, ten rows, 3px cells, and the 5K/10K value labels that do
+  carry their own meaning. The graph is 39px now rather than 48, which is what those cells and
+  their gaps actually need -- the axis and its gap were the other nine.
 - **The live strip sits above the bar on the compact card.** Round 7 first argued for leaving it
   at the foot of the block: metadata belongs at the end, and moving it would split the bar from
   the scale labels beneath it. The second reason stopped being true in the same round -- those
