@@ -130,6 +130,17 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The wading lamp reads `Normal` / `High`, not `Wadeable` / `Not today`.** "Not today" was the
+  card telling an experienced angler what to do with their day off a single number, and it reads
+  as exactly that. The lamp describes the water now and the note beside it carries the shop's
+  rule -- `HIGH · Wadeable below 7,500 CFS` -- so the call stays with the person standing in the
+  river. It also makes the pair one flow vocabulary instead of a verdict on one side and a level
+  on the other, and drops the "Wadeable / Wadeable below 7,500 CFS" stutter.
+  **Open question:** "normal" now appears twice on the card with two different referents -- this
+  lamp (against the shop's wading limit) and the flow-position band (against the seasonal
+  percentile, always date-qualified: "below normal for early Sep"). Both are true and they can
+  disagree, which is how the Lower Sac reads today at 7,660: above the shop's limit, below its
+  seasonal norm. If that trips people, the lamp's green word is the one to change.
 - **The flow graph's day axis is gone** -- the week ticks and the baseline rule under the plot.
   It marked time across the window, which is a thing you have to be told before you can read it,
   and the standing rule here is that a graphic needing copy to be understood is the wrong graphic.

@@ -838,7 +838,13 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const F = this.data.water.flow, f = this.s.flow;
       if (F.threshold == null || f.value == null) return null;
       const ok = !f.failed && f.value < F.threshold;
-      return { label: ok ? 'Wadeable' : 'Not today', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
+      // The lamp describes the water; the note beside it carries the shop's rule. "Not today" was
+      // the card telling an experienced angler what to do with their day, off one number, and it
+      // read as exactly that. "High" is the same fact without the instruction -- and it is what
+      // anglers actually say -- so the call stays with the person standing in the river. The pair
+      // is one flow vocabulary now rather than a verdict on one side and a level on the other,
+      // which also drops the "Wadeable / Wadeable below 7,500 CFS" stutter.
+      return { label: ok ? 'Normal' : 'High', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
     }
     /** Only reached when both endpoints failed. The live reading says the same things in the strip. */
     /** Three different silences, said differently. No gauge on file, a gauge we have never read,
