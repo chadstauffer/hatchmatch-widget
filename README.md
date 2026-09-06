@@ -130,6 +130,13 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The header lamp names whose date it is: `GUIDE REPORT SEP 1`, not `UPDATED SEP 1`.** It sits
+  directly above a live CFS figure, which made it read as the date of the flow. Those are two
+  different kinds of freshness on one card and they are four days apart -- the flow is from
+  minutes ago, the guide's words are from Sep 1 -- so the card was quietly conflating the only
+  two things on it that must not be confused. The rating and its meter are untouched. In the
+  expanded NOW tab the block heading carries the context instead ("Guide report age"), so the
+  lamp there is the bare date and does not say "report" twice.
 - **The compact card's hatch line is a control.** Tapping it opens the card on that hatch --
   HATCH tab, that slot's flies already out, scrolled to the slot and focus on its chip -- rather
   than dumping you on NOW to find it yourself. It had to become a sibling of the expand button

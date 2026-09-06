@@ -723,9 +723,14 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       if (!publishedAt) return null;
       const d = this.demo === 'stale' ? 23 : this.demo === 'aging' ? 9
         : Math.max(0, Math.floor((Date.now() - new Date(publishedAt + 'T12:00:00')) / DAY));
-      return { days: d, label: 'Updated ' + shortDate(publishedAt), color: d < 7 ? 'var(--green)' : d < 14 ? 'var(--amber)' : 'var(--red)', stale: d >= 14 };
+      // "Updated Sep 1" sits directly above a live CFS figure, where it reads as the date of the
+      // flow rather than of the guide's report -- which is the one place on this card the two
+      // kinds of freshness could be confused, and they are four days apart. Name whose date it
+      // is. `short` is for the report-age block, whose own heading already says what it dates.
+      return { days: d, label: 'Guide report ' + shortDate(publishedAt), short: shortDate(publishedAt),
+               color: d < 7 ? 'var(--green)' : d < 14 ? 'var(--amber)' : 'var(--red)', stale: d >= 14 };
     }
-    fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, label: 'No report yet', color: 'var(--off)', stale: false }; }
+    fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, label: 'No guide report yet', short: '\u2014', color: 'var(--off)', stale: false }; }
     slotNow() { const h = new Date().getHours(); return h < 11 ? 0 : h < 15 ? 1 : h < 19 ? 2 : 3; }
     /** Which hatch to put on the compact card, and when the guide placed it.
         It no longer says "Hatching now", which was three claims the data does not support:
@@ -1221,7 +1226,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
   </div>
   ${d.report.publishedAt ? `<div class="sec rule" style="padding-top:14px">
-    <div class="between"><span class="label">Report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.label}</span></div>
+    <div class="between"><span class="label">Guide report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.short}</span></div>
     ${this.ticks(28, Math.min(27, Math.round(fr.days / 14 * 27)), fr.color)}
     <div class="between" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)"><span>${fr.days === 0 ? 'Today' : fr.days + (fr.days === 1 ? ' day ago' : ' days ago')}</span><span>7 days</span><span>14 days</span></div>
     ${fr.stale ? `<div class="note">Conditions may have changed since this report. Flow and weather are live.</div>` : ''}
