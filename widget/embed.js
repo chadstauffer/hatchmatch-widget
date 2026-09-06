@@ -217,6 +217,12 @@ img{display:block}
    row. Nothing here is droppable ("this afternoon" is the whole answer when the label reads
    "Next hatch"), so the row wraps instead and the compact card grows one line at those widths.
    Predates round 7; the overflow sweep is what found it. */
+/* Three items now, not four: the timing moved into the label and the trailing "this afternoon"
+   is gone, which is what was orphaning onto a second line. Below 360px the guide's intensity word
+   is the part that gives -- when and what are the row's job, and the HATCH tab carries intensity
+   properly with a meter and the guide's own caveat. The wrap rule stays as a backstop for an
+   insect name longer than anything we carry today. */
+@container (max-width:359px){.hatchword{display:none}}
 @container (max-width:359px){.hatchnow{flex-wrap:wrap;row-gap:4px}}
 /* Below 360px the strip is the tightest row on the card. "Read" goes first; if that is still
    three pixels short, the remaining spacing gives them up rather than the gauge name, which is
@@ -718,13 +724,28 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     }
     fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, label: 'No report yet', color: 'var(--off)', stale: false }; }
     slotNow() { const h = new Date().getHours(); return h < 11 ? 0 : h < 15 ? 1 : h < 19 ? 2 : 3; }
+    /** Which hatch to put on the compact card, and when the guide placed it.
+        It no longer says "Hatching now", which was three claims the data does not support:
+        the report is the guide's prose from a published date, not a live observation -- the
+        Lower Sac's is four days old as this is written; the slot is a four-hour wall-clock
+        bucket while the guide wrote "late afternoon"; and the intensity word is that guide's
+        call on how the hatch has been THIS WEEK, which is what the HATCH tab's own tooltip
+        says. The worst case was midday on the Lower Sac, where the card asserted a caddis
+        hatch was happening now off a report that says "may or may not be happening".
+        Naming the part of the day is a forecast, which is what the guide actually gave us. */
     hatchNow() {
       const H = this.data.hatches, i = this.slotNow(), now = H[i];
       if (!H.some(h => !h.none)) return null;
-      if (now && !now.none) return { h: now, label: 'Hatching now', when: 'this ' + SLOTS[i] };
+      // "This midday" and "this last light" are not English. Morning and afternoon take "this";
+      // the other two take "at", and everything takes "tomorrow" the same way.
+      const AT_SLOT = { midday: 1, 'last light': 1 };
+      const at = (k, tomorrow) => tomorrow
+        ? `Tomorrow${AT_SLOT[SLOTS[k]] ? ',' : ''} ${SLOTS[k]}`
+        : `${AT_SLOT[SLOTS[k]] ? 'At' : 'This'} ${SLOTS[k]}`;
+      if (now && !now.none) return { h: now, when: at(i, false) };
       const j = H.findIndex((h, k) => k > i && !h.none);
       const next = j >= 0 ? H[j] : H.find(h => !h.none);
-      return { h: next, label: 'Next hatch', when: (j >= 0 ? '' : 'tomorrow ') + SLOTS[H.indexOf(next)] };
+      return { h: next, when: at(H.indexOf(next), j < 0) };
     }
     variantOf(p) { const id = this.s.variant[p.id]; return p.variants.find(v => v.id === id) || p.variant; }
     unavailable(v, p) { return !v.available || (this.demo === 'oos' && p.id === 'weiss'); }
@@ -1126,10 +1147,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       ${f.failed || !w ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted wadecap">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
     ${hn ? `<div class="row rule hatchnow" style="padding-top:10px">
-      <span class="label" style="white-space:nowrap">${hn.label}</span>
+      <span class="label" style="white-space:nowrap">${hn.when}</span>
       <span style="font-weight:600;white-space:nowrap">${esc(hn.h.insect)} <span class="muted" style="font-weight:400">${esc(hn.h.size)}</span></span>
-      <span class="lamp" style="text-transform:none;letter-spacing:0;font-size:11px;--c:${hn.h.intensity >= 4 ? 'var(--accent)' : hn.h.intensity >= 2 ? 'var(--green)' : 'var(--amber)'}"><i></i>${esc(hn.h.word)}</span>
-      <span class="muted" style="margin-left:auto;font-size:10px;text-align:right">${hn.when}</span>
+      <span class="lamp hatchword" style="margin-left:auto;text-transform:none;letter-spacing:0;font-size:11px;--c:${hn.h.intensity >= 4 ? 'var(--accent)' : hn.h.intensity >= 2 ? 'var(--green)' : 'var(--amber)'}"><i></i>${esc(hn.h.word)}</span>
     </div>` : `<div class="muted rule" style="padding-top:10px;font-size:12px">The shop's own report and hot flies inside. Flow and weather are live.</div>`}`}
   </button>
   ${closed ? `<a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>` : this.packButton()}

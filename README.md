@@ -130,6 +130,21 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The compact card no longer says "Hatching now".** It was three claims the data does not
+  support. The report is the guide's prose from a publish date, not a live observation -- the
+  Lower Sac's is four days old as this is written. The slot is a four-hour wall-clock bucket
+  (15:00-19:00) while the guide wrote "late afternoon". And the intensity word is that guide's
+  call on how the hatch has been *this week*, which is what the HATCH tab's own tooltip says, so
+  the card contradicted itself two taps apart. The worst case was midday on the Lower Sac: the
+  card asserted a caddis hatch was happening now, off a report that says "The caddis may or may
+  not be happening, be prepared either way."
+  The row names the part of the day instead -- `THIS AFTERNOON · BWO #18 · Big hatches` -- which
+  is a forecast, and a forecast is what the guide gave us. Slots read naturally: "This morning",
+  "At midday", "This afternoon", "At last light", each with a "Tomorrow" form.
+  It also fixes the layout. The trailing "this afternoon" that was orphaning to its own line is
+  gone, because the timing moved into the label; the row is three items rather than four, and
+  below 360px the guide's intensity word drops so it stays one line. Sixteen combinations --
+  four times of day by four widths -- are one 29px line with zero overflow.
 - **The wading lamp reads `Normal` / `High`, not `Wadeable` / `Not today`.** "Not today" was the
   card telling an experienced angler what to do with their day off a single number, and it reads
   as exactly that. The lamp describes the water now and the note beside it carries the shop's
