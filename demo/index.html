@@ -42,7 +42,7 @@
 
   <!-- The embed. This is the whole integration. -->
   <div id="hatchmatch" data-shop="theflyshop" data-water="lower-sacramento" data-theme="dark" data-accent="orange"></div>
-  <script src="../dist/embed.js?b=20260905232122" async></script>
+  <script src="../dist/embed.js?b=20260906012337" async></script>
 
   <!-- What the resolver turned up on the page, for the guide to confirm. Built from the flag list. Neutral framing: the people who wrote the page are the audience. -->
   <div class="found">
@@ -61,6 +61,7 @@
     <ul>
       <li>Every fly is a real variant on catalog.theflyshop.com, pulled from the public storefront. Prices, stock and photos are the shop's own.</li>
       <li>Flow is live from USGS gauge 11370500 at Keswick. Weather is live for Redding. Both fall back to the report's last reading if a feed is down.</li>
+      <li>Water temperature comes from CDEC station KWK, through a small proxy we run: CDEC sends no CORS header, so a browser cannot read it directly. <strong>This is the card's one backend dependency.</strong> If the proxy is down the water-temperature row and its strip line simply do not appear, and nothing else on the card changes.</li>
       <li>The pack button opens a Shopify cart permalink with every fly in it, tagged so the order shows it came from this report.</li>
       <li>The guide's notes are the shop's September 1 text, shown pending permission.</li>
     </ul>

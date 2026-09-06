@@ -21,7 +21,228 @@
         "threshold": "unset"
       },
       "lastReading": null,
-      "scaleSource": "USGS daily statistics 1975–2026, 4,920 CFS at the 70th percentile of daily p95, rounded up"
+      "scaleSource": "USGS daily statistics 1975–2026, 4,920 CFS at the 70th percentile of daily p95, rounded up",
+      "position": {
+        "bands": [
+          [
+            1210,
+            1345,
+            2000,
+            3505
+          ],
+          [
+            1260,
+            1390,
+            2240,
+            3685
+          ],
+          [
+            1260,
+            1430,
+            2320,
+            3140
+          ],
+          [
+            1235,
+            1415,
+            2235,
+            4315
+          ],
+          [
+            1310,
+            1450,
+            3120,
+            5200
+          ],
+          [
+            1270,
+            1490,
+            3180,
+            5960
+          ],
+          [
+            1290,
+            1550,
+            3680,
+            5400
+          ],
+          [
+            1330,
+            1615,
+            3895,
+            6605
+          ],
+          [
+            1290,
+            1590,
+            3270,
+            4930
+          ],
+          [
+            1245,
+            1520,
+            3270,
+            4535
+          ],
+          [
+            1220,
+            1450,
+            3145,
+            4420
+          ],
+          [
+            1165,
+            1390,
+            2960,
+            3945
+          ],
+          [
+            1125,
+            1380,
+            2820,
+            3625
+          ],
+          [
+            1125,
+            1350,
+            2505,
+            3630
+          ],
+          [
+            1080,
+            1270,
+            2140,
+            3260
+          ],
+          [
+            1040,
+            1190,
+            2010,
+            2595
+          ],
+          [
+            1000,
+            1145,
+            1580,
+            2410
+          ],
+          [
+            980,
+            1105,
+            1440,
+            1740
+          ],
+          [
+            950,
+            1035,
+            1370,
+            1625
+          ],
+          [
+            917,
+            1030,
+            1335,
+            1495
+          ],
+          [
+            931,
+            1030,
+            1310,
+            1450
+          ],
+          [
+            916,
+            1030,
+            1330,
+            1450
+          ],
+          [
+            911,
+            1005,
+            1290,
+            1480
+          ],
+          [
+            920,
+            1030,
+            1300,
+            1450
+          ],
+          [
+            953,
+            1045,
+            1295,
+            1495
+          ],
+          [
+            952,
+            1060,
+            1355,
+            1545
+          ],
+          [
+            972,
+            1075,
+            1395,
+            1575
+          ],
+          [
+            968,
+            1080,
+            1385,
+            1615
+          ],
+          [
+            999,
+            1095,
+            1380,
+            1655
+          ],
+          [
+            1050,
+            1140,
+            1480,
+            1680
+          ],
+          [
+            1100,
+            1200,
+            1485,
+            1750
+          ],
+          [
+            1095,
+            1220,
+            1555,
+            1860
+          ],
+          [
+            1135,
+            1250,
+            1635,
+            2120
+          ],
+          [
+            1150,
+            1275,
+            1685,
+            2170
+          ],
+          [
+            1185,
+            1310,
+            1710,
+            2265
+          ],
+          [
+            1200,
+            1340,
+            1770,
+            2400
+          ]
+        ],
+        "years": "1975–2026"
+      }
     },
     "sections": [],
     "guidePhone": "800-669-3474",
@@ -54,7 +275,7 @@
       ],
       "sizes": [],
       "reportLink": "http://catalog.theflyshop.com/stimulator-orange/",
-      "asWritten": "Stimulator - - Orange"
+      "asWritten": "Stimulator - Orange"
     },
     {
       "id": "foam-october-caddis",
@@ -94,7 +315,7 @@
         "#18"
       ],
       "reportLink": "http://catalog.theflyshop.com/adams/",
-      "asWritten": "Adams - - #14-18"
+      "asWritten": "Adams - #14-18"
     },
     {
       "id": "mayfly-cripples",
@@ -107,7 +328,7 @@
         "#16"
       ],
       "reportLink": "http://catalog.theflyshop.com/mayfly-cripple/",
-      "asWritten": "Mayfly Cripples - - #12-16"
+      "asWritten": "Mayfly Cripples - #12-16"
     },
     {
       "id": "mercer-s-tungsten-october-pu",
@@ -138,7 +359,7 @@
         "#16"
       ],
       "reportLink": "http://catalog.theflyshop.com/harts-dark-lord/",
-      "asWritten": "Dark Lords - - #12-16"
+      "asWritten": "Dark Lords - #12-16"
     },
     {
       "id": "flashback-pheasant-tail",
@@ -150,7 +371,7 @@
         "#16"
       ],
       "reportLink": "http://catalog.theflyshop.com/flashback-pheasant-tail-pt/",
-      "asWritten": "Flashback Pheasant Tail - - #14-16"
+      "asWritten": "Flashback Pheasant Tail - #14-16"
     },
     {
       "id": "beaded-zebra-midge",
@@ -161,7 +382,7 @@
         "#18"
       ],
       "reportLink": "http://catalog.theflyshop.com/beaded-zebra-midge/",
-      "asWritten": "Beaded Zebra Midge - - #18"
+      "asWritten": "Beaded Zebra Midge - #18"
     },
     {
       "id": "mercer-s-poxyback-dark-stone",
@@ -172,7 +393,7 @@
         "#6"
       ],
       "reportLink": "http://catalog.theflyshop.com/mercers-poxyback-dark-stone-6/",
-      "asWritten": "Mercer's Poxyback Dark Stone - - #6"
+      "asWritten": "Mercer's Poxyback Dark Stone - #6"
     },
     {
       "id": "gb-black-a-p",
@@ -184,7 +405,7 @@
         "#12"
       ],
       "reportLink": "http://catalog.theflyshop.com/gb-black-a-p-andre-puyans/",
-      "asWritten": "GB Black A.P. - - #10-12"
+      "asWritten": "GB Black A.P. - #10-12"
     },
     {
       "id": "cb-micro-mayflies",
@@ -196,7 +417,7 @@
         "#18"
       ],
       "reportLink": "http://catalog.theflyshop.com/mercers-cb-micro-mayfly/",
-      "asWritten": "CB Micro Mayflies - - #16-18"
+      "asWritten": "CB Micro Mayflies - #16-18"
     },
     {
       "id": "red-copper-johns",
@@ -208,7 +429,7 @@
         "#18"
       ],
       "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
-      "asWritten": "Red Copper Johns - - #16-18"
+      "asWritten": "Red Copper Johns - #16-18"
     },
     {
       "id": "pat-s-brown-rubberleg",
@@ -220,7 +441,7 @@
         "#8"
       ],
       "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
-      "asWritten": "Pat's Brown Rubberleg - - #6-8"
+      "asWritten": "Pat's Brown Rubberleg - #6-8"
     },
     {
       "id": "gordon-s-amber-wing-prince",
@@ -233,7 +454,7 @@
         "#18"
       ],
       "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
-      "asWritten": "Gordon's Amber Wing Prince - - #14-18"
+      "asWritten": "Gordon's Amber Wing Prince - #14-18"
     },
     {
       "id": "jigged-birds-nest",
@@ -245,7 +466,7 @@
         "#16"
       ],
       "reportLink": "https://catalog.theflyshop.com/zacks-jigged-birds-nest/",
-      "asWritten": "Jigged Birds Nest - - #14-16"
+      "asWritten": "Jigged Birds Nest - #14-16"
     },
     {
       "id": "walt-s-worm",
@@ -258,14 +479,14 @@
     },
     {
       "id": "zack-s-swimming-leech",
-      "group": "Nymphs/Wet Flies",
+      "group": "Streamers & Leeches",
       "name": "Zack's Swimming Leech",
       "colors": [],
       "sizes": [
         "#8"
       ],
       "reportLink": "http://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
-      "asWritten": "Zack's Swimming Leech - - #8"
+      "asWritten": "Zack's Swimming Leech - #8"
     }
   ],
   "substitutes": {}

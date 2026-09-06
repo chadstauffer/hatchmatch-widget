@@ -15,7 +15,7 @@
 </head>
 <body>
 <main><div class="hatchmatch" data-theme="dark" data-accent="orange"></div></main>
-<script src="../dist/embed.js?b=20260905232122"></script>
+<script src="../dist/embed.js?b=20260906012337"></script>
 <script>
   // Drives the card into a state and returns every number the height budget is argued from.
   window.HM_MEASURE = function (state) {
@@ -32,7 +32,12 @@
       cardHeight: px(open || q('.card')),
       header: px(q('.head')), tabs: px(q('.tabs')),
       pinned: px(buybar),
-      pinnedParts: { tripRow: px(trip), allFlies: px(q('.allflies')), cta: px(q('.pack')), powered: px(q('.powered')) },
+      // The all-flies link left the pinned block in round 7 (ticket 6.1) and lives at the bottom
+      // of the HATCH panel now; the guide line joined it (ticket 5). Measure where they are.
+      pinnedParts: { tripRow: px(trip), cta: px(q('.pack')) || px(q('.guideline.primary')), noPack: px(q('.nopack')),
+                     guideLine: px(q('.buybar .guideline')), powered: px(q('.powered')) },
+      allFliesInPanel: px(q('.panel .allflies')),
+      allFliesInPinned: px(q('.buybar .allflies')),
       panel: px(panel),
       panelScrollHeight: panel ? panel.scrollHeight : null,
       flyRows: rows.length, flyRowHeight: rows[0] || null,

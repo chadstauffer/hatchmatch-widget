@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-05T20:38:27.989Z",
+ "generatedAt": "2026-09-06T00:46:03.836Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -24,7 +24,228 @@
     "threshold": "unset"
    },
    "lastReading": null,
-   "scaleSource": "USGS daily statistics 1945–2026, 5,310 CFS at the 70th percentile of daily p95, rounded up"
+   "scaleSource": "USGS daily statistics 1945–2026, 5,310 CFS at the 70th percentile of daily p95, rounded up",
+   "position": {
+    "bands": [
+     [
+      263,
+      401,
+      1415,
+      4035
+     ],
+     [
+      288,
+      469,
+      2155,
+      6250
+     ],
+     [
+      312,
+      583,
+      2030,
+      4240
+     ],
+     [
+      358,
+      635,
+      2570,
+      5215
+     ],
+     [
+      514,
+      771,
+      2665,
+      5720
+     ],
+     [
+      539,
+      843,
+      2450,
+      5260
+     ],
+     [
+      562,
+      884,
+      2500,
+      4200
+     ],
+     [
+      629,
+      1020,
+      2605,
+      4225
+     ],
+     [
+      671,
+      1150,
+      2620,
+      4390
+     ],
+     [
+      741,
+      1200,
+      2390,
+      3615
+     ],
+     [
+      744,
+      1130,
+      2600,
+      3720
+     ],
+     [
+      737,
+      1070,
+      2500,
+      3245
+     ],
+     [
+      605,
+      1040,
+      2340,
+      3180
+     ],
+     [
+      473,
+      862,
+      2240,
+      3155
+     ],
+     [
+      404,
+      726,
+      2070,
+      2840
+     ],
+     [
+      324,
+      509,
+      1445,
+      2230
+     ],
+     [
+      271,
+      394,
+      916,
+      1570
+     ],
+     [
+      249,
+      318,
+      622,
+      1009
+     ],
+     [
+      218,
+      272,
+      470,
+      673
+     ],
+     [
+      202,
+      234,
+      376,
+      505
+     ],
+     [
+      181,
+      220,
+      318,
+      395
+     ],
+     [
+      180,
+      200,
+      288,
+      350
+     ],
+     [
+      172,
+      190,
+      270,
+      316
+     ],
+     [
+      168,
+      187,
+      257,
+      302
+     ],
+     [
+      167,
+      185,
+      249,
+      286
+     ],
+     [
+      167,
+      186,
+      247,
+      284
+     ],
+     [
+      169,
+      185,
+      247,
+      281
+     ],
+     [
+      168,
+      192,
+      256,
+      296
+     ],
+     [
+      182,
+      199,
+      276,
+      369
+     ],
+     [
+      190,
+      206,
+      307,
+      579
+     ],
+     [
+      200,
+      222,
+      392,
+      748
+     ],
+     [
+      208,
+      235,
+      613,
+      1690
+     ],
+     [
+      209,
+      251,
+      870,
+      1815
+     ],
+     [
+      217,
+      275,
+      1065,
+      2980
+     ],
+     [
+      239,
+      307,
+      1305,
+      2840
+     ],
+     [
+      240,
+      333,
+      1490,
+      3710
+     ]
+    ],
+    "years": "1945–2026"
+   }
   },
   "sections": [],
   "guidePhone": "800-669-3474",
@@ -74,7 +295,7 @@
     "#10"
    ],
    "reportLink": "https://catalog.theflyshop.com/sedgeback-october-caddis-10/",
-   "asWritten": "Sedgeback October Caddis - - #10",
+   "asWritten": "Sedgeback October Caddis - #10",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -117,7 +338,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/low-water-baetis/",
-   "asWritten": "Low Water Baetis - - #18",
+   "asWritten": "Low Water Baetis - #18",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -180,7 +401,7 @@
     "#20"
    ],
    "reportLink": "http://catalog.theflyshop.com/adams/",
-   "asWritten": "Adams - - #12-20",
+   "asWritten": "Adams - #12-20",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -271,7 +492,7 @@
     "#16"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-missing-link/",
-   "asWritten": "Mercer's Missing Link - - Dark #14-16",
+   "asWritten": "Mercer's Missing Link - Dark #14-16",
    "status": "resolved",
    "matchedBy": "alias",
    "product": {
@@ -331,7 +552,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/parachute-adams/",
-   "asWritten": "Parachute Adams - - #14-18",
+   "asWritten": "Parachute Adams - #14-18",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -510,7 +731,7 @@
     "#14"
    ],
    "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/",
-   "asWritten": "CB Birds Nest - - #10-14",
+   "asWritten": "CB Birds Nest - #10-14",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -569,7 +790,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
-   "asWritten": "Red Copper John - - #16-18",
+   "asWritten": "Red Copper John - #16-18",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -659,7 +880,7 @@
     "#20"
    ],
    "reportLink": "http://catalog.theflyshop.com/beaded-zebra-midge/",
-   "asWritten": "Zebra Midge - - #18-20",
+   "asWritten": "Zebra Midge - #18-20",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -833,7 +1054,7 @@
     "#22"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-glass-bead-micro-may-22/",
-   "asWritten": "Mercer's Glass Bead Micro May - - #22",
+   "asWritten": "Mercer's Glass Bead Micro May - #22",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -901,7 +1122,7 @@
     "#8"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-gb-poxyback-dark-stone/",
-   "asWritten": "Mercer's GB Dark Stone - - #8",
+   "asWritten": "Mercer's GB Dark Stone - #8",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -969,7 +1190,7 @@
     "#6"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-poxyback-dark-stone-6/",
-   "asWritten": "Mercer's Dark Stone - - #6",
+   "asWritten": "Mercer's Dark Stone - #6",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -1037,7 +1258,7 @@
     "#8"
    ],
    "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
-   "asWritten": "Pat's Rubber Legs - - Brown #6-8",
+   "asWritten": "Pat's Rubber Legs - Brown #6-8",
    "status": "resolved",
    "matchedBy": "alias",
    "product": {
@@ -1116,7 +1337,7 @@
     "#16"
    ],
    "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/",
-   "asWritten": "Jigged Birds Nest - - #14-16",
+   "asWritten": "Jigged Birds Nest - #14-16",
    "status": "confirm",
    "matchedBy": "alias",
    "product": {
@@ -1277,7 +1498,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
-   "asWritten": "Gordon's Amber Wing Prince - - #12-18",
+   "asWritten": "Gordon's Amber Wing Prince - #12-18",
    "status": "confirm",
    "matchedBy": "link",
    "product": {
@@ -1350,7 +1571,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-cb-micro-mayfly/",
-   "asWritten": "Mercer's CB Micro Mayfly - - #16-18",
+   "asWritten": "Mercer's CB Micro Mayfly - #16-18",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -1486,7 +1707,7 @@
   },
   {
    "id": "sheila-sculpin",
-   "group": "Nymphs/Wet Flies",
+   "group": "Streamers & Leeches",
    "name": "Sheila Sculpin",
    "colors": [],
    "sizes": [],
@@ -1527,7 +1748,7 @@
   },
   {
    "id": "woolly-buggers",
-   "group": "Nymphs/Wet Flies",
+   "group": "Streamers & Leeches",
    "name": "Woolly Buggers",
    "colors": [],
    "sizes": [],
@@ -1631,14 +1852,14 @@
   },
   {
    "id": "zack-s-stillwater-swimming-l",
-   "group": "Nymphs/Wet Flies",
+   "group": "Streamers & Leeches",
    "name": "Zack's Stillwater Swimming Leech",
    "colors": [],
    "sizes": [
     "#8"
    ],
    "reportLink": "https://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
-   "asWritten": "Zack's Stillwater Swimming Leech - - #8 Regional Still Waters Baum Lake: Poor Fair Fair to Good Good Great Iron Canyon Reservoir: Poor Fair Fair to Good Good Great Keswick Reservoir: --> --> --> Poor--> Fair--> Fair to Good--> Good--> Great--> --> Lake Shasta: Poor Fair Fair to Good Good Great Lewiston Lake: Poor Fair Fair to Good Good Great Manzanita Lake: Poor Fair Fair to Good Good Great McCloud Reservoir: Poor Fair Fair to Good Good Great Pyramid Lake:",
+   "asWritten": "Zack's Stillwater Swimming Leech - #8",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -1983,6 +2204,7 @@
  "observations": [
   "Rating: Fair to Good.",
   "Prices from the catalog: 22 picks run $1.90 to $4.95; 7 are $2.95.",
-  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap."
+  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
+  "FOR THE GUIDE: no wading threshold on file for Upper Sac. The card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict without a number behind it is a safety claim we have not earned. One number a guide will stand behind -- \"wadeable below X CFS\" -- turns that on."
  ]
 }

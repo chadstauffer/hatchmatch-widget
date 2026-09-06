@@ -4,13 +4,22 @@
     "flow.min / flow.max": "the scale the bar and sparkline draw against. Derived from USGS daily statistics when absent.",
     "flow.threshold / flow.thresholdLabel": "the wading limit. Never derived: this is a person deciding what is safe.",
     "sections": "named reaches the pack can be shaped to.",
-    "packName": "the shop's own name for the pack."
+    "packName": "the shop's own name for the pack.",
+    "cdecStation": "CDEC station id for water temperature (sensor 25, hourly), where USGS does not report 00010. Read through the widget's temp proxy, never from the browser: CDEC sends no CORS header."
   },
   "waters": {
     "lower-sacramento": {
       "why": "Chad set this scale and threshold by hand. 7,500 on 0-15,000 puts the wading limit at 50% of the bar, which is why the two-colour split reads as well as it does. The derivation would give 0-30,000 and a limit at 25%.",
-      "flow": { "min": 0, "max": 15000, "threshold": 7500, "thresholdLabel": "wading limit" },
-      "sections": ["Up top", "Lower"],
+      "flow": {
+        "min": 0,
+        "max": 15000,
+        "threshold": 7500,
+        "thresholdLabel": "wading limit"
+      },
+      "sections": [
+        "Up top",
+        "Lower"
+      ],
       "packName": "Sac Pack"
     }
   }

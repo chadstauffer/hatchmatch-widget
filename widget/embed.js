@@ -37,12 +37,18 @@
 
   const ACCENTS = { orange: ['#FF7124', '#081215'], burnt: ['#D4632A', '#081215'], spruce: ['#2E7D4F', '#F5EDE0'] };
   const SLOTS = ['morning', 'midday', 'afternoon', 'last light'];
+  /* Short months, the same form the rest of the card uses for a date. "Well below normal for
+     early September" is 277px against a 252px strip on a 350px card; "early Sep" fits, and the
+     card says "Sep 1" everywhere else, so the long form was the odd one out anyway. */
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const THIRDS = ['early', 'mid', 'late'];
   const DAY = 86400000;
   const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const num = n => n.toLocaleString('en-US');
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-  const shortDate = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  /* The month and the day are one token: "Sep 1" must never break across a line. */
+  const shortDate = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).replace(' ', ' ');
 
   /* Condition glyphs, keyed by WX(). One stroke weight, no fills, no gradients. */
   const SVG = p => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
@@ -58,12 +64,22 @@
     'snow': SVG(cloud(0, -2) + flake(7, 14) + flake(10.5, 14)),
     'storms': SVG(cloud(0, -2) + `<path d="M9.6 11.4 7.4 14.1h2.1L8.6 15.8"/>`),
   };
-  const CARET = up => `<svg viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="${up ? 'M4 1.9 7 6.1H1Z' : 'M4 6.1 1 1.9h6Z'}"/></svg>`;
+  /* One caret glyph for the whole card. It was four before -- HTML triangles at 8px and 9px
+     (&#9650; &#9660; &#9662; &#9656;) beside this SVG -- and entity triangles cannot be
+     size-matched to each other or to a drawn one, because each is whatever the font says it is.
+     Drawing it once is the only way "identical in size and weight" is a fact rather than a hope.
+     Every control that opens something uses this, points down closed and up open, and differs
+     from its neighbours only by the frame around it: a circle for expand, bare for the rest. */
+  const CARET = up => `<svg class="cr" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="${up ? 'M4 1.9 7 6.1H1Z' : 'M4 6.1 1 1.9h6Z'}"/></svg>`;
 
   const CSS = `
 :host{display:block;container-type:inline-size}
 *{box-sizing:border-box}
-.hm{font-family:'Kode Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;font-size:13px;line-height:1.4;color:var(--text);max-width:440px;margin:0 auto}
+/* text-wrap:pretty inherits, so one declaration covers every text block on the card. It exists
+   for exactly the reported failure: a last line carrying one short word. It cannot help a phrase
+   that must never break at all -- a number and its unit, a size and its hash -- so those are
+   joined below with a non-breaking space instead. */
+.hm{font-family:'Kode Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;font-size:13px;line-height:1.4;color:var(--text);max-width:440px;margin:0 auto;text-wrap:pretty}
 .hm[data-theme=dark]{--bg:#081215;--surface:#0F1D22;--surface2:#16232A;--text:#D6CFC6;--muted:#A08C7E;--tab:#B9AFA3;--line:#1E2628;--off:#22302F;--green:#5BBF7A;--amber:#E0A63A;--red:#E5484D;--water1:#3B4883;--water2:#8FA3E8;--shadow:0 14px 32px rgba(0,0,0,.45)}
 .hm[data-theme=light]{--bg:#F5EDE0;--surface:#FFFFFF;--surface2:#EDE4D7;--text:#081215;--muted:#505452;--tab:#3E4442;--line:#D9D0C4;--off:#D5CCC0;--green:#2E8B57;--amber:#B7791F;--red:#C0392B;--water1:#2F4A9E;--water2:#4F7BD9;--shadow:0 14px 32px rgba(0,0,0,.18)}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;margin:0;text-align:left}
@@ -93,9 +109,14 @@ img{display:block}
 .live i.pulse{animation:hm-pulse 2s ease-in-out infinite}
 .live>b{font-weight:400;flex:none;white-space:nowrap}
 .live>b::after{content:'·';padding-left:7px;opacity:.7}
-.live .frames{position:relative;flex:1 1 auto;min-width:0;height:16px}
-.live .frames>span{position:absolute;inset:0;display:flex;align-items:center;gap:6px;white-space:nowrap;opacity:0;transition:opacity .3s linear}
-.live .frames>span.on{opacity:1}
+.live .frames{position:relative;flex:1 1 auto;min-width:0;height:16px;overflow:hidden}
+/* Sequential, not cross-faded. Both frames are absolutely positioned in the same box, so a
+   symmetric cross-fade puts two readable texts on top of each other for the middle of it --
+   "READC4S15NPM HR0SGS KESWICK" is "Read 4:15 PM · USGS Keswick" and a delta at ~50% each. Now
+   the outgoing one is gone before the incoming one starts: out over 150ms, in over 150ms after a
+   150ms wait. Same 300ms, and never two things to read at once. */
+.live .frames>span{position:absolute;inset:0;display:flex;align-items:center;gap:6px;white-space:nowrap;opacity:0;transition:opacity .15s linear}
+.live .frames>span.on{opacity:1;transition:opacity .15s linear .15s}
 .live .frames svg{width:7px;height:7px;flex:none}
 @keyframes hm-pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @media (prefers-reduced-motion:reduce){.live .frames>span{transition:none}.live i.pulse{animation:none}}
@@ -178,13 +199,40 @@ img{display:block}
 @keyframes hm-lit{from{background:var(--off)}to{background:var(--seg)}}
 .bar .tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--text);transform:translateX(-1px)}
 .bar.tall .tick{top:-4px;bottom:-4px}
+/* Verdict and threshold sentence read as one statement, so they share a line and wrap together
+   rather than the sentence widowing under the lamp. */
+.wadeline{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
 /* "Fair to Good" plus the word FISHING plus the meter overruns a 350px card. The word is the
    part that gives: a rating beside a lamp needs no caption. */
 @container (max-width:409px){.fishlabel{display:none}}
-.chev{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;font-size:9px;color:var(--accent);flex:none}
+/* Same rule, the compact wading row: below 360px the caption, the verdict and the threshold
+   sentence do not fit on one line and the row was running 36px past the card at 320. The caption
+   is the part that gives -- a verdict beside a lamp, with "wadeable below 7,500 CFS" next to it,
+   does not also need the word WADING. The number stays, because that one is safety information.
+   Predates round 7; the overflow sweep is what found it. */
+@container (max-width:359px){.wadecap{display:none}}
+/* The compact hatch line carries four things that must not break internally -- the label, the
+   insect and size, the guide's intensity word, and when. Below 360px they need 322px of a 286px
+   row. Nothing here is droppable ("this afternoon" is the whole answer when the label reads
+   "Next hatch"), so the row wraps instead and the compact card grows one line at those widths.
+   Predates round 7; the overflow sweep is what found it. */
+@container (max-width:359px){.hatchnow{flex-wrap:wrap;row-gap:4px}}
+/* Below 360px the strip is the tightest row on the card. "Read" goes first; if that is still
+   three pixels short, the remaining spacing gives them up rather than the gauge name, which is
+   the frame's whole point. No text is abbreviated at any width. */
+@container (max-width:359px){.readword{display:none}.live{gap:5px}.live>b::after{padding-left:5px}}
+/* 320px is the narrowest card we support, and the two longest gauge names ("USGS Pit No 1",
+   "USGS Lewiston") are still four pixels over there. Tracking is the last thing to give: half the
+   letter-spacing on this one 11px row buys ten pixels and reads the same. */
+@container (max-width:329px){.live{letter-spacing:.04em}}
+/* The caret itself, one size everywhere it means "this opens". The direction glyphs on the
+   weather row and the flow unit are a different statement -- they report which way something is
+   going, not whether a panel is open -- and keep their own sizes below. */
+.cr{width:9px;height:9px;display:block;flex:none}
+.chev{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;color:var(--accent);flex:none}
 .pack{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;height:48px;padding:0 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 /* Nothing to buy is not the primary action. Disabled loses the fill and reads as a state. */
 .pack[disabled]{background:none;border:1px solid var(--line);color:var(--muted);cursor:default}
@@ -194,6 +242,27 @@ img{display:block}
 .pack .packlabel em{font-style:normal;display:none}
 .pack .packlabel.short b{display:none}.pack .packlabel.short em{display:inline}
 .ghost{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--text)}
+/* Buy the flies, or hire the person: one decision, so one block. This was a bordered box sitting
+   between the scroll content and the pinned controls and belonging to neither, which is why it
+   read as orphaned. Directly under the CTA, no border, and OR states the relationship. */
+.guideline{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:34px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.guideline .or{color:var(--muted);font-weight:400}
+.guideline .tel{color:var(--accent);flex:none;white-space:nowrap}
+.guideline .what{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Same idiom as the pack button: lay the long label out, and if it clips, fall back to a shorter
+   phrase rather than an ellipsis. At 320px the primary line has 147px for a label that wants 168,
+   and "With a guide" is a whole phrase where "Fish it with a g..." is a mistake. See fitLabels(). */
+.glabel em{font-style:normal;display:none}
+.glabel.short b{display:none}.glabel.short em{display:inline}
+/* On a water with no pack this is the action, not the alternative -- it is the only thing the
+   card can offer on the Trinity or the Pit today and it should read that way. */
+/* The primary variant carries the whole phrase and the phone at every width down to 320. At the
+   pack button's 13px/.12em it does not: "FISH IT WITH A GUIDE" plus a phone number needs 337px of
+   a 350px card and the label was ellipsising to "FISH IT WITH A G...". A point of size and a
+   little tracking buys 35px, and no word is lost at any width. */
+.guideline.primary{min-height:48px;padding:0 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:12px;font-weight:700;letter-spacing:.1em}
+.guideline.primary .tel{color:var(--on-accent);opacity:.85}
+.nopack{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 /* expanded */
 .head{display:flex;flex-direction:column;gap:10px;padding:14px 16px 10px}
 .tabs{display:flex;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0 8px}
@@ -230,7 +299,7 @@ img{display:block}
 .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--off);flex:none}.chip[aria-expanded=true] .dot{background:var(--accent)}
 .chip{justify-self:stretch;width:100%;min-width:0;gap:8px;padding:0 10px 0 12px}
 .chip .word{font-size:11px;margin-left:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.chip .care{margin-left:auto;color:var(--accent);font-size:9px;flex:none;padding-left:6px}
+.chip .care{display:inline-flex;align-items:center;margin-left:auto;color:var(--accent);flex:none;padding-left:6px}
 /* Same 9px accent glyph as the header chevron, deliberately not in a circle: the circle is the
    expand/collapse shape, and two different actions must not look like one control. */
 .chip{position:relative}
@@ -262,12 +331,23 @@ img{display:block}
 .lbclose{position:absolute;top:10px;right:10px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:50%;background:var(--bg);font-size:14px;line-height:1}
 @media (prefers-reduced-motion:no-preference){.lb{animation:hm-fade .16s ease-out both}}
 @keyframes hm-fade{from{opacity:0}to{opacity:1}}
+/* A fly name is a short heading, not running prose, so it wants balance rather than pretty:
+   pretty broke "Jigged Bird's / Nest" and "Pat's Rubber / Legs", balance gives "Jigged /
+   Bird's Nest" and "Pat's / Rubber Legs". A two-word name that cannot fit on one line still
+   wraps one-and-one, because no arrangement of two words avoids that. */
+.name,.wname{text-wrap:balance}
 .name{font-size:14px;font-weight:600;line-height:1.2}
-.meta{font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
+/* balance, so "Natural Dark  #16" breaks as "Natural / Dark #16" rather than dropping the size
+   onto a line of its own. A size orphaned under its colour reads as a separate fact. */
+.meta{font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;text-wrap:balance}
 .meta i{width:6px;height:6px;border-radius:50%;background:var(--red);flex:none}
 .right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;white-space:nowrap}
 .stock{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.stock i{width:6px;height:6px;border-radius:50%;background:var(--c)}
 .edit{display:flex;align-items:center;gap:8px;padding:0 0 10px 48px;flex-wrap:wrap}
+/* The chosen variant is the control that opens the rest. Same caret, same size, down closed. */
+.optog{display:inline-flex;align-items:center;gap:6px;min-width:0;max-width:100%}
+.optog .meta{min-width:0}
+.optog .care{display:inline-flex;align-items:center;color:var(--accent);flex:none}
 .step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;height:36px}
 .step button{width:36px;height:36px;font-size:16px;text-align:center}.step b{min-width:18px;text-align:center;font-size:13px}
 /* One stepper component, two sizes. The small one fits the fly row and the pinned trip row. */
@@ -294,9 +374,9 @@ img{display:block}
 .secsel .lab{line-height:1}
 .secsel .box{position:relative;display:inline-flex;align-items:center;height:28px;max-width:100%}
 .secsel select{font:inherit;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:inherit;background:none;border:0;padding:0 14px 0 0;margin:0;cursor:pointer;appearance:none;-webkit-appearance:none;width:100%;text-overflow:ellipsis}
-.secsel .care{position:absolute;right:0;font-size:9px;color:var(--accent);pointer-events:none}
+.secsel .care{position:absolute;right:0;display:inline-flex;align-items:center;color:var(--accent);pointer-events:none}
 /* Was a 48px bordered box inside the scroll. It is a link, not a second buy button. */
-.allflies{display:flex;justify-content:space-between;align-items:center;gap:10px;height:28px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.allflies{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px;margin-top:6px;border-top:1px solid var(--line);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 .allflies span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .allflies span:last-child{color:var(--accent);flex:none}
 .allflies.muted span{color:var(--muted)}
@@ -306,7 +386,7 @@ img{display:block}
 /* The title is the water switcher. A bare caret at text size on the baseline -- never a second
    circular chevron, because the circle already means expand/collapse. */
 button.title{display:inline-flex;align-items:baseline;gap:7px;max-width:100%}
-button.title .tcare{font-size:8px;color:var(--accent);flex:none}
+button.title .tcare{display:inline-flex;align-items:center;align-self:center;color:var(--accent);flex:none}
 /* Picker mode: the panel is taken over, not covered, so it inherits the scrolling already built. */
 .waters{padding:4px 16px 16px;display:flex;flex-direction:column}
 .wgroup{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding:14px 0 4px}
@@ -411,7 +491,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
      substitutes air temperature for water, or derives a number from a word. */
   const fetchAux = site => cached(`aux:${site}`, () => fetchAuxLive(site), a => !!a && typeof a === 'object' && 'temp' in a && 'turbidity' in a);
   async function fetchAuxLive(site) {
-    const out = { temp: null, turbidity: null };
+    const out = { temp: null, turbidity: null, at: null };
     try {
       const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?format=json&sites=${site}&parameterCd=00010,63680&period=PT2H`);
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -420,12 +500,32 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         const vals = ts.values[0].value.map(v => +v.value).filter(v => v > -999);
         if (!vals.length) continue;
         const last = vals[vals.length - 1];
-        if (code === '00010') out.temp = Math.round(last * 9 / 5 + 32);
+        if (code === '00010') { out.temp = Math.round(last * 9 / 5 + 32); out.at = ts.values[0].value[ts.values[0].value.length - 1].dateTime || null; }
         if (code === '63680') out.turbidity = Math.round(last * 10) / 10;
       }
     } catch (e) { console.debug('[hatchmatch] water temp / turbidity unavailable at this gauge:', e.message); }
     return out;
   }
+  /* Water temperature that USGS does not carry. CDEC has it hourly for the rivers we cover and
+     sends no Access-Control-Allow-Origin, so a browser cannot read it: one endpoint on the
+     existing Render service fetches, normalizes and re-serves it with CORS, cached fifteen
+     minutes at the server because the sensor is hourly.
+
+     THIS IS THE CARD'S ONE BACKEND DEPENDENCY, and it is deliberately the weakest kind: if the
+     proxy is slow, down or never deployed, this rejects and the water-temperature row and strip
+     frame stay dark exactly as they do today. Nothing else on the card changes, and no number is
+     ever substituted for the one we could not get. A host that would rather run its own can point
+     at it with data-temp-proxy. */
+  const TEMP_PROXY = 'https://hatchmatch-api.onrender.com/api/water-temp';
+  const fetchProxyTemp = (station, base) => cached(`ctemp:${station}`, () => fetchProxyTempLive(station, base), t => !!t && typeof t === 'object' && 'tempF' in t);
+  async function fetchProxyTempLive(station, base) {
+    const r = await fetch(`${base || TEMP_PROXY}?station=${encodeURIComponent(station)}`);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    if (typeof j.tempF !== 'number') throw new Error(j.note || j.error || 'no reading');
+    return { tempF: j.tempF, at: j.at || null, source: j.source || 'cdec.water.ca.gov' };
+  }
+
   const WX = c => c === 0 ? 'clear' : c <= 2 ? 'mostly clear' : c === 3 ? 'clouds' : c <= 48 ? 'fog' : c <= 57 ? 'drizzle' : c <= 67 ? 'rain' : c <= 77 ? 'snow' : c <= 82 ? 'showers' : c <= 86 ? 'snow' : 'storms';
   const fetchWeather = (lat, lon) => cached(`wx:${lat},${lon}`, () => fetchWeatherLive(lat, lon), wx => Array.isArray(wx) && wx.length > 0 && wx[0].hi != null);
   async function fetchWeatherLive(lat, lon) {
@@ -455,8 +555,8 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       this.window = win.length === 2 ? win : null;
       this.frame = 0; this.cycler = null; this.poll = null; this.loadToken = 0; this.scrollPos = {}; this.shownTab = null;
       const r0 = this.resolved;
-      this.s = { open: false, tab: 'now', section: (r0.water.sections || [])[0], anglers: 1, days: 1, qty: {}, variant: {}, picker: false, expanded: new Set(), added: false, filled: false,
-        flow: { value: 0, at: new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: false }, weather: null, temp: null, turbidity: null, lightbox: null, tip: null };
+      this.s = { open: false, tab: 'now', section: (r0.water.sections || [])[0], anglers: 1, days: 1, qty: {}, variant: {}, picker: false, expanded: new Set(), options: null, added: false, filled: false,
+        flow: { value: 0, at: new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: false }, weather: null, temp: null, tempAt: null, tempSource: null, turbidity: null, lightbox: null, tip: null };
       this.useReport(r0);
       const lr0 = this.data.water.flow.lastReading;
       this.s.flow.value = lr0 ? lr0.value : null;
@@ -497,10 +597,10 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       this.useReport(list[0]);
       const w = this.data.water;
       this.s.section = (w.sections || [])[0];
-      this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set();
+      this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set(); this.s.options = null;
       const lrS = w.flow.lastReading;
       this.s.flow = { value: lrS ? lrS.value : null, at: lrS ? lrS.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !w.usgsSite };
-      this.s.weather = null; this.s.temp = null; this.s.turbidity = null;
+      this.s.weather = null; this.s.temp = null; this.s.tempAt = null; this.s.tempSource = null; this.s.turbidity = null;
       const now = this.data.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
       clearInterval(this.poll); this.poll = null;
@@ -526,10 +626,10 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       this.useReport(next);
       clearInterval(this.poll); this.poll = null;
       this.s.section = this.data.water.sections[0];
-      this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set();
+      this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set(); this.s.options = null;
       const lrW = this.data.water.flow.lastReading;
       this.s.flow = { value: lrW ? lrW.value : null, at: lrW ? lrW.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !this.data.water.usgsSite };
-      this.s.weather = null; this.s.temp = null; this.s.turbidity = null;
+      this.s.weather = null; this.s.temp = null; this.s.tempAt = null; this.s.tempSource = null; this.s.turbidity = null;
       const now = this.data.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
       this.set({ picker: false });
@@ -547,9 +647,16 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       else {
         fetchFlow(w.usgsSite, this.window).then(f => { if (!live()) return; this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
           .catch(e => { if (!live()) return; this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
-        fetchAux(w.usgsSite).then(a => { if (!live()) return; if (a.temp != null || a.turbidity != null) { this.s.temp = a.temp; this.s.turbidity = a.turbidity; this.emit('water_aux', a); this.render(); } });
+        fetchAux(w.usgsSite).then(a => {
+          if (!live()) return;
+          if (a.temp != null || a.turbidity != null) { this.s.temp = a.temp; this.s.tempAt = a.at || null; this.s.tempSource = 'gauge'; this.s.turbidity = a.turbidity; this.emit('water_aux', a); this.render(); }
+          // The gauge on the river itself wins and costs no backend. The proxy only answers where
+          // USGS reports no 00010 at all, which is the case on the pilot river.
+          if (a.temp == null) this.loadProxyTemp(live);
+        }).catch(() => { if (live()) this.loadProxyTemp(live); });
         this.watchFlow();
       }
+      if (!w.usgsSite) this.loadProxyTemp(live);
       fetchWeather(w.lat, w.lon).then(wx => { if (!live()) return; this.s.weather = wx; this.render(); })
         .catch(e => { console.warn('[hatchmatch] weather unavailable, showing the report\'s outlook:', e.message); this.emit('weather_unavailable', { error: e.message }); });
     }
@@ -567,6 +674,24 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         clearInterval(this.poll); this.poll = null;
         if (e.isIntersecting) this.poll = setInterval(tick, 5 * 60 * 1000);
       }).observe(this.host);
+    }
+    /** The one backend call the card makes, and the only one it can do without. A water with no
+        CDEC station never asks; a proxy that does not answer leaves the row and the strip frame
+        dark, which is what they already do on every water USGS is silent about. */
+    loadProxyTemp(live) {
+      const w = this.data.water;
+      if (!w.cdecStation || this.demo === 'notemp') return;
+      fetchProxyTemp(w.cdecStation, this.host.dataset.tempProxy)
+        .then(t => {
+          if (!live()) return;
+          this.s.temp = Math.round(t.tempF); this.s.tempAt = t.at; this.s.tempSource = 'proxy';
+          this.emit('water_temp', { temp: t.tempF, at: t.at, source: t.source, via: 'proxy' });
+          this.render();
+        })
+        .catch(e => {
+          console.debug('[hatchmatch] water temp proxy unavailable, leaving the row dark:', e.message);
+          this.emit('water_temp_unavailable', { station: w.cdecStation, error: e.message });
+        });
     }
     emit(type, detail) {
       const ev = { type, at: new Date().toISOString(), water: this.data.water.id, ...detail };
@@ -715,7 +840,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const F = this.data.water.flow, f = this.s.flow;
       if (F.threshold == null || f.value == null) return null;
       const ok = !f.failed && f.value < F.threshold;
-      return { label: ok ? 'Wadeable' : 'Not today', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
+      return { label: ok ? 'Wadeable' : 'Not today', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
     }
     /** Only reached when both endpoints failed. The live reading says the same things in the strip. */
     /** Three different silences, said differently. No gauge on file, a gauge we have never read,
@@ -726,19 +851,33 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       if (!w.usgsSite) return w.gaugeNote || 'No live gauge on file for this water.';
       if (f.value == null) return `No reading from ${w.gaugeName || 'the gauge'} yet. Flow will appear here when it answers.`;
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
-      return `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.`;
+      return `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.`;
     }
     /** The shop's own name for the pack wins; otherwise the water's short name. */
     packName() { const w = this.data.water; return w.packName || `${w.shortName} pack`; }
+    /** "the Pit", "the Trinity", "the Lower Sac" -- but "Hat Creek" and "Fall River", which take
+        no article in the way anyone who fishes them says it. Getting a river's name wrong in
+        copy about that river is the same class of error as describing it wrong. */
+    theName(short) { return /creek$|^fall river$/i.test(short) ? esc(short) : `the ${esc(short)}`; }
     packButton() {
       const k = this.pack();
       // The page lists this water's flies but sets no quantities, so there is no pack to add.
       // Inventing "two of each" is the same class of invention as inventing a hatch slot.
-      if (this.data.readOnly) return `<button class="pack" disabled><span class="packlabel"><b>No pack for the ${esc(this.data.water.shortName)} yet</b><em>No pack yet</em></span><span></span><span>&mdash;</span></button>`;
+      if (this.data.readOnly) return `<button class="pack" disabled><span class="packlabel"><b>No pack for ${this.theName(this.data.water.shortName)} yet</b><em>No pack yet</em></span><span></span><span>&mdash;</span></button>`;
       if (this.s.added) return `<button class="pack" data-action="viewcart"><span>Added</span><span></span><span>View cart</span></button>`;
       // Three columns, always. When it will not all fit, the water name is the part that goes:
-      // the count and the price are the promise. See fitPackLabel().
-      return `<button class="pack" data-action="addpack" ${k.flies ? '' : 'disabled'}><span class="packlabel"><b>Add ${esc(this.packName())}</b><em>Add pack</em></span><span>${k.flies} ${k.flies === 1 ? 'fly' : 'flies'}</span><span>${money(k.total)}</span></button>`;
+      // the count and the price are the promise. See fitLabels().
+      return `<button class="pack" data-action="addpack" ${k.flies ? '' : 'disabled'}><span class="packlabel"><b>Add ${esc(this.packName())}</b><em>Add pack</em></span><span>${k.flies} ${k.flies === 1 ? 'fly' : 'flies'}</span><span>${money(k.total)}</span></button>`;
+    }
+    /** The guide line, directly under the CTA and part of the same block. On a water that sells a
+        pack it is the alternative to buying one and says so with OR; on a water that cannot, it is
+        the primary action and carries the fill. */
+    guideCta(primary) {
+      const w = this.data.water;
+      if (!w.guidePhone) return '';
+      return `<a class="guideline${primary ? ' primary' : ''}" href="tel:${w.guidePhone.replace(/\D/g, '')}" data-action="guide">`
+        + `<span class="what glabel">${primary ? '' : '<span class="or">Or</span> '}<b>Fish it with a guide</b><em>With a guide</em></span>`
+        + `<span class="tel">${esc(w.guidePhone)}</span></a>`;
     }
     /** One header for both states. Only the chevron changes: the two facts never move. */
     header(open) {
@@ -749,11 +888,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       // shape. Compact keeps a plain title.
       const name = esc(this.data.water.name);
       const title = open && this.waters.length > 1
-        ? `<button class="title" data-action="waters" data-focus="waters" aria-expanded="${this.s.picker}" aria-label="Switch water. Currently ${name}"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span><span class="tcare" aria-hidden="true">&#9662;</span></button>`
+        ? `<button class="title" data-action="waters" data-focus="waters" aria-expanded="${this.s.picker}" aria-label="Switch water. Currently ${name}"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span><span class="tcare">${CARET(this.s.picker)}</span></button>`
         : `<div class="title">${name}</div>`;
       return `<div class="between">${title}${open
-        ? `<button class="chev" data-action="collapse" aria-label="Collapse">&#9650;</button>`
-        : `<span class="chev" aria-hidden="true">&#9660;</span>`}</div>
+        ? `<button class="chev" data-action="collapse" aria-label="Collapse">${CARET(true)}</button>`
+        : `<span class="chev" aria-hidden="true">${CARET(false)}</span>`}</div>
     <div class="between">
       <span class="lamp" style="--c:${fr.color};font-size:11px"><i></i>${fr.label}</span>
       ${r.n ? `<span class="row" style="gap:8px"><span class="label fishlabel">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>` : `<span class="label">Not rated yet</span>`}
@@ -767,18 +906,54 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const f = this.s.flow, out = [];
       if (f.failed) return [];
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      out.push(`Read ${esc(time)} &middot; ${esc(this.data.water.gaugeName)}`);
+      // "Read 5:54 PM · USGS Pit No 1" needs 269px of a 252px strip on a 350px card. The gauge
+      // name is the identifying fact and the time is the changing one; "Read" is the filler, so
+      // that is what goes when the row is tight. Nothing is abbreviated and nothing is cut.
+      out.push(`<span class="readword">Read </span>${esc(time)} &middot; ${esc(this.data.water.gaugeName)}`);
       // Signed number, not a caret: the caret on the flow figure is the one place trend is stated,
       // and it reads the classified trend. This reads the measurement, which can be -20 while the
       // classification is still Steady. Two carets disagreeing six pixels apart is worse than none.
       if (f.delta != null && f.hours) {
         const d = Math.round(f.delta);
         out.push(d === 0
-          ? `Holding for ${f.hours} hrs`
-          : `${d > 0 ? '+' : '\u2212'}${num(Math.abs(d))} CFS in ${f.hours} hrs`);
+          ? `Holding for ${f.hours} hrs`
+          : `${d > 0 ? '+' : '\u2212'}${num(Math.abs(d))} CFS in ${f.hours} hrs`);
       }
-      if (this.s.temp != null) out.push(`Water ${this.s.temp}&deg;`);
+      // CDEC's hourly sensor routinely runs several hours behind, and this frame sits inside a
+      // block headed LIVE. A fresh reading is stated plainly; an older one names its own hour
+      // rather than borrowing the flow reading's. Past a day it is not a reading, and it is gone.
+      const pos = this.flowPosition();
+      if (pos) out.push(esc(pos));
+      if (this.s.temp != null) {
+        const age = this.s.tempAt ? (Date.now() - new Date(this.s.tempAt)) / 3600e3 : 0;
+        if (age <= 24) {
+          const hr = this.s.tempAt ? new Date(this.s.tempAt).toLocaleTimeString('en-US', { hour: 'numeric' }) : '';
+          out.push(age > 2 && hr ? `Water ${this.s.temp}&deg; at ${esc(hr)}` : `Water ${this.s.temp}&deg;`);
+        }
+      }
       return out;
+    }
+    /** Where the reading sits in this river's own record for this time of year, against the
+        percentiles USGS publishes per calendar day. Descriptive and measured, and positive when
+        the water is good -- which is what the Pit at 857 CFS needed and had nothing to say.
+
+        It is NOT a wading verdict and must never become one. A river can sit dead in the middle
+        of its normal range and still be dangerous to wade; the Pit's own report says it is a
+        slippery river and to carry a staff. Waters with no threshold on file show this and no
+        verdict, and the threshold stays a number a guide sets. */
+    flowPosition() {
+      const P = this.data.water.flow.position, f = this.s.flow;
+      // A historical window is not "now", and a failed or absent reading has nothing to place.
+      if (!P || !P.bands || !f.live || f.failed || f.value == null || this.window) return null;
+      const now = new Date(), third = now.getDate() <= 10 ? 0 : now.getDate() <= 20 ? 1 : 2;
+      const b = P.bands[now.getMonth() * 3 + third];
+      if (!b) return null;
+      const [p10, p25, p75, p90] = b;
+      const word = f.value < p10 ? 'Well below normal'
+        : f.value < p25 ? 'Below normal'
+        : f.value <= p75 ? 'Near normal'
+        : f.value <= p90 ? 'Above normal' : 'Well above normal';
+      return `${word} for ${THIRDS[third]}\u00A0${MONTHS[now.getMonth()]}`;
     }
     liveStrip() {
       const frames = this.liveFrames();
@@ -869,14 +1044,40 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     /** The whole flow instrument. Compact and expanded render the same thing; expanded adds the
         range labels under the bar and nothing else. */
     flowModule(expanded) {
-      const F = this.data.water.flow, f = this.s.flow;
-      const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
+      const f = this.s.flow;
+      // REVERSAL of the bar's home. The bar is the wading instrument, so expanded it goes and
+      // lives with the wading words -- figure, caret, graph and strip are what is left here.
+      // Compact keeps it: there is no wading section on that card to move it to, and the flow
+      // module is the whole of it. Safe to split now only because the graph carries its own
+      // y-axis labels; through round 6c the bar's labelled scale was the graph's only legend.
       return `<div class="flowmod">
       ${this.data.water.usgsSite && f.value != null ? `<div class="flownum"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.unitStack()}${this.sparkline()}</div>` : ''}
-      ${this.flowBar(true)}
-      ${expanded && F.max != null ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)} ${esc(F.thresholdLabel)}</span>` : ''}<span style="right:0">${num(F.max)}</span></div>` : ''}
+      ${expanded ? '' : this.flowBar(true)}
       ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>` : this.liveStrip()}
     </div>`;
+    }
+    /** The wading block, expanded only: the verdict and its threshold sentence, the bar with its
+        own 0 / limit / max labels, and clarity as words. One block, not two columns -- the tick
+        meter that used to hold the right column is gone (round 7, ticket 2.2): its positions were
+        invented placements for a four-value ordinal, and a meter that visualises a guess does not
+        belong beside instruments that report measurements. The word is the honest whole of it.
+        A water with no threshold on file still has a bar worth showing -- it is this river's flow
+        on this river's own scale -- so the block renders without a verdict and says which it is. */
+    wadingBlock() {
+      const d = this.data, w = this.wading(), F = d.water.flow;
+      const bar = this.flowBar(true), clarity = d.report.clarity, turb = this.s.turbidity;
+      if (!w && !bar && !clarity) return '';
+      const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
+      const ranges = bar && F.max != null
+        ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>` : ''}<span style="right:0">${num(F.max)}</span></div>`
+        : '';
+      return `<div class="sec rule" style="padding-top:14px;gap:10px">
+    <div class="between"><span class="label">${w ? 'Wading' : 'Flow range'}</span>${clarity
+      ? `<span class="row" style="gap:6px"><span class="label">Clarity</span><span class="muted" aria-hidden="true">&middot;</span><span class="caps accent" style="font-weight:600;letter-spacing:.1em">${esc(clarity)}</span>${turb != null ? `<span class="muted" style="font-size:11px">${turb}&nbsp;FNU</span>` : ''}</span>`
+      : ''}</div>
+    ${w ? `<div class="wadeline"><span class="lamp" style="--c:${w.color};font-size:13px;font-weight:600;letter-spacing:.1em"><i style="width:8px;height:8px"></i>${w.label}</span><span class="muted" style="font-size:12px">${w.note}</span></div>` : ''}
+    ${bar}${ranges}
+  </div>`;
     }
     /** Water temperature against the 50-65 trout-active band. A tailwater like the Lower Sac barely
         moves; a freestone swings hard. Absent unless the gauge actually reports 00010. */
@@ -891,10 +1092,17 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       }).join('');
       const mid = ((( (a + b) / 2) - lo) / (hi - lo) * 100).toFixed(2) + '%';
       const pa = ((a - lo) / (hi - lo) * 100).toFixed(2) + '%', pb = ((b - lo) / (hi - lo) * 100).toFixed(2) + '%';
+      // Two sources can fill this row and they are not equally cheap: the gauge on the river is
+      // one more field on a request the card already makes, the proxy is the card's only backend
+      // call. Say which one answered and when it was read -- a number in a card that reports
+      // measurements has to be able to name where it came from.
+      const src = this.s.tempSource === 'proxy' ? `CDEC ${esc(this.data.water.cdecStation || '')}` : esc(this.data.water.gaugeName || 'the gauge');
+      const when = this.s.tempAt ? new Date(this.s.tempAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : null;
       return `<div class="sec rule" style="padding-top:14px">
     <div class="between"><span class="label">Water temp</span><span style="font-size:15px;font-weight:600">${t}&deg;</span></div>
     <div class="bar tall band" role="img" aria-label="Water temperature ${t} degrees, trout-active band ${a} to ${b}">${cells}</div>
     <div class="ranges"><span style="left:0">${lo}&deg;</span><span style="left:${pa}">${a}&deg;</span><span class="mid" style="left:${mid}">Prime</span><span style="left:${pb}">${b}&deg;</span><span style="right:0">${hi}&deg;</span></div>
+    <div class="muted" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding-top:2px">${src}${when ? ` &middot; read ${esc(when)}` : ''}</div>
   </div>`;
     }
     compact() {
@@ -906,14 +1114,14 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
     <div class="sec">
       ${this.flowModule(false)}
-      ${f.failed || !w ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
+      ${f.failed || !w ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted wadecap">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
-    ${hn ? `<div class="row rule" style="padding-top:10px">
+    ${hn ? `<div class="row rule hatchnow" style="padding-top:10px">
       <span class="label" style="white-space:nowrap">${hn.label}</span>
       <span style="font-weight:600;white-space:nowrap">${esc(hn.h.insect)} <span class="muted" style="font-weight:400">${esc(hn.h.size)}</span></span>
       <span class="lamp" style="text-transform:none;letter-spacing:0;font-size:11px;--c:${hn.h.intensity >= 4 ? 'var(--accent)' : hn.h.intensity >= 2 ? 'var(--green)' : 'var(--amber)'}"><i></i>${esc(hn.h.word)}</span>
       <span class="muted" style="margin-left:auto;font-size:10px;text-align:right">${hn.when}</span>
-    </div>` : `<div class="muted rule" style="padding-top:10px;font-size:12px">No guide's report on this water yet. Flow and weather are live.</div>`}`}
+    </div>` : `<div class="muted rule" style="padding-top:10px;font-size:12px">The shop's own report and hot flies inside. Flow and weather are live.</div>`}`}
   </button>
   ${closed ? `<a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>` : this.packButton()}
 </div>`;
@@ -933,8 +1141,9 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     : `<div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div>`}</div>
   <div class="buybar">
     ${this.tripRow()}
-    <button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for the ${esc(d.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>
-    ${this.packButton()}
+    ${d.readOnly
+      ? `<div class="nopack">No pack for ${this.theName(d.water.shortName)} yet</div>${this.guideCta(true)}`
+      : `${this.packButton()}${this.guideCta(false)}`}
     <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
   </div>
 </div>`;
@@ -954,61 +1163,68 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       return `<div class="triprow">
     ${this.tripStepper('Anglers', 'anglers', this.s.anglers)}
     ${this.tripStepper('Days', 'days', this.s.days)}
-    ${secs.length > 1 ? `<span class="secsel"><span class="label lab">Section</span><span class="box"><select data-action="section" data-focus="section" aria-label="Section of the river">${secs.map(x => `<option value="${esc(x)}"${x === this.s.section ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select><span class="care" aria-hidden="true">&#9662;</span></span></span>` : ''}
+    ${secs.length > 1 ? `<span class="secsel"><span class="label lab">Section</span><span class="box"><select data-action="section" data-focus="section" aria-label="Section of the river">${secs.map(x => `<option value="${esc(x)}"${x === this.s.section ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select><span class="care" aria-hidden="true">${CARET(false)}</span></span></span>` : ''}
   </div>`;
     }
     tab_now() {
-      const d = this.data, w = this.wading(), fr = this.fresh();
-      // Illustrative, not measured: these positions place a four-value ordinal on a 24-tick scale
-      // so it reads as an instrument. There is no percentage behind them and none is printed.
-      // The only real number here is turbidity, and only if the gauge actually reports 63680.
-      const clarity = { Poor: 3, Fair: 9, Good: 15, Excellent: 22 }[d.report.clarity] ?? 12;
-      const turb = this.s.turbidity;
+      const d = this.data, fr = this.fresh();
       const wx = this.s.weather;
       return `<div class="now">
   ${this.flowModule(true)}
-  ${w || d.report.clarity ? `<div class="two rule" style="padding-top:14px">
-    ${w ? `<div class="sec"><div class="label">Wading</div><div class="lamp" style="--c:${w.color};font-size:13px;font-weight:600;letter-spacing:.1em"><i style="width:8px;height:8px"></i>${w.label}</div><div class="muted" style="font-size:12px">${w.note}</div></div>` : ''}
-    ${d.report.clarity ? `<div class="sec"><div class="label">Clarity</div><div class="accent caps" style="font-weight:600;letter-spacing:.1em;font-size:13px">${esc(d.report.clarity)}${turb != null ? `<span class="muted" style="letter-spacing:.06em"> &middot; ${turb} FNU</span>` : ''}</div>${this.ticks(24, clarity, 'var(--accent)')}</div>` : ''}
-  </div>` : ''}
+  ${this.wadingBlock()}
   ${this.tempRow()}
   <div class="sec rule" style="padding-top:14px;gap:10px">
-    <div class="between"><span class="label">Next three days</span><span class="muted" style="font-size:10px">${wx ? 'High, low, rain chance' : 'From the report'}</span></div>
+    <div class="between"><span class="label">3 day forecast</span><span class="muted" style="font-size:10px">${wx ? 'High, low, rain chance' : 'From the report'}</span></div>
     <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', icon: 'clouds' }, { day: 'Day 2', label: 'Sprinkles', icon: 'drizzle' }, { day: 'Day 3', label: 'Sprinkles', icon: 'drizzle' }]).map(x => `
-      <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
+      <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
   </div>
   ${d.report.publishedAt ? `<div class="sec rule" style="padding-top:14px">
     <div class="between"><span class="label">Report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.label}</span></div>
     ${this.ticks(28, Math.min(27, Math.round(fr.days / 14 * 27)), fr.color)}
-    <div class="between" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)"><span>${fr.days === 0 ? 'Today' : fr.days + (fr.days === 1 ? ' day ago' : ' days ago')}</span><span>7 days</span><span>14 days</span></div>
+    <div class="between" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)"><span>${fr.days === 0 ? 'Today' : fr.days + (fr.days === 1 ? ' day ago' : ' days ago')}</span><span>7 days</span><span>14 days</span></div>
     ${fr.stale ? `<div class="note">Conditions may have changed since this report. Flow and weather are live.</div>` : ''}
     ${d.report.author ? `<div class="muted" style="padding-top:10px">Report by ${esc(d.report.author)}</div>` : ''}
   </div>` : ''}
-  <a class="ghost guide" href="tel:${d.water.guidePhone.replace(/\D/g, '')}" data-action="guide"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>
 </div>`;
     }
     /** One panel. The angler's question is one question, so the hatch and the flies that answer it
         live in the same place: time-of-day rows, flies nested under the row that calls for them. */
     tab_hatch() {
       const d = this.data, now = this.slotNow();
-      // The flies are real and the prices are the shop's. What is missing is the guide's minute:
-      // which hatch, what time of day, how many. That gap is the whole pitch, said plainly.
-      if (d.readOnly) return `<div class="slots">
+      // What this panel says about a read-only water describes what is on it, and frames the
+      // pilot as additive. It never asserts that a guide has not done something: the shop has
+      // done a version of this -- the sub-heads directly below this sentence are the shop's own
+      // categories -- and saying otherwise was both false and a slight on their work.
+      if (d.readOnly) {
+        // "In the shop's own categories" is only true where the page gives sub-heads. The Fall
+        // River, Hat Creek and the McCloud list one flat set, so those get the plainer phrase.
+        const grouped = this.rows().length > 1;
+        return `<div class="slots">
     <div class="empty" style="padding:14px 0 4px">
-      <div style="color:var(--text);font-weight:600">A guide hasn't broken the ${esc(d.water.shortName)} out by hatch yet.</div>
-      <div>These are the shop's own hot flies for this water, on real SKUs at the shop's prices. What the ${esc(this.resolved.water.shortName)} has and this doesn't is a hatch for each part of the day, and how many of each to carry.</div>
+      <div style="color:var(--text);font-weight:600">These are the shop's hot flies for ${this.theName(d.water.shortName)}, ${grouped ? "in the shop's own categories" : 'as the shop lists them'}, on real SKUs at real prices.</div>
+      <div>What ${this.theName(this.resolved.water.shortName)} adds on top: a hatch for each part of the day, and how many of each to carry.</div>
     </div>
     ${this.flyGroups(this.rows())}
+    ${this.allFliesLink()}
   </div>`;
+      }
       // A slot with no hatch is hidden unless the angler is standing in it. The fallback text is
       // the guide's own prose -- worth reading at dusk, noise at 2pm. A rule, not a special case:
       // a guide who does list a last-light hatch still gets it shown.
       const slots = d.hatches.map((h, i) => (h.none && i !== now) ? '' : this.slotRow(h, i, i === now)).join('');
       const anytime = this.anytimeRow();
       return `<div class="slots">
-  <div class="between" style="padding:8px 0 4px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)"><span>Time of day</span><span>Hatch, size, the guide's word</span></div>
+  <div class="between" style="padding:8px 0 4px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)"><span style="white-space:nowrap">Time of\u00A0day</span><span>Hatch, size, the guide's word</span></div>
   ${slots}${anytime}
+  ${this.allFliesLink()}
 </div>`;
+    }
+    /** REVERSAL of round 4, which put this in the pinned block to stop the pinned height changing
+        between tabs. Moving it into the HATCH panel does that better: the pinned block becomes
+        identical on all three tabs and smaller by the height of this row. It is a browse action
+        and it belongs with the browsing. */
+    allFliesLink() {
+      return `<button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for ${this.theName(this.data.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>`;
     }
     /** A hatch row and, underneath it, the flies for that hatch. The row is the disclosure. */
     slotRow(h, i, isNow) {
@@ -1017,7 +1233,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const open = this.s.expanded.has(h.slot), id = `flies-${h.slot.replace(/\s+/g, '-')}`;
       return `<div class="slot">${label}
     <button class="chip${this.s.tip === h.slot ? ' tipopen' : ''}" data-action="slot" data-slot="${esc(h.slot)}" data-focus="slot-${esc(h.slot)}" aria-expanded="${open}" aria-controls="${id}">
-      <span class="dot"></span><span style="font-weight:600">${esc(h.insect)}</span><span class="muted">${esc(h.size)}</span>${this.meter(h.intensity, false, `Intensity: ${esc(h.word)}, ${h.intensity} of 5`)}<span class="word muted">${esc(h.word)}</span><span class="care" aria-hidden="true">${open ? '&#9662;' : '&#9656;'}</span>
+      <span class="dot"></span><span style="font-weight:600">${esc(h.insect)}</span><span class="muted">${esc(h.size)}</span>${this.meter(h.intensity, false, `Intensity: ${esc(h.word)}, ${h.intensity} of 5`)}<span class="word muted">${esc(h.word)}</span><span class="care" aria-hidden="true">${CARET(open)}</span>
       <span class="tip" role="tooltip">The guide's call on how strong this hatch has been this week.</span>
     </button>
   </div>
@@ -1034,7 +1250,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       const tags = [...new Set(groups.flatMap(g => g.flies).flatMap(r => r.p.hatches))];
       return `<div class="slot"><span class="label" style="color:var(--muted)">All day</span>
     <button class="chip" data-action="slot" data-slot="all day" data-focus="slot-all day" aria-expanded="${open}" aria-controls="flies-all-day" aria-label="Flies not tied to a hatch">
-      <span class="dot"></span><span class="muted">${esc(tags.map(cap).join(', '))}</span><span class="care" aria-hidden="true">${open ? '&#9662;' : '&#9656;'}</span>
+      <span class="dot"></span><span class="muted">${esc(tags.map(cap).join(', '))}</span><span class="care" aria-hidden="true">${CARET(open)}</span>
     </button>
   </div>
   <div class="flies" id="flies-all-day"${open ? '' : ' hidden'}>${open ? this.flyGroups(groups) : ''}</div>`;
@@ -1065,14 +1281,18 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         const label = bothVary ? [x.color, x.size].filter(Boolean).join(' ') : (new Set(p.variants.map(y => y.color)).size > 1 ? x.color : x.size);
         return `<button class="vchip${this.unavailable(x, p) ? ' oos' : ''}" data-action="variant" data-id="${id}" data-vid="${x.id}" aria-pressed="${x.id === v.id}" data-focus="v-${x.id}"><i></i>${esc(label)}</button>`;
       }).join('') : '';
+      // Nine option chips for one fly is most of a screen. Show the chosen variant with a caret,
+      // and open the set on demand -- one fly at a time, so a second opening closes the first.
+      const optOpen = this.s.options === id, optId = `opt-${id}`;
+      const metaEl = chips
+        ? `<button class="optog" data-action="options" data-id="${id}" data-focus="opt-${id}" aria-expanded="${optOpen}" aria-controls="${optId}" aria-label="Options for ${esc(use.name)}"><span class="meta">${meta}</span><span class="care" aria-hidden="true">${CARET(optOpen)}</span></button>`
+        : `<span class="meta">${meta}</span>`;
       return `<div class="fly${qty === 0 ? ' zero' : ''}">
     ${v.image ? `<button class="thumb" data-action="image" data-id="${id}" data-focus="img-${id}" aria-label="Larger picture of ${esc(use.name)}"><img src="${esc(v.image)}" alt="" loading="lazy" width="36" height="36"></button>` : `<div class="thumb"></div>`}
-    <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><a class="name" href="${esc(v.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" data-action="fly" data-id="${id}">${esc(use.name)}</a><span class="meta">${meta}</span></div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><a class="name" href="${esc(v.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" data-action="fly" data-id="${id}">${esc(use.name)}</a>${metaEl}</div>
     <div class="right"><span class="qtyline">${qty == null ? '' : r.oos ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
   </div>
-  ${chips ? `<div class="edit">
-    <span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Option</span>${chips}
-  </div>` : ''}`;
+  ${chips ? `<div class="edit" id="${optId}"${optOpen ? '' : ' hidden'}>${optOpen ? `<span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Option</span>${chips}` : ''}</div>` : ''}`;
     }
     /** Tap the thumbnail, get the picture. Lives in the shadow root, so it inherits the card's
         theme and no host stylesheet can reach it. The name link still goes to the product page --
@@ -1118,7 +1338,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     }
     tab_notes() {
       const d = this.data;
-      if (!d.report.notes.length) return `<div class="empty"><div style="color:var(--text);font-weight:600">No guide's notes for this water yet.</div><div>When the shop publishes prose for ${esc(d.water.shortName)}, it appears here as written and is never edited by the system.</div></div>`;
+      if (!d.report.notes.length) return `<div class="empty"><div style="color:var(--text);font-weight:600">This report carries no prose.</div><div>When the shop publishes prose for ${this.theName(d.water.shortName)}, it appears here as written and is never edited by the system.</div></div>`;
       return `<div class="notes">
   <div class="between"><span class="label">Guide's notes, ${shortDate(d.report.publishedAt)}</span><span class="label" style="letter-spacing:.1em">${esc(d.report.author || 'The Fly Shop')}</span></div>
   <div class="prose">${d.report.notes.map(p => `<p>${esc(p)}</p>`).join('')}</div>
@@ -1142,7 +1362,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
       }
       if (focusKey) this.root.querySelector(`[data-focus="${focusKey}"]`)?.focus();
       this.fitSparkline();
-      this.fitPackLabel();
+      this.fitLabels();
       this.startCycle();
     }
     /** The graph flexes to whatever the flow figure leaves it, so its column count is only
@@ -1165,11 +1385,11 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
     /** The count and price grow with the steppers, so the fit is not a width breakpoint. Lay the long
         label out, and if it clips, fall back to the generic one. Past roughly 336 flies on a 350px
         card even the generic label clips: the label is what gives, never the count or the price. */
-    fitPackLabel() {
-      const el = this.root.querySelector('.pack .packlabel');
-      if (!el) return;
-      el.classList.remove('short');
-      if (el.scrollWidth > el.clientWidth + 1) el.classList.add('short');
+    fitLabels() {
+      for (const el of this.root.querySelectorAll('.pack .packlabel, .guideline .glabel')) {
+        el.classList.remove('short');
+        if (el.scrollWidth > el.clientWidth + 1) el.classList.add('short');
+      }
     }
     /** Advances the live strip in place rather than re-rendering: six seconds is a long time to hold
         a card that is otherwise still. Reduced motion gets frame one and nothing else. */
@@ -1207,6 +1427,7 @@ button.title .tcare{font-size:8px;color:var(--accent);flex:none}
         }
         case 'step': { const k = el.dataset.key, d = +el.dataset.d, max = k === 'anglers' ? 6 : 7; this.set({ [k]: Math.min(max, Math.max(1, s[k] + d)), added: false }); break; }
         case 'qty': { const id = el.dataset.id, p = this.byId.get(id), cur = s.qty[id] != null ? s.qty[id] : p.qty; this.set({ qty: { ...s.qty, [id]: Math.max(0, cur + +el.dataset.d) }, added: false }); break; }
+        case 'options': { const id = el.dataset.id; this.set({ options: s.options === id ? null : id }); if (s.options !== id) this.emit('options_opened', { pick: id }); break; }
         case 'variant': this.set({ variant: { ...s.variant, [el.dataset.id]: +el.dataset.vid }, added: false }); this.emit('size_changed', { pick: el.dataset.id, variant: +el.dataset.vid }); break;
         case 'addpack': { const k = this.pack(); this.emit('pack_added', { flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); this.set({ added: true }); break; }
         // Sends them to the shop's own catalog with the pack already in the cart. Not a concession:

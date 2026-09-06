@@ -45,7 +45,13 @@ export async function dailyStats(site) {
   const head = lines[0].split('\t');
   const rows = lines.slice(2).map(l => Object.fromEntries(l.split('\t').map((v, i) => [head[i], v])));
   const col = k => rows.map(r => r[k]).filter(v => v != null && v !== '' && v !== '--').map(Number).filter(Number.isFinite);
-  return { rows: rows.length, p50: col('p50_va'), p90: col('p90_va'), p95: col('p95_va'), max: col('max_va'),
+  const nOrNull = v => (v == null || v === '' || v === '--' || !Number.isFinite(Number(v))) ? null : Number(v);
+  // The per-day rows, kept whole. The scale only needs the columns flattened, but the flow
+  // position band needs to know which day of the year each percentile belongs to.
+  const days = rows.map(r => ({ m: nOrNull(r.month_nu), d: nOrNull(r.day_nu),
+    p10: nOrNull(r.p10_va), p25: nOrNull(r.p25_va), p75: nOrNull(r.p75_va), p90: nOrNull(r.p90_va) }))
+    .filter(r => r.m && r.d && r.p10 != null && r.p25 != null && r.p75 != null && r.p90 != null);
+  return { rows: rows.length, days, p50: col('p50_va'), p90: col('p90_va'), p95: col('p95_va'), max: col('max_va'),
            beginYr: Math.min(...col('begin_yr')), endYr: Math.max(...col('end_yr')) };
 }
 
@@ -57,6 +63,27 @@ export function deriveScale(stats) {
   return { min: 0, max: niceMax(p95), p95, p95Max: Math.max(...stats.p95),
            recordMax: stats.max.length ? Math.max(...stats.max) : null,
            years: `${stats.beginYr}\u2013${stats.endYr}` };
+}
+
+/** Where today's reading sits in this river's own record for this time of year.
+    Thirty-six buckets -- early, mid and late of each month -- and NOT 366 days, because the card
+    says "near normal for early September" and the data has no business being finer than the
+    sentence it produces. Each bucket is the median of its days' p10, p25, p75 and p90.
+    This is descriptive and measured. It is emphatically not a wading verdict: a river can sit
+    dead in the middle of its normal range and still be unsafe to wade, and inventing a threshold
+    is the one mistake on this card that could get a person hurt. */
+export const THIRD = d => d <= 10 ? 0 : d <= 20 ? 1 : 2;
+const median = a => { const s = [...a].sort((x, y) => x - y); return s.length % 2 ? s[(s.length - 1) / 2] : Math.round((s[s.length / 2 - 1] + s[s.length / 2]) / 2); };
+export function derivePosition(stats) {
+  if (!stats.days || !stats.days.length) return null;
+  const buckets = Array.from({ length: 36 }, () => []);
+  for (const r of stats.days) buckets[(r.m - 1) * 3 + THIRD(r.d)].push(r);
+  // A bucket with no record cannot be filled in from its neighbours: it is reported as null and
+  // the card says nothing for that part of the year rather than guessing at it.
+  const bands = buckets.map(b => b.length
+    ? [median(b.map(r => r.p10)), median(b.map(r => r.p25)), median(b.map(r => r.p75)), median(b.map(r => r.p90))].map(v => Math.round(v))
+    : null);
+  return bands.some(Boolean) ? { bands, years: `${stats.beginYr}\u2013${stats.endYr}` } : null;
 }
 
 /** Precedence: a number a shop or a guide set always beats a derived one. This is the rule, not a
@@ -93,7 +120,31 @@ const WATERS = [
   ['mccloud',          'McCloud',          null,       null],
 ];
 
+/** `npm run scales -- --write` refreshes the position table on every fixture that has a gauge,
+    the hand-built Lower Sac included. It is one command rather than a number pasted in by hand,
+    because a table nobody knows how to regenerate goes stale silently. */
+async function writePositions() {
+  const { readFile, writeFile, readdir } = await import('node:fs/promises');
+  const dir = 'data/reports';
+  const files = (await readdir(dir)).filter(f => /-\d{4}-\d{2}-\d{2}\.json$/.test(f) && !f.includes('resolved'));
+  const cache = new Map();
+  for (const f of files) {
+    const d = JSON.parse(await readFile(`${dir}/${f}`, 'utf8'));
+    const site = d.water && d.water.usgsSite;
+    if (!site || !d.water.flow) { console.error(`  ${f.padEnd(40)} no gauge, skipped`); continue; }
+    try {
+      if (!cache.has(site)) cache.set(site, derivePosition(await dailyStats(site)));
+      const pos = cache.get(site);
+      if (!pos) { console.error(`  ${f.padEnd(40)} no daily statistics`); continue; }
+      d.water.flow.position = pos;
+      await writeFile(`${dir}/${f}`, JSON.stringify(d, null, 2) + '\n');
+      console.error(`  ${f.padEnd(40)} ${pos.bands.filter(Boolean).length}/36 buckets, ${pos.years}`);
+    } catch (e) { console.error(`  ${f.padEnd(40)} ! ${e.message}`); }
+  }
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
+  if (process.argv.includes('--write')) { await writePositions(); process.exit(0); }
   const out = {};
   for (const [id, name, site, threshold] of WATERS) {
     if (!site) { out[id] = { name, gauge: null, note: 'no live gauge on file' }; continue; }

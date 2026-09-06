@@ -14,6 +14,7 @@
     "demo": "node demo/serve.mjs",
     "all": "npm run ingest && npm run scrape && npm run resolve && npm run build",
     "scrape": "node engine/scrape.mjs",
-    "scales": "node engine/scales.mjs"
+    "scales": "node engine/scales.mjs",
+    "audit": "node engine/audit.mjs"
   }
 }

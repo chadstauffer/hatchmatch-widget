@@ -21,7 +21,228 @@
         "threshold": "unset"
       },
       "lastReading": null,
-      "scaleSource": "USGS daily statistics 1961–2026, 6,060 CFS at the 70th percentile of daily p95, rounded up"
+      "scaleSource": "USGS daily statistics 1961–2026, 6,060 CFS at the 70th percentile of daily p95, rounded up",
+      "position": {
+        "bands": [
+          [
+            958,
+            1215,
+            2970,
+            3685
+          ],
+          [
+            954,
+            1255,
+            3110,
+            4475
+          ],
+          [
+            950,
+            1200,
+            3110,
+            4890
+          ],
+          [
+            949,
+            1225,
+            3105,
+            4990
+          ],
+          [
+            908,
+            1025,
+            3350,
+            5155
+          ],
+          [
+            928,
+            1140,
+            3490,
+            5880
+          ],
+          [
+            932,
+            1280,
+            3410,
+            6870
+          ],
+          [
+            1005,
+            1455,
+            3795,
+            7230
+          ],
+          [
+            1010,
+            1530,
+            4110,
+            6770
+          ],
+          [
+            1305,
+            1440,
+            4260,
+            6535
+          ],
+          [
+            1310,
+            1380,
+            3960,
+            5865
+          ],
+          [
+            1240,
+            1360,
+            3480,
+            4620
+          ],
+          [
+            1020,
+            1170,
+            3175,
+            4370
+          ],
+          [
+            1020,
+            1160,
+            3010,
+            4325
+          ],
+          [
+            1020,
+            1060,
+            2190,
+            3360
+          ],
+          [
+            731,
+            800,
+            1670,
+            3060
+          ],
+          [
+            719,
+            752,
+            1490,
+            2065
+          ],
+          [
+            700,
+            731,
+            1120,
+            1590
+          ],
+          [
+            696,
+            727,
+            979,
+            1110
+          ],
+          [
+            702,
+            727,
+            936,
+            1050
+          ],
+          [
+            689,
+            723,
+            925,
+            1030
+          ],
+          [
+            701,
+            903,
+            1030,
+            1060
+          ],
+          [
+            722,
+            915,
+            1040,
+            1060
+          ],
+          [
+            754,
+            931,
+            1050,
+            1150
+          ],
+          [
+            862,
+            996,
+            1335,
+            1380
+          ],
+          [
+            883,
+            1000,
+            1345,
+            1545
+          ],
+          [
+            914,
+            1000,
+            1360,
+            1785
+          ],
+          [
+            974,
+            1035,
+            1430,
+            1810
+          ],
+          [
+            962,
+            1035,
+            1710,
+            2155
+          ],
+          [
+            961,
+            1030,
+            1720,
+            2600
+          ],
+          [
+            969,
+            1060,
+            1770,
+            2920
+          ],
+          [
+            982,
+            1035,
+            1835,
+            3060
+          ],
+          [
+            984,
+            1030,
+            2480,
+            3455
+          ],
+          [
+            942,
+            1040,
+            2780,
+            3840
+          ],
+          [
+            946,
+            1035,
+            2990,
+            3740
+          ],
+          [
+            945,
+            1210,
+            3000,
+            4420
+          ]
+        ],
+        "years": "1961–2026"
+      }
     },
     "sections": [],
     "guidePhone": "800-669-3474",
@@ -64,7 +285,7 @@
       ],
       "sizes": [],
       "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/",
-      "asWritten": "Micro Spawn - - Shrimp Pink or Salmon Egg"
+      "asWritten": "Micro Spawn - Shrimp Pink or Salmon Egg"
     },
     {
       "id": "boles-bazookas",
@@ -86,7 +307,7 @@
         "#8"
       ],
       "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
-      "asWritten": "Pat's Rubberlegs - - #4-8"
+      "asWritten": "Pat's Rubberlegs - #4-8"
     },
     {
       "id": "coppertop-duracell",
@@ -97,7 +318,7 @@
         "#16"
       ],
       "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
-      "asWritten": "Coppertop Duracell - - #16"
+      "asWritten": "Coppertop Duracell - #16"
     },
     {
       "id": "red-copper-johns",
@@ -110,7 +331,7 @@
         "#18"
       ],
       "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
-      "asWritten": "Red Copper Johns - - #14-18"
+      "asWritten": "Red Copper Johns - #14-18"
     },
     {
       "id": "gordon-s-amber-wing-prince",
@@ -123,7 +344,7 @@
         "#18"
       ],
       "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
-      "asWritten": "Gordon's Amber Wing Prince - - #14-18"
+      "asWritten": "Gordon's Amber Wing Prince - #14-18"
     },
     {
       "id": "beaded-assassins",

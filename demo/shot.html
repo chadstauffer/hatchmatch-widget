@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HatchMatch — shot</title>
+<style>
+  html,body{margin:0;height:100%;background:#F4F1EC}
+  /* A phone host page: 20px each side, so a 390px viewport gives a 350px card. */
+  main{padding:20px}
+</style></head>
+<body>
+<main><div class="hatchmatch" data-theme="dark" data-accent="orange"></div></main>
+<script src="../dist/embed.js"></script>
+<script>
+  // ?water=pit&tab=hatch&state=open|compact&scroll=end
+  const q = new URLSearchParams(location.search);
+  const ready = () => {
+    const c = (window.HatchMatch.cards || [])[0];
+    if (!c) return setTimeout(ready, 100);
+    const w = q.get('water');
+    if (w && w !== c.data.water.id) c.switchWater(w);
+    setTimeout(() => {
+      if (q.get('state') === 'compact') { c.set({ open: false }); return; }
+      c.set({ open: true, tab: q.get('tab') || 'now' });
+      const p = c.root.querySelector('.panel');
+      if (p) p.scrollTop = q.get('scroll') === 'end' ? p.scrollHeight : 0;
+    }, 2600);
+  };
+  ready();
+</script>
+</body></html>

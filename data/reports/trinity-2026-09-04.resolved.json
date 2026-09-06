@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-05T20:38:27.788Z",
+ "generatedAt": "2026-09-06T00:46:03.154Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -24,7 +24,228 @@
     "threshold": "unset"
    },
    "lastReading": null,
-   "scaleSource": "USGS daily statistics 1962–2026, 3,480 CFS at the 70th percentile of daily p95, rounded up"
+   "scaleSource": "USGS daily statistics 1962–2026, 3,480 CFS at the 70th percentile of daily p95, rounded up",
+   "position": {
+    "bands": [
+     [
+      159,
+      208,
+      317,
+      565
+     ],
+     [
+      162,
+      243,
+      315,
+      441
+     ],
+     [
+      160,
+      286,
+      316,
+      611
+     ],
+     [
+      160,
+      283,
+      318,
+      720
+     ],
+     [
+      160,
+      285,
+      337,
+      936
+     ],
+     [
+      159,
+      282,
+      333,
+      2400
+     ],
+     [
+      158,
+      253,
+      335,
+      2240
+     ],
+     [
+      158,
+      265,
+      329,
+      953
+     ],
+     [
+      159,
+      251,
+      327,
+      928
+     ],
+     [
+      157,
+      276,
+      333,
+      1260
+     ],
+     [
+      159,
+      277,
+      537,
+      2980
+     ],
+     [
+      158,
+      288,
+      1450,
+      3070
+     ],
+     [
+      160,
+      301,
+      2700,
+      4705
+     ],
+     [
+      158,
+      303,
+      2820,
+      4555
+     ],
+     [
+      154,
+      312,
+      2070,
+      3770
+     ],
+     [
+      154,
+      333,
+      1615,
+      2990
+     ],
+     [
+      154,
+      321,
+      1775,
+      2295
+     ],
+     [
+      153,
+      308,
+      904,
+      2040
+     ],
+     [
+      153,
+      217,
+      738,
+      1785
+     ],
+     [
+      154,
+      220,
+      637,
+      932
+     ],
+     [
+      155,
+      277,
+      507,
+      717
+     ],
+     [
+      154,
+      214,
+      476,
+      541
+     ],
+     [
+      153,
+      214,
+      479,
+      548
+     ],
+     [
+      153,
+      210,
+      511,
+      1100
+     ],
+     [
+      185,
+      237,
+      490,
+      979
+     ],
+     [
+      186,
+      239,
+      477,
+      905
+     ],
+     [
+      192,
+      239,
+      463,
+      497
+     ],
+     [
+      202,
+      228,
+      458,
+      479
+     ],
+     [
+      227,
+      258,
+      385,
+      424
+     ],
+     [
+      243,
+      263,
+      311,
+      326
+     ],
+     [
+      251,
+      264,
+      313,
+      328
+     ],
+     [
+      215,
+      270,
+      317,
+      331
+     ],
+     [
+      205,
+      272,
+      318,
+      337
+     ],
+     [
+      162,
+      260,
+      317,
+      333
+     ],
+     [
+      162,
+      229,
+      313,
+      324
+     ],
+     [
+      161,
+      244,
+      316,
+      343
+     ]
+    ],
+    "years": "1962–2026"
+   }
   },
   "sections": [],
   "guidePhone": "800-669-3474",
@@ -213,7 +434,7 @@
     "#16"
    ],
    "reportLink": "https://catalog.theflyshop.com/mercers-psycho-prince/",
-   "asWritten": "Mercer's Psycho Prince - - #12-16",
+   "asWritten": "Mercer's Psycho Prince - #12-16",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -335,42 +556,42 @@
     "#8"
    ],
    "reportLink": "http://catalog.theflyshop.com/tb-golden-stone/",
-   "asWritten": "TB Solitude Stone - - #8",
+   "asWritten": "TB Solitude Stone - #8",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
-    "handle": "tb-black-stone",
-    "title": "TB Black Stone",
+    "handle": "tb-golden-stone",
+    "title": "TB Golden Stone",
     "vendor": "Solitude Fly Company",
-    "url": "https://catalog.theflyshop.com/products/tb-black-stone",
+    "url": "https://catalog.theflyshop.com/products/tb-golden-stone",
     "type": "Stonefly"
    },
    "variant": {
-    "id": 47234290450662,
-    "sku": "763F-33158",
+    "id": 47234290811110,
+    "sku": "445F-869",
     "color": null,
     "size": "#8",
     "price": 3.5,
     "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/763F_TBBlackStone.png?v=1769103094&width=240",
-    "url": "https://catalog.theflyshop.com/products/tb-black-stone?variant=47234290450662"
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/445F_TBGoldenStone.png?v=1769102920&width=240",
+    "url": "https://catalog.theflyshop.com/products/tb-golden-stone?variant=47234290811110"
    },
    "variants": [
     {
-     "id": 47234290450662,
-     "sku": "763F-33158",
+     "id": 47234290811110,
+     "sku": "445F-869",
      "color": null,
      "size": "#8",
      "price": 3.5,
      "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/763F_TBBlackStone.png?v=1769103094&width=240",
-     "url": "https://catalog.theflyshop.com/products/tb-black-stone?variant=47234290450662"
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/445F_TBGoldenStone.png?v=1769102920&width=240",
+     "url": "https://catalog.theflyshop.com/products/tb-golden-stone?variant=47234290811110"
     }
    ],
    "flags": [
     {
      "severity": "confirm",
-     "text": "Matched \"TB Solitude Stone\" to \"TB Black Stone\" by fuzzy match (score 0.67). Confirm.",
+     "text": "Matched \"TB Solitude Stone\" to \"TB Golden Stone\" by fuzzy match (score 0.67). Confirm.",
      "candidates": [
       {
        "handle": "tb-black-stone",
@@ -395,18 +616,28 @@
      ]
     },
     {
-     "severity": "wronglink",
-     "text": "The page links to \"TB Golden Stone\" ($3.50, one color). The words match \"TB Black Stone\" ($3.50). Resolved to the words; confirm which.",
+     "severity": "confirm",
+     "text": "Several products are named \"TB Solitude Stone\". Chose \"TB Golden Stone\" because the page links to it. Confirm.",
      "candidates": [
       {
        "handle": "tb-black-stone",
        "title": "TB Black Stone",
-       "price": 3.5
+       "score": 0.67
+      },
+      {
+       "handle": "tb-brown-stone",
+       "title": "TB Brown Stone",
+       "score": 0.67
       },
       {
        "handle": "tb-golden-stone",
        "title": "TB Golden Stone",
-       "price": 3.5
+       "score": 0.67
+      },
+      {
+       "handle": "tb-stone-daddy-amber-stone-8",
+       "title": "TB Stone Daddy - Amber Stone #8",
+       "score": 0.67
       }
      ]
     }
@@ -421,7 +652,7 @@
     "#16"
    ],
    "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
-   "asWritten": "Coppertop Duracell - - #16",
+   "asWritten": "Coppertop Duracell - #16",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -477,7 +708,7 @@
     "#10"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-gold-bead-biot-epoxy-golden-stone/",
-   "asWritten": "Mercer's Gold Bead Biot Epoxy Golden Stone - - #8-10",
+   "asWritten": "Mercer's Gold Bead Biot Epoxy Golden Stone - #8-10",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -633,7 +864,7 @@
     "#10"
    ],
    "reportLink": "http://catalog.theflyshop.com/clown-egg/",
-   "asWritten": "Clown Egg - - #4-10",
+   "asWritten": "Clown Egg - #4-10",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -702,7 +933,7 @@
    ],
    "sizes": [],
    "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/",
-   "asWritten": "Micro Spawn Eggs - - Pink & Salmon Egg",
+   "asWritten": "Micro Spawn Eggs - Pink & Salmon Egg",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -771,7 +1002,7 @@
     "#8"
    ],
    "reportLink": "http://catalog.theflyshop.com/boles-bazookas-8/",
-   "asWritten": "Boles Bazookas - - #8",
+   "asWritten": "Boles Bazookas - #8",
    "status": "confirm",
    "matchedBy": "alias",
    "product": {
@@ -849,7 +1080,7 @@
     "#6"
    ],
    "reportLink": "https://catalog.theflyshop.com/hoh-bo-spey-black-green-butt-6/",
-   "asWritten": "Ho-bo Spey - - #6",
+   "asWritten": "Ho-bo Spey - #6",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -960,7 +1191,7 @@
     "#4"
    ],
    "reportLink": "https://catalog.theflyshop.com/hoodys-hangers-4/",
-   "asWritten": "Hoody's Hangers - - #4",
+   "asWritten": "Hoody's Hangers - #4",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -1032,7 +1263,7 @@
     "#7"
    ],
    "reportLink": "https://catalog.theflyshop.com/bretts-klamath-skater-7/",
-   "asWritten": "Brett's Klamath Skater - - #7",
+   "asWritten": "Brett's Klamath Skater - #7",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -1124,7 +1355,7 @@
    "pickId": "tb-solitude-stone",
    "name": "TB Solitude Stone",
    "severity": "confirm",
-   "text": "Matched \"TB Solitude Stone\" to \"TB Black Stone\" by fuzzy match (score 0.67). Confirm.",
+   "text": "Matched \"TB Solitude Stone\" to \"TB Golden Stone\" by fuzzy match (score 0.67). Confirm.",
    "candidates": [
     {
      "handle": "tb-black-stone",
@@ -1151,18 +1382,28 @@
   {
    "pickId": "tb-solitude-stone",
    "name": "TB Solitude Stone",
-   "severity": "wronglink",
-   "text": "The page links to \"TB Golden Stone\" ($3.50, one color). The words match \"TB Black Stone\" ($3.50). Resolved to the words; confirm which.",
+   "severity": "confirm",
+   "text": "Several products are named \"TB Solitude Stone\". Chose \"TB Golden Stone\" because the page links to it. Confirm.",
    "candidates": [
     {
      "handle": "tb-black-stone",
      "title": "TB Black Stone",
-     "price": 3.5
+     "score": 0.67
+    },
+    {
+     "handle": "tb-brown-stone",
+     "title": "TB Brown Stone",
+     "score": 0.67
     },
     {
      "handle": "tb-golden-stone",
      "title": "TB Golden Stone",
-     "price": 3.5
+     "score": 0.67
+    },
+    {
+     "handle": "tb-stone-daddy-amber-stone-8",
+     "title": "TB Stone Daddy - Amber Stone #8",
+     "score": 0.67
     }
    ]
   },
@@ -1272,6 +1513,7 @@
  "observations": [
   "Rating: Fair to Good.",
   "Prices from the catalog: 13 picks run $1.95 to $5.95; 0 are $2.95.",
-  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap."
+  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
+  "FOR THE GUIDE: no wading threshold on file for Trinity. The card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict without a number behind it is a safety claim we have not earned. One number a guide will stand behind -- \"wadeable below X CFS\" -- turns that on."
  ]
 }

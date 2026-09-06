@@ -20,7 +20,7 @@
 // and are absent here: these fixtures are read-only until someone sets them.
 
 import { readFile, writeFile } from 'node:fs/promises';
-import { dailyStats, deriveScale, applyOverrides } from './scales.mjs';
+import { dailyStats, deriveScale, derivePosition, applyOverrides } from './scales.mjs';
 
 const SRC = 'https://www.theflyshop.com/streamreport.html';
 
@@ -80,15 +80,32 @@ export function parseQualifier(text) {
   return { name, colors, sizes };
 }
 
+/** Where a pane's own <div> closes, by balancing tags from its opening. Running a pane to
+    wherever the next one starts is wrong for any pane the page does not follow immediately with
+    another: the Upper Sac is followed by the "Regional Still Waters" section, so its block ran on
+    for 6,695 extra bytes and its last fly's `asWritten` swallowed the whole of it. Nothing on the
+    card renders that field, so it was invisible -- but one linked bullet in that section would
+    have become a fly on the Upper Sac. Balanced, every one of the page's 26 panes closes. */
+function endOfPane(html, start) {
+  const re = /<div\b|<\/div\s*>/gi;
+  re.lastIndex = start;
+  let depth = 0, m;
+  while ((m = re.exec(html))) {
+    depth += m[0][1] === '/' ? -1 : 1;
+    if (depth === 0) return re.lastIndex;
+  }
+  return html.length;                         // unbalanced: fall back to the old behaviour
+}
+
 export function parsePage(html) {
   const out = [];
-  // Each water is one tab pane. Split on the opening tag so a block ends where the next begins.
+  // Each water is one tab pane, bounded by its own closing tag rather than by the next pane.
   const panes = [...html.matchAll(/<div class="tab-pane[^"]*"\s+id="([a-z0-9-]+)-report"/gi)];
   panes.forEach((p, i) => {
     const slug = p[1];
     const water = WATERS[slug];
     if (!water) return;                       // stillwaters and private waters are out of scope
-    const block = html.slice(p.index, i + 1 < panes.length ? panes[i + 1].index : html.length);
+    const block = html.slice(p.index, endOfPane(html, p.index));
 
     const h4 = /<h4[^>]*>([\s\S]*?)<\/h4>/i.exec(block);
     const heading = h4 ? clean(h4[1]) : '';
@@ -114,15 +131,28 @@ export function parsePage(html) {
       let group = null;
       for (const line of hot.split(/<BR\s*\/?>/i)) {
         // Sub-heads are <strong> on this page, and one of them is "Nymphs/Wet Flies:".
-        const head = /<(?:b|strong)>\s*([A-Za-z][A-Za-z '&/]{2,26}):\s*<\/(?:b|strong)>/i.exec(line);
-        if (head && !/hot flies/i.test(head[1])) group = clean(head[1]);
+        // Decode before testing. The page writes "Streamers &amp; Leeches:", and matching the
+        // raw markup against a class with no ';' in it never saw that heading at all -- so its
+        // flies were filed under the preceding sub-head on both the Pit and the Upper Sac.
+        // The trailing colon is what makes a bold run a heading; the Lower Sac's prose carries
+        // bold lines with no colon and they must not become groups.
+        const hm = /<(?:b|strong)>([\s\S]*?)<\/(?:b|strong)>/i.exec(line);
+        if (hm) {
+          const t = clean(hm[1]);
+          if (/:$/.test(t)) {
+            const label = t.slice(0, -1).trim();
+            if (label && label.length <= 26 && /^[A-Za-z][A-Za-z '&/]*$/.test(label) && !/hot flies/i.test(label)) group = label;
+          }
+        }
         const a = /<a\b([^>]*)>([\s\S]*?)<\/a>([\s\S]*)$/i.exec(line);
         let label, href = null, trailing = '';
         if (a) {
           const h = /href="([^"]+)"/i.exec(a[1]);
           href = h ? h[1] : null;
           label = clean(a[2]);
-          trailing = clean(a[3]).replace(/^[•\s]+/, '');
+          // The page writes "<a>Stimulator</a> - Orange", so the dash is already in the trailing
+          // text. Rejoining with another one recorded the guide's words as "Stimulator - - Orange".
+          trailing = clean(a[3]).replace(/^[•\s]+/, '').replace(/^[-–]\s*/, '');
         } else if (/^\s*•/.test(clean(line)) || /^\s*•/.test(line)) {
           // The page has at least one bullet whose anchor is inside out:
           // "• Copper John Red</a> - #10-14<a>". Recover the fly rather than dropping it.
@@ -173,10 +203,15 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       if (ov.sections) r.water.sections = ov.sections;
       if (ov.packName) r.water.packName = ov.packName;
     }
-    let sc = null;
+    let sc = null, pos = null;
     if (r.water.usgsSite) {
-      try { sc = deriveScale(await dailyStats(r.water.usgsSite)); }
-      catch (e) { console.error(`  ! ${r.water.shortName}: scale unavailable (${e.message})`); }
+      try {
+        const stats = await dailyStats(r.water.usgsSite);
+        sc = deriveScale(stats);
+        // Same request, second answer: where a reading sits in this river's own record for this
+        // time of year. Descriptive only -- it never becomes a wading verdict.
+        pos = derivePosition(stats);
+      } catch (e) { console.error(`  ! ${r.water.shortName}: scale unavailable (${e.message})`); }
     }
     const flow = applyOverrides(sc ? { min: sc.min, max: sc.max } : null, ov);
     if (flow) {
@@ -184,6 +219,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       // the card must not be able to render one as the other.
       r.water.flow = { ...flow, lastReading: null };
       if (sc) r.water.flow.scaleSource = `USGS daily statistics ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the 70th percentile of daily p95, rounded up`;
+      if (pos) r.water.flow.position = pos;
     }
   }
   for (const r of reports) {

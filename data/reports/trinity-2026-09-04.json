@@ -21,7 +21,228 @@
         "threshold": "unset"
       },
       "lastReading": null,
-      "scaleSource": "USGS daily statistics 1962–2026, 3,480 CFS at the 70th percentile of daily p95, rounded up"
+      "scaleSource": "USGS daily statistics 1962–2026, 3,480 CFS at the 70th percentile of daily p95, rounded up",
+      "position": {
+        "bands": [
+          [
+            159,
+            208,
+            317,
+            565
+          ],
+          [
+            162,
+            243,
+            315,
+            441
+          ],
+          [
+            160,
+            286,
+            316,
+            611
+          ],
+          [
+            160,
+            283,
+            318,
+            720
+          ],
+          [
+            160,
+            285,
+            337,
+            936
+          ],
+          [
+            159,
+            282,
+            333,
+            2400
+          ],
+          [
+            158,
+            253,
+            335,
+            2240
+          ],
+          [
+            158,
+            265,
+            329,
+            953
+          ],
+          [
+            159,
+            251,
+            327,
+            928
+          ],
+          [
+            157,
+            276,
+            333,
+            1260
+          ],
+          [
+            159,
+            277,
+            537,
+            2980
+          ],
+          [
+            158,
+            288,
+            1450,
+            3070
+          ],
+          [
+            160,
+            301,
+            2700,
+            4705
+          ],
+          [
+            158,
+            303,
+            2820,
+            4555
+          ],
+          [
+            154,
+            312,
+            2070,
+            3770
+          ],
+          [
+            154,
+            333,
+            1615,
+            2990
+          ],
+          [
+            154,
+            321,
+            1775,
+            2295
+          ],
+          [
+            153,
+            308,
+            904,
+            2040
+          ],
+          [
+            153,
+            217,
+            738,
+            1785
+          ],
+          [
+            154,
+            220,
+            637,
+            932
+          ],
+          [
+            155,
+            277,
+            507,
+            717
+          ],
+          [
+            154,
+            214,
+            476,
+            541
+          ],
+          [
+            153,
+            214,
+            479,
+            548
+          ],
+          [
+            153,
+            210,
+            511,
+            1100
+          ],
+          [
+            185,
+            237,
+            490,
+            979
+          ],
+          [
+            186,
+            239,
+            477,
+            905
+          ],
+          [
+            192,
+            239,
+            463,
+            497
+          ],
+          [
+            202,
+            228,
+            458,
+            479
+          ],
+          [
+            227,
+            258,
+            385,
+            424
+          ],
+          [
+            243,
+            263,
+            311,
+            326
+          ],
+          [
+            251,
+            264,
+            313,
+            328
+          ],
+          [
+            215,
+            270,
+            317,
+            331
+          ],
+          [
+            205,
+            272,
+            318,
+            337
+          ],
+          [
+            162,
+            260,
+            317,
+            333
+          ],
+          [
+            162,
+            229,
+            313,
+            324
+          ],
+          [
+            161,
+            244,
+            316,
+            343
+          ]
+        ],
+        "years": "1962–2026"
+      }
     },
     "sections": [],
     "guidePhone": "800-669-3474",
@@ -72,7 +293,7 @@
         "#16"
       ],
       "reportLink": "https://catalog.theflyshop.com/mercers-psycho-prince/",
-      "asWritten": "Mercer's Psycho Prince - - #12-16"
+      "asWritten": "Mercer's Psycho Prince - #12-16"
     },
     {
       "id": "tb-solitude-stone",
@@ -83,7 +304,7 @@
         "#8"
       ],
       "reportLink": "http://catalog.theflyshop.com/tb-golden-stone/",
-      "asWritten": "TB Solitude Stone - - #8"
+      "asWritten": "TB Solitude Stone - #8"
     },
     {
       "id": "coppertop-duracell",
@@ -94,7 +315,7 @@
         "#16"
       ],
       "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
-      "asWritten": "Coppertop Duracell - - #16"
+      "asWritten": "Coppertop Duracell - #16"
     },
     {
       "id": "mercer-s-gold-bead-biot-epox",
@@ -106,7 +327,7 @@
         "#10"
       ],
       "reportLink": "http://catalog.theflyshop.com/mercers-gold-bead-biot-epoxy-golden-stone/",
-      "asWritten": "Mercer's Gold Bead Biot Epoxy Golden Stone - - #8-10"
+      "asWritten": "Mercer's Gold Bead Biot Epoxy Golden Stone - #8-10"
     },
     {
       "id": "copper-john-red",
@@ -133,7 +354,7 @@
         "#10"
       ],
       "reportLink": "http://catalog.theflyshop.com/clown-egg/",
-      "asWritten": "Clown Egg - - #4-10"
+      "asWritten": "Clown Egg - #4-10"
     },
     {
       "id": "micro-spawn-eggs",
@@ -145,7 +366,7 @@
       ],
       "sizes": [],
       "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/",
-      "asWritten": "Micro Spawn Eggs - - Pink & Salmon Egg"
+      "asWritten": "Micro Spawn Eggs - Pink & Salmon Egg"
     },
     {
       "id": "boles-bazookas",
@@ -156,7 +377,7 @@
         "#8"
       ],
       "reportLink": "http://catalog.theflyshop.com/boles-bazookas-8/",
-      "asWritten": "Boles Bazookas - - #8"
+      "asWritten": "Boles Bazookas - #8"
     },
     {
       "id": "ho-bo-spey",
@@ -167,7 +388,7 @@
         "#6"
       ],
       "reportLink": "https://catalog.theflyshop.com/hoh-bo-spey-black-green-butt-6/",
-      "asWritten": "Ho-bo Spey - - #6"
+      "asWritten": "Ho-bo Spey - #6"
     },
     {
       "id": "beaded-assassins",
@@ -187,7 +408,7 @@
         "#4"
       ],
       "reportLink": "https://catalog.theflyshop.com/hoodys-hangers-4/",
-      "asWritten": "Hoody's Hangers - - #4"
+      "asWritten": "Hoody's Hangers - #4"
     },
     {
       "id": "brett-s-klamath-skater",
@@ -198,7 +419,7 @@
         "#7"
       ],
       "reportLink": "https://catalog.theflyshop.com/bretts-klamath-skater-7/",
-      "asWritten": "Brett's Klamath Skater - - #7"
+      "asWritten": "Brett's Klamath Skater - #7"
     }
   ],
   "substitutes": {}

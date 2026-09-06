@@ -58,12 +58,13 @@ Catalog pulled 2026-09-04T21:06:20.237Z. 9 picks resolved clean, 13 need confirm
 | Gordon's Amber Wing Prince | Nymphs/Wet Flies | — | #16 | 118F-6904 | $2.50 | in stock |
 | Mercer's CB Micro Mayfly | Nymphs/Wet Flies | — | Olive #18 | 100F-3378 | $2.95 | in stock |
 | Walt's Worm | Nymphs/Wet Flies | — | #14 | 30874 | $2.95 | in stock |
-| Sheila Sculpin | Nymphs/Wet Flies | — | #4 | 5487 | $3.95 | in stock |
-| Woolly Buggers | Nymphs/Wet Flies | — | Black #10 | 182F-24179 | $2.50 | in stock |
-| Zack's Stillwater Swimming Leech | Nymphs/Wet Flies | — | Black #8 | 368F-3037 | $2.95 | in stock |
+| Sheila Sculpin | Streamers & Leeches | — | #4 | 5487 | $3.95 | in stock |
+| Woolly Buggers | Streamers & Leeches | — | Black #10 | 182F-24179 | $2.50 | in stock |
+| Zack's Stillwater Swimming Leech | Streamers & Leeches | — | Black #8 | 368F-3037 | $2.95 | in stock |
 
 ## Observations
 
 - Rating: Fair to Good.
 - Prices from the catalog: 22 picks run $1.90 to $4.95; 7 are $2.95.
 - Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.
+- FOR THE GUIDE: no wading threshold on file for Upper Sac. The card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict without a number behind it is a safety claim we have not earned. One number a guide will stand behind -- "wadeable below X CFS" -- turns that on.

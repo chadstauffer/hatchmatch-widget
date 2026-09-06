@@ -11,6 +11,13 @@ An embeddable river report that sells flies. This repo is the engine and the car
 </script>
 ```
 
+**One backend dependency.** The card is a script tag and a mount call, with one exception: water
+temperature is read through a proxy we run (`/api/water-temp` on the existing Render service),
+because CDEC sends no `Access-Control-Allow-Origin` and a browser cannot reach it otherwise. It is
+an optional source and it fails soft -- if the proxy is slow, down, or never deployed, the water
+temperature row and its live-strip line do not render and nothing else on the card changes. Flow,
+weather, flies, prices and stock have no backend and never will.
+
 The shipped bundle carries no reports: **167 KB with the font inlined, 88 KB without**, against a
 370 KB demo bundle whose 205 KB of reports never leave the repo. `dist/embed.renderer.js` is that
 bundle and `demo/production.html` mounts it against a fetched payload, so the claim is measured
@@ -24,6 +31,7 @@ engine/
   ingest.mjs          Shopify storefront -> data/catalog/flies.json (one line per variant: id, SKU, color, size, price, stock, image)
   scrape.mjs          theflyshop.com/streamreport.html -> one fixture per regional river
   scales.mjs          USGS daily statistics -> the flow scale each river's bar and sparkline use
+  audit.mjs           every water's rendered card vs its source pane on the shop's page. Parses the page independently of scrape.mjs on purpose
 data/waters.json      numbers a shop or guide has set. These always win over anything derived.
   resolve.mjs         report fixture + catalog -> <report>.resolved.json and <report>.unresolved.md
   lib/shopify.mjs     public storefront reads, paged, no credentials
@@ -45,7 +53,8 @@ demo/index.html       the pitch page
 demo/production.html  the renderer with no reports inlined, fed a payload the way the API would
 demo/review.html      the review bench: one live card, every display variable a switch
 demo/measure.html     the height harness the panel numbers come from
-demo/sweep.html       every state x theme x width x tab, plus the invariants
+demo/sweep.html       every state x theme x width x tab, plus the invariants, widows and overflow
+demo/shot.html        one card, driven by query string, for the review screenshots each round
 ```
 
 ## Run
@@ -61,6 +70,7 @@ prints it at the top of its readout, so "am I looking at the new code" is answer
 npm run ingest     # pull the catalog (about 2 seconds, four pages)
 npm run resolve    # pin every pick to a variant, write the flag list
 npm run build      # dist/embed.js
+npm run audit      # diff all 8 waters against the shop's page; non-zero if anything is unexplained
 npm run demo       # http://127.0.0.1:8787/demo/
 ```
 
@@ -102,6 +112,183 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   a payload written by an older build is not stale, it is the wrong shape, and serving it back
   left the card rendering a flow with no sparkline and no way to know why. `demo/sweep.html`
   checks this.
+
+## Round 7 — the card
+
+- **One caret.** There were four: HTML triangles at 8px and 9px (`&#9650; &#9660; &#9662; &#9656;`)
+  beside a drawn SVG one. Entity triangles cannot be size-matched to each other or to a drawn
+  glyph, because each is whatever the font says it is, so the caret is now drawn once at 9px and
+  every control that opens something uses it. They differ only by the frame around them: a circle
+  for expand, bare for the water selector, the hatch rows, the section control and the new option
+  toggle. All of them point down closed and up open -- the water selector always pointed down, and
+  the hatch rows pointed *right* when closed. The trend arrow on the flow unit and the hi/lo
+  glyphs on the weather row keep their own sizes: they report direction, not open state.
+  The section control is a native `<select>`; its popup is drawn by the OS and fires no open
+  event, so its caret stays down rather than claiming a state we cannot know.
+- **The live strip was painting over itself, and it was not two timers.** Both frames are
+  absolutely positioned in one box and cross-faded symmetrically, so for the middle of every
+  transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
+  150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
+  fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The flow bar moved into the WADING block when expanded**, with its `0 / limit / max` labels.
+  Compact keeps it where it is -- there is no wading section on that card and the flow module is
+  the whole of it. Safe now only because the graph carries its own y-axis labels; through round 6c
+  the bar's labelled scale was the graph's only legend. A water with no threshold on file still
+  gets the bar, under `FLOW RANGE` rather than `WADING`, because it is still this river's flow on
+  this river's own scale -- it just has no verdict.
+- **The clarity tick meter is gone, the word stays.** Its positions (`{Poor:3, Fair:9, Good:15,
+  Excellent:22}` of 24) were invented placements for a four-value ordinal, already commented in
+  the source as illustrative. No water we carry has a turbidity gauge, so there was never a number
+  behind it. `CLARITY · EXCELLENT` is honest and complete, and where a gauge does report 63680 the
+  FNU figure still sits beside it.
+- **No text widows.** `text-wrap: pretty` on the card covers running text; fly and water names get
+  `text-wrap: balance`, because a name is a short heading and pretty broke "Jigged Bird's / Nest"
+  where balance gives "Jigged / Bird's Nest". Numbers never separate from their units: `3% rain`,
+  `7,500 CFS`, `Sep 1`, `6 hrs`, `21 flies` are joined with non-breaking spaces. `demo/sweep.html`
+  measures widows now rather than anyone eyeballing them -- every word gets a Range rect, words
+  group into lines by their top edge, and a wrapped block whose last line holds one word is
+  reported -- unless the last two words could not have shared a line at that width, in which case
+  no arrangement avoids it and there is nothing to report. It found 22 distinct widows across
+  state x theme x width x tab, in 277 places, and 5 more once the sweep was widened from three
+  widths to the six the card actually claims. It now finds zero, with one recorded exemption:
+  "BP Weiss / Nymph" at 320px, where balance prefers the even break over the one the widow rule
+  wants, and is right to.
+- **The guide CTA is part of the trip block.** It was a bordered box between the scroll content and
+  the pinned controls, belonging to neither. It sits directly under the CTA now, no border, with
+  `OR` stating the relationship: buy the flies, or hire the person. On a water with no pack it is
+  the primary action and carries the fill, because it is the only thing the card can offer on the
+  Trinity or the Pit today.
+- **The all-flies link left the pinned block** for the bottom of the HATCH panel, inside the
+  scroll. It is a browse action and it belongs with the browsing, and the pinned block is now
+  identical on all three tabs.
+- **Variant options collapse.** Pat's Rubberlegs rendered nine chips -- most of a screen for one
+  fly. The chosen variant shows with a caret; tapping it opens the set, and opening a second fly's
+  options closes the first.
+- **Overflow is measured now too**, and as what it actually means: does anything render outside
+  the card's own box. Content wider than a box that clips it on purpose is not overflow, and the
+  first version of the check spent its time reporting exactly that. Two questions instead -- has
+  anything escaped the card edge, and is any live-strip frame having its text cut off. It found
+  three real faults: the flow-position band ran 25px past the strip, the compact hatch row ran
+  36px past the card at 320px (present before this round, on every build back to round 2), and
+  the gauge-name frame was clipped on four waters. All three are fixed, and the strip gives up
+  the word "Read", then its spacing, then half its tracking before it gives up a gauge name.
+  It also catches a control whose own label is ellipsising, which is how the pack-less guide CTA
+  was caught rendering "FISH IT WITH A G..." at 320px -- it falls back to the whole phrase "With a
+  guide" now, the same long/short idiom the pack button uses. **The sweep walks all six widths
+  now, not three**; three of the faults above only exist at the widths it was not testing.
+  420 combinations across six widths and both themes: zero escapes, zero cut frames, zero
+  truncated labels, zero widows, zero invariant failures, zero leaked intervals.
+- **`3 DAY FORECAST`**, not `NEXT THREE DAYS`. The numeral scans faster in a caps monospace label
+  and it frees five characters on one of the card's tighter rows.
+
+### Panel and pinned heights, measured
+
+Two approved tickets pulled the pinned block in opposite directions, and the net is not what
+ticket 6.1 predicted. Measured against the previous build on the same harness:
+
+| | pinned before | pinned after | panel before | panel after |
+|---|---|---|---|---|
+| 390x844 | 169px | 175px | 370px | **364px** |
+| 375x667 | 169px | 175px | 232px | **226px** |
+
+Moving the all-flies link out took 28px off the pinned block, exactly as 6.1 said it would. The
+guide line moved *in* and cost 34px. The panel is therefore 6px shorter, not 28px taller. What did
+improve: the pinned block is identical on all three tabs, the NOW tab's scroll lost the 48px
+bordered guide box, and on a pack-less water the pinned block is 106px rather than 169px because
+there is no trip row to shape a pack that does not exist.
+
+## Round 7 — the flow position band
+
+- `● LIVE · HOLDING FOR 6 HRS · WELL BELOW NORMAL FOR EARLY SEPTEMBER`. Where today's reading sits
+  in this river's own record for this time of year, from the USGS daily statistics the scale
+  already comes from. Bands are the percentiles for the date: below p10 is well below normal,
+  below p25 below normal, through p75 near normal, through p90 above normal, and above that well
+  above normal.
+- **Thirty-six buckets, not 366 days** -- early, mid and late of each month, each the median of its
+  days' p10/p25/p75/p90. The card says "near normal for early September", and the data has no
+  business being finer than the sentence it produces. 45 to 99 years of record per gauge, all
+  36 buckets filled on all six gauged waters. `npm run scales -- --write` regenerates them; a
+  table nobody knows how to regenerate goes stale silently.
+- **It is not a wading verdict and must never become one.** A river can sit dead in the middle of
+  its normal range and still be dangerous to wade -- the Pit's own report says it is slippery and
+  to carry a staff. Waters with no threshold on file show position and no verdict.
+- **The threshold is now an explicit ask on the guide pass.** Every gauged water without one
+  carries a `FOR THE GUIDE` line in its `.unresolved.md`, alongside the fly confirmations: one
+  number they will stand behind, "wadeable below X CFS", turns the verdict on.
+
+## Round 7 — the water-temperature proxy
+
+Round 2 turned the CDEC proxy down on the grounds that it was not worth ending "no backend" for.
+Round 7 reversed that: the alternative on the table was a hard-coded constant -- "the temp we know
+it's always going to be at" -- sitting inside a `● LIVE` block next to a genuinely live gauge
+reading, which is the one thing this card has never done. If the number matters that much, get it
+honestly.
+
+- **One endpoint**, `GET /api/water-temp?station=KWK`, on the Render service that was already
+  running with auto-deploy. No new infrastructure, and no new dependencies: `cors`,
+  `express-rate-limit` and `lru-cache` were all already in that service.
+- **Cached fifteen minutes server-side.** The sensor is hourly; there is no reason to ask CDEC per
+  pageview. Rate limited to 60/min, and the station is checked against an allowlist -- an open
+  passthrough is someone else's rate limit to spend.
+- **The reading is often hours old and the card says so.** CDEC's most recent hours are routinely
+  its `-9999` sentinel; at the time of writing the newest real reading was eight hours back. Those
+  rows are filtered, and a reading older than two hours names its own hour in the live strip
+  (`Water 54° at 3 PM`) rather than borrowing the flow reading's freshness. Past a day it is not a
+  reading and it is dropped. The expanded row names its source and read time outright:
+  `CDEC KWK · READ 3:00 PM`.
+- **CDEC reports DEG F already**, unlike USGS 00010 which is Celsius. If CDEC ever changes those
+  units the endpoint returns no reading rather than serving Celsius as Fahrenheit.
+- **The gauge still wins.** Where USGS reports 00010 -- Hat Creek, the Trinity -- that is one more
+  field on a request the card already makes, and the proxy is never called. The proxy answers only
+  where the gauge is silent, which on the pilot river is always.
+- **Degrade verified, not asserted.** With the proxy killed on a cold start: the row is absent, the
+  strip is back to two frames, and the flow figure, graph column count, lit bar segments, wading
+  block and weather row are identical to the run where it answered. The failure is in
+  `window.HatchMatch.events` as `water_temp_unavailable`.
+- A host that would rather run its own proxy points at it with `data-temp-proxy`.
+
+## Round 7 — ticket 6.3, the audit
+
+`npm run audit` diffs every water's rendered card against its source pane on the shop's page and
+exits non-zero on anything it cannot account for. It parses the page **independently of
+`engine/scrape.mjs`** on purpose: a shared parser would agree with itself and disagree with the
+page, which is the failure it exists to catch. It caught two that way.
+
+- **The Pit and the Upper Sac were dropping a sub-head.** The page writes
+  `<strong>Streamers &amp; Leeches:</strong>`, and the scraper matched headings against raw markup
+  with a character class that has no `;` in it, so that heading was never seen and its four flies
+  filed under `Nymphs/Wet Flies` -- the shop's own categories, reported wrong. Headings are now
+  decoded before they are matched, and a trailing colon is what makes a bold run a heading.
+- **A pane ran past its own closing tag.** Blocks were cut at wherever the *next* pane started,
+  which is only right when another pane follows immediately. The Upper Sac is followed by the
+  "Regional Still Waters" section, so its block ran 6,695 bytes long and its last fly's
+  `asWritten` swallowed the whole of it. Nothing renders that field, so it was invisible -- but
+  one linked bullet in that section would have become a fly on the Upper Sac. Panes are now
+  bounded by balancing their own `<div>`, which closes cleanly on all 26 of the page's panes.
+- **A name that matches three products is not a match.** "Stimulator" is Olive #16, Orange and
+  Yellow at the shop -- one normalized title, one fuzzy score of 1.00 apiece -- and taking the
+  first left the Pit card showing **Olive** for a page that says Orange and links to Orange. The
+  colour word is the guide's word too, so it now separates same-named products first, and the
+  page's own link separates what is left. Neither can outrank a better name match: they only
+  break ties. The Trinity's "TB Solitude Stone" moved the same way, onto the `tb-golden-stone`
+  the page actually links to.
+- **Copy no longer asserts that a guide has not done something.** The Pit card said "A guide
+  hasn't broken the Pit out by hatch yet" directly above the shop's own `Dry Flies` and
+  `Nymphs/Wet Flies` sub-heads -- contradicted by the screen below it, and untrue about the
+  shop's work. Every read-only water now describes what it has and frames the Lower Sac as
+  additive. Same for the compact card's line and the notes tab's empty state.
+- **"the Hat Creek" is not how anyone says it.** Water names in copy take an article or not
+  (`theName()`): the Pit, the Trinity, the Lower Sac -- but Hat Creek and Fall River.
+
+Two differences remain, and both are the shop's catalog rather than our reading of it: the Pit's
+Mayfly Cripples sells size inside the colour option (`Green Drake #12`), so the size rule cannot
+apply without changing the fly; and the Upper Sac's Low Water Baetis is listed at #18 on the page
+and stocked only in #20. Both are in the findings list for the guide. The Lower Sac differs by
+design -- it is the one water with a guide's report, so it groups by role rather than by the
+page's sub-heads, and it carries three picks the hot-fly list does not: Jigged Bird's Nest twice
+(one page line, two colours) and Jig Nation and Eng Thing, which the shop names in its own prose.
+Every exemption in `engine/audit.mjs` names the water, the fly and the reason; an exemption with
+no reason is a silenced bug.
 
 ## Round 6c — a month, and a labelled scale
 
@@ -251,13 +438,15 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   reaches the shop's cart until the CTA is pressed. Tapping a thumbnail opens a lightbox in the
   shadow root that traps and restores focus.
 - The title is the water switcher: a bare caret at text size, never a second circular chevron.
-  Eight waters; only the Lower Sac is resolved. The rest render live gauge and weather and say
-  plainly that no guide has broken them out.
+  Eight waters; only the Lower Sac carries hatch slots and quantities. The rest render live gauge
+  and weather, the shop's own hot flies under the shop's own sub-heads, and say what the Lower Sac
+  adds on top rather than what they lack.
 - Water temperature: CDEC carries it for Keswick (station KWK, sensor 25, `dur_code=H`) but sends
   no `Access-Control-Allow-Origin`, so it is unreachable from the browser without a proxy. USGS
   has no live water temp or turbidity anywhere on the Lower Sac. The band meter is built and
   data-gated: it lights up on Hat Creek and the Trinity, which do report USGS 00010, and stays
   dark here. No air temperature is ever substituted for water.
+  **Superseded in round 7 -- the proxy exists now. See below.**
 - Clarity keeps the guide's word. USGS turbidity (63680) is requested on the same call and shown
   as `EXCELLENT - 1.2 FNU` where a gauge reports it. Keswick does not, so the word stands alone.
   No percentage is derived from a four-value ordinal.

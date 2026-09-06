@@ -34,7 +34,10 @@ function slimVariant(v) {
 export function resolvePick(pick, catalog, aliases) {
   const flags = [];
   const linkHandle = handleFromLink(pick.reportLink);
-  let found = findProduct(pick.name, catalog, aliases);
+  // The colour words and the page's own link go in as tiebreaks: several products can share a
+  // name ("Stimulator" is three), and the name alone then picks whichever the catalog happens to
+  // list first. Neither can outrank a better name match; they only separate equals.
+  let found = findProduct(pick.name, catalog, aliases, { colors: pick.colors || [], linkHandle });
   // The words did not match anything, but the page's own link might. Following the shop's link
   // is following the shop, not guessing: "Pheasant Tails" is not in the catalog as written and
   // the page links it to pheasant-tail. Flagged so a guide still sees it.
@@ -48,6 +51,10 @@ export function resolvePick(pick, catalog, aliases) {
   if (!found) return { ...pick, status: 'unresolved', flags: [{ severity: 'blocker', text: `No product in the catalog matches "${pick.name}", and the page gives no usable link.` }] };
   const { product, method, score, candidates } = found;
   if (method === 'fuzzy') flags.push({ severity: 'confirm', text: `Matched "${pick.name}" to "${product.title}" by fuzzy match (score ${score.toFixed(2)}). Confirm.`, candidates });
+  // Say which signal separated same-named products, and say when nothing did.
+  if (found.tiebreak === 'color') flags.push({ severity: 'confirm', text: `Several products are named "${pick.name}". Chose "${product.title}" on the report's own colour word (${(pick.colors || []).join(', ')}). Confirm.`, candidates });
+  else if (found.tiebreak === 'link') flags.push({ severity: 'confirm', text: `Several products are named "${pick.name}". Chose "${product.title}" because the page links to it. Confirm.`, candidates });
+  else if (found.tied) flags.push({ severity: 'confirm', text: `Several products are named "${pick.name}" and nothing on the page separates them. Showing "${product.title}"; the alternatives are listed. Confirm.`, candidates });
 
   if (!pick.reportLink) flags.push({ severity: 'nolink', text: 'Named on the page without a link. Resolved by name.' });
   else if (method === 'link') { /* already flagged: the link is what resolved it */ }
@@ -138,6 +145,12 @@ export function resolveReport(fixture, catalog, aliases) {
     prices.length ? `Prices from the catalog: ${picks.length} picks run $${Math.min(...prices).toFixed(2)} to $${Math.max(...prices).toFixed(2)}; ${at295} are $2.95.` : null,
     fixture.hatches.some(h => h.sizeSource) ? `Hatch sizes (${fixture.hatches.filter(h => h.size).map(h => `${h.insect} ${h.size}`).join(', ')}) are not on the page. They are placeholders for the guide to set.` : null,
     fixture.readOnly ? 'Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.' : null,
+    // The wading threshold is the one number on this card that a person has to supply, and the
+    // only one whose absence a guide should be asked about directly. It goes on the same list as
+    // the fly confirmations because it is the same kind of ask: something only they can answer.
+    (fixture.water.flow && fixture.water.flow.max != null && fixture.water.flow.threshold == null)
+      ? `FOR THE GUIDE: no wading threshold on file for ${fixture.water.shortName}. The card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict without a number behind it is a safety claim we have not earned. One number a guide will stand behind -- "wadeable below X CFS" -- turns that on.`
+      : null,
   ].filter(Boolean);
   // A read-only water has no sections and no quantities, so it has no packs. That is the honest
   // shape of a report nobody has broken out yet, not a failure to compute one.

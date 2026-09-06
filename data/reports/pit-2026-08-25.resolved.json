@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-05T20:38:27.588Z",
+ "generatedAt": "2026-09-06T00:46:02.535Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -24,7 +24,228 @@
     "threshold": "unset"
    },
    "lastReading": null,
-   "scaleSource": "USGS daily statistics 1975–2026, 4,920 CFS at the 70th percentile of daily p95, rounded up"
+   "scaleSource": "USGS daily statistics 1975–2026, 4,920 CFS at the 70th percentile of daily p95, rounded up",
+   "position": {
+    "bands": [
+     [
+      1210,
+      1345,
+      2000,
+      3505
+     ],
+     [
+      1260,
+      1390,
+      2240,
+      3685
+     ],
+     [
+      1260,
+      1430,
+      2320,
+      3140
+     ],
+     [
+      1235,
+      1415,
+      2235,
+      4315
+     ],
+     [
+      1310,
+      1450,
+      3120,
+      5200
+     ],
+     [
+      1270,
+      1490,
+      3180,
+      5960
+     ],
+     [
+      1290,
+      1550,
+      3680,
+      5400
+     ],
+     [
+      1330,
+      1615,
+      3895,
+      6605
+     ],
+     [
+      1290,
+      1590,
+      3270,
+      4930
+     ],
+     [
+      1245,
+      1520,
+      3270,
+      4535
+     ],
+     [
+      1220,
+      1450,
+      3145,
+      4420
+     ],
+     [
+      1165,
+      1390,
+      2960,
+      3945
+     ],
+     [
+      1125,
+      1380,
+      2820,
+      3625
+     ],
+     [
+      1125,
+      1350,
+      2505,
+      3630
+     ],
+     [
+      1080,
+      1270,
+      2140,
+      3260
+     ],
+     [
+      1040,
+      1190,
+      2010,
+      2595
+     ],
+     [
+      1000,
+      1145,
+      1580,
+      2410
+     ],
+     [
+      980,
+      1105,
+      1440,
+      1740
+     ],
+     [
+      950,
+      1035,
+      1370,
+      1625
+     ],
+     [
+      917,
+      1030,
+      1335,
+      1495
+     ],
+     [
+      931,
+      1030,
+      1310,
+      1450
+     ],
+     [
+      916,
+      1030,
+      1330,
+      1450
+     ],
+     [
+      911,
+      1005,
+      1290,
+      1480
+     ],
+     [
+      920,
+      1030,
+      1300,
+      1450
+     ],
+     [
+      953,
+      1045,
+      1295,
+      1495
+     ],
+     [
+      952,
+      1060,
+      1355,
+      1545
+     ],
+     [
+      972,
+      1075,
+      1395,
+      1575
+     ],
+     [
+      968,
+      1080,
+      1385,
+      1615
+     ],
+     [
+      999,
+      1095,
+      1380,
+      1655
+     ],
+     [
+      1050,
+      1140,
+      1480,
+      1680
+     ],
+     [
+      1100,
+      1200,
+      1485,
+      1750
+     ],
+     [
+      1095,
+      1220,
+      1555,
+      1860
+     ],
+     [
+      1135,
+      1250,
+      1635,
+      2120
+     ],
+     [
+      1150,
+      1275,
+      1685,
+      2170
+     ],
+     [
+      1185,
+      1310,
+      1710,
+      2265
+     ],
+     [
+      1200,
+      1340,
+      1770,
+      2400
+     ]
+    ],
+    "years": "1975–2026"
+   }
   },
   "sections": [],
   "guidePhone": "800-669-3474",
@@ -74,42 +295,62 @@
    ],
    "sizes": [],
    "reportLink": "http://catalog.theflyshop.com/stimulator-orange/",
-   "asWritten": "Stimulator - - Orange",
+   "asWritten": "Stimulator - Orange",
    "status": "confirm",
-   "matchedBy": "fuzzy",
+   "matchedBy": "exact",
    "product": {
-    "handle": "stimulator-olive-16",
-    "title": "Stimulator - Olive #16",
+    "handle": "stimulator-orange",
+    "title": "Stimulator - Orange",
     "vendor": "Dreamcast Flies",
-    "url": "https://catalog.theflyshop.com/products/stimulator-olive-16",
+    "url": "https://catalog.theflyshop.com/products/stimulator-orange",
     "type": "Attractors"
    },
    "variant": {
-    "id": 47233937146086,
-    "sku": "6917",
-    "color": "Olive",
-    "size": "#16",
+    "id": 47233977876710,
+    "sku": "899FO-6910",
+    "color": "Orange",
+    "size": "#8",
     "price": 2.95,
     "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/899FL_Stimulators_Olive.png?v=1769028313&width=240",
-    "url": "https://catalog.theflyshop.com/products/stimulator-olive-16?variant=47233937146086"
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/899FO_Stimulators_Orange.png?v=1769012749&width=240",
+    "url": "https://catalog.theflyshop.com/products/stimulator-orange?variant=47233977876710"
    },
    "variants": [
     {
-     "id": 47233937146086,
-     "sku": "6917",
-     "color": "Olive",
-     "size": "#16",
+     "id": 47233977745638,
+     "sku": "899FO-1693",
+     "color": "Orange",
+     "size": "#6",
      "price": 2.95,
      "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/899FL_Stimulators_Olive.png?v=1769028313&width=240",
-     "url": "https://catalog.theflyshop.com/products/stimulator-olive-16?variant=47233937146086"
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/899FO_Stimulators_Orange.png?v=1769012749&width=240",
+     "url": "https://catalog.theflyshop.com/products/stimulator-orange?variant=47233977745638"
+    },
+    {
+     "id": 47233977876710,
+     "sku": "899FO-6910",
+     "color": "Orange",
+     "size": "#8",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/899FO_Stimulators_Orange.png?v=1769012749&width=240",
+     "url": "https://catalog.theflyshop.com/products/stimulator-orange?variant=47233977876710"
+    },
+    {
+     "id": 47233978007782,
+     "sku": "899FO-6911",
+     "color": "Orange",
+     "size": "#10",
+     "price": 2.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/899FO_Stimulators_Orange.png?v=1769012749&width=240",
+     "url": "https://catalog.theflyshop.com/products/stimulator-orange?variant=47233978007782"
     }
    ],
    "flags": [
     {
      "severity": "confirm",
-     "text": "Matched \"Stimulator\" to \"Stimulator - Olive #16\" by fuzzy match (score 1.00). Confirm.",
+     "text": "Several products are named \"Stimulator\". Chose \"Stimulator - Orange\" on the report's own colour word (Orange). Confirm.",
      "candidates": [
       {
        "handle": "stimulator-olive-16",
@@ -129,24 +370,8 @@
      ]
     },
     {
-     "severity": "wronglink",
-     "text": "The page links to \"Stimulator - Orange\" ($2.95, Orange). The words match \"Stimulator - Olive #16\" ($2.95). Resolved to the words; confirm which.",
-     "candidates": [
-      {
-       "handle": "stimulator-olive-16",
-       "title": "Stimulator - Olive #16",
-       "price": 2.95
-      },
-      {
-       "handle": "stimulator-orange",
-       "title": "Stimulator - Orange",
-       "price": 2.95
-      }
-     ]
-    },
-    {
-     "severity": "confirm",
-     "text": "Report says Orange; the shop carries Olive. Showing all colors."
+     "severity": "size",
+     "text": "No size on the report. Shop carries #6, #8, #10. Defaulted to the middle, #8."
     }
    ]
   },
@@ -336,7 +561,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/adams/",
-   "asWritten": "Adams - - #14-18",
+   "asWritten": "Adams - #14-18",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -406,7 +631,7 @@
     "#16"
    ],
    "reportLink": "http://catalog.theflyshop.com/mayfly-cripple/",
-   "asWritten": "Mayfly Cripples - - #12-16",
+   "asWritten": "Mayfly Cripples - #12-16",
    "status": "confirm",
    "matchedBy": "link",
    "product": {
@@ -589,7 +814,7 @@
     "#16"
    ],
    "reportLink": "http://catalog.theflyshop.com/harts-dark-lord/",
-   "asWritten": "Dark Lords - - #12-16",
+   "asWritten": "Dark Lords - #12-16",
    "status": "confirm",
    "matchedBy": "link",
    "product": {
@@ -662,7 +887,7 @@
     "#16"
    ],
    "reportLink": "http://catalog.theflyshop.com/flashback-pheasant-tail-pt/",
-   "asWritten": "Flashback Pheasant Tail - - #14-16",
+   "asWritten": "Flashback Pheasant Tail - #14-16",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -741,7 +966,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/beaded-zebra-midge/",
-   "asWritten": "Beaded Zebra Midge - - #18",
+   "asWritten": "Beaded Zebra Midge - #18",
    "status": "confirm",
    "matchedBy": "exact",
    "product": {
@@ -819,7 +1044,7 @@
     "#6"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-poxyback-dark-stone-6/",
-   "asWritten": "Mercer's Poxyback Dark Stone - - #6",
+   "asWritten": "Mercer's Poxyback Dark Stone - #6",
    "status": "resolved",
    "matchedBy": "exact",
    "product": {
@@ -863,7 +1088,7 @@
     "#12"
    ],
    "reportLink": "http://catalog.theflyshop.com/gb-black-a-p-andre-puyans/",
-   "asWritten": "GB Black A.P. - - #10-12",
+   "asWritten": "GB Black A.P. - #10-12",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -933,7 +1158,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/mercers-cb-micro-mayfly/",
-   "asWritten": "CB Micro Mayflies - - #16-18",
+   "asWritten": "CB Micro Mayflies - #16-18",
    "status": "confirm",
    "matchedBy": "link",
    "product": {
@@ -1040,7 +1265,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
-   "asWritten": "Red Copper Johns - - #16-18",
+   "asWritten": "Red Copper Johns - #16-18",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -1110,7 +1335,7 @@
     "#8"
    ],
    "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
-   "asWritten": "Pat's Brown Rubberleg - - #6-8",
+   "asWritten": "Pat's Brown Rubberleg - #6-8",
    "status": "confirm",
    "matchedBy": "alias",
    "product": {
@@ -1234,7 +1459,7 @@
     "#18"
    ],
    "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
-   "asWritten": "Gordon's Amber Wing Prince - - #14-18",
+   "asWritten": "Gordon's Amber Wing Prince - #14-18",
    "status": "confirm",
    "matchedBy": "link",
    "product": {
@@ -1307,7 +1532,7 @@
     "#16"
    ],
    "reportLink": "https://catalog.theflyshop.com/zacks-jigged-birds-nest/",
-   "asWritten": "Jigged Birds Nest - - #14-16",
+   "asWritten": "Jigged Birds Nest - #14-16",
    "status": "confirm",
    "matchedBy": "alias",
    "product": {
@@ -1483,14 +1708,14 @@
   },
   {
    "id": "zack-s-swimming-leech",
-   "group": "Nymphs/Wet Flies",
+   "group": "Streamers & Leeches",
    "name": "Zack's Swimming Leech",
    "colors": [],
    "sizes": [
     "#8"
    ],
    "reportLink": "http://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
-   "asWritten": "Zack's Swimming Leech - - #8",
+   "asWritten": "Zack's Swimming Leech - #8",
    "status": "confirm",
    "matchedBy": "fuzzy",
    "product": {
@@ -1647,7 +1872,7 @@
    "pickId": "stimulator",
    "name": "Stimulator",
    "severity": "confirm",
-   "text": "Matched \"Stimulator\" to \"Stimulator - Olive #16\" by fuzzy match (score 1.00). Confirm.",
+   "text": "Several products are named \"Stimulator\". Chose \"Stimulator - Orange\" on the report's own colour word (Orange). Confirm.",
    "candidates": [
     {
      "handle": "stimulator-olive-16",
@@ -1669,26 +1894,8 @@
   {
    "pickId": "stimulator",
    "name": "Stimulator",
-   "severity": "wronglink",
-   "text": "The page links to \"Stimulator - Orange\" ($2.95, Orange). The words match \"Stimulator - Olive #16\" ($2.95). Resolved to the words; confirm which.",
-   "candidates": [
-    {
-     "handle": "stimulator-olive-16",
-     "title": "Stimulator - Olive #16",
-     "price": 2.95
-    },
-    {
-     "handle": "stimulator-orange",
-     "title": "Stimulator - Orange",
-     "price": 2.95
-    }
-   ]
-  },
-  {
-   "pickId": "stimulator",
-   "name": "Stimulator",
-   "severity": "confirm",
-   "text": "Report says Orange; the shop carries Olive. Showing all colors."
+   "severity": "size",
+   "text": "No size on the report. Shop carries #6, #8, #10. Defaulted to the middle, #8."
   },
   {
    "pickId": "foam-october-caddis",
@@ -1903,6 +2110,7 @@
  "observations": [
   "Rating: Good.",
   "Prices from the catalog: 20 picks run $1.90 to $6.95; 7 are $2.95.",
-  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap."
+  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
+  "FOR THE GUIDE: no wading threshold on file for Pit. The card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict without a number behind it is a safety claim we have not earned. One number a guide will stand behind -- \"wadeable below X CFS\" -- turns that on."
  ]
 }
