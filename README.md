@@ -130,6 +130,13 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The live strip sits above the bar on the compact card.** Round 7 first argued for leaving it
+  at the foot of the block: metadata belongs at the end, and moving it would split the bar from
+  the scale labels beneath it. The second reason stopped being true in the same round -- those
+  labels went with the bar into the WADING block, so the compact bar has nothing under it to be
+  separated from. What is left is the reading and its provenance together, and a bar that runs
+  straight into the wading verdict it produces. Expanded is unaffected: there is no bar in that
+  flow module to sit above.
 - **The flow bar moved into the WADING block when expanded**, with its `0 / limit / max` labels.
   Compact keeps it where it is -- there is no wading section on that card and the flow module is
   the whole of it. Safe now only because the graph carries its own y-axis labels; through round 6c

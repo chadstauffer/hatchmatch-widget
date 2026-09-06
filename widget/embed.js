@@ -1050,10 +1050,20 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // Compact keeps it: there is no wading section on that card to move it to, and the flow
       // module is the whole of it. Safe to split now only because the graph carries its own
       // y-axis labels; through round 6c the bar's labelled scale was the graph's only legend.
+      //
+      // The strip sits ABOVE the bar, which reverses the round-7 call to leave it at the foot of
+      // the block. That call rested on two things: metadata belongs at the end of a block, and
+      // moving it would split the bar from the scale labels beneath it. The second reason stopped
+      // being true in the same round -- the 0/limit/max labels went with the bar into the WADING
+      // block, so the compact bar has nothing under it to be separated from. What is left is the
+      // reading and its provenance sitting together, with the bar closing the block.
+      const strip = f.failed
+        ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>`
+        : this.liveStrip();
       return `<div class="flowmod">
       ${this.data.water.usgsSite && f.value != null ? `<div class="flownum"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.unitStack()}${this.sparkline()}</div>` : ''}
+      ${strip}
       ${expanded ? '' : this.flowBar(true)}
-      ${f.failed ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>` : this.liveStrip()}
     </div>`;
     }
     /** The wading block, expanded only: the verdict and its threshold sentence, the bar with its
