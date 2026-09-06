@@ -130,6 +130,15 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The compact card's hatch line is a control.** Tapping it opens the card on that hatch --
+  HATCH tab, that slot's flies already out, scrolled to the slot and focus on its chip -- rather
+  than dumping you on NOW to find it yourself. It had to become a sibling of the expand button
+  rather than a child: a button cannot contain a button, which is the same rule that keeps the
+  pack button outside the card face. The arrow says it navigates; a caret would be wrong, because
+  carets on this card mean a panel opening in place. Opening is additive, so a slot the angler
+  opened themselves is not closed by the jump. A water with no hatches has no line and its whole
+  face still expands. `demo/sweep.html` now fails on any nested interactive element -- invalid
+  markup there does not throw, it just quietly makes a control unreachable.
 - **The compact card no longer says "Hatching now".** It was three claims the data does not
   support. The report is the guide's prose from a publish date, not a live observation -- the
   Lower Sac's is four days old as this is written. The slot is a four-hour wall-clock bucket

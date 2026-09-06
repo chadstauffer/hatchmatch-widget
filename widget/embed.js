@@ -222,6 +222,9 @@ img{display:block}
    is the part that gives -- when and what are the row's job, and the HATCH tab carries intensity
    properly with a meter and the guide's own caveat. The wrap rule stays as a backstop for an
    insect name longer than anything we carry today. */
+/* A control, not a caption: full width, its own top rule, and an arrow that says it navigates. */
+.hatchnow{width:100%;padding-top:10px}
+.hatchnow .go{color:var(--accent);flex:none;font-size:12px}
 @container (max-width:359px){.hatchword{display:none}}
 @container (max-width:359px){.hatchnow{flex-wrap:wrap;row-gap:4px}}
 /* Below 360px the strip is the tightest row on the card. "Read" goes first; if that is still
@@ -1138,6 +1141,19 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     compact() {
       const d = this.data, w = this.wading(), hn = this.hatchNow(), f = this.s.flow;
       const closed = d.water.closed;
+      // The hatch line is its own control: tapping it opens the card on that hatch, with the
+      // slot's flies already showing, rather than on NOW. It has to be a SIBLING of the expand
+      // button and not a child -- a button cannot contain a button, which is the same rule that
+      // keeps the pack button outside the card face. The arrow says it goes somewhere; a caret
+      // would be wrong here, because carets on this card mean a panel opening in place.
+      const hatchLine = hn
+        ? `<button class="row rule hatchnow" data-action="hatchjump" data-slot="${esc(hn.h.slot)}" data-focus="hatchjump" aria-label="Open the ${esc(hn.h.insect)} hatch, ${esc(hn.when.toLowerCase())}">
+      <span class="label" style="white-space:nowrap">${hn.when}</span>
+      <span style="font-weight:600;white-space:nowrap">${esc(hn.h.insect)} <span class="muted" style="font-weight:400">${esc(hn.h.size)}</span></span>
+      <span class="lamp hatchword" style="margin-left:auto;text-transform:none;letter-spacing:0;font-size:11px;--c:${hn.h.intensity >= 4 ? 'var(--accent)' : hn.h.intensity >= 2 ? 'var(--green)' : 'var(--amber)'}"><i></i>${esc(hn.h.word)}</span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </button>`
+        : '';
       return `<div class="card compact">
   <button class="expand" data-action="expand" aria-expanded="false" aria-label="Expand the ${esc(d.water.name)} report">
     ${this.header(false)}
@@ -1146,12 +1162,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       ${this.flowModule(false)}
       ${f.failed || !w ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted wadecap">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
-    ${hn ? `<div class="row rule hatchnow" style="padding-top:10px">
-      <span class="label" style="white-space:nowrap">${hn.when}</span>
-      <span style="font-weight:600;white-space:nowrap">${esc(hn.h.insect)} <span class="muted" style="font-weight:400">${esc(hn.h.size)}</span></span>
-      <span class="lamp hatchword" style="margin-left:auto;text-transform:none;letter-spacing:0;font-size:11px;--c:${hn.h.intensity >= 4 ? 'var(--accent)' : hn.h.intensity >= 2 ? 'var(--green)' : 'var(--amber)'}"><i></i>${esc(hn.h.word)}</span>
-    </div>` : `<div class="muted rule" style="padding-top:10px;font-size:12px">The shop's own report and hot flies inside. Flow and weather are live.</div>`}`}
+    ${hn ? '' : `<div class="muted rule" style="padding-top:10px;font-size:12px">The shop's own report and hot flies inside. Flow and weather are live.</div>`}`}
   </button>
+  ${closed ? '' : hatchLine}
   ${closed ? `<a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>` : this.packButton()}
 </div>`;
     }
@@ -1386,6 +1399,15 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const next = this.root.querySelector('.panel');
       if (next) {
         next.scrollTop = this.scrollPos[this.s.tab] || 0;
+        // A jump from the compact card's hatch line lands on that slot rather than at the top of
+        // the panel. Measured against the panel's own box, so it is right whatever is above it.
+        if (this.scrollToSlot) {
+          const chip = this.root.querySelector(`.chip[data-slot="${this.scrollToSlot.replace(/"/g, '\\"')}"]`);
+          const row = chip && chip.closest('.slot');
+          if (row) next.scrollTop += row.getBoundingClientRect().top - next.getBoundingClientRect().top;
+          this.scrollToSlot = null;
+          chip?.focus();
+        }
         // Only fade an edge there is something past.
         next.parentElement.classList.toggle('fade', next.scrollHeight > next.clientHeight + 1);
       }
@@ -1445,6 +1467,18 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const a = el.dataset.action, s = this.s;
       switch (a) {
         case 'expand': this.set({ open: true }); this.emit('card_expanded'); this.root.querySelector('[data-action="collapse"]')?.focus(); break;
+        // Open the card on the hatch the compact face was showing, with that slot's flies
+        // already out. Additive to whatever was open: a jump should not close a slot the angler
+        // opened themselves. render() does the scrolling, once the panel it scrolls exists.
+        case 'hatchjump': {
+          const slot = el.dataset.slot, open = new Set(s.expanded);
+          open.add(slot);
+          this.scrollToSlot = slot;
+          const h = this.data.hatches.find(x => x.slot === slot);
+          this.set({ open: true, tab: 'hatch', picker: false, expanded: open });
+          this.emit('hatch_opened_from_card', { slot, insect: h ? h.insect : null });
+          break;
+        }
         case 'collapse': this.set({ open: false }); this.root.querySelector('[data-action="expand"]')?.focus(); break;
         case 'tab': this.set({ tab: el.dataset.tab, picker: false }); if (el.dataset.tab === 'notes') this.emit('notes_expanded'); break;
         case 'slot': {

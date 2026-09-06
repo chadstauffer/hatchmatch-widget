@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260906014733"></script>
+<script src="../dist/embed.js?b=20260906015421"></script>
 <script>
 /* A widow is the last line of a wrapped text block carrying one short word on its own. Measured
    rather than eyeballed: every word in the block gets a Range rect, words are grouped into lines
@@ -201,6 +201,16 @@ window.SWEEP = async function () {
         if (!pack || pack.disabled) out.invariants.push(`${w}: sells a pack but the buy button is disabled`);
       }
       if (ids.length !== new Set(ids).size) out.invariants.push(`${w}: a pick appears in two groups`);
+      // A button cannot contain a button. The compact face is one big button, so anything that
+      // becomes tappable inside it -- the pack button, and now the hatch line -- has to be a
+      // sibling. Invalid HTML here does not throw; it just makes a control unreachable.
+      for (const st of [false, true]) {
+        card.set({ open: st });
+        const nested = card.root.querySelectorAll('button button, button a[href], a[href] button').length;
+        if (nested) out.invariants.push(`${w}: ${nested} nested interactive element(s) when ${st ? 'expanded' : 'compact'}`);
+      }
+      // Leave it expanded: the structure checks below look for expanded-only elements.
+      card.set({ open: true, tab: 'hatch' });
       // Every card state must render a header, tabs and a pinned block.
       for (const sel of ['.head', '.tabs', '.buybar', '.panel']) {
         if (!card.root.querySelector(sel)) out.invariants.push(`${w}: missing ${sel}`);
