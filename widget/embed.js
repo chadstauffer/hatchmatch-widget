@@ -216,11 +216,14 @@ img{display:block}
    part that gives: a rating beside a lamp needs no caption. */
 @container (max-width:409px){.fishlabel{display:none}}
 /* The compact wading row carries the same caption, word and lamp as the expanded header, so the
-   caption cannot be the part that gives -- dropping it below 360px made the two cards disagree at
-   exactly the widths most people hold. All three do not fit on one line there (323px of a 286px
-   row at 350), so the threshold sentence wraps under them instead. One line taller on a small
-   phone, and nothing hidden. */
+   caption is not the part that gives -- dropping it made the two cards disagree at exactly the
+   widths most people hold. Measured, the three fit on one line down to 335px and wrap at 330.
+   Wrapped, the sentence lands alone under the lamp on the right and reads as a broken row rather
+   than a second line, so below 335 it goes entirely. The threshold is still in the bar's
+   aria-label at every width, and on the range row the moment the card is opened.
+   The wrap stays as a backstop only: with the sentence gone nothing here can reach a second line. */
 .wadingrow{flex-wrap:wrap;row-gap:4px}
+@container (max-width:334px){.wadingnote{display:none}}
 /* The compact hatch line carries four things that must not break internally -- the label, the
    insect and size, the guide's intensity word, and when. Below 360px they need 322px of a 286px
    row. Nothing here is droppable ("this afternoon" is the whole answer when the label reads
@@ -1210,7 +1213,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
     <div class="sec">
       ${this.flowModule(false)}
-      ${f.failed || !w ? '' : `<div class="row caps wadingrow" style="letter-spacing:.12em"><span class="label">Wading</span><span class="lamp accent" style="--c:${w.color};font-size:11px;font-weight:600;letter-spacing:.1em"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
+      ${f.failed || !w ? '' : `<div class="row caps wadingrow" style="letter-spacing:.12em"><span class="label">Wading</span><span class="lamp accent" style="--c:${w.color};font-size:11px;font-weight:600;letter-spacing:.1em"><i></i>${w.label}</span><span class="muted wadingnote" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
     ${hn ? '' : `<div class="muted rule" style="padding-top:10px;font-size:12px">The shop's own report and hot flies inside. Flow and weather are live.</div>`}`}
   </button>

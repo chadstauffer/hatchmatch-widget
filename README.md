@@ -146,9 +146,11 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   own ordinal rather than scoring it, and it borrows the wading lamp's two colours so the row
   speaks one vocabulary.
   The compact card's wading row carries the identical treatment -- same caption, same accent
-  word, same state-lit dot -- so the two cards cannot disagree. Its threshold sentence wraps
-  under them at 320px rather than the caption being dropped, which is what used to happen and
-  made the two cards differ at exactly the widths most people hold.
+  word, same state-lit dot -- so the two cards cannot disagree. The caption is never the part
+  that gives; below 335px the threshold sentence is. Measured, the three fit one line down to
+  335 and wrap at 330, and wrapped it lands alone under the lamp on the right, reading as a
+  broken row rather than a second line. The threshold is still in the bar's `aria-label` at every
+  width and on the range row the moment the card is opened.
   Both captions and both states fit one line at all six widths. Where a gauge reports turbidity
   the FNU figure joins clarity and the row runs 56px over at 320px, so the header wraps rather
   than dropping anything: a measured number is the last thing here that should give way to a
