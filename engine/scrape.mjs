@@ -71,6 +71,38 @@ export function wadingNotes(notes) {
   return out.slice(0, 3);    // a few sentences is a caution; more is the notes tab
 }
 
+/** The guide's prose, distilled to the short actionable phrases the card shows.
+
+    This is a FIXED vocabulary, not per-report rewriting. Every phrase below is written once,
+    reviewed once, and triggered by a specific pattern in the guide's own words -- so the output
+    is predictable and auditable, and two reports saying the same thing produce the same phrase.
+    Generating a fresh summary per report would put a new, unreviewed sentence about safety on
+    the card every time the shop updates a page.
+
+    The sentence that produced each phrase is kept alongside it and goes on the guide pass, and
+    the untouched prose is still on the NOTES tab. Nothing here is the only copy of anything.
+
+    Negation is checked because the failure is not academic: "this is not a slippery river" and
+    "this can be a slippery river" differ by one word and would otherwise produce the same tag. */
+const WADING_TAGS = [
+  [/\bslipper(y|iness)\b/i,                          'Slippery footing'],
+  [/\bwading staff\b|\bstaff\b[^.]*\brecommend/i,     'Wading staff advised'],
+  [/\bflows?\b[^.]*\b(change|rise|drop|without notice)\b/i, 'Flows change without notice'],
+  [/\b(good|many|excellent)\b[^.]*\bwading\b|\bwading\b[^.]*\b(access|opportunit)/i, 'Good wading access'],
+  [/\b(deep|dangerous|hazard)\w*\b[^.]*\bwad/i,       'Deep in places'],
+];
+const NEGATED = /\b(not|no|never|isn't|aren't|don't|doesn't|avoid)\b/i;
+export function wadingTags(sentences) {
+  const out = [];
+  for (const sent of sentences || []) {
+    if (NEGATED.test(sent)) continue;               // the guide is saying the opposite
+    for (const [re, phrase] of WADING_TAGS) {
+      if (re.test(sent) && !out.some(t => t.phrase === phrase)) out.push({ phrase, from: sent });
+    }
+  }
+  return out.slice(0, 3);
+}
+
 /** "September 1, 2026" -> "2026-09-01". Never guessed: a block without a parseable date is skipped. */
 const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 export function isoDate(s) {
@@ -213,7 +245,7 @@ export function parsePage(html) {
       note: `Scraped from ${SRC} by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.`,
       water: { ...water, name, packName: null, flow: null, sections: [], guidePhone: GUIDE_PHONE, closed: false },
       report: { publishedAt, author: null, rating, clarity: null, wading: null, notes,
-                wadingNote: wadingNotes(notes),
+                wadingNote: wadingNotes(notes), wadingTags: wadingTags(wadingNotes(notes)),
                 notesPermission: 'pending', source: { url: SRC, fetchedAt: new Date().toISOString().slice(0, 10) } },
       hatches: [], readOnly: true, picks, substitutes: {},
     });

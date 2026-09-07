@@ -434,14 +434,22 @@ The card still refuses to compute a wading verdict without a threshold a person 
 ticket 6.4's hard line and it has not moved. But where the shop has actually written something
 about footing, the card now says it, **in their words**:
 
-> **GUIDE NOTES** — Be careful though, this can be a slippery river to wade. We recommend a
-> wading staff when fishing the Pit. Be aware that the flows on the Pit can and will change
-> without notice, so definitely check before you go!
+> **GUIDE NOTES** — Slippery footing · Wading staff advised · Flows change without notice
 
 Every water carries something here. Where the guide wrote nothing, the card says a line that is
 true of every river, under a heading that does not put it in their mouth:
 
-> **BEFORE YOU GO** — Flows can change without notice. Check conditions before you wade.
+> **BEFORE YOU GO** — Check flows before you wade
+
+**The phrases are a fixed vocabulary, not per-report rewriting.** Each one is written once,
+reviewed once, and fired by a pattern in the guide's own words, so two reports that say the same
+thing produce the same phrase and the output can be audited. Generating a fresh summary per report
+would put a new, unreviewed sentence about safety on the card every time the shop edits a page.
+The sentence that produced each phrase is stored beside it and both go on the guide pass --
+`"Slippery footing" (from "Be careful though, this can be a slippery river to wade.")` -- so they
+confirm the reading, not just the result. Negation is checked, because "this is not a slippery
+river" and "this can be a slippery river" differ by one word and would otherwise tag the same.
+**The guide's untouched prose is still on the NOTES tab**, so nothing here is the only copy.
 
 That fallback is the only card-authored sentence in this block, and it is deliberately not a
 claim about any particular water. Neither form is a wading verdict: no river is called wadeable

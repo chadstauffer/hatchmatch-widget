@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T22:50:19.502Z",
+ "generatedAt": "2026-09-07T22:58:58.389Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -262,6 +262,7 @@
    "Upper Sacramento Flows at Delta"
   ],
   "wadingNote": [],
+  "wadingTags": [],
   "notesPermission": "pending",
   "source": {
    "url": "https://www.theflyshop.com/streamreport.html",

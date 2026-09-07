@@ -246,7 +246,12 @@ img{display:block}
 /* The guide's own wading advice, where they wrote any. Sentence case and prose weight, so it
    cannot be mistaken for one of the card's instrument readings: it is a caution in their words,
    not a verdict this card computed. A water with no threshold still gets no verdict. */
-.wadenote{display:flex;flex-direction:column;gap:3px;font-size:12px;line-height:1.45;color:var(--muted)}
+.wadenote{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.45;color:var(--muted)}
+/* Phrases, separated rather than punctuated into a sentence: each one is its own fact and wraps
+   as a unit, so a two-word phrase never breaks across lines. */
+.wadenote .tags{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px}
+.wadenote .tags b{font-weight:400;color:var(--text);white-space:nowrap}
+.wadenote .tags i{font-style:normal;opacity:.5}
 /* The caption is one word on both variants now -- WADING or FLOW -- so it cannot break. The row
    still wraps as a backstop for a long state word on a narrow card. */
 .headcap{white-space:nowrap}
@@ -1314,9 +1319,12 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         block exists to avoid. Neither form is a wading verdict: no river is called wadeable here.
         This fallback is the only card-authored sentence in the block. */
     wadingNote() {
-      const own = this.data.report.wadingNote || [];
-      if (own.length) return `<div class="wadenote"><span class="label">Guide notes</span><span>${own.map(esc).join(' ')}</span></div>`;
-      return `<div class="wadenote"><span class="label">Before you go</span><span>Flows can change without notice. Check conditions before you wade.</span></div>`;
+      // Short phrases, not the guide's paragraph. This is a card, and the untouched prose is two
+      // taps away on NOTES -- so this row carries what an angler acts on and nothing else.
+      const tags = this.data.report.wadingTags || [];
+      if (tags.length) return `<div class="wadenote"><span class="label">Guide notes</span>`
+        + `<span class="tags">${tags.map(t => `<b>${esc(t.phrase)}</b>`).join('<i aria-hidden="true">&middot;</i>')}</span></div>`;
+      return `<div class="wadenote"><span class="label">Before you go</span><span class="tags"><b>Check flows before you wade</b></span></div>`;
     }
     /** Water temperature against the 50-65 trout-active band. A tailwater like the Lower Sac barely
         moves; a freestone swings hard. Absent unless the gauge actually reports 00010. */

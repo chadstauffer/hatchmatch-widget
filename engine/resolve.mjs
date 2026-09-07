@@ -146,8 +146,10 @@ export function resolveReport(fixture, catalog, aliases) {
     fixture.hatches.some(h => h.sizeSource) ? `Hatch sizes (${fixture.hatches.filter(h => h.size).map(h => `${h.insect} ${h.size}`).join(', ')}) are not on the page. They are placeholders for the guide to set.` : null,
     // Their words, but our choice of which sentence to lift out of the prose -- so it goes in
     // front of them like every other call the matching made.
-    (fixture.report.wadingNote || []).length
-      ? `FOR THE GUIDE, ${fixture.water.shortName}: the card shows this wading advice, lifted verbatim from your report -- "${fixture.report.wadingNote.join(' ')}" Confirm it is the right passage to surface, and that it still holds.`
+    (fixture.report.wadingTags || []).length
+      ? `FOR THE GUIDE, ${fixture.water.shortName}: the card condenses your wading notes to short phrases -- `
+        + fixture.report.wadingTags.map(t => `"${t.phrase}" (from "${t.from}")`).join('; ')
+        + `. The phrases are ours and the sentences are yours; confirm each one says what you meant. Your full text is unchanged on the notes tab.`
       : null,
     fixture.readOnly ? 'Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.' : null,
     // The numbers only a person can supply, as ONE ask rather than one per number -- a guide
