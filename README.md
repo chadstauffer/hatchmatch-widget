@@ -365,6 +365,33 @@ honestly.
   `window.HatchMatch.events` as `water_temp_unavailable`.
 - A host that would rather run its own proxy points at it with `data-temp-proxy`.
 
+## Deferred — the proxy shares the app's service
+
+The water-temperature proxy shipped on 2026-09-07 onto `hatchmatch-api`
+(`srv-d5v9ibp4tr6s739h59qg`), the same Render service that runs the mobile app's OpenAI scan
+endpoints and `/api/fulfill-purchase`. That is where it had to go: this repo has no backend, and
+that is the only server there is.
+
+Nothing to fix today. Measured at ship: CPU 0.00009 of 0.5 cores (0.018%), memory 113 MB of
+512 MB, one instance, no spin-down. A shop page doing 1,000 visits a day is under one request a
+minute, and the response is 110 bytes.
+
+The cost is not load, it is coupling, and it runs in the direction people do not expect: **every
+future change to the widget's proxy redeploys the payments API**. A boot-time error in a widget
+edit takes down purchases and scans, not just the temperature row. The widget iterates fast; that
+API should be boring.
+
+Two smaller things wait behind it. The rate limit is per-IP (60/min), so it stops one abuser and
+not many visitors. The 15-minute cache protects CDEC, not Render -- every visitor request still
+reaches the shared event loop. And both the cache and the rate-limit store are in-process, so
+scaling past `numInstances: 1` would silently halve cache hits and double the effective limit.
+
+**Trigger to split it out:** a second shop embeds the widget, *or* the proxy needs a second
+change. The second one is the real trigger, because that is when the release coupling starts
+costing something. The split stays cheap -- the endpoint is 104 self-contained lines with no
+shared state, and the card already takes a `data-temp-proxy` attribute, so moving it needs no
+change to the widget at all.
+
 ## Round 7 — ticket 6.3, the audit
 
 `npm run audit` diffs every water's rendered card against its source pane on the shop's page and
