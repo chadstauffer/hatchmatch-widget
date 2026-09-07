@@ -145,12 +145,19 @@ export function resolveReport(fixture, catalog, aliases) {
     prices.length ? `Prices from the catalog: ${picks.length} picks run $${Math.min(...prices).toFixed(2)} to $${Math.max(...prices).toFixed(2)}; ${at295} are $2.95.` : null,
     fixture.hatches.some(h => h.sizeSource) ? `Hatch sizes (${fixture.hatches.filter(h => h.size).map(h => `${h.insect} ${h.size}`).join(', ')}) are not on the page. They are placeholders for the guide to set.` : null,
     fixture.readOnly ? 'Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.' : null,
-    // The wading threshold is the one number on this card that a person has to supply, and the
-    // only one whose absence a guide should be asked about directly. It goes on the same list as
-    // the fly confirmations because it is the same kind of ask: something only they can answer.
-    (fixture.water.flow && fixture.water.flow.max != null && fixture.water.flow.threshold == null)
-      ? `FOR THE GUIDE: no wading threshold on file for ${fixture.water.shortName}. The card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict without a number behind it is a safety claim we have not earned. One number a guide will stand behind -- "wadeable below X CFS" -- turns that on.`
-      : null,
+    // The numbers only a person can supply, as ONE ask rather than one per number -- a guide
+    // reads this list once, and two separate lines asking them to think about the same water is
+    // two chances to answer neither.
+    (() => {
+      const w = fixture.water, need = [];
+      if (w.flow && w.flow.max != null && w.flow.threshold == null)
+        need.push(`a wading limit ("wadeable below X CFS"). Until then the card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict with no number behind it is a safety claim we have not earned`);
+      if (!w.reportFreshness)
+        need.push(`how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say`);
+      return need.length
+        ? `FOR THE GUIDE, ${w.shortName}: ${need.length} number${need.length === 1 ? '' : 's'} only you can set -- ${need.join('; and ')}.`
+        : null;
+    })(),
   ].filter(Boolean);
   // A read-only water has no sections and no quantities, so it has no packs. That is the honest
   // shape of a report nobody has broken out yet, not a failure to compute one.

@@ -202,6 +202,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     if (ov) {
       if (ov.sections) r.water.sections = ov.sections;
       if (ov.packName) r.water.packName = ov.packName;
+      // How long this shop's report on this water stays current. Never derived -- see waters.json.
+      if (ov.reportFreshness) r.water.reportFreshness = ov.reportFreshness;
     }
     let sc = null, pos = null;
     if (r.water.usgsSite) {

@@ -396,6 +396,39 @@ honestly.
   `window.HatchMatch.events` as `water_temp_unavailable`.
 - A host that would rather run its own proxy points at it with `data-temp-proxy`.
 
+## Interim — the report-age cutoffs are a placeholder, not a standard
+
+**14 days to CURRENT, 30 to OLDER. Neither number came from the shop.** They are the second thing
+on this card in the same position the CFS threshold was: a number that renders as a verdict with
+nobody's authority behind it.
+
+The card ran 7/14 from its first commit, `e9e9045`, with no justification recorded in the commit,
+the README, or `data/waters.json` -- the file whose own note reads "numbers a shop or a guide has
+set". There is no spec file in the repo. The shop states no cadence anywhere on their page; the
+only update language on it is "we will continue to update the report as we receive more
+information", which is explicitly not a schedule.
+
+7 was also wrong in a way you could see. Measured on 2026-09-07, their eight reports sat at 3, 6,
+6, 6, 13, 13, 27 and 248 days -- median 13. Their three freshest reports were all published Sep 1,
+so a 7-day cutoff would have graded the shop's own current batch as aging the following morning.
+
+14/30 is chosen to fit that and is still a placeholder. It is one snapshot of eight ages, not a
+history of publish intervals: it describes where this shop's reports happen to sit, not how often
+they intend to write. Deriving the real number needs the page watched over time.
+
+- `reportFreshness` is settable per water in `data/waters.json`, next to the wading threshold, and
+  a shop number always wins over the default.
+- It is on the guide pass with the CFS threshold, as **one** ask rather than two. A guide reads
+  that list once; two separate lines about the same water is two chances to answer neither.
+- The verdicts are `CURRENT` / `RECENT` / `OLDER`, not fresh/aging/stale. This renders on the
+  shop's own site about the shop's own work, and "stale" grades their diligence rather than
+  describing a date -- the failure ticket 6.3 existed to catch. These say how old it is and stop.
+- The bar is the card's third instrument built the same way: 24 cells from `.bar`, the two ranges
+  lit quietly, one accent cell where the report actually sits. Past the OLDER cutoff the marker
+  pins to the last cell, which is the honest shape -- a report 248 days old is not further right
+  than one at 40, it is off the end. Axis is `0 / 14 DAYS / 30 DAYS`.
+- The 28-tick meter this replaced was the last user of `ticks()`; both are gone.
+
 ## Deferred — the proxy shares the app's service
 
 The water-temperature proxy shipped on 2026-09-07 onto `hatchmatch-api`

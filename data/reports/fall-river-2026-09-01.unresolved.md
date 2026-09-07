@@ -37,3 +37,4 @@ Catalog pulled 2026-09-04T21:06:20.237Z. 0 picks resolved clean, 7 need confirma
 - Rating: Good.
 - Prices from the catalog: 7 picks run $2.00 to $3.50; 3 are $2.95.
 - Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.
+- FOR THE GUIDE, Fall River: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say.

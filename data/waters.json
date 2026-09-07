@@ -5,7 +5,8 @@
     "flow.threshold / flow.thresholdLabel": "the wading limit. Never derived: this is a person deciding what is safe.",
     "sections": "named reaches the pack can be shaped to.",
     "packName": "the shop's own name for the pack.",
-    "cdecStation": "CDEC station id for water temperature (sensor 25, hourly), where USGS does not report 00010. Read through the widget's temp proxy, never from the browser: CDEC sends no CORS header."
+    "cdecStation": "CDEC station id for water temperature (sensor 25, hourly), where USGS does not report 00010. Read through the widget's temp proxy, never from the browser: CDEC sends no CORS header.",
+    "reportFreshness": "how many days a report stays CURRENT and then RECENT before it reads OLDER, e.g. {\"current\": 14, \"recent\": 30}. Never derived. The shop knows how often it updates a water; the card defaults to 14/30 as an INTERIM until they say, and that default is a placeholder, not a standard."
   },
   "waters": {
     "lower-sacramento": {

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-06T00:46:03.154Z",
+ "generatedAt": "2026-09-07T22:06:10.235Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -1514,6 +1514,6 @@
   "Rating: Fair to Good.",
   "Prices from the catalog: 13 picks run $1.95 to $5.95; 0 are $2.95.",
   "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
-  "FOR THE GUIDE: no wading threshold on file for Trinity. The card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict without a number behind it is a safety claim we have not earned. One number a guide will stand behind -- \"wadeable below X CFS\" -- turns that on."
+  "FOR THE GUIDE, Trinity: 2 numbers only you can set -- a wading limit (\"wadeable below X CFS\"). Until then the card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict with no number behind it is a safety claim we have not earned; and how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
 }

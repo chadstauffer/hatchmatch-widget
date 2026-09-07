@@ -42,6 +42,21 @@
      "afternoon" name the same part of the day to a reader, and the four rows have to read as four
      distinct times. It covers 3pm to 7pm; the guide's own words for that hatch were "late
      afternoon", so the label is a shade earlier than the prose it came from. */
+  /* INTERIM, NOT A STANDARD. How long a guide's report stays current is the shop's call, the same
+     way the wading threshold is, and nobody has given us a number: their page states no cadence,
+     only "we will continue to update the report as we receive more information".
+
+     The card ran 7/14 from its first commit with no justification recorded anywhere. Measured
+     against this shop on 2026-09-07 that was wrong in a way you could see: their three freshest
+     reports were all published Sep 1, and 7 days would have graded the whole batch as aging the
+     next morning. Their eight reports sat at 3, 6, 6, 6, 13, 13, 27 and 248 days -- median 13.
+
+     14/30 is chosen deliberately to fit that, and it is still a placeholder. It is one snapshot
+     of eight ages, not a history of publish intervals, so it describes where this shop's reports
+     happen to sit rather than how often they intend to write. A number from the shop replaces it
+     via `reportFreshness` in data/waters.json, and it is on the guide pass with the CFS
+     threshold. */
+  const FRESHNESS = { current: 14, recent: 30 };
   const SLOTS = ['morning', 'midday', 'afternoon', 'last light'];
   const SLOT_LABEL = { morning: 'Morning', midday: 'Midday', afternoon: 'Evening', 'last light': 'Last light' };
   /* Short months, the same form the rest of the card uses for a date. "Well below normal for
@@ -320,7 +335,6 @@ img{display:block}
 .now{padding:16px;display:flex;flex-direction:column;gap:16px}
 .sec{display:flex;flex-direction:column;gap:8px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.ticks{display:flex;gap:3px;height:12px;align-items:flex-end}.ticks i{flex:1;height:7px;background:var(--off)}.ticks i.on{height:12px;background:var(--c)}
 .wx{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .wx .d{display:flex;flex-direction:column;gap:3px;min-width:0}
 .wx .day{display:flex;align-items:center;gap:6px}
@@ -337,6 +351,11 @@ img{display:block}
    radius, which made "are these the same cell?" a question about specificity rather than a fact.
    The band only says what differs: which cells are lit, and in what. */
 .band i.in{background:color-mix(in srgb,var(--green),transparent 55%)}
+/* Report age. Two zones lit quietly behind one accent cell, exactly like the temperature band --
+   cell shape comes from .bar, so all three instruments draw the same cell. */
+.age i.zc{background:color-mix(in srgb,var(--green),transparent 55%)}
+.age i.zr{background:color-mix(in srgb,var(--amber),transparent 60%)}
+.age i.cur{background:var(--accent)}
 /* The reading, in the accent that means "you are here" on the flow bar and on the graph. It does
    not pulse: pulse means the number is live, and this one is hourly at best and routinely hours
    behind, which is why the row names its own read time underneath. */
@@ -758,21 +777,34 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       return [a, this.host.dataset.onAccent || '#081215'];
     }
     days() {
-      if (this.demo === 'stale') return 23; if (this.demo === 'aging') return 9;
+      if (this.demo === 'stale') return 40; if (this.demo === 'aging') return 20;
       return Math.max(0, Math.floor((Date.now() - new Date(this.data.report.publishedAt + 'T12:00:00')) / DAY));
     }
     freshFor(publishedAt) {
       if (!publishedAt) return null;
-      const d = this.demo === 'stale' ? 23 : this.demo === 'aging' ? 9
+      const d = this.demo === 'stale' ? 40 : this.demo === 'aging' ? 20
         : Math.max(0, Math.floor((Date.now() - new Date(publishedAt + 'T12:00:00')) / DAY));
       // "Updated Sep 1" sits directly above a live CFS figure, where it reads as the date of the
       // flow rather than of the guide's report -- which is the one place on this card the two
       // kinds of freshness could be confused, and they are four days apart. Name whose date it
       // is. `short` is for the report-age block, whose own heading already says what it dates.
-      return { days: d, label: 'Guide report ' + shortDate(publishedAt), short: shortDate(publishedAt),
-               color: d < 7 ? 'var(--green)' : d < 14 ? 'var(--amber)' : 'var(--red)', stale: d >= 14 };
+      const c = this.freshness();
+      // CURRENT / RECENT / OLDER, not FRESH / AGING / STALE. This renders on the shop's own site
+      // about the shop's own work, and "stale" grades their diligence rather than describing a
+      // date -- the same failure ticket 6.3 existed to catch. These say how old it is and stop.
+      const verdict = d < c.current ? 'Current' : d < c.recent ? 'Recent' : 'Older';
+      return { days: d, verdict, cutoffs: c,
+               label: 'Guide report ' + shortDate(publishedAt), short: shortDate(publishedAt),
+               color: d < c.current ? 'var(--green)' : d < c.recent ? 'var(--amber)' : 'var(--red)',
+               stale: d >= c.recent };
     }
-    fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, label: 'No guide report yet', short: '\u2014', color: 'var(--off)', stale: false }; }
+    fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, verdict: 'None yet', cutoffs: this.freshness(), label: 'No guide report yet', short: '\u2014', color: 'var(--off)', stale: false }; }
+    /** The shop's own answer where they have given one, the interim default where they have not.
+        `shopSet` is what lets the card say which it is rather than presenting both as settled. */
+    freshness() {
+      const f = this.data.water.reportFreshness;
+      return { current: (f && f.current) || FRESHNESS.current, recent: (f && f.recent) || FRESHNESS.recent, shopSet: !!f };
+    }
     slotNow() { const h = new Date().getHours(); return h < 11 ? 0 : h < 15 ? 1 : h < 19 ? 2 : 3; }
     /** Which hatch to put on the compact card, and when the guide placed it.
         It no longer says "Hatching now", which was three claims the data does not support:
@@ -879,7 +911,6 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const a = label ? ` role="img" aria-label="${label}"` : ' aria-hidden="true"';
       return `<span class="meter${wide ? ' wide' : ''}"${a}>${[0, 1, 2, 3, 4].map(i => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</span>`;
     }
-    ticks(count, idx, color) { return `<div class="ticks" aria-hidden="true">${Array.from({ length: count }, (_, i) => `<i class="${i === idx ? 'on' : ''}" style="--c:${color}"></i>`).join('')}</div>`; }
     flowBar(tall) {
       const F = this.data.water.flow, f = this.s.flow, segs = 24;
       // No published range, or nothing ever read from the gauge. A bar without a scale or without
@@ -1192,6 +1223,23 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     ${bar}${ranges}
   </div>`;
     }
+    /** Report age on the same instrument as the other two: 24 cells, zones lit quietly, and the
+        accent cell marking where this report actually sits. The scale runs to the OLDER cutoff,
+        so a report past it pins to the last cell -- the honest shape, because a report 248 days
+        old is not further right than one at 40, it is simply off the end.
+        The cutoffs are interim. See FRESHNESS at the top of this file. */
+    ageBar(fr) {
+      const segs = 24, max = fr.cutoffs.recent;
+      const at = Math.max(0, Math.min(segs - 1, Math.round(fr.days / max * (segs - 1))));
+      const cells = Array.from({ length: segs }, (_, i) => {
+        const day = i * max / (segs - 1);
+        return `<i class="${i === at ? 'cur' : (day < fr.cutoffs.current ? 'zc' : 'zr')}"></i>`;
+      }).join('');
+      const mid = (fr.cutoffs.current / max * 100).toFixed(2) + '%';
+      const label = `Guide report ${fr.days} day${fr.days === 1 ? '' : 's'} old, current under ${fr.cutoffs.current} days, older past ${max}`;
+      return `<div class="bar tall age" role="img" aria-label="${label}">${cells}</div>
+    <div class="ranges"><span style="left:0">0</span><span class="mid" style="left:${mid}">${fr.cutoffs.current}&nbsp;days</span><span style="right:0">${max}&nbsp;days</span></div>`;
+    }
     /** Water temperature against the 50-65 trout-active band. A tailwater like the Lower Sac barely
         moves; a freestone swings hard. Absent unless the gauge actually reports 00010. */
     tempRow() {
@@ -1319,10 +1367,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', icon: 'clouds' }, { day: 'Day 2', label: 'Sprinkles', icon: 'drizzle' }, { day: 'Day 3', label: 'Sprinkles', icon: 'drizzle' }]).map(x => `
       <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps" role="img" aria-label="High ${x.hi}, low ${x.lo}"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
   </div>
-  ${d.report.publishedAt ? `<div class="sec rule" style="padding-top:14px">
-    <div class="between"><span class="label">Guide report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.short}</span></div>
-    ${this.ticks(28, Math.min(27, Math.round(fr.days / 14 * 27)), fr.color)}
-    <div class="between" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)"><span>${fr.days === 0 ? 'Today' : fr.days + (fr.days === 1 ? ' day ago' : ' days ago')}</span><span>7 days</span><span>14 days</span></div>
+  ${d.report.publishedAt ? `<div class="sec rule" style="padding-top:14px;gap:10px">
+    <div class="between"><span class="row" style="gap:7px"><span class="label">Guide report age</span><span class="lamp accent" style="--c:${fr.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${fr.verdict}</span></span></div>
+    ${this.ageBar(fr)}
     ${fr.stale ? `<div class="note">Conditions may have changed since this report. Flow and weather are live.</div>` : ''}
     ${d.report.author ? `<div class="muted" style="padding-top:10px">Report by ${esc(d.report.author)}</div>` : ''}
   </div>` : ''}
