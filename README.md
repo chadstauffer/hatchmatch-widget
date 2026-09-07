@@ -512,8 +512,24 @@ first match would report the river as off colour immediately after the guide sai
 Where the guide gave a number, it sits beside the word in the same slot as gauge turbidity, since
 both are measurements: `4+ FT` there, `1.2 FNU` where a gauge reports 63680.
 
-Four waters still show nothing, and a wide scan confirms why: the Fall River, Hat Creek, the
-Klamath and the Upper Sac say nothing about clarity at all.
+A third tier reads calls made in the future tense. The Klamath says *"we will see big flows and
+probably colored water over the next few weeks"* -- a real call, but not a reading: the water is
+not off colour, it is expected to be. Tagging it `Off colour` would report a condition the guide
+never observed, so a hedged or forward-looking sentence reads **`Variable`**, which is what
+"probably, over the next few weeks" actually means. It ranks below both the grade and the
+present-tense state, so "clarity is good now but will colour up" still reports `Good`.
+
+`Clearing` and `Variable` both take the neutral accent. One is a direction and the other a
+forecast; neither is a grade, and the row must never read them as "the water is good" or "bad".
+
+**Watch this one after ship.** The Klamath's report is dated Jan 1 and its forecast window closed
+in January -- so the card is showing a nine-month-old prediction as current clarity. What saves it
+is the header two rows above, `REPORT JAN 1` with a red lamp and `OLDER` on the age bar, plus the
+"conditions may have changed" note. If that ever feels too thin, the fix is to suppress the
+forecast tier once a report passes the OLDER cutoff.
+
+Three waters still show nothing, and a wide scan confirms why: the Fall River, Hat Creek and the
+Upper Sac say nothing about clarity at all.
 
 The reading and its source sentence both go on the guide pass, so they confirm the reading rather
 than the result. A water with no gauge shows clarity in the left slot rather than captioning a

@@ -977,7 +977,10 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         // Not grades. "Clearing" is a direction and gets the neutral accent -- the guide is saying
         // it is improving, not saying it is good. The two dirty-water words are amber because they
         // are the guide's own description of water you will struggle to fish.
-        clearing: 'var(--accent)', 'off colour': 'var(--amber)', stained: 'var(--amber)',
+        // Neither of these is a grade: one is a direction, the other is a forecast. Both take the
+        // neutral accent so the row never reads them as "the water is good" or "the water is bad".
+        clearing: 'var(--accent)', variable: 'var(--accent)',
+        'off colour': 'var(--amber)', stained: 'var(--amber)',
       }[String(word || '').toLowerCase()] || 'var(--accent)';
     }
     rating() { return this.ratingOf(this.data.report.rating); }

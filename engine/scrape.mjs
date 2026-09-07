@@ -117,6 +117,14 @@ const CLARITY_STATES = [
   [/\bstained\b|\bdingy\b|\boff.?colou?r(ed)?\b/i, 'Stained'],
 ];
 const VIS_RE = /\b(\d+\+?)\s*(?:foot|feet|ft)\.?\s*(?:of\s*)?visibility\b/i;
+/* A guide can call clarity in the future tense: the Klamath says "we will see big flows and
+   probably colored water over the next few weeks". That is a call, but it is not a reading -- the
+   water is not off colour, it is expected to be. Tagging it "Off colour" would report a condition
+   the guide did not observe, so a hedged or forward-looking clarity sentence reads "Variable"
+   instead, which is what "probably, over the next few weeks" actually means.
+   Ranked below both the explicit grade and the present-tense state, so "clarity is good now but
+   will colour up" reports Good. */
+const CLARITY_SOON = /\b(will\s+see|expect(ing)?|probably|likely|could\s+see|may\s+see|anticipate)\b[^.]*\b(colou?red|colou?r\s+up|dirty|muddy|turbid|stain(ed)?|blown)\b|\b(colou?red|dirty|muddy|turbid)\b[^.]*\b(next\s+few\s+weeks|coming\s+weeks|for\s+a\s+while)\b/i;
 
 export function clarityFrom(notes) {
   const sentences = [];
@@ -140,6 +148,8 @@ export function clarityFrom(notes) {
       return { clarity: best.phrase, detail: v ? `${v[1]}\u00A0ft` : null, from: sent };
     }
   }
+  // Last: a call about what clarity is going to do rather than what it is.
+  for (const sent of sentences) if (CLARITY_SOON.test(sent)) return { clarity: 'Variable', detail: null, from: sent };
   return null;
 }
 
