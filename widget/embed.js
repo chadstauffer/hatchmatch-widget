@@ -36,7 +36,14 @@
   const hasSeries = f => !!f && Array.isArray(f.series) && f.series.length > 0;
 
   const ACCENTS = { orange: ['#FF7124', '#081215'], burnt: ['#D4632A', '#081215'], spruce: ['#2E7D4F', '#F5EDE0'] };
+  /* SLOTS are the fixture's own keys and stay as the guide wrote them -- they are also the ids
+     behind data-slot, aria-controls and the expanded set, so renaming one is a data migration.
+     SLOT_LABEL is what the card says. The third slot displays as EVENING because "midday" and
+     "afternoon" name the same part of the day to a reader, and the four rows have to read as four
+     distinct times. It covers 3pm to 7pm; the guide's own words for that hatch were "late
+     afternoon", so the label is a shade earlier than the prose it came from. */
   const SLOTS = ['morning', 'midday', 'afternoon', 'last light'];
+  const SLOT_LABEL = { morning: 'Morning', midday: 'Midday', afternoon: 'Evening', 'last light': 'Last light' };
   /* Short months, the same form the rest of the card uses for a date. "Well below normal for
      early September" is 277px against a 252px strip on a 350px card; "early Sep" fits, and the
      card says "Sep 1" everywhere else, so the long form was the odd one out anyway. */
@@ -774,12 +781,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     hatchNow() {
       const H = this.data.hatches, i = this.slotNow(), now = H[i];
       if (!H.some(h => !h.none)) return null;
-      // "This midday" and "this last light" are not English. Morning and afternoon take "this";
-      // the other two take "at", and everything takes "tomorrow" the same way.
-      const AT_SLOT = { midday: 1, 'last light': 1 };
-      const at = (k, tomorrow) => tomorrow
-        ? `Tomorrow${AT_SLOT[SLOTS[k]] ? ',' : ''} ${SLOTS[k]}`
-        : `${AT_SLOT[SLOTS[k]] ? 'At' : 'This'} ${SLOTS[k]}`;
+      // "<Time of day> hatch" at every hour -- no "this", no "at". The word "hatch" is what makes
+      // the time a subject rather than a preposition dangling off the fly name beside it.
+      // Tomorrow keeps its prefix and drops "hatch", because "tomorrow morning" is already a time
+      // and the longer form does not fit the row at 320px.
+      const at = (k, tomorrow) => tomorrow ? `Tomorrow ${SLOT_LABEL[SLOTS[k]].toLowerCase()}` : `${SLOT_LABEL[SLOTS[k]]} hatch`;
       if (now && !now.none) return { h: now, when: at(i, false) };
       const j = H.findIndex((h, k) => k > i && !h.none);
       const next = j >= 0 ? H[j] : H.find(h => !h.none);
@@ -1347,7 +1353,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     }
     /** A hatch row and, underneath it, the flies for that hatch. The row is the disclosure. */
     slotRow(h, i, isNow) {
-      const label = `<div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="color:${isNow ? 'var(--text)' : 'var(--muted)'}">${cap(SLOTS[i])}</span>${isNow ? `<span class="lamp" style="--c:var(--green);color:var(--green);font-size:10px"><i style="width:6px;height:6px"></i>Now</span>` : ''}</div>`;
+      const label = `<div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="color:${isNow ? 'var(--text)' : 'var(--muted)'}">${esc(SLOT_LABEL[SLOTS[i]] || cap(SLOTS[i]))}</span>${isNow ? `<span class="lamp" style="--c:var(--green);color:var(--green);font-size:10px"><i style="width:6px;height:6px"></i>Now</span>` : ''}</div>`;
       if (h.none) return `<div class="slot">${label}<div class="muted" style="font-size:12px">${esc(h.fallback)}</div></div>`;
       const open = this.s.expanded.has(h.slot), id = `flies-${h.slot.replace(/\s+/g, '-')}`;
       return `<div class="slot">${label}

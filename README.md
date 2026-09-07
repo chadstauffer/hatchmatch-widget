@@ -200,6 +200,16 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   two things on it that must not be confused. The rating and its meter are untouched. In the
   expanded NOW tab the block heading carries the context instead ("Guide report age"), so the
   lamp there is the bare date and does not say "report" twice.
+- **The hatch timeline's third slot reads `EVENING`, and the compact line reads `<time> HATCH`.**
+  "Midday" and "afternoon" name the same part of the day to a reader, so two of the four rows were
+  not distinct times. The slot covers 3pm to 7pm; the guide's own words for that hatch were "late
+  afternoon", so the label sits a shade earlier than the prose behind it. The fixture keys are
+  untouched -- `slot` is also the id behind `data-slot`, `aria-controls` and the expanded set, so
+  `SLOT_LABEL` is display only and renaming a slot stays a data decision rather than a CSS one.
+  On the compact card the preposition is gone: `MORNING HATCH`, `MIDDAY HATCH`, `EVENING HATCH`.
+  The word "hatch" is what makes the time a subject rather than a preposition dangling off the fly
+  name beside it. The next-day form keeps its prefix and drops the noun -- `TOMORROW MORNING` is
+  already a time, and the longer version does not fit the row at 320px.
 - **The compact card's hatch line is a control.** Tapping it opens the card on that hatch --
   HATCH tab, that slot's flies already out, scrolled to the slot and focus on its chip -- rather
   than dumping you on NOW to find it yourself. It had to become a sibling of the expand button
