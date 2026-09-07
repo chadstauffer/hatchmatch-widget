@@ -303,10 +303,14 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   "BP Weiss / Nymph" at 320px, where balance prefers the even break over the one the widow rule
   wants, and is right to.
 - **The guide CTA is part of the trip block.** It was a bordered box between the scroll content and
-  the pinned controls, belonging to neither. It sits directly under the CTA now, no border, with
-  `OR` stating the relationship: buy the flies, or hire the person. On a water with no pack it is
-  the primary action and carries the fill, because it is the only thing the card can offer on the
-  Trinity or the Pit today.
+  the pinned controls, belonging to neither. It sits in the same block now, no border. On a water
+  with no pack it is the primary action and carries the fill, because it is the only thing the
+  card can offer on the Trinity or the Pit today.
+  It sits **above** the CTA and carries no `OR`, which reverses both halves of ticket 5's sketch.
+  The relationship reads without the conjunction: a filled 48px button against a 34px line of text
+  says which one is the offer. Putting the button last also leaves the primary action closest to
+  the thumb. With `Or` gone the full label fits at every width from 320 up, so the short form
+  never fires on this line.
 - **The all-flies link left the pinned block** for the bottom of the HATCH panel, inside the
   scroll. It is a browse action and it belongs with the browsing, and the pinned block is now
   identical on all three tabs.

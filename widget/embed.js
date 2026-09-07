@@ -303,9 +303,11 @@ img{display:block}
 .ghost{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--text)}
 /* Buy the flies, or hire the person: one decision, so one block. This was a bordered box sitting
    between the scroll content and the pinned controls and belonging to neither, which is why it
-   read as orphaned. Directly under the CTA, no border, and OR states the relationship. */
+   read as orphaned. It sits directly ABOVE the CTA now, no border and no "Or" -- which reverses
+   both halves of ticket 5's sketch. The relationship still reads without the conjunction, because
+   the filled 48px button against a 34px line of text says which one is the offer, and putting the
+   button last leaves it closest to the thumb. */
 .guideline{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:34px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
-.guideline .or{color:var(--muted);font-weight:400}
 .guideline .tel{color:var(--accent);flex:none;white-space:nowrap}
 .guideline .what{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* Same idiom as the pack button: lay the long label out, and if it clips, fall back to a shorter
@@ -996,7 +998,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const w = this.data.water;
       if (!w.guidePhone) return '';
       return `<a class="guideline${primary ? ' primary' : ''}" href="tel:${w.guidePhone.replace(/\D/g, '')}" data-action="guide">`
-        + `<span class="what glabel">${primary ? '' : '<span class="or">Or</span> '}<b>Fish it with a guide</b><em>With a guide</em></span>`
+        + `<span class="what glabel"><b>Fish it with a guide</b><em>With a guide</em></span>`
         + `<span class="tel">${esc(w.guidePhone)}</span></a>`;
     }
     /** The title row: the water switcher, and the open/close control.
@@ -1326,7 +1328,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     ${this.tripRow()}
     ${d.readOnly
       ? `<div class="nopack">No pack for ${this.theName(d.water.shortName)} yet</div>${this.guideCta(true)}`
-      : `${this.packButton()}${this.guideCta(false)}`}
+      : `${this.guideCta(false)}${this.packButton()}`}
     <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
   </div>
 </div>`;
