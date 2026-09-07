@@ -130,6 +130,19 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The bar marks the river, not just the limit.** The only mark on it was the wading tick --
+  full white, taller than the cells -- while the reading itself, the edge of the lit run, had no
+  mark at all. The loudest thing on the instrument was the fact people were least asking about,
+  and it was being read as the river level. The last lit cell is the accent now and pulses while
+  the reading is live, which is what "now" already looks like on the graph six pixels above it;
+  the tick is muted, because the bar already draws the boundary as a colour change and the tick
+  only has to say where. The mark survives when the reading is not live -- where the river is is
+  a fact -- but the pulse does not, because that one is a claim about freshness. A water with no
+  threshold has no tick and still marks the reading.
+- **The graph's newest column pulses as a column**, not as a single 3px square at its top. The
+  column is the thing that means "today"; pulsing only its tip asked the eye to find the mark
+  before it could read the signal. The top cell stays the brightest of them, so the reading is
+  still legible inside the column.
 - **The wading header carries both states, each as a caption and a lit dot.**
   `WADING ● NORMAL` on the left, `CLARITY ● EXCELLENT` on the right -- the same shape the card
   already uses for `● LIVE` and `● GUIDE REPORT SEP 1`, so a reader learns the pattern once. The

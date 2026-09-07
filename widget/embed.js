@@ -184,8 +184,12 @@ img{display:block}
 .spark .col.cur i.top{background:var(--accent)}
 /* The newest reading breathes, but only when it is actually live: a pulse on a historical window
    or on a stale gauge would be claiming something the data does not support. */
-.spark.hg-live .col.cur i.top{animation:hm-pulse 2.4s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.spark.hg-live .col.cur i.top{animation:none}}
+/* The whole newest column breathes, not just its top cell. The column is the thing that means
+   "today"; pulsing one 3px square at the top of it asked the eye to find the mark before it could
+   read the signal. Lit as a column it is unmissable, and the top cell stays the brightest of them
+   so the reading itself is still legible within it. */
+.spark.hg-live .col.cur i.on{animation:hm-pulse 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.spark.hg-live .col.cur i.on{animation:none}}
 .spark .col i.on{background:color-mix(in srgb,var(--water1),var(--water2) 55%);opacity:.6}
 .spark .col i.top{background:color-mix(in srgb,var(--water1),var(--water2) 80%);opacity:1}
 /* Tight rows drop the value labels rather than the resolution: the plot keeps its cells. */
@@ -198,8 +202,16 @@ img{display:block}
 .bar.tall{height:16px}.bar.tall i{height:12px}
 .bar i.on{background:var(--seg)}
 .bar i.on.fill{animation:hm-lit 1ms linear both;animation-delay:calc(var(--i) * 32ms)}
+/* Where the river is. Accent plus pulse means "now" on the graph, so it means the same here. */
+.bar i.on.cur{background:var(--accent)}
+.bar.barlive i.on.cur{animation:hm-pulse 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.bar.barlive i.on.cur{animation:none}}
 @keyframes hm-lit{from{background:var(--off)}to{background:var(--seg)}}
-.bar .tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--text);transform:translateX(-1px)}
+/* The wading limit. It used to be the brightest thing on the bar -- full white, taller than the
+   cells -- which is why it read as the river level. It is a boundary, and the bar already draws
+   that boundary as a colour change, so it only has to mark where: muted, and it no longer
+   competes with the lit cell that is the actual reading. */
+.bar .tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--muted);transform:translateX(-1px)}
 .bar.tall .tick{top:-4px;bottom:-4px}
 /* Verdict and threshold sentence read as one statement, so they share a line and wrap together
    rather than the sentence widowing under the lamp. */
@@ -873,11 +885,16 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const cells = Array.from({ length: segs }, (_, i) => {
         const on = i < filled, top = F.min + (i + 1) * (F.max - F.min) / segs;
         const color = lim && top > F.threshold ? 'var(--amber)' : `color-mix(in srgb, var(--water1), var(--water2) ${Math.round(i / (segs - 1) * 100)}%)`;
-        return `<i class="${on ? 'on' : ''}${on && !this.s.filled ? ' fill' : ''}" style="--i:${i};--seg:${color}"></i>`;
+        // The last lit cell is where the river actually is. It gets the accent and, when the
+        // reading is live, the pulse -- the same thing "now" already looks like on the graph
+        // directly above this bar. Before, the only mark on the bar was the wading limit, so the
+        // loudest thing on it was the fact people were least asking about.
+        const cur = on && i === filled - 1;
+        return `<i class="${on ? 'on' : ''}${cur ? ' cur' : ''}${on && !this.s.filled ? ' fill' : ''}" style="--i:${i};--seg:${color}"></i>`;
       }).join('');
       const tick = lim ? `<span class="tick" style="left:${((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2)}%"></span>` : '';
       const label = `${num(f.value)} CFS on a scale of ${num(F.min)} to ${num(F.max)}` + (lim ? `, ${F.thresholdLabel} ${num(F.threshold)}` : '');
-      return `<div class="bar${tall ? ' tall' : ''}" role="img" aria-label="${label}">${cells}${tick}</div>`;
+      return `<div class="bar${tall ? ' tall' : ''}${f.live && !f.failed ? ' barlive' : ''}" role="img" aria-label="${label}">${cells}${tick}</div>`;
     }
     ratingOf(r) { return { label: r, n: { Poor: 1, Fair: 2, 'Fair to Good': 3, Good: 4, Great: 5 }[r] || 0 }; }
     /** The guide's clarity word, lit the way the wading lamp beside it is. Poor / Fair / Good /
