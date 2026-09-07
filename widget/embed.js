@@ -1230,7 +1230,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     wadingBlock() {
       const d = this.data, w = this.wading(), F = d.water.flow;
       const bar = this.flowBar(true), clarity = d.report.clarity, turb = this.s.turbidity;
-      if (!w && !bar && !clarity) return '';
+      // The Fall River and the McCloud have no gauge, so there is no bar, no verdict and no
+      // scale -- but people still wade them, and the caution is true without a gauge. They get
+      // the note on its own rather than nothing: no heading, no axis, nothing that would imply
+      // a measurement the card does not have.
+      if (!w && !bar && !clarity) return `<div class="sec rule" style="padding-top:14px">${this.wadingNote()}</div>`;
       // The left slot holds the most load-bearing state this water has. With a wading limit on
       // file that is the verdict; without one it is where the flow sits in this river's own
       // record, which is the whole reason ticket 6.4 computed it -- five of eight waters had
@@ -1282,7 +1286,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       </span>` : ''}
     </div>
     ${bar}${ranges}
-    ${(d.report.wadingNote || []).length ? `<div class="wadenote"><span class="label">From the report</span><span>${(d.report.wadingNote || []).map(esc).join(' ')}</span></div>` : ''}
+    ${this.wadingNote()}
   </div>`;
     }
     /** Report age on the same instrument as the other two: 24 cells, zones lit quietly, and the
@@ -1301,6 +1305,18 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const label = `Guide report ${fr.days} day${fr.days === 1 ? '' : 's'} old, current under ${fr.cutoffs.current} days, older past ${max}`;
       return `<div class="bar tall age" role="img" aria-label="${label}">${cells}</div>
     <div class="ranges"><span style="left:0">0</span><span class="mid" style="left:${mid}">${fr.cutoffs.current}&nbsp;days</span><span style="right:0">${max}&nbsp;days</span></div>`;
+    }
+    /** What the angler is told about getting in the water.
+        Where the guide wrote something, it is theirs, verbatim, under their name. Where they did
+        not, the card says something generic and TRUE OF EVERY RIVER, under a heading that does
+        not put it in their mouth -- because a caution about changing flows is not a claim about
+        this water, and attributing our sentence to a guide would be the one thing this whole
+        block exists to avoid. Neither form is a wading verdict: no river is called wadeable here.
+        This fallback is the only card-authored sentence in the block. */
+    wadingNote() {
+      const own = this.data.report.wadingNote || [];
+      if (own.length) return `<div class="wadenote"><span class="label">Guide notes</span><span>${own.map(esc).join(' ')}</span></div>`;
+      return `<div class="wadenote"><span class="label">Before you go</span><span>Flows can change without notice. Check conditions before you wade.</span></div>`;
     }
     /** Water temperature against the 50-65 trout-active band. A tailwater like the Lower Sac barely
         moves; a freestone swings hard. Absent unless the gauge actually reports 00010. */

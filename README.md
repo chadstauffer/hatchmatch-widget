@@ -434,8 +434,20 @@ The card still refuses to compute a wading verdict without a threshold a person 
 ticket 6.4's hard line and it has not moved. But where the shop has actually written something
 about footing, the card now says it, **in their words**:
 
-> **FROM THE REPORT** — Be careful though, this can be a slippery river to wade. We recommend a
-> wading staff when fishing the Pit.
+> **GUIDE NOTES** — Be careful though, this can be a slippery river to wade. We recommend a
+> wading staff when fishing the Pit. Be aware that the flows on the Pit can and will change
+> without notice, so definitely check before you go!
+
+Every water carries something here. Where the guide wrote nothing, the card says a line that is
+true of every river, under a heading that does not put it in their mouth:
+
+> **BEFORE YOU GO** — Flows can change without notice. Check conditions before you wade.
+
+That fallback is the only card-authored sentence in this block, and it is deliberately not a
+claim about any particular water. Neither form is a wading verdict: no river is called wadeable
+here, and none will be until a guide sets a number. Waters with no gauge at all -- the Fall River
+and the McCloud -- render the note on its own, with no heading, axis or bar, because there is no
+measurement to imply.
 
 This is extraction, never authorship. `wadingNotes()` in `engine/scrape.mjs` lifts whole sentences
 verbatim and the resolver puts the lifted passage on the guide pass, because the words are theirs
@@ -451,8 +463,15 @@ slippery and footing, sentences over 200 characters are treated as run-ons and d
 two are shown.
 
 Missing real advice is the acceptable error here. Printing a guide-services blurb under a heading
-about safety is not. Today that yields the Pit's two sentences and nothing on the other seven --
-including the Trinity's genuine "good wading opportunities" clause, which the length cap drops.
+about safety is not. A second fix went in with it: a closing heading or a line break now ends a sentence at scrape
+time. Stripping those tags first ran headings straight into the prose after them, which is how
+the Trinity's real clause about wading access ended up buried in a 305-character run-on beside a
+list of shuttle services. Marking the boundary before the tags come out separates them without
+editing a word. The pattern also covers flow-change cautions now, which is a third real sentence
+on the Pit.
+
+Today that yields three sentences on the Pit, one on the Trinity, and the generic line on the
+other six.
 
 It renders in sentence case at prose weight, so it cannot be mistaken for one of the card's
 instrument readings: a caution in the guide's voice, not a verdict the card computed.

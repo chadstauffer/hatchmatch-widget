@@ -58,8 +58,8 @@ const clean = h => unent(strip(h)).replace(/\s+/g, ' ').trim();
     other failure -- the page has run-on passages with no sentence breaks, and one of them buries
     a real clause about wading access inside a list of shuttle services. Missing real advice is
     the acceptable error here; printing a guide-services blurb as a safety note is not. */
-const WADING_RE = /\b(wading|wade|waders|slippery|footing)\b/i;
-const WADING_MAX = 200;      // longer than this is a run-on from the page, not a sentence
+const WADING_RE = /\b(wading|wade|waders|slippery|footing)\b|\bflows?\b[^.]*\b(change|rise|drop|without notice)\b|\bcheck before you go\b/i;
+const WADING_MAX = 220;      // longer than this is a run-on from the page, not a sentence
 export function wadingNotes(notes) {
   const out = [];
   for (const n of notes || []) {
@@ -68,7 +68,7 @@ export function wadingNotes(notes) {
       if (t && t.length <= WADING_MAX && WADING_RE.test(t) && !out.includes(t)) out.push(t);
     }
   }
-  return out.slice(0, 2);    // two sentences is a caution; more is the notes tab
+  return out.slice(0, 3);    // a few sentences is a caution; more is the notes tab
 }
 
 /** "September 1, 2026" -> "2026-09-01". Never guessed: a block without a parseable date is skipped. */
@@ -142,8 +142,18 @@ export function parsePage(html) {
     const rating = lit ? clean(lit[1]) : null;
 
     const rep = /<div class="report">([\s\S]*?)<\/div>/i.exec(block);
+    // A closing heading or a line break ends a sentence. Stripping the tags first ran headings
+    // straight into the prose after them, so "Shuttle Services:" and "Access To the Trinity
+    // River" merged with the paragraph following and buried a real clause about wading access in
+    // a 305-character run-on. Marking the boundary before the tags come out keeps sentences
+    // separate without editing a word of what the guide wrote.
+    const marked = rep
+      ? rep[1].replace(/<b>\s*Report:\s*<\/b>/i, '')
+              .replace(/<\/(?:strong|b|h\d|p|li)>/gi, '$&\u0001')
+              .replace(/<br\s*\/?>/gi, '\u0001')
+      : '';
     const notes = rep
-      ? clean(rep[1].replace(/<b>\s*Report:\s*<\/b>/i, '')).split(/(?<=[.!?])\s{2,}/).map(s => s.trim()).filter(Boolean)
+      ? clean(marked).split(/\u0001|(?<=[.!?])\s{2,}/).map(s => s.trim().replace(/^[\u0001\s]+/, '')).filter(Boolean)
       : [];
 
     // Hot flies: every bullet in the block after the "Hot Flies:" marker. Sub-heads such as
