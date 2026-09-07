@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T22:58:57.931Z",
+ "generatedAt": "2026-09-07T23:04:40.519Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -255,7 +255,8 @@
   "publishedAt": "2026-08-25",
   "author": null,
   "rating": "Good",
-  "clarity": null,
+  "clarity": "Good",
+  "clarityFrom": "The latest news on the Pit is the clarity is good, flows are where they should be, and the temps are not too warm for the fish in Pit 3 and 4.",
   "wading": null,
   "notes": [
    "The latest news on the Pit is the clarity is good, flows are where they should be, and the temps are not too warm for the fish in Pit 3 and 4. Fishing has been good as well with nymphs & Euronymph set ups. The fish will clump up in the drainages with cold seeps/creek mouths. Keep a thermometer handy and call it quits when you get readings above 65 F. Good flies are always Perdigons, Hotspots, Rubberlegs, and don't discount a well-fished crayfish pattern. Some people fish Woolly Buggers, TJ Hookers can be very effective. The fall will be a good one on the Pit!",
@@ -2135,6 +2136,7 @@
   "Rating: Good.",
   "Prices from the catalog: 20 picks run $1.90 to $6.95; 7 are $2.95.",
   "FOR THE GUIDE, Pit: the card condenses your wading notes to short phrases -- \"Slippery footing\" (from \"Be careful though, this can be a slippery river to wade.\"); \"Wading staff advised\" (from \"We recommend a wading staff when fishing the Pit.\"); \"Flows change without notice\" (from \"Be aware that the flows on the Pit can and will change without notice, so definitely check before you go!\"). The phrases are ours and the sentences are yours; confirm each one says what you meant. Your full text is unchanged on the notes tab.",
+  "FOR THE GUIDE, Pit: the card reads clarity as \"Good\" from your own line -- \"The latest news on the Pit is the clarity is good, flows are where they should be, and the temps are not too warm for the fish in Pit 3 and 4.\". Confirm that is the word you meant.",
   "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
   "FOR THE GUIDE, Pit: 2 numbers only you can set -- a wading limit (\"wadeable below X CFS\"). Until then the card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict with no number behind it is a safety claim we have not earned; and how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]

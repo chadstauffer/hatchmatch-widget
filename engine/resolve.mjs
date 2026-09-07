@@ -151,6 +151,10 @@ export function resolveReport(fixture, catalog, aliases) {
         + fixture.report.wadingTags.map(t => `"${t.phrase}" (from "${t.from}")`).join('; ')
         + `. The phrases are ours and the sentences are yours; confirm each one says what you meant. Your full text is unchanged on the notes tab.`
       : null,
+    // Clarity is now read out of their prose rather than left blank, so it goes to them too.
+    fixture.report.clarityFrom
+      ? `FOR THE GUIDE, ${fixture.water.shortName}: the card reads clarity as "${fixture.report.clarity}" from your own line -- "${fixture.report.clarityFrom}". Confirm that is the word you meant.`
+      : null,
     fixture.readOnly ? 'Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.' : null,
     // The numbers only a person can supply, as ONE ask rather than one per number -- a guide
     // reads this list once, and two separate lines asking them to think about the same water is

@@ -92,6 +92,30 @@ const WADING_TAGS = [
   [/\b(deep|dangerous|hazard)\w*\b[^.]*\bwad/i,       'Deep in places'],
 ];
 const NEGATED = /\b(not|no|never|isn't|aren't|don't|doesn't|avoid)\b/i;
+/** The shop's own clarity word, where they wrote one in the prose.
+    The page has no clarity field. Only the Lower Sac's hand-built fixture carries one, and it was
+    transcribed from exactly this sentence pattern -- so read it the same way for every water.
+
+    Deliberately narrow: only "clarity is <word>" and "<word> clarity", against the four values the
+    card knows. That is what keeps the Trinity out, and the Trinity is the reason to be careful --
+    "the restoration channel was adding turbidity yesterday, it is now cleared up below it with 4+
+    foot visibility" is a real statement about clarity that does not reduce to one of four words.
+    Saying nothing there is right; saying "Good" would be inventing a grade they did not give. */
+const CLARITY_WORDS = 'excellent|good|fair|poor';
+const CLARITY_RE = new RegExp(`\\bclarity\\s+is\\s+(${CLARITY_WORDS})\\b|\\b(${CLARITY_WORDS})\\s+clarity\\b`, 'i');
+export function clarityFrom(notes) {
+  for (const n of notes || []) {
+    for (const sent of String(n).split(/(?<=[.!?])\s+/)) {
+      const m = CLARITY_RE.exec(sent);
+      if (m) {
+        const w = (m[1] || m[2]).toLowerCase();
+        return { clarity: w.charAt(0).toUpperCase() + w.slice(1), from: sent.trim() };
+      }
+    }
+  }
+  return null;
+}
+
 export function wadingTags(sentences) {
   const out = [];
   for (const sent of sentences || []) {
@@ -241,10 +265,11 @@ export function parsePage(html) {
       pk.id = n === 1 ? base : `${base}-${n}`;
     }
 
+    const cl = clarityFrom(notes);
     out.push({
       note: `Scraped from ${SRC} by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.`,
       water: { ...water, name, packName: null, flow: null, sections: [], guidePhone: GUIDE_PHONE, closed: false },
-      report: { publishedAt, author: null, rating, clarity: null, wading: null, notes,
+      report: { publishedAt, author: null, rating, clarity: cl ? cl.clarity : null, clarityFrom: cl ? cl.from : null, wading: null, notes,
                 wadingNote: wadingNotes(notes), wadingTags: wadingTags(wadingNotes(notes)),
                 notesPermission: 'pending', source: { url: SRC, fetchedAt: new Date().toISOString().slice(0, 10) } },
       hatches: [], readOnly: true, picks, substitutes: {},

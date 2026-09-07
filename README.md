@@ -439,7 +439,11 @@ about footing, the card now says it, **in their words**:
 Every water carries something here. Where the guide wrote nothing, the card says a line that is
 true of every river, under a heading that does not put it in their mouth:
 
-> **BEFORE YOU GO** — Check flows before you wade
+> **BEFORE YOU GO** — Look before you wade
+
+Not "check flows": the card just did that, in 44px type at the top of the same panel. The thing it
+cannot do is see the water, which is the whole of the advice -- the number is a number, the river
+in front of you is the fact.
 
 **The phrases are a fixed vocabulary, not per-report rewriting.** Each one is written once,
 reviewed once, and fired by a pattern in the guide's own words, so two reports that say the same
@@ -483,6 +487,24 @@ other six.
 
 It renders in sentence case at prose weight, so it cannot be mistaken for one of the card's
 instrument readings: a caution in the guide's voice, not a verdict the card computed.
+
+## Clarity, read from the prose
+
+The shop's page has no clarity field. Only the Lower Sac carried one, hand-transcribed into its
+fixture from the sentence *"the clarity is excellent"* -- so the card now reads that same sentence
+pattern for every water. The Pit says *"the clarity is good"* and the McCloud says *"Clarity is
+excellent"*, and both now show it. That is two more waters with a second filled slot, from the
+shop's own words rather than by invention.
+
+Narrow on purpose: only `clarity is <word>` and `<word> clarity`, against the four values the card
+knows. The Trinity is why. It says *"the restoration channel below the Cemetery Hole was adding
+turbidity to the river yesterday, it is now cleared up below it with 4+ foot visibility"* -- a real
+statement about clarity that does not reduce to one of four words. Reporting nothing there is
+right; reporting "Good" would be inventing a grade the guide did not give.
+
+The reading and its source sentence both go on the guide pass, so they confirm the reading rather
+than the result. A water with no gauge shows clarity in the left slot rather than captioning a
+`FLOW RANGE` bar it does not have.
 
 ## Interim — the report-age cutoffs are a placeholder, not a standard
 

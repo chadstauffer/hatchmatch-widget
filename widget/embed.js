@@ -1254,11 +1254,14 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // elsewhere; the moment the shop returns thresholds it becomes wading+flow on the rest.
       const pos = this.flowPosition();
       const flowSlot = pos ? { cap: 'Flow', word: pos.short, color: pos.usual ? 'var(--green)' : 'var(--amber)' } : null;
-      const head = w ? { cap: 'Wading', word: w.label, color: w.color }
-        : flowSlot || { cap: 'Flow range', word: null, color: null };
-      const right = clarity
+      let head = w ? { cap: 'Wading', word: w.label, color: w.color }
+        : flowSlot || (bar ? { cap: 'Flow range', word: null, color: null } : null);
+      let right = clarity
         ? { cap: 'Clarity', word: clarity, color: this.clarityLamp(clarity), turb }
         : (w && flowSlot ? flowSlot : null);
+      // A water with no gauge has no bar, so "Flow range" would caption nothing. Where that
+      // leaves only clarity, it takes the left slot rather than sitting alone on the right.
+      if (!head && right) { head = right; right = null; }
       const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
       // The mid slot of the axis names what the bar is measured against: the wading limit at its
       // own tick where there is one, otherwise the record the position verdict comes from. It sits
@@ -1324,7 +1327,10 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const tags = this.data.report.wadingTags || [];
       if (tags.length) return `<div class="wadenote"><span class="label">Guide notes</span>`
         + `<span class="tags">${tags.map(t => `<b>${esc(t.phrase)}</b>`).join('<i aria-hidden="true">&middot;</i>')}</span></div>`;
-      return `<div class="wadenote"><span class="label">Before you go</span><span class="tags"><b>Check flows before you wade</b></span></div>`;
+      // Not "check flows" -- the card just did that, in 44px type at the top of this panel. The
+      // thing it cannot do is see the water, and that is the whole advice: the number is a
+      // number, and the river in front of you is the fact.
+      return `<div class="wadenote"><span class="label">Before you go</span><span class="tags"><b>Look before you wade</b></span></div>`;
     }
     /** Water temperature against the 50-65 trout-active band. A tailwater like the Lower Sac barely
         moves; a freestone swings hard. Absent unless the gauge actually reports 00010. */

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T22:58:57.671Z",
+ "generatedAt": "2026-09-07T23:04:40.247Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -23,7 +23,8 @@
   "publishedAt": "2026-08-11",
   "author": null,
   "rating": "Good",
-  "clarity": null,
+  "clarity": "Excellent",
+  "clarityFrom": "Clarity is excellent and the temps are holding in the upper river.",
   "wading": null,
   "notes": [
    "To close the chapter on the bear thing in the Conservancy, we heard someone sprayed the bear which we hope will deter them from interacting with humans in the future. Good reports coming in on the angling still, and the storms this week should stir up the pot hatch-wise. Clarity is excellent and the temps are holding in the upper river. Overall the river is fishing well, best before and after the sun is on the water. Look to see more browns in the river as they get ready to spawn this fall. Dry-dropper with a Chubby Chernobyl hanging a Weiss Firefly, Walt's Worm, Olive Hotspot, or Sweet Pea is a good setup. The Yellow Sallies are coming off in the afternoons, so swap your dropper with a UV Sally or Jiggy Yellow Sally. The Browns are moving up from the lake into the upper section of the river as they ready to spawn, so streamer fishing can get you hooked up to a big one. To reserve a day with one of our expert guides to experience one of the most picturesque streams in the north state, call Bryan in Outfitters at 800-669-3474."
@@ -883,6 +884,7 @@
  "observations": [
   "Rating: Good.",
   "Prices from the catalog: 9 picks run $2.50 to $4.50; 3 are $2.95.",
+  "FOR THE GUIDE, McCloud: the card reads clarity as \"Excellent\" from your own line -- \"Clarity is excellent and the temps are holding in the upper river.\". Confirm that is the word you meant.",
   "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
   "FOR THE GUIDE, McCloud: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
