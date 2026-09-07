@@ -243,6 +243,10 @@ img{display:block}
    the last thing on this card that should give way to a caption, and only waters with a 63680
    gauge ever reach the second line. */
 .wadehead{flex-wrap:wrap;row-gap:6px}
+/* The guide's own wading advice, where they wrote any. Sentence case and prose weight, so it
+   cannot be mistaken for one of the card's instrument readings: it is a caution in their words,
+   not a verdict this card computed. A water with no threshold still gets no verdict. */
+.wadenote{display:flex;flex-direction:column;gap:3px;font-size:12px;line-height:1.45;color:var(--muted)}
 /* The caption is one word on both variants now -- WADING or FLOW -- so it cannot break. The row
    still wraps as a backstop for a long state word on a narrow card. */
 .headcap{white-space:nowrap}
@@ -1278,6 +1282,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       </span>` : ''}
     </div>
     ${bar}${ranges}
+    ${(d.report.wadingNote || []).length ? `<div class="wadenote"><span class="label">From the report</span><span>${(d.report.wadingNote || []).map(esc).join(' ')}</span></div>` : ''}
   </div>`;
     }
     /** Report age on the same instrument as the other two: 24 cells, zones lit quietly, and the

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T22:06:09.298Z",
+ "generatedAt": "2026-09-07T22:41:24.425Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -13,240 +13,7 @@
   "lon": -121.4228,
   "name": "Hat Creek",
   "packName": null,
-  "flow": {
-   "min": 0,
-   "max": 200,
-   "threshold": null,
-   "thresholdLabel": "wading limit",
-   "source": {
-    "min": "derived",
-    "max": "derived",
-    "threshold": "unset"
-   },
-   "lastReading": null,
-   "scaleSource": "USGS daily statistics 1927–2026, 192 CFS at the 70th percentile of daily p95, rounded up",
-   "position": {
-    "bands": [
-     [
-      89,
-      115,
-      146,
-      160
-     ],
-     [
-      92,
-      114,
-      150,
-      168
-     ],
-     [
-      91,
-      112,
-      150,
-      164
-     ],
-     [
-      89,
-      113,
-      149,
-      161
-     ],
-     [
-      88,
-      111,
-      150,
-      168
-     ],
-     [
-      87,
-      114,
-      150,
-      165
-     ],
-     [
-      93,
-      115,
-      148,
-      166
-     ],
-     [
-      98,
-      115,
-      149,
-      166
-     ],
-     [
-      99,
-      119,
-      149,
-      168
-     ],
-     [
-      103,
-      118,
-      154,
-      172
-     ],
-     [
-      105,
-      124,
-      162,
-      179
-     ],
-     [
-      107,
-      132,
-      172,
-      189
-     ],
-     [
-      119,
-      138,
-      189,
-      213
-     ],
-     [
-      131,
-      151,
-      210,
-      242
-     ],
-     [
-      126,
-      151,
-      230,
-      262
-     ],
-     [
-      127,
-      152,
-      233,
-      279
-     ],
-     [
-      111,
-      135,
-      222,
-      269
-     ],
-     [
-      111,
-      126,
-      212,
-      251
-     ],
-     [
-      92,
-      113,
-      184,
-      214
-     ],
-     [
-      92,
-      114,
-      170,
-      194
-     ],
-     [
-      84,
-      107,
-      152,
-      174
-     ],
-     [
-      89,
-      111,
-      150,
-      169
-     ],
-     [
-      83,
-      103,
-      141,
-      159
-     ],
-     [
-      88,
-      108,
-      143,
-      160
-     ],
-     [
-      83,
-      102,
-      137,
-      154
-     ],
-     [
-      88,
-      108,
-      142,
-      160
-     ],
-     [
-      82,
-      103,
-      140,
-      157
-     ],
-     [
-      91,
-      110,
-      144,
-      161
-     ],
-     [
-      86,
-      110,
-      147,
-      164
-     ],
-     [
-      89,
-      111,
-      150,
-      166
-     ],
-     [
-      86,
-      114,
-      147,
-      166
-     ],
-     [
-      90,
-      114,
-      153,
-      171
-     ],
-     [
-      89,
-      115,
-      151,
-      168
-     ],
-     [
-      89,
-      114,
-      149,
-      160
-     ],
-     [
-      89,
-      113,
-      151,
-      163
-     ],
-     [
-      88,
-      114,
-      148,
-      161
-     ]
-    ],
-    "years": "1927–2026"
-   }
-  },
+  "flow": null,
   "sections": [],
   "guidePhone": "800-669-3474",
   "closed": false
@@ -260,10 +27,11 @@
   "notes": [
    "With storms rolling in and the weather cooling, the Blue Wing Olives and midges should be pouring off. Look for rising fish in the flats, the riffles below the Hwy 299 bridge will yield fish on Rubberlegs and Golden Stone nymphs. Dry-dropper rigs will allow you to pick up a fish or two on the dry, BP Weiss and the Weiss Firefly, Olive Hotspots, Sweet Peas, Zebra Midges and anything #18 or smaller is the name of the game for a dropper there. Bring the small dries, #18 - 22 Adams, and any Baetis dries you have. BWO nymphs to bring are the Sweet Pea, Zack's BWO Jig Nation, Olive S&M, Black Micro May, Rubberlegs, and whatever is jammed in the fly cup stuffed on the bottom of your pack - sometimes on Hat you get the inside slider when you're looking for the fastball. Hat Creek is fun in the fall!"
   ],
+  "wadingNote": [],
   "notesPermission": "pending",
   "source": {
    "url": "https://www.theflyshop.com/streamreport.html",
-   "fetchedAt": "2026-09-05"
+   "fetchedAt": "2026-09-07"
   }
  },
  "hatches": [],
@@ -1210,6 +978,6 @@
   "Rating: Fair to Good.",
   "Prices from the catalog: 9 picks run $2.00 to $3.50; 4 are $2.95.",
   "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
-  "FOR THE GUIDE, Hat Creek: 2 numbers only you can set -- a wading limit (\"wadeable below X CFS\"). Until then the card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict with no number behind it is a safety claim we have not earned; and how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
+  "FOR THE GUIDE, Hat Creek: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
 }

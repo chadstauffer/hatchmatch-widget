@@ -428,6 +428,35 @@ honestly.
   `window.HatchMatch.events` as `water_temp_unavailable`.
 - A host that would rather run its own proxy points at it with `data-temp-proxy`.
 
+## The guide's wading advice, lifted rather than written
+
+The card still refuses to compute a wading verdict without a threshold a person set -- that is
+ticket 6.4's hard line and it has not moved. But where the shop has actually written something
+about footing, the card now says it, **in their words**:
+
+> **FROM THE REPORT** — Be careful though, this can be a slippery river to wade. We recommend a
+> wading staff when fishing the Pit.
+
+This is extraction, never authorship. `wadingNotes()` in `engine/scrape.mjs` lifts whole sentences
+verbatim and the resolver puts the lifted passage on the guide pass, because the words are theirs
+but the choice of which sentence is ours.
+
+**The pattern is deliberately tight, and the reason is a near miss.** A loose scan across the
+eight reports returns four hits on two waters -- and half of them are wrong. "staff" alone pulls
+*"Our Professional Guide Staff has decades of experience"* off the Trinity, and "cross", "deep" and
+"current" describe the water rather than the angler's footing. The other failure is structural:
+the page has run-on passages with no sentence breaks, one of which buries a real clause about
+wading access inside a list of shuttle services. So the match is limited to wading, wade, waders,
+slippery and footing, sentences over 200 characters are treated as run-ons and dropped, and at most
+two are shown.
+
+Missing real advice is the acceptable error here. Printing a guide-services blurb under a heading
+about safety is not. Today that yields the Pit's two sentences and nothing on the other seven --
+including the Trinity's genuine "good wading opportunities" clause, which the length cap drops.
+
+It renders in sentence case at prose weight, so it cannot be mistaken for one of the card's
+instrument readings: a caution in the guide's voice, not a verdict the card computed.
+
 ## Interim — the report-age cutoffs are a placeholder, not a standard
 
 **14 days to CURRENT, 30 to OLDER. Neither number came from the shop.** They are the second thing

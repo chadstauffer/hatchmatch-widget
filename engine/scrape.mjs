@@ -47,6 +47,30 @@ const unent = s => s.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#3
   .replace(/&mdash;/g, '—').replace(/&ndash;/g, '–').replace(/&hellip;/g, '…').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n));
 const clean = h => unent(strip(h)).replace(/\s+/g, ' ').trim();
 
+/** The guide's own wading advice, lifted verbatim out of their prose.
+    This is extraction, never authorship: the card cannot invent a wading verdict without a
+    threshold, but where the shop has actually written something about footing it should say so
+    in their words. Every sentence here is theirs, unedited, and flagged for them to confirm.
+
+    The pattern is deliberately tight. A loose one is worse than nothing: "staff" alone pulls
+    "Our Professional Guide Staff has decades of experience" off the Trinity, and "cross", "deep"
+    and "current" describe the water rather than the angler's footing. The length cap catches the
+    other failure -- the page has run-on passages with no sentence breaks, and one of them buries
+    a real clause about wading access inside a list of shuttle services. Missing real advice is
+    the acceptable error here; printing a guide-services blurb as a safety note is not. */
+const WADING_RE = /\b(wading|wade|waders|slippery|footing)\b/i;
+const WADING_MAX = 200;      // longer than this is a run-on from the page, not a sentence
+export function wadingNotes(notes) {
+  const out = [];
+  for (const n of notes || []) {
+    for (const sent of String(n).split(/(?<=[.!?])\s+/)) {
+      const t = sent.trim();
+      if (t && t.length <= WADING_MAX && WADING_RE.test(t) && !out.includes(t)) out.push(t);
+    }
+  }
+  return out.slice(0, 2);    // two sentences is a caution; more is the notes tab
+}
+
 /** "September 1, 2026" -> "2026-09-01". Never guessed: a block without a parseable date is skipped. */
 const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 export function isoDate(s) {
@@ -179,6 +203,7 @@ export function parsePage(html) {
       note: `Scraped from ${SRC} by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.`,
       water: { ...water, name, packName: null, flow: null, sections: [], guidePhone: GUIDE_PHONE, closed: false },
       report: { publishedAt, author: null, rating, clarity: null, wading: null, notes,
+                wadingNote: wadingNotes(notes),
                 notesPermission: 'pending', source: { url: SRC, fetchedAt: new Date().toISOString().slice(0, 10) } },
       hatches: [], readOnly: true, picks, substitutes: {},
     });

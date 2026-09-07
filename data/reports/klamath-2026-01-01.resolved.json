@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T22:06:09.472Z",
+ "generatedAt": "2026-09-07T22:41:24.624Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -260,10 +260,11 @@
   "notes": [
    "The river is definitely showing signs from the last storm and we will see big flows and probably colored water over the next few weeks. The upper river will probably see some more fish coming through, and we hope, up into Oregon! If you are fishing, swing low and slow for best success. We're looking forward to June when the halfpounders and early summer run fish show up!"
   ],
+  "wadingNote": [],
   "notesPermission": "pending",
   "source": {
    "url": "https://www.theflyshop.com/streamreport.html",
-   "fetchedAt": "2026-09-05"
+   "fetchedAt": "2026-09-07"
   }
  },
  "hatches": [],
