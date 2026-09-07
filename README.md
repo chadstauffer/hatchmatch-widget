@@ -214,6 +214,13 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   render() replaces the node on every state change, so the icon would arrive already rotated and
   never animate. The resting angle is CSS and the tween is started by hand from the angle it just
   left: measured at 0-5-25-41-45 degrees opening and 45-31-12-2-0 closing. Reduced motion skips it.
+- **The rating never breaks, and the lamp sheds a word to protect it.** Renaming the lamp to
+  `GUIDE REPORT` made it five characters longer than `UPDATED`, which pushed the shop's own rating
+  into wrapping as `FAIR TO / GOOD` at 350px and below -- on the three waters carrying that word.
+  A shop's rating breaking mid-phrase reads as a mistake, so it is `nowrap` and the lamp drops
+  "Guide" instead: `REPORT SEP 4` still names the source, which is the whole reason the lamp was
+  renamed. Same order of sacrifice as the strip's "Read" and the flow head's caption. Verified
+  across eight waters by six widths: no wrap, no overflow.
 - **The header lamp names whose date it is: `GUIDE REPORT SEP 1`, not `UPDATED SEP 1`.** It sits
   directly above a live CFS figure, which made it read as the date of the flow. Those are two
   different kinds of freshness on one card and they are four days apart -- the flow is from
@@ -287,16 +294,16 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   has. With a limit on file that is the wading verdict; without one it is where the flow sits in
   this river's own record -- what ticket 6.4 computed, and which five of eight waters had no place
   to say outside a strip frame that cycles every six seconds.
-  `WADING · NORMAL` on the pilot, `FLOW FOR EARLY SEP · WELL BELOW NORMAL` on the Pit.
-  **The caption carries the period on purpose.** Every band word contains "normal", and `NORMAL`
-  under `WADING` means under the shop's limit while `BELOW NORMAL` means low for the date -- the
-  same word, two measurements, now in the same position across waters. Naming the comparison is
-  what keeps them apart. That lamp is the accent rather than a state colour: the percentile is
-  descriptive, and lighting "well above normal" amber would make it the safety verdict 6.4 forbids.
-  The caption never breaks inside itself -- "Flow for early / Sep" reads as a mistake -- so it is
-  `nowrap`, and below 345px the filler word goes first, the same order of sacrifice the live strip
-  makes with "Read". 36 combinations of six waters by six widths: no broken caption, no overflow,
-  every header one line. A water with no gauge at all still renders no block, having no scale.
+  `WADING · NORMAL` on the pilot, `FLOW · WELL BELOW NORMAL` on the Pit -- same shape, one-word
+  caption either way. What it is compared against goes **below the bar**, where the temperature
+  block already puts its source: `COMPARED WITH EARLY SEP, 1975-2026`. That keeps the header row
+  the same structure on every water and carries the record behind the verdict as provenance.
+  Its lamp is state-lit like the others: **green inside p10-p90, amber outside**. That is the
+  definition of the band rather than a judgement laid over it -- the outer two words are literally
+  the outliers -- so it takes a colour without becoming the safety verdict 6.4 forbids. No word
+  there says anything about wading.
+  36 combinations of six waters by six widths: no overflow, every header one line. A water with no
+  gauge at all still renders no block, having no scale to draw.
 - **The clarity tick meter is gone, the word stays.** Its positions (`{Poor:3, Fair:9, Good:15,
   Excellent:22}` of 24) were invented placements for a four-value ordinal, already commented in
   the source as illustrative. No water we carry has a turbidity gauge, so there was never a number

@@ -243,18 +243,23 @@ img{display:block}
    the last thing on this card that should give way to a caption, and only waters with a 63680
    gauge ever reach the second line. */
 .wadehead{flex-wrap:wrap;row-gap:6px}
-/* The caption is a phrase and must never break inside itself -- "Flow for early / Sep" reads as
-   a mistake. If the pair will not fit, the lamp drops to its own line instead, and below 335px
-   the filler word goes first: same order of sacrifice as the live strip's "Read". */
+/* The caption is one word on both variants now -- WADING or FLOW -- so it cannot break. The row
+   still wraps as a backstop for a long state word on a narrow card. */
 .headcap{white-space:nowrap}
 .wadehead .row{flex-wrap:wrap;row-gap:4px}
-@container (max-width:344px){.forword{display:none}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
 /* "Fair to Good" plus the word FISHING plus the meter overruns a 350px card. The word is the
    part that gives: a rating beside a lamp needs no caption. */
 @container (max-width:409px){.fishlabel{display:none}}
+/* The shop's rating is their word and must never break inside itself -- "FAIR TO / GOOD" reads as
+   a mistake. Renaming this lamp to GUIDE REPORT made it five characters longer than UPDATED and
+   pushed that rating into wrapping at 350px and below on the three waters rated "Fair to Good".
+   The filler word goes instead: "REPORT SEP 4" still names the source, which is the whole reason
+   the lamp was renamed. Same order of sacrifice as the strip's "Read" and the flow head's "for". */
+.rateword{white-space:nowrap}
+@container (max-width:359px){.guideword{display:none}}
 /* The compact wading row carries the same caption, word and lamp as the expanded header, so the
    caption is not the part that gives -- dropping it made the two cards disagree at exactly the
    widths most people hold. Measured, the three fit on one line down to 335px and wrap at 330.
@@ -801,12 +806,16 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // about the shop's own work, and "stale" grades their diligence rather than describing a
       // date -- the same failure ticket 6.3 existed to catch. These say how old it is and stop.
       const verdict = d < c.current ? 'Current' : d < c.recent ? 'Recent' : 'Older';
+      // `labelShort` drops the word "Guide" so the header can shed it on a tight row. Naming the
+      // source is what stops this reading as the date of the flow figure below it, and "report"
+      // still does that -- where "Sep 1" alone would not.
       return { days: d, verdict, cutoffs: c,
-               label: 'Guide report ' + shortDate(publishedAt), short: shortDate(publishedAt),
+               label: 'Guide report ' + shortDate(publishedAt), labelShort: 'report ' + shortDate(publishedAt),
+               short: shortDate(publishedAt),
                color: d < c.current ? 'var(--green)' : d < c.recent ? 'var(--amber)' : 'var(--red)',
                stale: d >= c.recent };
     }
-    fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, verdict: 'None yet', cutoffs: this.freshness(), label: 'No guide report yet', short: '\u2014', color: 'var(--off)', stale: false }; }
+    fresh() { return this.freshFor(this.data.report.publishedAt) || { days: 0, verdict: 'None yet', cutoffs: this.freshness(), label: 'No guide report yet', labelShort: 'no report yet', short: '\u2014', color: 'var(--off)', stale: false }; }
     /** The shop's own answer where they have given one, the interim default where they have not.
         `shopSet` is what lets the card say which it is rather than presenting both as settled. */
     freshness() {
@@ -1025,8 +1034,8 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     lampRow() {
       const fr = this.fresh(), r = this.rating();
       return `<div class="between">
-      <span class="lamp" style="--c:${fr.color};font-size:11px"><i></i>${fr.label}</span>
-      ${r.n ? `<span class="row" style="gap:8px"><span class="label fishlabel">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>` : `<span class="label">Not rated yet</span>`}
+      <span class="lamp" style="--c:${fr.color};font-size:11px"><i></i><span class="guideword">Guide </span>${fr.labelShort}</span>
+      ${r.n ? `<span class="row" style="gap:8px"><span class="label fishlabel">Fishing</span><span class="caps rateword" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>` : `<span class="label">Not rated yet</span>`}
     </div>`;
     }
     /** Report age and live flow are different facts. The lamp above owns the age and stays still;
@@ -1087,7 +1096,12 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // Word and period separately, because two places need different halves: the strip says the
       // whole sentence, the wading header puts the period in its caption so that "normal" there
       // cannot be read as the wading verdict of the same name on the pilot river.
-      return { word, when: `${THIRDS[third]}\u00A0${MONTHS[now.getMonth()]}` };
+      // Inside p10-p90 is this river's usual span for the date; outside it is the outlier. That
+      // is the definition of the band, not a judgement laid over it -- which is what lets this
+      // lamp take a state colour without becoming the wading verdict 6.4 forbids. No word here
+      // says anything about safety.
+      const usual = f.value >= p10 && f.value <= p90;
+      return { word, when: `${THIRDS[third]}\u00A0${MONTHS[now.getMonth()]}`, usual, years: P.years || null };
     }
     liveStrip() {
       const frames = this.liveFrames();
@@ -1215,7 +1229,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // lighting "well above normal" amber would turn it into the safety verdict 6.4 forbids.
       const pos = w ? null : this.flowPosition();
       const head = w ? { cap: 'Wading', word: w.label, color: w.color }
-        : pos ? { cap: `Flow <span class="forword">for </span>${pos.when}`, word: pos.word, color: 'var(--accent)' }
+        : pos ? { cap: 'Flow', word: pos.word, color: pos.usual ? 'var(--green)' : 'var(--amber)' }
         : { cap: 'Flow range', word: null, color: null };
       const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
       const ranges = bar && F.max != null
@@ -1243,6 +1257,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       </span>` : ''}
     </div>
     ${bar}${ranges}
+    ${pos ? `<div class="muted" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding-top:2px">Compared with ${esc(pos.when)}${pos.years ? `, ${esc(pos.years)}` : ''}</div>` : ''}
   </div>`;
     }
     /** Report age on the same instrument as the other two: 24 cells, zones lit quietly, and the
