@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260907214136"></script>
+<script src="../dist/embed.js?b=20260907215105"></script>
 <script>
 /* A widow is the last line of a wrapped text block carrying one short word on its own. Measured
    rather than eyeballed: every word in the block gets a Range rect, words are grouped into lines
@@ -232,7 +232,12 @@ window.SWEEP = async function () {
       for (const [sel, what] of [['.flowmod .bar', 'flow bar'], ['.band', 'temp band']]) {
         const bar = card.root.querySelector(sel);
         if (!bar) continue;
-        const lit = [...bar.querySelectorAll('i')].filter(i => i.classList.contains('on') || i.classList.contains('in') || i.classList.contains('at'));
+        // 'cur' is the reading on both instruments; 'on' is the flow bar's fill. 'in'/'at' were
+        // the temp band's old zone-and-marker classes -- kept here so this check fails loudly if
+        // they ever come back rather than silently matching nothing, which is what it did for a
+        // build after the band was rebuilt around a single lit cell.
+        const lit = [...bar.querySelectorAll('i')].filter(i => ['on', 'cur', 'in', 'at'].some(c => i.classList.contains(c)));
+        if (!lit.length) out.invariants.push(`${w}: ${what} has no lit segment at all`);
         const blank = lit.filter(i => {
           const bg = getComputedStyle(i).backgroundColor;
           return bg === 'transparent' || /rgba\(0, 0, 0, 0\)/.test(bg);

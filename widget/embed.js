@@ -334,8 +334,12 @@ img{display:block}
 /* Water temperature band. Same visual language as the flow bar and its wading threshold: a real
    measurement against a real threshold. Renders only when the gauge reports 00010. */
 .band i{flex:1;height:10px;border-radius:1px;background:var(--off)}
-.band i.in{background:color-mix(in srgb, var(--green), transparent 55%)}
-.band i.at{background:var(--text)}
+/* The reading, in the accent that means "you are here" on the flow bar and on the graph. It does
+   not pulse: pulse means the number is live, and this one is hourly at best and routinely hours
+   behind, which is why the row names its own read time underneath. */
+.band i.cur{background:var(--accent)}
+/* The trout-active range as a rule under the track, sitting directly above its own PRIME label. */
+.band .primespan{position:absolute;bottom:-1px;height:2px;border-radius:1px;background:color-mix(in srgb,var(--green),transparent 35%)}
 .slots{padding:8px 16px 16px;display:flex;flex-direction:column}
 .slot{display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px;align-items:center;min-height:64px;border-top:1px solid var(--line)}
 .chip{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 12px 0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);justify-self:start;max-width:100%}
@@ -1194,12 +1198,21 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       if (t == null) return '';
       const lo = 40, hi = 75, a = 50, b = 65, segs = 34;
       const pos = v => Math.max(0, Math.min(segs - 1, Math.round((v - lo) / (hi - lo) * (segs - 1))));
-      const at = pos(t), cells = Array.from({ length: segs }, (_, i) => {
-        const deg = lo + i * (hi - lo) / (segs - 1);
-        return `<i class="${i === at ? 'at' : (deg >= a && deg <= b ? 'in' : '')}"></i>`;
-      }).join('');
-      const mid = ((( (a + b) / 2) - lo) / (hi - lo) * 100).toFixed(2) + '%';
-      const pa = ((a - lo) / (hi - lo) * 100).toFixed(2) + '%', pb = ((b - lo) / (hi - lo) * 100).toFixed(2) + '%';
+      // One accent cell is the reading, and nothing else in the track is lit. The prime range
+      // used to be drawn as lit cells, which gave this band the flow bar's grammar for the
+      // opposite meaning: there a lit run is "zero up to now", here it was "the good zone", with
+      // the reading a pale cell buried inside it. Same shape, opposite encoding, six pixels
+      // apart. The range is a rule under the track now, so the only lit thing on either
+      // instrument is where you are.
+      const at = pos(t);
+      const cells = Array.from({ length: segs }, (_, i) => `<i class="${i === at ? 'cur' : ''}"></i>`).join('');
+      const pct = v => (v - lo) / (hi - lo) * 100;
+      const mid = pct((a + b) / 2).toFixed(2) + '%';
+      const pa = pct(a).toFixed(2) + '%', pb = pct(b).toFixed(2) + '%';
+      // The trout-active range, as a rule beneath the track rather than as lit cells. It is
+      // context that belongs to trout physiology, not a reading, and it lines up with the PRIME
+      // label directly under it.
+      const primeSpan = `<span class="primespan" style="left:${pa};right:${(100 - pct(b)).toFixed(2)}%"></span>`;
       // Two sources can fill this row and they are not equally cheap: the gauge on the river is
       // one more field on a request the card already makes, the proxy is the card's only backend
       // call. Say which one answered and when it was read -- a number in a card that reports
@@ -1208,7 +1221,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const when = this.s.tempAt ? new Date(this.s.tempAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : null;
       return `<div class="sec rule" style="padding-top:14px">
     <div class="between"><span class="label">Water temp</span><span style="font-size:15px;font-weight:600">${t}&deg;</span></div>
-    <div class="bar tall band" role="img" aria-label="Water temperature ${t} degrees, trout-active band ${a} to ${b}">${cells}</div>
+    <div class="bar tall band" role="img" aria-label="Water temperature ${t} degrees, trout-active band ${a} to ${b}">${cells}${primeSpan}</div>
     <div class="ranges"><span style="left:0">${lo}&deg;</span><span style="left:${pa}">${a}&deg;</span><span class="mid" style="left:${mid}">Prime</span><span style="left:${pb}">${b}&deg;</span><span style="right:0">${hi}&deg;</span></div>
     <div class="muted" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding-top:2px">${src}${when ? ` &middot; read ${esc(when)}` : ''}</div>
   </div>`;

@@ -130,6 +130,20 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The water-temp band reads like the flow bar instead of against it.** The two sit six pixels
+  apart and were built the same way for opposite meanings: on the flow bar a lit run is "zero up
+  to now", on the band a lit run was "the trout-active zone", with the reading a pale cell buried
+  inside it. Learn one and you misread the other -- and the pale cell was exactly the shape that
+  had already been misread on the flow bar's wading tick.
+  The band's track is uniform now, one accent cell is the reading, and the prime range is a rule
+  beneath the track sitting directly above its own PRIME label. Every instrument on the card says
+  "you are here" the same way. The temp cell does not pulse: pulse means the number is live, and
+  this one is hourly at best and routinely hours behind, which is why the row names its own read
+  time. Height is unchanged at 106px.
+  Asked whether this block and the wading block should collapse into one: no. Merging saves ~15px
+  of a panel that already scrolls 95px, the section would be two bars on three waters and one on
+  the other five, and they are different kinds of measurement -- a river's own scale with a
+  threshold a person set, against trout physiology that is the same on every river.
 - **The bar marks the river, not just the limit.** The only mark on it was the wading tick --
   full white, taller than the cells -- while the reading itself, the edge of the lit run, had no
   mark at all. The loudest thing on the instrument was the fact people were least asking about,
