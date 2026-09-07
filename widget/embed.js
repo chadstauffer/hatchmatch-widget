@@ -209,7 +209,6 @@ img{display:block}
    the last thing on this card that should give way to a caption, and only waters with a 63680
    gauge ever reach the second line. */
 .wadehead{flex-wrap:wrap;row-gap:6px}
-.wadeline{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -1129,8 +1128,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>` : ''}<span style="right:0">${num(F.max)}</span></div>`
         : '';
       // The header row carries both states, each as a caption and a lit dot -- the same shape the
-      // card already uses for LIVE and for the guide report, so a reader learns it once. The
-      // verdict moved up here, which leaves the line below to do one job: define the threshold.
+      // card already uses for LIVE and for the guide report, so a reader learns it once.
+      // There is no threshold sentence under it. The number and the word are both already on
+      // screen an inch below, on the range row under the bar (0 / 7,500 WADING LIMIT / 15,000),
+      // and the bar's own colour split says which side is which. The compact card keeps the
+      // sentence, because there it is the only place the threshold appears at all.
       // The clarity dot is the accent rather than a colour keyed to the word. Poor/Fair/Good/
       // Excellent is a four-value ordinal from the guide, and turning it into green-amber-red
       // would be deriving a judgement nobody supplied -- the same reason the tick meter went.
@@ -1146,7 +1148,6 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         ${turb != null ? `<span class="muted" style="font-size:11px">${turb}&nbsp;FNU</span>` : ''}
       </span>` : ''}
     </div>
-    ${w ? `<div class="wadeline"><span class="label">Limit</span><span class="muted" aria-hidden="true">&middot;</span><span class="muted" style="font-size:12px">${w.note}</span></div>` : ''}
     ${bar}${ranges}
   </div>`;
     }

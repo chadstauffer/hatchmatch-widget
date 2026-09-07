@@ -133,8 +133,11 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 - **The wading header carries both states, each as a caption and a lit dot.**
   `WADING ● NORMAL` on the left, `CLARITY ● EXCELLENT` on the right -- the same shape the card
   already uses for `● LIVE` and `● GUIDE REPORT SEP 1`, so a reader learns the pattern once. The
-  verdict moving up leaves the line below one job, defining the threshold: `LIMIT · Wadeable
-  below 7,500 CFS`, no dot, because it is a definition rather than a state.
+  With the verdict in the header there is no sentence under it at all. The number and the word
+  are already on screen an inch below, on the range row under the bar
+  (`0 / 7,500 WADING LIMIT / 15,000`), and the bar's own colour split says which side is which.
+  The expanded block is three rows now: header, bar, range. The compact card keeps the sentence,
+  because there it is the only place the threshold appears.
   The clarity dot is the accent, not a colour keyed to the word. Poor/Fair/Good/Excellent is a
   four-value ordinal the guide wrote, and turning it into green-amber-red would derive a
   judgement nobody supplied -- the same reason the tick meter went in ticket 2.2.
