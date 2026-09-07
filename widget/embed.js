@@ -215,12 +215,12 @@ img{display:block}
 /* "Fair to Good" plus the word FISHING plus the meter overruns a 350px card. The word is the
    part that gives: a rating beside a lamp needs no caption. */
 @container (max-width:409px){.fishlabel{display:none}}
-/* Same rule, the compact wading row: below 360px the caption, the verdict and the threshold
-   sentence do not fit on one line and the row was running 36px past the card at 320. The caption
-   is the part that gives -- a verdict beside a lamp, with "wadeable below 7,500 CFS" next to it,
-   does not also need the word WADING. The number stays, because that one is safety information.
-   Predates round 7; the overflow sweep is what found it. */
-@container (max-width:359px){.wadecap{display:none}}
+/* The compact wading row carries the same caption, word and lamp as the expanded header, so the
+   caption cannot be the part that gives -- dropping it below 360px made the two cards disagree at
+   exactly the widths most people hold. All three do not fit on one line there (323px of a 286px
+   row at 350), so the threshold sentence wraps under them instead. One line taller on a small
+   phone, and nothing hidden. */
+.wadingrow{flex-wrap:wrap;row-gap:4px}
 /* The compact hatch line carries four things that must not break internally -- the label, the
    insect and size, the guide's intensity word, and when. Below 360px they need 322px of a 286px
    row. Nothing here is droppable ("this afternoon" is the whole answer when the label reads
@@ -877,6 +877,16 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       return `<div class="bar${tall ? ' tall' : ''}" role="img" aria-label="${label}">${cells}${tick}</div>`;
     }
     ratingOf(r) { return { label: r, n: { Poor: 1, Fair: 2, 'Fair to Good': 3, Good: 4, Great: 5 }[r] || 0 }; }
+    /** The guide's clarity word, lit the way the wading lamp beside it is. Poor / Fair / Good /
+        Excellent is their own four-value ordinal and this reads it rather than scoring it: the two
+        words that mean you can see get green, the two that mean you cannot get amber. Same two
+        colours as the wading lamp, so the row speaks one vocabulary rather than two.
+        A word outside those four gets the accent and makes no claim -- lighting an unrecognised
+        word green or amber would be exactly the invention this avoids. */
+    clarityLamp(word) {
+      return { excellent: 'var(--green)', good: 'var(--green)', fair: 'var(--amber)', poor: 'var(--amber)' }[String(word || '').toLowerCase()]
+        || 'var(--accent)';
+    }
     rating() { return this.ratingOf(this.data.report.rating); }
     wading() {
       const F = this.data.water.flow, f = this.s.flow;
@@ -1140,11 +1150,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     <div class="between wadehead">
       <span class="row" style="gap:7px">
         <span class="label">${w ? 'Wading' : 'Flow range'}</span>
-        ${w ? `<span class="lamp" style="--c:${w.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${w.label}</span>` : ''}
+        ${w ? `<span class="lamp accent" style="--c:${w.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${w.label}</span>` : ''}
       </span>
       ${clarity ? `<span class="row" style="gap:7px">
         <span class="label">Clarity</span>
-        <span class="lamp accent" style="--c:var(--accent);font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(clarity)}</span>
+        <span class="lamp accent" style="--c:${this.clarityLamp(clarity)};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(clarity)}</span>
         ${turb != null ? `<span class="muted" style="font-size:11px">${turb}&nbsp;FNU</span>` : ''}
       </span>` : ''}
     </div>
@@ -1200,7 +1210,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
     <div class="sec">
       ${this.flowModule(false)}
-      ${f.failed || !w ? '' : `<div class="row caps" style="letter-spacing:.12em"><span class="muted wadecap">Wading</span><span class="lamp" style="--c:${w.color}"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
+      ${f.failed || !w ? '' : `<div class="row caps wadingrow" style="letter-spacing:.12em"><span class="label">Wading</span><span class="lamp accent" style="--c:${w.color};font-size:11px;font-weight:600;letter-spacing:.1em"><i></i>${w.label}</span><span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
     </div>
     ${hn ? '' : `<div class="muted rule" style="padding-top:10px;font-size:12px">The shop's own report and hot flies inside. Flow and weather are live.</div>`}`}
   </button>
