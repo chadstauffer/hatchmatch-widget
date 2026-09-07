@@ -130,6 +130,21 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The wading header carries both states, each as a caption and a lit dot.**
+  `WADING ● NORMAL` on the left, `CLARITY ● EXCELLENT` on the right -- the same shape the card
+  already uses for `● LIVE` and `● GUIDE REPORT SEP 1`, so a reader learns the pattern once. The
+  verdict moving up leaves the line below one job, defining the threshold: `LIMIT · Wadeable
+  below 7,500 CFS`, no dot, because it is a definition rather than a state.
+  The clarity dot is the accent, not a colour keyed to the word. Poor/Fair/Good/Excellent is a
+  four-value ordinal the guide wrote, and turning it into green-amber-red would derive a
+  judgement nobody supplied -- the same reason the tick meter went in ticket 2.2.
+  Both captions and both states fit one line at all six widths. Where a gauge reports turbidity
+  the FNU figure joins clarity and the row runs 56px over at 320px, so the header wraps rather
+  than dropping anything: a measured number is the last thing here that should give way to a
+  caption, and only a water with a 63680 gauge ever reaches the second line.
+  **Watch after ship:** `NORMAL` in this lamp and `BELOW NORMAL FOR EARLY SEP` in the strip above
+  are the same word for two different measurements -- the shop's wading limit and the seasonal
+  percentile. They can disagree, and both are true when they do.
 - **`High, low, rain chance` is gone from the forecast heading.** It named three things that each
   already label themselves: an up arrow over 95 and a down arrow over 62 say high and low, and
   "0% rain" says rain chance. It was doing one job that was not redundant, though -- both carets
