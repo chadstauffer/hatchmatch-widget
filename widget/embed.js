@@ -71,6 +71,10 @@
      Every control that opens something uses this, points down closed and up open, and differs
      from its neighbours only by the frame around it: a circle for expand, bare for the rest. */
   const CARET = up => `<svg class="cr" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="${up ? 'M4 1.9 7 6.1H1Z' : 'M4 6.1 1 1.9h6Z'}"/></svg>`;
+  /* The expand control is no longer a caret. Two strokes that rotate 45 degrees turn a plus into
+     a close, which separates it from the water selector by shape rather than only by the circle
+     around it -- one adds the report, the other switches which river you are reading. */
+  const PLUSX = `<svg class="px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3.6v8.8"/><path d="M3.6 8h8.8"/></svg>`;
 
   const CSS = `
 :host{display:block;container-type:inline-size}
@@ -240,6 +244,12 @@ img{display:block}
    going, not whether a panel is open -- and keep their own sizes below. */
 .cr{width:9px;height:9px;display:block;flex:none}
 .chev{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);border-radius:50%;color:var(--accent);flex:none}
+/* A plus, and a close: the same two strokes turned 45 degrees. render() replaces the node, so
+   the resting angle is CSS and the tween is started by hand from the angle it just left --
+   otherwise the icon would arrive already rotated and never animate. */
+.chev .px{width:13px;height:13px;display:block;transition:transform .18s cubic-bezier(.4,0,.2,1)}
+.chev[data-open=true] .px{transform:rotate(45deg)}
+@media (prefers-reduced-motion:reduce){.chev .px{transition:none}}
 .pack{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;height:48px;padding:0 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 /* Nothing to buy is not the primary action. Disabled loses the fill and reads as a state. */
 .pack[disabled]{background:none;border:1px solid var(--line);color:var(--muted);cursor:default}
@@ -912,21 +922,24 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         + `<span class="what glabel">${primary ? '' : '<span class="or">Or</span> '}<b>Fish it with a guide</b><em>With a guide</em></span>`
         + `<span class="tel">${esc(w.guidePhone)}</span></a>`;
     }
-    /** One header for both states. Only the chevron changes: the two facts never move. */
-    header(open) {
-      const fr = this.fresh(), r = this.rating();
-      // The title is the water switcher, and only when the card is open -- compact, the whole face
-      // is already one button and a button cannot hold another. A bare caret at text size on the
-      // baseline: the circle in the corner already means expand, and two actions must not share a
-      // shape. Compact keeps a plain title.
+    /** The title row: the water switcher, and the open/close control.
+        The title is the switcher in BOTH states now. Compact used to get a plain word, because
+        the whole face was one button and a button cannot hold another -- so this row is lifted
+        out of that button and the two controls stand on their own, the same move the hatch line
+        made. Tapping the title on a compact card opens the card on the water list.
+        The two controls no longer share a shape at all: a caret for the switcher, a plus that
+        rotates into a close for the card itself. */
+    titleRow(open) {
       const name = esc(this.data.water.name);
-      const title = open && this.waters.length > 1
-        ? `<button class="title" data-action="waters" data-focus="waters" aria-expanded="${this.s.picker}" aria-label="Switch water. Currently ${name}"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span><span class="tcare">${CARET(this.s.picker)}</span></button>`
+      const title = this.waters.length > 1
+        ? `<button class="title" data-action="waters" data-focus="waters" aria-expanded="${open && this.s.picker}" aria-label="Switch water. Currently ${name}"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span><span class="tcare">${CARET(open && this.s.picker)}</span></button>`
         : `<div class="title">${name}</div>`;
-      return `<div class="between">${title}${open
-        ? `<button class="chev" data-action="collapse" aria-label="Collapse">${CARET(true)}</button>`
-        : `<span class="chev" aria-hidden="true">${CARET(false)}</span>`}</div>
-    <div class="between">
+      return `<div class="between">${title}<button class="chev" data-open="${open}" data-action="${open ? 'collapse' : 'expand'}" data-focus="openclose" aria-expanded="${open}" aria-label="${open ? 'Close the report' : 'Open the report'}">${PLUSX}</button></div>`;
+    }
+    /** Report date and rating. Never a control, so it stays inside the card face. */
+    lampRow() {
+      const fr = this.fresh(), r = this.rating();
+      return `<div class="between">
       <span class="lamp" style="--c:${fr.color};font-size:11px"><i></i>${fr.label}</span>
       ${r.n ? `<span class="row" style="gap:8px"><span class="label fishlabel">Fishing</span><span class="caps" style="font-weight:600;letter-spacing:.12em">${esc(r.label)}</span>${this.meter(r.n)}</span>` : `<span class="label">Not rated yet</span>`}
     </div>`;
@@ -1160,8 +1173,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     </button>`
         : '';
       return `<div class="card compact">
+  ${this.titleRow(false)}
   <button class="expand" data-action="expand" aria-expanded="false" aria-label="Expand the ${esc(d.water.name)} report">
-    ${this.header(false)}
+    ${this.lampRow()}
     ${closed ? `<div class="lamp" style="--c:var(--red);font-size:13px;font-weight:600"><i></i>Closed</div><div>${esc(d.water.closedNote || '')}</div>` : `
     <div class="sec">
       ${this.flowModule(false)}
@@ -1178,7 +1192,8 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const tabs = ['now', 'hatch', 'notes'];
       return `<div class="card open">
   <div class="head">
-    ${this.header(true)}
+    ${this.titleRow(true)}
+    ${this.lampRow()}
   </div>
   <div class="tabs" role="tablist" aria-label="Report">
     ${tabs.map(k => `<button class="tab" role="tab" id="tab-${k}" aria-selected="${tab === k}" aria-controls="panel-${k}" tabindex="${tab === k ? 0 : -1}" data-action="tab" data-tab="${k}" data-focus="tab-${k}">${k}</button>`).join('')}
@@ -1416,6 +1431,18 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         // Only fade an edge there is something past.
         next.parentElement.classList.toggle('fade', next.scrollHeight > next.clientHeight + 1);
       }
+      // Tween the plus/close from where it was. The node is new after every render, so without
+      // this it would simply appear at its new angle.
+      const px = this.root.querySelector('.chev .px');
+      if (px && this.wasOpen != null && this.wasOpen !== this.s.open
+          && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        px.style.transition = 'none';
+        px.style.transform = this.wasOpen ? 'rotate(45deg)' : 'rotate(0deg)';
+        px.getBoundingClientRect();                 // flush, so the start angle is real
+        px.style.transition = '';
+        px.style.transform = '';
+      }
+      this.wasOpen = this.s.open;
       if (focusKey) this.root.querySelector(`[data-focus="${focusKey}"]`)?.focus();
       this.fitSparkline();
       this.fitLabels();
@@ -1513,9 +1540,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         }
         case 'lbclose': this.closeLightbox(); break;
         case 'waters': {
-          const open = !s.picker;
-          this.set({ picker: open, tip: null });
-          if (open) this.emit('water_list_opened', {});
+          // The list lives in the expanded panel, so from a compact card this opens the card on
+          // it rather than doing nothing. Tapping the title again closes the list, not the card.
+          const open = !(s.open && s.picker);
+          this.set({ open: true, picker: open, tip: null });
+          if (open) this.emit('water_list_opened', { from: s.open ? 'expanded' : 'compact' });
           break;
         }
         case 'water': this.switchWater(el.dataset.id); break;

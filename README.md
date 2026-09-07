@@ -130,6 +130,20 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **The title is the water switcher on both cards, and the expand control is a plus.** Compact
+  used to get a plain word, because the whole face was one button and a button cannot hold
+  another; the title row is lifted out of that button now, the same move the hatch line made, so
+  the two controls stand on their own. Tapping the title on a compact card opens the card on the
+  water list; tapping it again closes the list, not the card.
+  The corner control is no longer a caret at all -- two strokes that rotate 45 degrees, a plus
+  when the card is shut and a close when it is open. **This deviates from ticket 1.1**, which
+  specified the expand control as a bare caret inside a circle distinguished from the selector by
+  its frame. Separating them by shape does the same job more plainly: one adds the report, the
+  other switches which river you are reading, and nothing about them now rhymes. Every other
+  caret still follows 1.1 -- 9px, down closed, up open.
+  render() replaces the node on every state change, so the icon would arrive already rotated and
+  never animate. The resting angle is CSS and the tween is started by hand from the angle it just
+  left: measured at 0-5-25-41-45 degrees opening and 45-31-12-2-0 closing. Reduced motion skips it.
 - **The header lamp names whose date it is: `GUIDE REPORT SEP 1`, not `UPDATED SEP 1`.** It sits
   directly above a live CFS figure, which made it read as the date of the flow. Those are two
   different kinds of freshness on one card and they are four days apart -- the flow is from
