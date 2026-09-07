@@ -246,6 +246,9 @@ img{display:block}
 /* Below 360px the clarity measurement is the part that gives: the guide's word is the call, the
    figure beside it is a bonus, and both states plus two captions do not fit a 288px row. */
 @container (max-width:359px){.claritydetail{display:none}}
+/* Two captions and two states are a lot for a 288px row. Below 335px the spacing gives before
+   any of the four words does -- tracking and gaps are the cheapest thing on the row. */
+@container (max-width:334px){.wadehead{gap:6px}.wadehead .row{gap:5px}.wadehead .lamp{gap:5px;letter-spacing:.04em}}
 /* The guide's own wading advice, where they wrote any. Sentence case and prose weight, so it
    cannot be mistaken for one of the card's instrument readings: it is a caution in their words,
    not a verdict this card computed. A water with no threshold still gets no verdict. */
@@ -1263,15 +1266,24 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // has, and the row keeps its shape. Today that is wading+clarity on the pilot and flow alone
       // elsewhere; the moment the shop returns thresholds it becomes wading+flow on the rest.
       const pos = this.flowPosition();
-      const flowSlot = pos ? { cap: 'Flow', word: pos.short, color: pos.usual ? 'var(--green)' : 'var(--amber)' } : null;
+      // This block is the wading instrument, so its caption is WADING on every water and its
+      // state is about wading. Where the flow sits against its own record is a fact about flow,
+      // and it belongs to the flow module above -- the figure, the graph and the live strip --
+      // which already carries it. Showing it here made a block headed for one thing report
+      // another.
+      //
+      // Without a limit there is no verdict, and the card says which it is rather than guessing.
+      // The unlit dot is the same mark clarity uses for "the guide made no call": an absence,
+      // read as an absence. A number in waters.json turns it into NORMAL or HIGH the same day.
       let head = w ? { cap: 'Wading', word: w.label, color: w.color }
-        : flowSlot || (bar ? { cap: 'Flow range', word: null, color: null } : null);
+        : { cap: 'Wading', word: 'Not set', color: 'var(--off)', muted: true };
       // Turbidity from a gauge where one reports it, otherwise the visibility the guide wrote.
       // Both are measurements, so both sit in the same slot beside the word.
       // Clarity always has a slot. Where the guide called it, that is the call; where they did
       // not, the card says so rather than leaving a gap the reader has to interpret -- an absent
       // row and a clear river look identical otherwise. The unlit dot is the card's existing mark
       // for "no data", so the absence reads as an absence and not as a grade.
+      const flowSlot = null;
       let right = clarity
         ? { cap: 'Clarity', word: clarity, color: this.clarityLamp(clarity),
             detail: turb != null ? `${turb}\u00A0FNU` : (d.report.clarityDetail || null) }
@@ -1284,8 +1296,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // own tick where there is one, otherwise the record the position verdict comes from. It sits
       // centred and in the same white as the limit label, because it labels the row rather than a
       // point -- there is no single CFS value for "the record" to sit on.
-      const midLabel = tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>`
-        : pos ? `<span class="mid" style="left:50%">Vs ${esc(pos.when)}\u00A0record</span>` : '';
+      const midLabel = tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>` : '';
       const ranges = bar && F.max != null
         ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${midLabel}<span style="right:0">${num(F.max)}</span></div>`
         : '';
@@ -1302,7 +1313,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     <div class="between wadehead">
       <span class="row" style="gap:7px">
         <span class="label headcap">${head.cap}</span>
-        ${head.word ? `<span class="lamp accent" style="--c:${head.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(head.word)}</span>` : ''}
+        ${head.word ? `<span class="lamp${head.muted ? ' muted' : ' accent'}" style="--c:${head.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(head.word)}</span>` : ''}
       </span>
       ${right ? `<span class="row" style="gap:7px">
         <span class="label headcap">${esc(right.cap)}</span>
@@ -1344,10 +1355,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const tags = this.data.report.wadingTags || [];
       if (tags.length) return `<div class="wadenote"><span class="label">Guide notes</span>`
         + `<span class="tags">${tags.map(t => `<b>${esc(t.phrase)}</b>`).join('<i aria-hidden="true">&middot;</i>')}</span></div>`;
-      // Not "check flows" -- the card just did that, in 44px type at the top of this panel. The
-      // thing it cannot do is see the water, and that is the whole advice: the number is a
-      // number, and the river in front of you is the fact.
-      return `<div class="wadenote"><span class="label">Before you go</span><span class="tags"><b>Look before you wade</b></span></div>`;
+      // One heading either way. The generic line is still ours rather than theirs, so it is
+      // written to be plainly generic -- advice no guide would need to have given.
+      return `<div class="wadenote"><span class="label">Guide notes</span><span class="tags"><b>Look before you wade</b></span></div>`;
     }
     /** Water temperature against the 50-65 trout-active band. A tailwater like the Lower Sac barely
         moves; a freestone swings hard. Absent unless the gauge actually reports 00010. */

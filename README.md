@@ -294,19 +294,22 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   has. With a limit on file that is the wading verdict; without one it is where the flow sits in
   this river's own record -- what ticket 6.4 computed, and which five of eight waters had no place
   to say outside a strip frame that cycles every six seconds.
-  Two slots, and the data decides what fills them: left is the wading verdict where a guide set a
-  limit, right is the shop's clarity word where they gave one, and the flow position fills
-  whichever of the two the data cannot. Today that is `WADING · NORMAL` + `CLARITY · EXCELLENT`
-  on the pilot and `FLOW · WELL UP` alone elsewhere; the moment the shop returns thresholds those
-  waters read `WADING · HIGH` + `FLOW · WELL UP`, two filled slots, no invention.
-  The lamp words are one or two and deliberately **not** the wading vocabulary -- Well down /
-  Down / Typical / Up / Well up. Once a river can show both lamps at once, `WADING HIGH` beside
-  `FLOW HIGH` would be two different measurements wearing the same word. Up and down are what
-  anglers say about a river against its own normal and cannot be read as a limit. The live strip
-  keeps the full sentence, where there is room to say it properly.
-  What the bar is measured against sits in the axis row's middle slot, in the same white as the
-  wading limit: `VS EARLY SEP RECORD`. It is centred rather than anchored because there is no
-  single CFS value for "the record" to sit on -- unlike the limit, which has its own tick.
+  **The same two slots on every water: `WADING · state` and `CLARITY · state`.** This block is the
+  wading instrument, so its caption is WADING everywhere and its state is about wading -- where the
+  flow sits against its own record is a fact about flow, and it belongs to the flow module above,
+  which already carries it in the live strip. Reporting it here made a block headed for one thing
+  say another.
+  Without a limit on file there is no verdict, so the slot reads `WADING · NOT SET` with the unlit
+  dot -- the same mark clarity uses for `NO CALL`, an absence read as an absence. A number in
+  `waters.json` turns it into `NORMAL` or `HIGH` the same day, with no other change: simulated with
+  a 1,500 limit, the Klamath reads `WADING · NORMAL · CLARITY · VARIABLE` and its axis grows the
+  `1,500 WADING LIMIT` tick.
+  The flow-position words -- Well down / Down / Typical / Up / Well up -- live in the live strip
+  only, phrased there as the full sentence. Two captions and two states are a lot for a 288px row,
+  so below 335px the spacing gives before any of the four words does: tracking and gaps are the
+  cheapest thing on it. Measured, not guessed -- the McCloud at 320px missed a single line by
+  **one pixel**, and the lamp's own dot gap was what paid for it. Eight waters by six widths: every
+  header a single line, no overflow.
   Its lamp is state-lit like the others: **green inside p10-p90, amber outside**. That is the
   definition of the band rather than a judgement laid over it -- the outer two words are literally
   the outliers -- so it takes a colour without becoming the safety verdict 6.4 forbids. No word
@@ -527,6 +530,11 @@ in January -- so the card is showing a nine-month-old prediction as current clar
 is the header two rows above, `REPORT JAN 1` with a red lamp and `OLDER` on the age bar, plus the
 "conditions may have changed" note. If that ever feels too thin, the fix is to suppress the
 forecast tier once a report passes the OLDER cutoff.
+
+**Guide notes carry one heading either way.** Where the guide wrote something it is theirs;
+where they did not the card says `Look before you wade`, which is written to be plainly generic --
+advice no guide would have needed to give. The heading no longer changes with the source, so the
+block reads the same on every water.
 
 **Clarity always has a slot.** Where the guide called it, that is the call; where they did not,
 the row says `CLARITY · NO CALL` with the card's unlit dot, because an absent row and a clear
