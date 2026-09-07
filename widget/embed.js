@@ -1093,6 +1093,13 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         : f.value < p25 ? 'Below normal'
         : f.value <= p75 ? 'Near normal'
         : f.value <= p90 ? 'Above normal' : 'Well above normal';
+      // One or two words for the lamp, and deliberately NOT the wading vocabulary. Once the shop
+      // supplies thresholds a river can show both lamps at once, and "WADING HIGH" beside "FLOW
+      // HIGH" would be two different measurements wearing the same word. Up and down are what
+      // anglers say about a river against its own normal, and they cannot be confused with a
+      // limit. The strip keeps the full sentence, where there is room to say it properly.
+      const short = f.value < p10 ? 'Well down' : f.value < p25 ? 'Down'
+        : f.value <= p75 ? 'Typical' : f.value <= p90 ? 'Up' : 'Well up';
       // Word and period separately, because two places need different halves: the strip says the
       // whole sentence, the wading header puts the period in its caption so that "normal" there
       // cannot be read as the wading verdict of the same name on the pilot river.
@@ -1101,7 +1108,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // lamp take a state colour without becoming the wading verdict 6.4 forbids. No word here
       // says anything about safety.
       const usual = f.value >= p10 && f.value <= p90;
-      return { word, when: `${THIRDS[third]}\u00A0${MONTHS[now.getMonth()]}`, usual, years: P.years || null };
+      return { word, short, when: `${THIRDS[third]}\u00A0${MONTHS[now.getMonth()]}`, usual, years: P.years || null };
     }
     liveStrip() {
       const frames = this.liveFrames();
@@ -1227,13 +1234,27 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // and BELOW NORMAL under FLOW FOR EARLY SEP cannot be read as the same measurement.
       // Its lamp is the accent and not a state colour: the percentile is descriptive, and
       // lighting "well above normal" amber would turn it into the safety verdict 6.4 forbids.
-      const pos = w ? null : this.flowPosition();
+      // Two slots, and the data decides what fills them. Left is the wading verdict where a guide
+      // has set a limit; right is the shop's clarity word where they gave one. Flow position
+      // fills whichever of the two the data cannot -- so a water always shows the most it honestly
+      // has, and the row keeps its shape. Today that is wading+clarity on the pilot and flow alone
+      // elsewhere; the moment the shop returns thresholds it becomes wading+flow on the rest.
+      const pos = this.flowPosition();
+      const flowSlot = pos ? { cap: 'Flow', word: pos.short, color: pos.usual ? 'var(--green)' : 'var(--amber)' } : null;
       const head = w ? { cap: 'Wading', word: w.label, color: w.color }
-        : pos ? { cap: 'Flow', word: pos.word, color: pos.usual ? 'var(--green)' : 'var(--amber)' }
-        : { cap: 'Flow range', word: null, color: null };
+        : flowSlot || { cap: 'Flow range', word: null, color: null };
+      const right = clarity
+        ? { cap: 'Clarity', word: clarity, color: this.clarityLamp(clarity), turb }
+        : (w && flowSlot ? flowSlot : null);
       const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
+      // The mid slot of the axis names what the bar is measured against: the wading limit at its
+      // own tick where there is one, otherwise the record the position verdict comes from. It sits
+      // centred and in the same white as the limit label, because it labels the row rather than a
+      // point -- there is no single CFS value for "the record" to sit on.
+      const midLabel = tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>`
+        : pos ? `<span class="mid" style="left:50%">Vs ${esc(pos.when)}\u00A0record</span>` : '';
       const ranges = bar && F.max != null
-        ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>` : ''}<span style="right:0">${num(F.max)}</span></div>`
+        ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${midLabel}<span style="right:0">${num(F.max)}</span></div>`
         : '';
       // The header row carries both states, each as a caption and a lit dot -- the same shape the
       // card already uses for LIVE and for the guide report, so a reader learns it once.
@@ -1250,14 +1271,13 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         <span class="label headcap">${head.cap}</span>
         ${head.word ? `<span class="lamp accent" style="--c:${head.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(head.word)}</span>` : ''}
       </span>
-      ${clarity ? `<span class="row" style="gap:7px">
-        <span class="label">Clarity</span>
-        <span class="lamp accent" style="--c:${this.clarityLamp(clarity)};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(clarity)}</span>
-        ${turb != null ? `<span class="muted" style="font-size:11px">${turb}&nbsp;FNU</span>` : ''}
+      ${right ? `<span class="row" style="gap:7px">
+        <span class="label headcap">${esc(right.cap)}</span>
+        <span class="lamp accent" style="--c:${right.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(right.word)}</span>
+        ${right.turb != null ? `<span class="muted" style="font-size:11px">${right.turb}&nbsp;FNU</span>` : ''}
       </span>` : ''}
     </div>
     ${bar}${ranges}
-    ${pos ? `<div class="muted" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding-top:2px">Compared with ${esc(pos.when)}${pos.years ? `, ${esc(pos.years)}` : ''}</div>` : ''}
   </div>`;
     }
     /** Report age on the same instrument as the other two: 24 cells, zones lit quietly, and the

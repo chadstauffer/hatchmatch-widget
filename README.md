@@ -294,10 +294,19 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   has. With a limit on file that is the wading verdict; without one it is where the flow sits in
   this river's own record -- what ticket 6.4 computed, and which five of eight waters had no place
   to say outside a strip frame that cycles every six seconds.
-  `WADING · NORMAL` on the pilot, `FLOW · WELL BELOW NORMAL` on the Pit -- same shape, one-word
-  caption either way. What it is compared against goes **below the bar**, where the temperature
-  block already puts its source: `COMPARED WITH EARLY SEP, 1975-2026`. That keeps the header row
-  the same structure on every water and carries the record behind the verdict as provenance.
+  Two slots, and the data decides what fills them: left is the wading verdict where a guide set a
+  limit, right is the shop's clarity word where they gave one, and the flow position fills
+  whichever of the two the data cannot. Today that is `WADING · NORMAL` + `CLARITY · EXCELLENT`
+  on the pilot and `FLOW · WELL UP` alone elsewhere; the moment the shop returns thresholds those
+  waters read `WADING · HIGH` + `FLOW · WELL UP`, two filled slots, no invention.
+  The lamp words are one or two and deliberately **not** the wading vocabulary -- Well down /
+  Down / Typical / Up / Well up. Once a river can show both lamps at once, `WADING HIGH` beside
+  `FLOW HIGH` would be two different measurements wearing the same word. Up and down are what
+  anglers say about a river against its own normal and cannot be read as a limit. The live strip
+  keeps the full sentence, where there is room to say it properly.
+  What the bar is measured against sits in the axis row's middle slot, in the same white as the
+  wading limit: `VS EARLY SEP RECORD`. It is centred rather than anchored because there is no
+  single CFS value for "the record" to sit on -- unlike the limit, which has its own tick.
   Its lamp is state-lit like the others: **green inside p10-p90, amber outside**. That is the
   definition of the band rather than a judgement laid over it -- the outer two words are literally
   the outliers -- so it takes a colour without becoming the safety verdict 6.4 forbids. No word
