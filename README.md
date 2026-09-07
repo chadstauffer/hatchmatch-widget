@@ -528,8 +528,19 @@ is the header two rows above, `REPORT JAN 1` with a red lamp and `OLDER` on the 
 "conditions may have changed" note. If that ever feels too thin, the fix is to suppress the
 forecast tier once a report passes the OLDER cutoff.
 
-Three waters still show nothing, and a wide scan confirms why: the Fall River, Hat Creek and the
-Upper Sac say nothing about clarity at all.
+**Clarity always has a slot.** Where the guide called it, that is the call; where they did not,
+the row says `CLARITY · NO CALL` with the card's unlit dot, because an absent row and a clear
+river look identical otherwise. "No call" is this card's own word for a guide's judgement, and it
+is short enough to fit beside a flow state at 320px, which "Not reported" was not. Below 360px
+the clarity measurement is the part that gives -- the guide's word is the call, the figure beside
+it is a bonus.
+
+Three waters carry no clarity, and reading their prose in full confirms it is genuinely absent
+rather than missed. All three mention storms -- but every mention is about hatches, not water:
+*"when it's cloudy and stormy, the hatches can be epic"*, *"the Blue Wing Olives and midges should
+be pouring off"*, *"you should see epic BWO and midge hatches"*. Inferring colour from a storm
+would fire on all three and be wrong every time; this shop associates storms with bugs here, not
+with mud.
 
 The reading and its source sentence both go on the guide pass, so they confirm the reading rather
 than the result. A water with no gauge shows clarity in the left slot rather than captioning a

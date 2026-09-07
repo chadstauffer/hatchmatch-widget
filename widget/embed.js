@@ -243,6 +243,9 @@ img{display:block}
    the last thing on this card that should give way to a caption, and only waters with a 63680
    gauge ever reach the second line. */
 .wadehead{flex-wrap:wrap;row-gap:6px}
+/* Below 360px the clarity measurement is the part that gives: the guide's word is the call, the
+   figure beside it is a bonus, and both states plus two captions do not fit a 288px row. */
+@container (max-width:359px){.claritydetail{display:none}}
 /* The guide's own wading advice, where they wrote any. Sentence case and prose weight, so it
    cannot be mistaken for one of the card's instrument readings: it is a caution in their words,
    not a verdict this card computed. A water with no threshold still gets no verdict. */
@@ -1247,7 +1250,6 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // scale -- but people still wade them, and the caution is true without a gauge. They get
       // the note on its own rather than nothing: no heading, no axis, nothing that would imply
       // a measurement the card does not have.
-      if (!w && !bar && !clarity) return `<div class="sec rule" style="padding-top:14px">${this.wadingNote()}</div>`;
       // The left slot holds the most load-bearing state this water has. With a wading limit on
       // file that is the verdict; without one it is where the flow sits in this river's own
       // record, which is the whole reason ticket 6.4 computed it -- five of eight waters had
@@ -1266,10 +1268,14 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         : flowSlot || (bar ? { cap: 'Flow range', word: null, color: null } : null);
       // Turbidity from a gauge where one reports it, otherwise the visibility the guide wrote.
       // Both are measurements, so both sit in the same slot beside the word.
+      // Clarity always has a slot. Where the guide called it, that is the call; where they did
+      // not, the card says so rather than leaving a gap the reader has to interpret -- an absent
+      // row and a clear river look identical otherwise. The unlit dot is the card's existing mark
+      // for "no data", so the absence reads as an absence and not as a grade.
       let right = clarity
         ? { cap: 'Clarity', word: clarity, color: this.clarityLamp(clarity),
             detail: turb != null ? `${turb}\u00A0FNU` : (d.report.clarityDetail || null) }
-        : (w && flowSlot ? flowSlot : null);
+        : { cap: 'Clarity', word: 'No call', color: 'var(--off)', muted: true, detail: null };
       // A water with no gauge has no bar, so "Flow range" would caption nothing. Where that
       // leaves only clarity, it takes the left slot rather than sitting alone on the right.
       if (!head && right) { head = right; right = null; }
@@ -1300,8 +1306,8 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       </span>
       ${right ? `<span class="row" style="gap:7px">
         <span class="label headcap">${esc(right.cap)}</span>
-        <span class="lamp accent" style="--c:${right.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(right.word)}</span>
-        ${right.detail ? `<span class="accent" style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">${esc(right.detail)}</span>` : ''}
+        <span class="lamp${right.muted ? ' muted' : ' accent'}" style="--c:${right.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(right.word)}</span>
+        ${right.detail ? `<span class="accent claritydetail" style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">${esc(right.detail)}</span>` : ''}
       </span>` : ''}
     </div>
     ${bar}${ranges}
