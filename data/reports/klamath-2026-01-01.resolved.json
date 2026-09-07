@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T23:04:39.809Z",
+ "generatedAt": "2026-09-07T23:13:27.386Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -256,6 +256,7 @@
   "author": null,
   "rating": "Poor",
   "clarity": null,
+  "clarityDetail": null,
   "clarityFrom": null,
   "wading": null,
   "notes": [

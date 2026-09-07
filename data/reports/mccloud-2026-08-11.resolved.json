@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T23:04:40.247Z",
+ "generatedAt": "2026-09-07T23:13:27.808Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -24,6 +24,7 @@
   "author": null,
   "rating": "Good",
   "clarity": "Excellent",
+  "clarityDetail": null,
   "clarityFrom": "Clarity is excellent and the temps are holding in the upper river.",
   "wading": null,
   "notes": [

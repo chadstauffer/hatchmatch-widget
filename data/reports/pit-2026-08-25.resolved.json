@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T23:04:40.519Z",
+ "generatedAt": "2026-09-07T23:13:28.079Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -256,6 +256,7 @@
   "author": null,
   "rating": "Good",
   "clarity": "Good",
+  "clarityDetail": null,
   "clarityFrom": "The latest news on the Pit is the clarity is good, flows are where they should be, and the temps are not too warm for the fish in Pit 3 and 4.",
   "wading": null,
   "notes": [

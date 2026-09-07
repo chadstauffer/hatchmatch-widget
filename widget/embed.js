@@ -972,8 +972,13 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         A word outside those four gets the accent and makes no claim -- lighting an unrecognised
         word green or amber would be exactly the invention this avoids. */
     clarityLamp(word) {
-      return { excellent: 'var(--green)', good: 'var(--green)', fair: 'var(--amber)', poor: 'var(--amber)' }[String(word || '').toLowerCase()]
-        || 'var(--accent)';
+      return {
+        excellent: 'var(--green)', good: 'var(--green)', fair: 'var(--amber)', poor: 'var(--amber)',
+        // Not grades. "Clearing" is a direction and gets the neutral accent -- the guide is saying
+        // it is improving, not saying it is good. The two dirty-water words are amber because they
+        // are the guide's own description of water you will struggle to fish.
+        clearing: 'var(--accent)', 'off colour': 'var(--amber)', stained: 'var(--amber)',
+      }[String(word || '').toLowerCase()] || 'var(--accent)';
     }
     rating() { return this.ratingOf(this.data.report.rating); }
     wading() {
@@ -1256,8 +1261,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const flowSlot = pos ? { cap: 'Flow', word: pos.short, color: pos.usual ? 'var(--green)' : 'var(--amber)' } : null;
       let head = w ? { cap: 'Wading', word: w.label, color: w.color }
         : flowSlot || (bar ? { cap: 'Flow range', word: null, color: null } : null);
+      // Turbidity from a gauge where one reports it, otherwise the visibility the guide wrote.
+      // Both are measurements, so both sit in the same slot beside the word.
       let right = clarity
-        ? { cap: 'Clarity', word: clarity, color: this.clarityLamp(clarity), turb }
+        ? { cap: 'Clarity', word: clarity, color: this.clarityLamp(clarity),
+            detail: turb != null ? `${turb}\u00A0FNU` : (d.report.clarityDetail || null) }
         : (w && flowSlot ? flowSlot : null);
       // A water with no gauge has no bar, so "Flow range" would caption nothing. Where that
       // leaves only clarity, it takes the left slot rather than sitting alone on the right.
@@ -1290,7 +1298,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       ${right ? `<span class="row" style="gap:7px">
         <span class="label headcap">${esc(right.cap)}</span>
         <span class="lamp accent" style="--c:${right.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(right.word)}</span>
-        ${right.turb != null ? `<span class="muted" style="font-size:11px">${right.turb}&nbsp;FNU</span>` : ''}
+        ${right.detail ? `<span class="muted" style="font-size:11px">${esc(right.detail)}</span>` : ''}
       </span>` : ''}
     </div>
     ${bar}${ranges}

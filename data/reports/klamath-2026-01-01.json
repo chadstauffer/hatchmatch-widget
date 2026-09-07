@@ -253,6 +253,7 @@
     "author": null,
     "rating": "Poor",
     "clarity": null,
+    "clarityDetail": null,
     "clarityFrom": null,
     "wading": null,
     "notes": [

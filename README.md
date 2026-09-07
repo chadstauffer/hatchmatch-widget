@@ -496,11 +496,24 @@ pattern for every water. The Pit says *"the clarity is good"* and the McCloud sa
 excellent"*, and both now show it. That is two more waters with a second filled slot, from the
 shop's own words rather than by invention.
 
-Narrow on purpose: only `clarity is <word>` and `<word> clarity`, against the four values the card
-knows. The Trinity is why. It says *"the restoration channel below the Cemetery Hole was adding
-turbidity to the river yesterday, it is now cleared up below it with 4+ foot visibility"* -- a real
-statement about clarity that does not reduce to one of four words. Reporting nothing there is
-right; reporting "Good" would be inventing a grade the guide did not give.
+An explicit grade always wins, because it is the guide saying the word themselves. Where they
+describe clarity without grading it, a second vocabulary reads the description: **Clearing**,
+**Off colour**, **Stained**. The Trinity is the case that needed it -- *"the restoration channel
+below the Cemetery Hole was adding turbidity to the river yesterday, it is now cleared up below it
+with 4+ foot visibility"* -- which reads `CLARITY · CLEARING · 4+ FT`. Four ordinals could not hold
+that sentence, but the guide plainly made a call, and reporting nothing was the scale's failure
+rather than theirs. These words extend the scale; they do not invent a grade.
+
+**The last state in the sentence wins**, because prose describes change in order and the clause
+that matters is the one about now. That sentence names turbidity *and then* clearing: taking the
+first match would report the river as off colour immediately after the guide said it cleared.
+
+`Clearing` takes the neutral accent rather than green or amber -- it is a direction, not a grade.
+Where the guide gave a number, it sits beside the word in the same slot as gauge turbidity, since
+both are measurements: `4+ FT` there, `1.2 FNU` where a gauge reports 63680.
+
+Four waters still show nothing, and a wide scan confirms why: the Fall River, Hat Creek, the
+Klamath and the Upper Sac say nothing about clarity at all.
 
 The reading and its source sentence both go on the guide pass, so they confirm the reading rather
 than the result. A water with no gauge shows clarity in the left slot rather than captioning a

@@ -103,14 +103,41 @@ const NEGATED = /\b(not|no|never|isn't|aren't|don't|doesn't|avoid)\b/i;
     Saying nothing there is right; saying "Good" would be inventing a grade they did not give. */
 const CLARITY_WORDS = 'excellent|good|fair|poor';
 const CLARITY_RE = new RegExp(`\\bclarity\\s+is\\s+(${CLARITY_WORDS})\\b|\\b(${CLARITY_WORDS})\\s+clarity\\b`, 'i');
+/* Where a guide describes clarity without grading it. Four ordinals cannot hold "the restoration
+   channel was adding turbidity yesterday, it is now cleared up below it with 4+ foot visibility"
+   -- but that is a guide making a call about clarity, and reporting nothing was the scale's
+   failure rather than theirs. These words extend the scale; they do not invent a grade.
+
+   THE LAST STATE IN THE SENTENCE WINS, because prose describes change in order and the clause
+   that matters is the one about now. That sentence names turbidity and then clearing; taking the
+   first match would report the river as off colour when the guide just said it cleared. */
+const CLARITY_STATES = [
+  [/\b(cleared|clearing|cleaning)\s*up\b|\bclearing\b|\bclears\b/i, 'Clearing'],
+  [/\bturbid(ity)?\b|\bmuddy\b|\bchocolate\b|\bblown\s*out\b|\bdirty\b|\bsilty\b/i, 'Off colour'],
+  [/\bstained\b|\bdingy\b|\boff.?colou?r(ed)?\b/i, 'Stained'],
+];
+const VIS_RE = /\b(\d+\+?)\s*(?:foot|feet|ft)\.?\s*(?:of\s*)?visibility\b/i;
+
 export function clarityFrom(notes) {
-  for (const n of notes || []) {
-    for (const sent of String(n).split(/(?<=[.!?])\s+/)) {
-      const m = CLARITY_RE.exec(sent);
-      if (m) {
-        const w = (m[1] || m[2]).toLowerCase();
-        return { clarity: w.charAt(0).toUpperCase() + w.slice(1), from: sent.trim() };
-      }
+  const sentences = [];
+  for (const n of notes || []) for (const sent of String(n).split(/(?<=[.!?])\s+/)) sentences.push(sent.trim());
+  // An explicit grade always wins: it is the guide saying the word themselves.
+  for (const sent of sentences) {
+    const m = CLARITY_RE.exec(sent);
+    if (m) {
+      const w = (m[1] || m[2]).toLowerCase();
+      return { clarity: w.charAt(0).toUpperCase() + w.slice(1), detail: null, from: sent };
+    }
+  }
+  for (const sent of sentences) {
+    let best = null;
+    for (const [re, phrase] of CLARITY_STATES) {
+      const m = re.exec(sent);
+      if (m && (!best || m.index > best.at)) best = { phrase, at: m.index };
+    }
+    if (best) {
+      const v = VIS_RE.exec(sent);
+      return { clarity: best.phrase, detail: v ? `${v[1]}\u00A0ft` : null, from: sent };
     }
   }
   return null;
@@ -269,7 +296,7 @@ export function parsePage(html) {
     out.push({
       note: `Scraped from ${SRC} by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.`,
       water: { ...water, name, packName: null, flow: null, sections: [], guidePhone: GUIDE_PHONE, closed: false },
-      report: { publishedAt, author: null, rating, clarity: cl ? cl.clarity : null, clarityFrom: cl ? cl.from : null, wading: null, notes,
+      report: { publishedAt, author: null, rating, clarity: cl ? cl.clarity : null, clarityDetail: cl ? cl.detail : null, clarityFrom: cl ? cl.from : null, wading: null, notes,
                 wadingNote: wadingNotes(notes), wadingTags: wadingTags(wadingNotes(notes)),
                 notesPermission: 'pending', source: { url: SRC, fetchedAt: new Date().toISOString().slice(0, 10) } },
       hatches: [], readOnly: true, picks, substitutes: {},
