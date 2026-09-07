@@ -130,6 +130,14 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   transition two texts were legible on top of each other -- measured at 0.55 and 0.44 opacity
   150ms in, which is exactly the reported `READC4S15NPM HR0SGS KESWICK`. Now the outgoing frame
   fades out over 150ms and the incoming one starts after it: same 300ms, never two things to read.
+- **`High, low, rain chance` is gone from the forecast heading.** It named three things that each
+  already label themselves: an up arrow over 95 and a down arrow over 62 say high and low, and
+  "0% rain" says rain chance. It was doing one job that was not redundant, though -- both carets
+  are `aria-hidden`, so that caption was the only thing telling a screen reader which number was
+  which. That moves onto the days themselves (`aria-label="High 95, low 62"`), which is better
+  than a caption: stated per day and attached to the numbers rather than sitting in a heading
+  above them. The fallback text stays, because `From the report` is provenance and not a legend --
+  absence of it now means the forecast is live.
 - **The title is the water switcher on both cards, and the expand control is a plus.** Compact
   used to get a plain word, because the whole face was one button and a button cannot hold
   another; the title row is lifted out of that button now, the same move the hatch line made, so

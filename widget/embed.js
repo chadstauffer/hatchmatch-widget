@@ -1236,9 +1236,15 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
   ${this.wadingBlock()}
   ${this.tempRow()}
   <div class="sec rule" style="padding-top:14px;gap:10px">
-    <div class="between"><span class="label">3 day forecast</span><span class="muted" style="font-size:10px">${wx ? 'High, low, rain chance' : 'From the report'}</span></div>
+    <!-- "High, low, rain chance" is gone. An up arrow over 95 and a down arrow over 62 already
+         say high and low, and "0% rain" already says rain chance, so it named three things that
+         each label themselves. Its other job -- telling a screen reader which number is which,
+         because both carets are aria-hidden -- moved onto the days below, where it is stated per
+         day and attached to the numbers instead of sitting in a heading above them. The fallback
+         stays: that one is provenance, not a legend. -->
+    <div class="between"><span class="label">3 day forecast</span>${wx ? '' : `<span class="muted" style="font-size:10px">From the report</span>`}</div>
     <div class="wx">${(wx || [{ day: 'Day 1', label: 'Clouds', icon: 'clouds' }, { day: 'Day 2', label: 'Sprinkles', icon: 'drizzle' }, { day: 'Day 3', label: 'Sprinkles', icon: 'drizzle' }]).map(x => `
-      <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
+      <div class="d"><span class="day"><span class="ic">${WX_ICON[x.icon || x.label] || WX_ICON.clouds}</span><span class="label" style="letter-spacing:.12em">${esc(x.day)}</span></span>${x.hi != null ? `<span class="temps" role="img" aria-label="High ${x.hi}, low ${x.lo}"><span>${CARET(true)}${x.hi}°</span><span class="lo">${CARET(false)}${x.lo}°</span></span>` : ''}<span class="cond">${esc(cap(x.label))}${x.pct != null ? `, ${x.pct}% rain` : ''}</span></div>`).join('')}</div>
   </div>
   ${d.report.publishedAt ? `<div class="sec rule" style="padding-top:14px">
     <div class="between"><span class="label">Guide report age</span><span class="lamp" style="--c:${fr.color}"><i></i>${fr.short}</span></div>
