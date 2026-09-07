@@ -20,7 +20,7 @@
 // and are absent here: these fixtures are read-only until someone sets them.
 
 import { readFile, writeFile } from 'node:fs/promises';
-import { dailyStats, deriveScale, derivePosition, applyOverrides } from './scales.mjs';
+import { dailyStats, deriveScale, derivePosition, applyOverrides, readOverrides, applyWaterFields } from './scales.mjs';
 
 const SRC = 'https://www.theflyshop.com/streamreport.html';
 
@@ -325,15 +325,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   console.error(`${reports.length} regional rivers parsed from ${html.length.toLocaleString()} bytes\n`);
   // Scale from measured record, then let anything a shop or guide has set override it. The
   // wading threshold is never derived: that is a person deciding what is safe.
-  const OVERRIDES = await readFile('data/waters.json', 'utf8').then(t => JSON.parse(t).waters).catch(() => ({}));
+  const OVERRIDES = await readOverrides();
   for (const r of reports) {
     const ov = OVERRIDES[r.water.id] || null;
-    if (ov) {
-      if (ov.sections) r.water.sections = ov.sections;
-      if (ov.packName) r.water.packName = ov.packName;
-      // How long this shop's report on this water stays current. Never derived -- see waters.json.
-      if (ov.reportFreshness) r.water.reportFreshness = ov.reportFreshness;
-    }
+    applyWaterFields(r.water, ov);
     let sc = null, pos = null;
     if (r.water.usgsSite) {
       try {

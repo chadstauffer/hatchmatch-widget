@@ -240,6 +240,11 @@
           ]
         ],
         "years": "1964–2026"
+      },
+      "source": {
+        "min": "shop",
+        "max": "shop",
+        "threshold": "shop"
       }
     },
     "sections": [

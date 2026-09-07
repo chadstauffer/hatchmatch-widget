@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260907233529"></script>
+<script src="../dist/embed.js?b=20260907235402"></script>
 <script>
 /* A widow is the last line of a wrapped text block carrying one short word on its own. Measured
    rather than eyeballed: every word in the block gets a Range rect, words are grouped into lines
@@ -30,6 +30,16 @@
 window.WIDOWS_ACCEPTED = [
   { sel: '.name', widow: 'Nymph', after: 'BP Weiss',
     why: 'Only at 320px. text-wrap:balance prefers "BP Weiss / Nymph" (max line 8 chars) over "BP / Weiss Nymph" (max 11), and it is right to: the even break looks better than the one that satisfies the widow rule. Balance is what fixed "Jigged Bird\'s / Nest"; this is the same rule disagreeing with itself on a three-word name in a 100px column.' },
+  // The three below surfaced when the per-water pass widened from two widths to six. None is new
+  // and none is card-authored: two are sentences the shop's guides wrote and one is a fly name
+  // they chose. text-wrap:pretty is already on every text block and balance is already on .name;
+  // both have had their say here and lost to a 286px column.
+  { sel: '.name', widow: 'Rubberleg', after: "Pat's Brown",
+    why: 'Only at 320px. Same disagreement as BP Weiss Nymph: balance prefers "Pat\'s Brown / Rubberleg" (max 9) over "Pat\'s / Brown Rubberleg" (max 16). The fly name is the shop\'s and cannot be reworded.' },
+  { sel: 'p', widow: '800-669-3474.', after: 'in Outfitters at',
+    why: 'Only at 320px, in the guide\'s own NOTES prose. The widow is a phone number, which must not be broken across lines and is therefore the one word on the line that is right to keep whole. Rewriting a guide\'s sentence to fix a line break is the failure 6.3 existed to catch.' },
+  { sel: 'p', widow: 'Frustrating', after: 'Fishing Can be',
+    why: 'Only at 320px, in the guide\'s own NOTES prose -- their sub-head "Fishing Can be Frustrating", verbatim. The NOTES tab is where the shop\'s text is reproduced as written; the card does not get to edit it for typography.' },
 ];
 window.WIDOWS = function (root, where, out) {
   const inlineOnly = el => [...el.children].every(c => /^inline/.test(getComputedStyle(c).display));
@@ -109,6 +119,30 @@ window.OVERFLOW = function (root, where, out) {
     const cls = String(el.className).trim().split(/\s+/)[0] || '';
     if (MAY_ELLIPSIS.has(cls)) continue;
     out.push({ where, what: `.${cls} "${el.textContent.trim()}"`, by, kind: 'label truncated' });
+  }
+  // Absolutely-positioned labels sharing a row do not overflow anything and do not ellipsise, so
+  // neither check above can see them collide -- they simply sit on top of each other. Round 7's
+  // wading limits found it: Hat Creek's 150 of 200 puts "150 WADING LIMIT" at 75% of the bar,
+  // 2px from the "200" at 350px and 5px THROUGH it at 320. Same failure class as "FAIR TO / GOOD",
+  // which also rendered inside the card and still read as broken.
+  for (const row of root.querySelectorAll('.card *')) {
+    const kids = [...row.children].filter(k => getComputedStyle(k).position === 'absolute');
+    if (kids.length < 2) continue;
+    const box = kids.map(k => ({ el: k, r: k.getBoundingClientRect() })).filter(k => k.r.width);
+    for (let i = 0; i < box.length; i++) for (let j = i + 1; j < box.length; j++) {
+      const a = box[i], b = box[j];
+      if (a.r.bottom <= b.r.top + 1 || b.r.bottom <= a.r.top + 1) continue;   // different lines
+      // A deliberate stack is not a collision. The live strip's frames are inset:0 siblings that
+      // cross-fade in place, so they sit exactly on top of one another by design -- and that is
+      // what tells them apart from crowding: layered content shares a box, labels that crowd sit
+      // at different offsets and merely run into each other.
+      const contains = (x, y) => x.left <= y.left + 1 && x.right >= y.right - 1;
+      if (contains(a.r, b.r) || contains(b.r, a.r)) continue;
+      const gap = Math.max(a.r.left, b.r.left) - Math.min(a.r.right, b.r.right);
+      if (gap >= 6) continue;
+      out.push({ where, what: `"${a.el.textContent.trim()}" / "${b.el.textContent.trim()}"`,
+                 by: Math.round(6 - gap), kind: gap < 0 ? 'labels overlap' : 'labels touching' });
+    }
   }
 };
 
@@ -246,7 +280,9 @@ window.SWEEP = async function () {
         const seg = lit[0];
         if (seg && seg.getBoundingClientRect().height < 1) out.invariants.push(`${w}: ${what} segments have no height`);
       }
-      for (const px of ['390px', '375px']) {
+      // All six widths, not two. The limit-label collision lived at 350 and below only, and a
+      // per-water pass that stops at 375 cannot see anything a shop's own numbers cause.
+      for (const px of ['440px', '390px', '375px', '350px', '335px', '320px']) {
         host.style.width = px;
         for (const tab of ['now', 'hatch', 'notes']) { card.set({ open: true, tab }); window.WIDOWS(card.root, `${w}/${px}/${tab}`, out.widows); window.OVERFLOW(card.root, `${w}/${px}/${tab}`, out.overflow); }
         card.set({ open: false }); window.OVERFLOW(card.root, `${w}/${px}/compact`, out.overflow);

@@ -300,10 +300,49 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   which already carries it in the live strip. Reporting it here made a block headed for one thing
   say another.
   Without a limit on file there is no verdict, so the slot reads `WADING · NOT SET` with the unlit
-  dot -- the same mark clarity uses for `NO CALL`, an absence read as an absence. A number in
-  `waters.json` turns it into `NORMAL` or `HIGH` the same day, with no other change: simulated with
-  a 1,500 limit, the Klamath reads `WADING · NORMAL · CLARITY · VARIABLE` and its axis grows the
-  `1,500 WADING LIMIT` tick.
+  dot -- the same mark clarity uses for `NO CALL`, an absence read as an absence.
+
+  **On 2026-09-07 Chad set the five missing limits by hand**, the same way he set the Lower Sac's
+  7,500: Trinity 2,500, Klamath 3,000, Pit 2,000, Upper Sacramento 2,500, Hat Creek 150. Six of the
+  eight waters now carry a limit and read a real verdict; Fall River and McCloud have no gauge, so
+  there is nothing to measure a limit against and they stay `NOT SET`. The engine still may not
+  compute one of these and may not overwrite one -- `applyOverrides()` is the rule, not a carve-out
+  for the pilot. Every limit lands inside the 25-75% window `checkThreshold()` asks for (38%, 40%,
+  42%, 50%, 63%, 75%), so on every bar the split still says something.
+
+  Verified both directions. At today's flows all six read `NORMAL` on a green lamp -- Lower Sac
+  7,360 of 7,500, Trinity 1,180 of 2,500, Klamath 982 of 3,000, Pit 870 of 2,000, Upper Sac 241 of
+  2,500, Hat Creek 111 of 150. Driven over their own limits, all six turn `HIGH` on amber. Hat
+  Creek is the one to watch: it fishes at 74% of its limit, so it is the first that will flip.
+
+  `npm run scales -- --apply` pushes waters.json into the built fixtures. Re-scraping does it too,
+  but re-scraping also re-reads the shop's live page, so a one-line threshold edit would arrive
+  tangled with whatever they published that morning; a number a guide gave us should be able to
+  land on its own. The number now lives in exactly one place -- the `scales` report used to keep
+  its own copy of the Lower Sac's 7,500, which is one safety number with two homes and two chances
+  to disagree.
+
+  **The limit label anchors to its own tick near the ends of the bar.** Centred it straddles the
+  tick, which is right in the middle and is exactly what collides at the edges: Hat Creek's 150 of
+  200 sits at 75%, so `150 WADING LIMIT` centred there came within 2px of the `200` at 350px and
+  ran 5px through it at 320. Above 62% or below 20% the label anchors and grows inward instead. No
+  measurement and no ResizeObserver -- the tick percentage is known at render, and the container
+  queries stay the only thing on this card that reads a width.
+  The end label is what gives, never the limit: a scale bound the bar's own edge already shows is
+  worth less than the number somebody's footing turns on.
+
+  Nothing already in the sweep could see this. It does not escape the card, so the overflow check
+  passed it; it does not ellipsise, so the truncation check passed it; absolutely-positioned labels
+  simply sit on top of each other. Same shape as `FAIR TO / GOOD`, which also rendered entirely
+  inside the card and still read as a mistake. The sweep now checks absolutely-positioned siblings
+  that share a line for collisions, exempting deliberate stacks -- the live strip's frames are
+  `inset:0` siblings that cross-fade in place, and layered content sharing a box is what tells them
+  apart from crowding. The check was proved by putting the bug back: with the anchor rule forced
+  off it reports `"150 wading limit" / "200"`, and with it on, nothing.
+  The per-water pass also widened from two widths to six. It stopped at 375, and the collision only
+  existed at 350 and below -- a pass that narrow cannot see anything a shop's own numbers cause.
+  That surfaced three widows nobody had looked at, all at 320px, none card-authored: two sentences
+  the shop's guides wrote and one fly name they chose. They are on the accepted list with reasons.
   The flow-position words -- Well down / Down / Typical / Up / Well up -- live in the live strip
   only, phrased there as the full sentence. Two captions and two states are a lot for a 288px row,
   so below 335px the spacing gives before any of the four words does: tracking and gaps are the

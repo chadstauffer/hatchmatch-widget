@@ -22,6 +22,41 @@
         "Lower"
       ],
       "packName": "Sac Pack"
+    },
+    "upper-sacramento": {
+      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
+      "flow": {
+        "threshold": 2500,
+        "thresholdLabel": "wading limit"
+      }
+    },
+    "trinity": {
+      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
+      "flow": {
+        "threshold": 2500,
+        "thresholdLabel": "wading limit"
+      }
+    },
+    "klamath": {
+      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
+      "flow": {
+        "threshold": 3000,
+        "thresholdLabel": "wading limit"
+      }
+    },
+    "pit": {
+      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
+      "flow": {
+        "threshold": 2000,
+        "thresholdLabel": "wading limit"
+      }
+    },
+    "hat-creek": {
+      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
+      "flow": {
+        "threshold": 150,
+        "thresholdLabel": "wading limit"
+      }
     }
   }
 }

@@ -265,6 +265,11 @@ img{display:block}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
+/* Anchored to the tick rather than straddling it, near the ends. The end label is not what gives
+   here: the wading limit is the number someone's safety turns on, and it may never be the thing
+   that gets crowded or clipped by a scale bound the bar's own edge already shows. */
+.ranges .mid.anchr{transform:translateX(calc(-100% - 4px))}
+.ranges .mid.anchl{transform:translateX(4px)}
 /* "Fair to Good" plus the word FISHING plus the meter overruns a 350px card. The word is the
    part that gives: a rating beside a lamp needs no caption. */
 @container (max-width:409px){.fishlabel{display:none}}
@@ -1291,12 +1296,20 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // A water with no gauge has no bar, so "Flow range" would caption nothing. Where that
       // leaves only clarity, it takes the left slot rather than sitting alone on the right.
       if (!head && right) { head = right; right = null; }
-      const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
+      const tickPct = F.max == null || F.threshold == null ? null : (F.threshold - F.min) / (F.max - F.min) * 100;
+      const tick = tickPct == null ? null : tickPct.toFixed(2) + '%';
+      // Which side of its own tick the limit label hangs on. Centred it straddles the tick, which
+      // is what you want in the middle of the bar and exactly what collides at the ends: Hat
+      // Creek's limit is 150 of 200, so "150 WADING LIMIT" centred at 75% runs into the "200" at
+      // 350px and overlaps it outright at 320. Near an end the label anchors to its tick and grows
+      // inward instead. No measurement and no observer -- the tick percentage is known at render
+      // and the container queries stay the only thing that reads the width.
       // The mid slot of the axis names what the bar is measured against: the wading limit at its
       // own tick where there is one, otherwise the record the position verdict comes from. It sits
       // centred and in the same white as the limit label, because it labels the row rather than a
       // point -- there is no single CFS value for "the record" to sit on.
-      const midLabel = tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>` : '';
+      const midAnchor = tickPct == null ? '' : tickPct > 62 ? ' anchr' : tickPct < 20 ? ' anchl' : '';
+      const midLabel = tick ? `<span class="mid${midAnchor}" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>` : '';
       const ranges = bar && F.max != null
         ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${midLabel}<span style="right:0">${num(F.max)}</span></div>`
         : '';

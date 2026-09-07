@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T23:21:09.103Z",
+ "generatedAt": "2026-09-07T23:43:39.726Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -16,12 +16,12 @@
   "flow": {
    "min": 0,
    "max": 8000,
-   "threshold": null,
+   "threshold": 3000,
    "thresholdLabel": "wading limit",
    "source": {
     "min": "derived",
     "max": "derived",
-    "threshold": "unset"
+    "threshold": "shop"
    },
    "lastReading": null,
    "scaleSource": "USGS daily statistics 1961–2026, 6,060 CFS at the 70th percentile of daily p95, rounded up",
@@ -976,6 +976,6 @@
   "Prices from the catalog: 8 picks run $1.95 to $3.95; 0 are $2.95.",
   "FOR THE GUIDE, Klamath: the card reads clarity as \"Variable\" from your own line -- \"The river is definitely showing signs from the last storm and we will see big flows and probably colored water over the next few weeks.\". Confirm that is the word you meant.",
   "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
-  "FOR THE GUIDE, Klamath: 2 numbers only you can set -- a wading limit (\"wadeable below X CFS\"). Until then the card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict with no number behind it is a safety claim we have not earned; and how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
+  "FOR THE GUIDE, Klamath: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
 }

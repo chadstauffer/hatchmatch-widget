@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T23:21:08.911Z",
+ "generatedAt": "2026-09-07T23:43:39.528Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -16,12 +16,12 @@
   "flow": {
    "min": 0,
    "max": 200,
-   "threshold": null,
+   "threshold": 150,
    "thresholdLabel": "wading limit",
    "source": {
     "min": "derived",
     "max": "derived",
-    "threshold": "unset"
+    "threshold": "shop"
    },
    "lastReading": null,
    "scaleSource": "USGS daily statistics 1927–2026, 192 CFS at the 70th percentile of daily p95, rounded up",
@@ -1214,6 +1214,6 @@
   "Rating: Fair to Good.",
   "Prices from the catalog: 9 picks run $2.00 to $3.50; 4 are $2.95.",
   "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
-  "FOR THE GUIDE, Hat Creek: 2 numbers only you can set -- a wading limit (\"wadeable below X CFS\"). Until then the card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict with no number behind it is a safety claim we have not earned; and how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
+  "FOR THE GUIDE, Hat Creek: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
 }

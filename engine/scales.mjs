@@ -102,6 +102,24 @@ export function applyOverrides(derived, override) {
   return out;
 }
 
+/** The one place waters.json is read. A wading limit is a safety number; two copies of one is
+    two chances to disagree, so nothing else in the engine may keep its own table of them. */
+export async function readOverrides() {
+  const { readFile } = await import('node:fs/promises');
+  return readFile('data/waters.json', 'utf8').then(t => JSON.parse(t).waters).catch(() => ({}));
+}
+
+/** Everything a shop sets that is not the flow block. Shared by the scrape and by --apply so a
+    fixture rebuilt either way lands in the same state. */
+export function applyWaterFields(water, ov) {
+  if (!ov) return water;
+  if (ov.sections) water.sections = ov.sections;
+  if (ov.packName) water.packName = ov.packName;
+  // How long this shop's report on this water stays current. Never derived -- see waters.json.
+  if (ov.reportFreshness) water.reportFreshness = ov.reportFreshness;
+  return water;
+}
+
 /** Where the threshold lands on the derived scale. Outside 25-75% the split stops informing. */
 export function checkThreshold(scale, threshold) {
   if (scale == null || threshold == null) return { ok: null, pct: null };
@@ -109,15 +127,17 @@ export function checkThreshold(scale, threshold) {
   return { ok: pct >= 25 && pct <= 75, pct };
 }
 
+// Gauges only. The thresholds are NOT here: they come from waters.json like everything else
+// reads them, so this report can never tell you a limit is fine while the card ships another.
 const WATERS = [
-  ['lower-sacramento', 'Lower Sacramento', '11370500', 7500],
-  ['upper-sacramento', 'Upper Sacramento', '11342000', null],
-  ['trinity',          'Trinity',          '11525500', null],
-  ['hat-creek',        'Hat Creek',        '11355500', null],
-  ['klamath',          'Klamath',          '11516530', null],
-  ['pit',              'Pit',              '11355010', null],
-  ['fall-river',       'Fall River',       null,       null],
-  ['mccloud',          'McCloud',          null,       null],
+  ['lower-sacramento', 'Lower Sacramento', '11370500'],
+  ['upper-sacramento', 'Upper Sacramento', '11342000'],
+  ['trinity',          'Trinity',          '11525500'],
+  ['hat-creek',        'Hat Creek',        '11355500'],
+  ['klamath',          'Klamath',          '11516530'],
+  ['pit',              'Pit',              '11355010'],
+  ['fall-river',       'Fall River',       null      ],
+  ['mccloud',          'McCloud',          null      ],
 ];
 
 /** `npm run scales -- --write` refreshes the position table on every fixture that has a gauge,
@@ -143,10 +163,41 @@ async function writePositions() {
   }
 }
 
+/** `npm run scales -- --apply` pushes waters.json into the built fixtures. Re-scraping would do
+    it too, but re-scraping also re-reads the shop's live page, so a one-line threshold edit would
+    arrive tangled with whatever they published this morning. A number a guide gave us should be
+    able to land on its own. */
+async function applyToFixtures() {
+  const { readFile, writeFile, readdir } = await import('node:fs/promises');
+  const dir = 'data/reports';
+  const OVERRIDES = await readOverrides();
+  const files = (await readdir(dir)).filter(f => /-\d{4}-\d{2}-\d{2}\.json$/.test(f) && !f.includes('resolved'));
+  for (const f of files) {
+    const d = JSON.parse(await readFile(`${dir}/${f}`, 'utf8'));
+    const ov = OVERRIDES[d.water.id] || null;
+    const before = JSON.stringify(d.water.flow || null);
+    applyWaterFields(d.water, ov);
+    // The scale already in the fixture stands in for the derived one: --apply does not re-derive,
+    // it only lets what a person wrote win over what is there.
+    const cur = d.water.flow;
+    const flow = applyOverrides(cur && cur.max != null ? { min: cur.min, max: cur.max } : null, ov);
+    if (flow) d.water.flow = { ...cur, ...flow };
+    const fl = d.water.flow, th = fl && fl.threshold;
+    const chk = fl && th != null ? checkThreshold(fl, th) : { pct: null };
+    const note = th == null ? 'no limit'
+      : `${th.toLocaleString()} on ${fl.min.toLocaleString()}-${fl.max.toLocaleString()}, ${chk.pct.toFixed(0)}% of the bar${chk.ok ? '' : '   OUTSIDE 25-75%'}`;
+    await writeFile(`${dir}/${f}`, JSON.stringify(d, null, 2) + '\n');
+    console.error(`  ${f.padEnd(40)} ${JSON.stringify(d.water.flow) === before ? '     ' : 'wrote'} ${note}`);
+  }
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   if (process.argv.includes('--write')) { await writePositions(); process.exit(0); }
+  if (process.argv.includes('--apply')) { await applyToFixtures(); process.exit(0); }
+  const OVERRIDES = await readOverrides();
   const out = {};
-  for (const [id, name, site, threshold] of WATERS) {
+  for (const [id, name, site] of WATERS) {
+    const threshold = ((OVERRIDES[id] || {}).flow || {}).threshold ?? null;
     if (!site) { out[id] = { name, gauge: null, note: 'no live gauge on file' }; continue; }
     try {
       const stats = await dailyStats(site);

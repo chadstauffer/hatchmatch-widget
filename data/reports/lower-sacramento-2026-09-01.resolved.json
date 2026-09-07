@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T23:21:09.271Z",
+ "generatedAt": "2026-09-07T23:43:39.907Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -243,6 +243,11 @@
      ]
     ],
     "years": "1964–2026"
+   },
+   "source": {
+    "min": "shop",
+    "max": "shop",
+    "threshold": "shop"
    }
   },
   "sections": [
