@@ -135,11 +135,18 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   to now", on the band a lit run was "the trout-active zone", with the reading a pale cell buried
   inside it. Learn one and you misread the other -- and the pale cell was exactly the shape that
   had already been misread on the flow bar's wading tick.
-  The band's track is uniform now, one accent cell is the reading, and the prime range is a rule
-  beneath the track sitting directly above its own PRIME label. Every instrument on the card says
-  "you are here" the same way. The temp cell does not pulse: pulse means the number is live, and
-  this one is hourly at best and routinely hours behind, which is why the row names its own read
-  time. Height is unchanged at 106px.
+  The range is lit cells, in green; the reading is the accent cell. The grammar is held by colour
+  rather than by form -- accent means "you are here" on every instrument on the card, green here
+  means the water is in range. What made the old version misread was the reading being a pale
+  cell competing with the green, the same shape already misread as the flow bar's wading tick.
+  **Both bars draw 24 cells.** The band drew 34, so its cells were narrower than the bar six
+  pixels above it and the two did not look like the same instrument. Cell shape now comes from
+  `.bar` alone -- `.band` used to restate flex, height and radius, which made "are these the same
+  cell?" a question about specificity instead of a fact. Measured identical: 24 cells, 11.25x12px,
+  1px radius, 2px gap. The band is about 1.5F per cell rather than 1.1F, which costs nothing
+  because the exact figure is printed on the row above.
+  The temp cell does not pulse: pulse means the number is live, and this one is hourly at best and
+  routinely hours behind, which is why the row names its own read time. Height unchanged at 106px.
   Asked whether this block and the wading block should collapse into one: no. Merging saves ~15px
   of a panel that already scrolls 95px, the section would be two bars on three waters and one on
   the other five, and they are different kinds of measurement -- a river's own scale with a
