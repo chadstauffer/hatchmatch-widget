@@ -243,6 +243,12 @@ img{display:block}
    the last thing on this card that should give way to a caption, and only waters with a 63680
    gauge ever reach the second line. */
 .wadehead{flex-wrap:wrap;row-gap:6px}
+/* The caption is a phrase and must never break inside itself -- "Flow for early / Sep" reads as
+   a mistake. If the pair will not fit, the lamp drops to its own line instead, and below 335px
+   the filler word goes first: same order of sacrifice as the live strip's "Read". */
+.headcap{white-space:nowrap}
+.wadehead .row{flex-wrap:wrap;row-gap:4px}
+@container (max-width:344px){.forword{display:none}}
 .ranges{position:relative;height:14px;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .ranges span{position:absolute;white-space:nowrap}
 .ranges .mid{transform:translateX(-50%);color:var(--text)}
@@ -1048,7 +1054,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // block headed LIVE. A fresh reading is stated plainly; an older one names its own hour
       // rather than borrowing the flow reading's. Past a day it is not a reading, and it is gone.
       const pos = this.flowPosition();
-      if (pos) out.push(esc(pos));
+      if (pos) out.push(esc(`${pos.word} for ${pos.when}`));
       if (this.s.temp != null) {
         const age = this.s.tempAt ? (Date.now() - new Date(this.s.tempAt)) / 3600e3 : 0;
         if (age <= 24) {
@@ -1078,7 +1084,10 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         : f.value < p25 ? 'Below normal'
         : f.value <= p75 ? 'Near normal'
         : f.value <= p90 ? 'Above normal' : 'Well above normal';
-      return `${word} for ${THIRDS[third]}\u00A0${MONTHS[now.getMonth()]}`;
+      // Word and period separately, because two places need different halves: the strip says the
+      // whole sentence, the wading header puts the period in its caption so that "normal" there
+      // cannot be read as the wading verdict of the same name on the pilot river.
+      return { word, when: `${THIRDS[third]}\u00A0${MONTHS[now.getMonth()]}` };
     }
     liveStrip() {
       const frames = this.liveFrames();
@@ -1197,6 +1206,17 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const d = this.data, w = this.wading(), F = d.water.flow;
       const bar = this.flowBar(true), clarity = d.report.clarity, turb = this.s.turbidity;
       if (!w && !bar && !clarity) return '';
+      // The left slot holds the most load-bearing state this water has. With a wading limit on
+      // file that is the verdict; without one it is where the flow sits in this river's own
+      // record, which is the whole reason ticket 6.4 computed it -- five of eight waters had
+      // nothing to say here otherwise. The caption names the comparison, so NORMAL under WADING
+      // and BELOW NORMAL under FLOW FOR EARLY SEP cannot be read as the same measurement.
+      // Its lamp is the accent and not a state colour: the percentile is descriptive, and
+      // lighting "well above normal" amber would turn it into the safety verdict 6.4 forbids.
+      const pos = w ? null : this.flowPosition();
+      const head = w ? { cap: 'Wading', word: w.label, color: w.color }
+        : pos ? { cap: `Flow <span class="forword">for </span>${pos.when}`, word: pos.word, color: 'var(--accent)' }
+        : { cap: 'Flow range', word: null, color: null };
       const tick = F.max == null || F.threshold == null ? null : ((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2) + '%';
       const ranges = bar && F.max != null
         ? `<div class="ranges"><span style="left:0">${num(F.min)}</span>${tick ? `<span class="mid" style="left:${tick}">${num(F.threshold)}\u00A0${esc(F.thresholdLabel)}</span>` : ''}<span style="right:0">${num(F.max)}</span></div>`
@@ -1213,8 +1233,8 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       return `<div class="sec rule" style="padding-top:14px;gap:10px">
     <div class="between wadehead">
       <span class="row" style="gap:7px">
-        <span class="label">${w ? 'Wading' : 'Flow range'}</span>
-        ${w ? `<span class="lamp accent" style="--c:${w.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${w.label}</span>` : ''}
+        <span class="label headcap">${head.cap}</span>
+        ${head.word ? `<span class="lamp accent" style="--c:${head.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(head.word)}</span>` : ''}
       </span>
       ${clarity ? `<span class="row" style="gap:7px">
         <span class="label">Clarity</span>
