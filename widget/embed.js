@@ -1298,7 +1298,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       ${right ? `<span class="row" style="gap:7px">
         <span class="label headcap">${esc(right.cap)}</span>
         <span class="lamp accent" style="--c:${right.color};font-size:12px;font-weight:600;letter-spacing:.1em"><i></i>${esc(right.word)}</span>
-        ${right.detail ? `<span class="muted" style="font-size:11px">${esc(right.detail)}</span>` : ''}
+        ${right.detail ? `<span class="accent" style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">${esc(right.detail)}</span>` : ''}
       </span>` : ''}
     </div>
     ${bar}${ranges}
