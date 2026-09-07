@@ -282,9 +282,21 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 - **The flow bar moved into the WADING block when expanded**, with its `0 / limit / max` labels.
   Compact keeps it where it is -- there is no wading section on that card and the flow module is
   the whole of it. Safe now only because the graph carries its own y-axis labels; through round 6c
-  the bar's labelled scale was the graph's only legend. A water with no threshold on file still
-  gets the bar, under `FLOW RANGE` rather than `WADING`, because it is still this river's flow on
-  this river's own scale -- it just has no verdict.
+  the bar's labelled scale was the graph's only legend. A water with no threshold on file gets the
+  bar too, and a state word with it: the left slot carries the most load-bearing state that water
+  has. With a limit on file that is the wading verdict; without one it is where the flow sits in
+  this river's own record -- what ticket 6.4 computed, and which five of eight waters had no place
+  to say outside a strip frame that cycles every six seconds.
+  `WADING · NORMAL` on the pilot, `FLOW FOR EARLY SEP · WELL BELOW NORMAL` on the Pit.
+  **The caption carries the period on purpose.** Every band word contains "normal", and `NORMAL`
+  under `WADING` means under the shop's limit while `BELOW NORMAL` means low for the date -- the
+  same word, two measurements, now in the same position across waters. Naming the comparison is
+  what keeps them apart. That lamp is the accent rather than a state colour: the percentile is
+  descriptive, and lighting "well above normal" amber would make it the safety verdict 6.4 forbids.
+  The caption never breaks inside itself -- "Flow for early / Sep" reads as a mistake -- so it is
+  `nowrap`, and below 345px the filler word goes first, the same order of sacrifice the live strip
+  makes with "Read". 36 combinations of six waters by six widths: no broken caption, no overflow,
+  every header one line. A water with no gauge at all still renders no block, having no scale.
 - **The clarity tick meter is gone, the word stays.** Its positions (`{Poor:3, Fair:9, Good:15,
   Excellent:22}` of 24) were invented placements for a four-value ordinal, already commented in
   the source as illustrative. No water we carry has a turbidity gauge, so there was never a number
