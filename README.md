@@ -676,9 +676,15 @@ derived label claiming a seventeen-year record off two stray days.
 
 **Fall River has a gauge; what it does not have is a live one.** USGS 11354500 at Fall River Mills
 published daily means continuously from 2018 through 30 Sep 2025 -- the end of that water year --
-and nothing since. So the note names the state precisely rather than saying none exists: *"No live
-flow for the Fall. USGS published daily means at Fall River Mills through 30 Sep 2025 and nothing
-since; no site on the river reports a real-time series, and CDEC carries no flow station on it."*
+and nothing since. The card says *"No live gauge on the Fall River."* and stops.
+
+The first attempt at that sentence said all of the above on the card: the agency, the station, the
+date it stopped, and the fact that CDEC had been checked too. Five lines on a 164px card, to tell an
+angler there is no number. Two edits in opposite directions, one lesson -- the claim had to widen
+from "no USGS gauge" to "no gauge", because narrowing it to one source is how the McCloud came to
+deny a river CDEC reports hourly; and then it had to shrink back to a sentence, because which agency
+stopped publishing when is this file's job. The provenance lives in the fixture's `gaugeNote` and in
+the record behind it, where someone checking can find it and nobody else has to read it.
 
 Two claims about the Fall that circulate online were checked against that record and do not survive
 it. **"Remarkably consistent, usually 400 to 500 CFS"**: at Fall River Mills the recent annual

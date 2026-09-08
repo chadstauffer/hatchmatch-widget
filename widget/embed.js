@@ -1065,10 +1065,13 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         unreachable must never render as a river at zero. */
     flowNote() {
       const w = this.data.water, f = this.s.flow;
-      // "No live USGS gauge" was true and read as "no data exists", which is how the McCloud came
-      // to say there was none on a river CDEC reports hourly. A water with no gauge now says so
-      // about every source we check, not about the first one.
-      if (!gaugeOf(w)) return w.gaugeNote || 'No public gauge on this river. USGS and CDEC both checked.';
+      // Two edits, opposite directions, same lesson. "No live USGS gauge" was true and read as "no
+      // data exists" -- which is how the McCloud came to deny a river CDEC reports hourly -- so the
+      // claim was widened to every source. Then it was written out in full on the card, five lines
+      // naming the agency, the station and the date it stopped. That is the README's job. What the
+      // reader needs is whether there is a number; the provenance lives in the fixture's gaugeNote
+      // and in the record behind it, where someone checking can find it and nobody else has to.
+      if (!gaugeOf(w)) return w.gaugeNote || 'No live gauge on this river.';
       if (f.value == null) return `No reading from ${w.gaugeName || 'the gauge'} yet. Flow will appear here when it answers.`;
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
       return `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.`;

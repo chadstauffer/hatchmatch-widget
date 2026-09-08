@@ -8,7 +8,7 @@
     "gaugeName": null,
     "lat": 41.0075,
     "lon": -121.4469,
-    "gaugeNote": "No live flow for the Fall. USGS published daily means at Fall River Mills through 30 Sep 2025 and nothing since; no site on the river reports a real-time series, and CDEC carries no flow station on it.",
+    "gaugeNote": "No live gauge on the Fall River.",
     "name": "Fall River",
     "packName": null,
     "flow": null,
