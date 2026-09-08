@@ -641,6 +641,14 @@ where they did not the card says `Look before you wade`, which is written to be 
 advice no guide would have needed to give. The heading no longer changes with the source, so the
 block reads the same on every water.
 
+**Where the compact card has no hatch line, nothing takes its place.** A card-authored sentence
+used to -- *"The shop's own report and hot flies inside. Flow and weather are live."* -- and every
+clause of it was already on screen, said better by the thing beside it. The buy button directly
+below names the flies and the price. The LIVE lamp directly above is the proof the flow is live
+rather than a claim that it is. It was the one line on the compact card written to sell rather than
+to report, and with a pack on every water its only real claim became redundant. The seven waters
+without a hatch line are 30px shorter for it.
+
 **Every water sells a pack now, and the gate was in the wrong place.** It used to be `readOnly`, on
 the stated grounds that a page with no quantities has no pack to sell. But the shop's page sets no
 quantities on **any** water -- the pilot's included, whose 1s and 2s came from the spec fixture, not

@@ -1425,6 +1425,12 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     compact() {
       const d = this.data, w = this.wading(), hn = this.hatchNow(), f = this.s.flow;
       const closed = d.water.closed;
+      // Where there is no hatch line, nothing takes its place. A card-authored sentence used to --
+      // "The shop's own report and hot flies inside. Flow and weather are live." -- and every
+      // clause of it was already on screen, said better by the thing next to it: the buy button
+      // directly below names the flies AND the price, and the LIVE lamp directly above is the
+      // proof that the flow is live rather than a claim that it is. It was the one line on the
+      // compact card written to sell rather than to report.
       // The hatch line is its own control: tapping it opens the card on that hatch, with the
       // slot's flies already showing, rather than on NOW. It has to be a SIBLING of the expand
       // button and not a child -- a button cannot contain a button, which is the same rule that
@@ -1446,8 +1452,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     <div class="sec">
       ${this.flowModule(false)}
       ${f.failed || !w ? '' : `<div class="row caps wadingrow" style="letter-spacing:.12em"><span class="label">Wading</span><span class="lamp accent" style="--c:${w.color};font-size:11px;font-weight:600;letter-spacing:.1em"><i></i>${w.label}</span><span class="muted wadingnote" style="margin-left:auto;text-transform:none;letter-spacing:.04em">${w.note}</span></div>`}
-    </div>
-    ${hn ? '' : `<div class="muted rule" style="padding-top:10px;font-size:12px">The shop's own report and hot flies inside. Flow and weather are live.</div>`}`}
+    </div>`}
   </button>
   ${closed ? '' : hatchLine}
   ${closed ? `<a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>` : this.packButton()}
