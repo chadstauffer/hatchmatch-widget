@@ -55,12 +55,75 @@ export async function dailyStats(site) {
            beginYr: Math.min(...col('begin_yr')), endYr: Math.max(...col('end_yr')) };
 }
 
+/** Every daily mean the gauge has ever published. The statistics service cannot answer the
+    question the limit asks -- it reports percentiles per calendar day, so the best it can offer is
+    the median across season days of that day's p90, which is "a typical day's high water", not
+    "the flow this river exceeds a tenth of its season". On a river with runoff inside the season
+    the two are nowhere near each other: measured against the real record that estimator reads 73%
+    low on the Upper Sacramento, 68% low on the Trinity, 38% low on the Klamath. So this asks for
+    the record itself. One extra request per gauge at scrape time; nothing at runtime. */
+export async function dailyValues(site) {
+  const url = `https://waterservices.usgs.gov/nwis/dv/?format=json&sites=${site}&parameterCd=00060&statCd=00003&startDT=1900-01-01`;
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`daily values HTTP ${r.status}`);
+  const ts = (await r.json()).value.timeSeries[0];
+  if (!ts) throw new Error('no daily record for this site');
+  return ts.values[0].value
+    .map(x => ({ m: +x.dateTime.slice(5, 7), v: +x.value }))
+    .filter(x => Number.isFinite(x.v) && x.v >= 0);
+}
+
+/** The wading limit, derived. Through round 7 this was the one number the engine refused to
+    compute, on the grounds that a wading call is a person's to make. It still is -- what changed
+    is what the number claims. Six hand-set limits turned out to mean six different things: measured
+    against each river's own season they landed anywhere from the 35th percentile to the 93rd, so
+    "under 7,500 on the Lower Sac" and "under 2,000 on the Pit" were not two readings of one rule,
+    and an angler comparing two waters would have been right to notice.
+
+    One rule instead: the flow this river exceeds only a tenth of its own April-October record.
+    Every water then fires the same way -- 21 or 22 days a fishing season, on 52 to 116 years of
+    daily gauge record each -- and the card can say what the number is rather than assert it.
+
+    That is why the label is HIGH WATER and not WADING LIMIT. This statistic knows how high the
+    river is running. It knows nothing about whether you can stand in it: gradient, substrate and
+    channel shape are not gauged, and a river can sit at its median and still be unwadeable. The
+    lamp stays NORMAL / HIGH, which describes water rather than instructing anglers, and the real
+    wading advice stays where it belongs -- in the guide's own notes. A shop that knows better
+    still overrides it; applyOverrides() has not changed. */
+export const LIMIT_Q = 90;
+export const SEASON = [4, 10];               // April-October, generously the fishing season
+const pctile = (a, p) => { const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(p / 100 * s.length))]; };
+/** Round to a step an angler would repeat out loud. A limit reading 13,873 implies a precision
+    the underlying judgement does not have. */
+const roundLimit = v => { const m = v >= 10000 ? 500 : v >= 2000 ? 100 : v >= 500 ? 50 : v >= 100 ? 10 : 5; return Math.round(v / m) * m; };
+export function deriveLimit(values) {
+  const seas = values.filter(x => x.m >= SEASON[0] && x.m <= SEASON[1]).map(x => x.v);
+  if (seas.length < 365) return null;         // less than a year of season record decides nothing
+  return roundLimit(pctile(seas, LIMIT_Q));
+}
+
+/** How often a limit actually fires, so the report can show it rather than assert consistency. */
+export function limitDays(values, limit) {
+  const seas = values.filter(x => x.m >= SEASON[0] && x.m <= SEASON[1]);
+  if (!seas.length || limit == null) return null;
+  const yrs = new Set(values.map(x => x.y)).size || 1;
+  return { over: seas.filter(x => x.v >= limit).length, seasonDays: seas.length, yrs };
+}
+
 export const SCALE_Q = 0.70;
 const quantile = (a, q) => { const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(s.length * q))]; };
-export function deriveScale(stats) {
+/** The scale has one more job now than it had in round 3: it has to be able to SHOW the limit.
+    Derived from p95 alone, three of six rivers put their own limit at 83-100% of the bar, and at
+    100% there is no high side left to light -- the split stops carrying information at exactly the
+    reading it exists to mark. So the max is whichever is larger, the season scale or enough
+    headroom above the limit. It only ever widens a bar, never narrows one. */
+export const LIMIT_HEADROOM = 1.4;
+export function deriveScale(stats, limit) {
   if (!stats.p95.length) return null;
   const p95 = quantile(stats.p95, SCALE_Q);
-  return { min: 0, max: niceMax(p95), p95, p95Max: Math.max(...stats.p95),
+  const seasonMax = niceMax(p95);
+  const max = limit == null ? seasonMax : Math.max(seasonMax, niceMax(limit * LIMIT_HEADROOM));
+  return { min: 0, max, seasonMax, widenedForLimit: max !== seasonMax, p95, p95Max: Math.max(...stats.p95),
            recordMax: stats.max.length ? Math.max(...stats.max) : null,
            years: `${stats.beginYr}\u2013${stats.endYr}` };
 }
@@ -93,8 +156,9 @@ export function derivePosition(stats) {
 export function applyOverrides(derived, override) {
   const shop = (override && override.flow) || null;
   if (!derived && !shop) return null;
-  const out = { min: 0, max: null, threshold: null, thresholdLabel: 'wading limit', ...(derived || {}) };
-  const from = { min: derived ? 'derived' : 'default', max: derived ? 'derived' : 'none', threshold: 'unset' };
+  const out = { min: 0, max: null, threshold: null, thresholdLabel: 'high water', ...(derived || {}) };
+  const from = { min: derived ? 'derived' : 'default', max: derived ? 'derived' : 'none',
+                 threshold: derived && derived.threshold != null ? 'derived' : 'unset' };
   for (const k of ['min', 'max', 'threshold', 'thresholdLabel']) {
     if (shop && shop[k] != null) { out[k] = shop[k]; if (k in from) from[k] = 'shop'; }
   }
@@ -120,7 +184,7 @@ export function applyWaterFields(water, ov) {
   return water;
 }
 
-/** Where the threshold lands on the derived scale. Outside 25-75% the split stops informing. */
+/** Where the threshold lands on the scale. Outside 25-75% the split stops informing. */
 export function checkThreshold(scale, threshold) {
   if (scale == null || threshold == null) return { ok: null, pct: null };
   const pct = (threshold - scale.min) / (scale.max - scale.min) * 100;
@@ -177,10 +241,18 @@ async function applyToFixtures() {
     const ov = OVERRIDES[d.water.id] || null;
     const before = JSON.stringify(d.water.flow || null);
     applyWaterFields(d.water, ov);
-    // The scale already in the fixture stands in for the derived one: --apply does not re-derive,
-    // it only lets what a person wrote win over what is there.
-    const cur = d.water.flow;
-    const flow = applyOverrides(cur && cur.max != null ? { min: cur.min, max: cur.max } : null, ov);
+    // Recompute the flow block exactly the way the scrape does -- limit, then a scale that can
+    // show it, then whatever the shop has written on top.
+    const cur = d.water.flow || {};
+    let derived = null;
+    if (d.water.usgsSite) {
+      try {
+        const limit = deriveLimit(await dailyValues(d.water.usgsSite));
+        const sc = deriveScale(await dailyStats(d.water.usgsSite), limit);
+        if (sc) derived = { min: sc.min, max: sc.max, threshold: limit };
+      } catch (e) { console.error(`  ${f.padEnd(40)} ! ${e.message}`); }
+    }
+    const flow = applyOverrides(derived || (cur.max != null ? { min: cur.min, max: cur.max } : null), ov);
     if (flow) d.water.flow = { ...cur, ...flow };
     const fl = d.water.flow, th = fl && fl.threshold;
     const chk = fl && th != null ? checkThreshold(fl, th) : { pct: null };
@@ -197,24 +269,33 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const OVERRIDES = await readOverrides();
   const out = {};
   for (const [id, name, site] of WATERS) {
-    const threshold = ((OVERRIDES[id] || {}).flow || {}).threshold ?? null;
     if (!site) { out[id] = { name, gauge: null, note: 'no live gauge on file' }; continue; }
     try {
       const stats = await dailyStats(site);
-      const scale = deriveScale(stats);
+      const vals = await dailyValues(site);
+      const shop = ((OVERRIDES[id] || {}).flow || {}).threshold ?? null;
+      const threshold = shop ?? deriveLimit(vals);
+      // Report what SHIPS, not what the derivation alone would give: a scale the shop has set
+      // moves the tick, and a report that quietly disagrees with the card is worse than none.
+      const scale = applyOverrides(deriveScale(stats, threshold), OVERRIDES[id]);
       const chk = checkThreshold(scale, threshold);
-      out[id] = { name, gauge: site, ...scale, threshold, thresholdPct: chk.pct, thresholdOk: chk.ok };
+      const d = limitDays(vals, threshold);
+      out[id] = { name, gauge: site, ...scale, years: `${stats.beginYr}\u2013${stats.endYr}`,
+                  threshold, from: shop != null ? 'shop' : 'derived',
+                  daysPerSeason: d ? +(d.over / (d.seasonDays / 214)).toFixed(0) : null,
+                  thresholdPct: chk.pct, thresholdOk: chk.ok };
     } catch (e) { out[id] = { name, gauge: site, error: e.message }; }
   }
   if (process.argv.includes('--json')) { console.log(JSON.stringify(out, null, 2)); }
   else {
-    console.log('water                gauge      record        p95      scale max   threshold');
-    console.log('-'.repeat(84));
+    console.log('water                gauge      record         scale max   high water            days/season');
+    console.log('-'.repeat(94));
     for (const [id, v] of Object.entries(out)) {
       if (!v.gauge) { console.log(`${v.name.padEnd(20)} ${'--'.padEnd(10)} ${v.note}`); continue; }
       if (v.error) { console.log(`${v.name.padEnd(20)} ${v.gauge.padEnd(10)} ERROR ${v.error}`); continue; }
-      const th = v.threshold == null ? 'none' : `${v.threshold.toLocaleString()} @ ${v.thresholdPct.toFixed(0)}%${v.thresholdOk ? ' ok' : '  OUTSIDE 25-75%'}`;
-      console.log(`${v.name.padEnd(20)} ${v.gauge.padEnd(10)} ${v.years.padEnd(12)} ${String(Math.round(v.p95)).padStart(8)} ${String(v.max).padStart(11)}   ${th}`);
+      const th = v.threshold == null ? 'none' : `${v.threshold.toLocaleString()} @ ${v.thresholdPct.toFixed(0)}% ${v.from}${v.thresholdOk ? '' : '  OUTSIDE 25-75%'}`;
+      console.log(`${v.name.padEnd(20)} ${v.gauge.padEnd(10)} ${v.years.padEnd(12)} ${(String(v.max) + (v.widenedForLimit ? '*' : ' ')).padStart(11)}   ${th.padEnd(22)} ${String(v.daysPerSeason ?? '-').padStart(6)}`);
     }
+    console.log('\n* scale widened so the bar can show its own limit. days/season is out of 214 (Apr-Oct).');
   }
 }

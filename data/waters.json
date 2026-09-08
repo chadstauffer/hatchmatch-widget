@@ -1,8 +1,8 @@
 {
-  "note": "Numbers a shop or a guide has set. These always win over anything the engine derives. A derived scale is a good default from measured record; a number someone who fishes the water chose is better, and nothing computed may quietly replace it. Add a water here at onboarding and the next scrape keeps what is written rather than overwriting it.",
+  "note": "Numbers a shop or a guide has set. These always win over anything the engine derives. A derived number is a good default from measured record; a number someone who fishes the water chose is better, and nothing computed may quietly replace it. Add a water here at onboarding and the next scrape keeps what is written rather than overwriting it.",
   "fields": {
     "flow.min / flow.max": "the scale the bar and sparkline draw against. Derived from USGS daily statistics when absent.",
-    "flow.threshold / flow.thresholdLabel": "the wading limit. Never derived: this is a person deciding what is safe.",
+    "flow.threshold / flow.thresholdLabel": "the high-water mark. DERIVED since 2026-09-08: the flow this river exceeds only a tenth of its own April-October record, which fires 21-22 days a season on every water. Six hand-set numbers measured out at anywhere from the 35th to the 93rd percentile of their own rivers, so they were six different rules wearing one label. Set a number here and it still wins -- but write down why, because it will disagree with every other water on the card.",
     "sections": "named reaches the pack can be shaped to.",
     "packName": "the shop's own name for the pack.",
     "cdecStation": "CDEC station id for water temperature (sensor 25, hourly), where USGS does not report 00010. Read through the widget's temp proxy, never from the browser: CDEC sends no CORS header.",
@@ -10,53 +10,16 @@
   },
   "waters": {
     "lower-sacramento": {
-      "why": "Chad set this scale and threshold by hand. 7,500 on 0-15,000 puts the wading limit at 50% of the bar, which is why the two-colour split reads as well as it does. The derivation would give 0-30,000 and a limit at 25%.",
+      "why": "The scale is the one hand-set number left, and only the scale. 0-20,000 puts the derived high-water mark at 70% of the bar and the season's median flow at 44% of it. The pure derivation gives 0-30,000, which is right about storms and pushes the season a reader actually fishes into the bottom third; the old 0-15,000 was fitted to a 7,500 threshold that no longer exists and would now put the mark at 93%, off the end of its own bar. The threshold itself is derived like every other water's.",
       "flow": {
         "min": 0,
-        "max": 15000,
-        "threshold": 7500,
-        "thresholdLabel": "wading limit"
+        "max": 20000
       },
       "sections": [
         "Up top",
         "Lower"
       ],
       "packName": "Sac Pack"
-    },
-    "upper-sacramento": {
-      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
-      "flow": {
-        "threshold": 2500,
-        "thresholdLabel": "wading limit"
-      }
-    },
-    "trinity": {
-      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
-      "flow": {
-        "threshold": 2500,
-        "thresholdLabel": "wading limit"
-      }
-    },
-    "klamath": {
-      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
-      "flow": {
-        "threshold": 3000,
-        "thresholdLabel": "wading limit"
-      }
-    },
-    "pit": {
-      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
-      "flow": {
-        "threshold": 2000,
-        "thresholdLabel": "wading limit"
-      }
-    },
-    "hat-creek": {
-      "why": "Chad set this by hand on 2026-09-07, the same way he set the Lower Sac's 7,500. Never derived: a wading limit is a person deciding what is safe on a river they know. The engine may not compute one, and may not replace one.",
-      "flow": {
-        "threshold": 150,
-        "thresholdLabel": "wading limit"
-      }
     }
   }
 }

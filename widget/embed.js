@@ -972,7 +972,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         return `<i class="${on ? 'on' : ''}${cur ? ' cur' : ''}${on && !this.s.filled ? ' fill' : ''}" style="--i:${i};--seg:${color}"></i>`;
       }).join('');
       const tick = lim ? `<span class="tick" style="left:${((F.threshold - F.min) / (F.max - F.min) * 100).toFixed(2)}%"></span>` : '';
-      const label = `${num(f.value)} CFS on a scale of ${num(F.min)} to ${num(F.max)}` + (lim ? `, ${F.thresholdLabel} ${num(F.threshold)}` : '');
+      const label = `${num(f.value)} CFS on a scale of ${num(F.min)} to ${num(F.max)}` + (lim ? `, ${F.thresholdLabel} at ${num(F.threshold)}` : '');
       return `<div class="bar${tall ? ' tall' : ''}${f.live && !f.failed ? ' barlive' : ''}" role="img" aria-label="${label}">${cells}${tick}</div>`;
     }
     ratingOf(r) { return { label: r, n: { Poor: 1, Fair: 2, 'Fair to Good': 3, Good: 4, Great: 5 }[r] || 0 }; }
@@ -1005,7 +1005,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // anglers actually say -- so the call stays with the person standing in the river. The pair
       // is one flow vocabulary now rather than a verdict on one side and a level on the other,
       // which also drops the "Wadeable / Wadeable below 7,500 CFS" stutter.
-      return { label: ok ? 'Normal' : 'High', color: ok ? 'var(--green)' : 'var(--amber)', note: `Wadeable below ${num(F.threshold)} CFS` };
+      // "Wadeable below N" went the same way in round 7b, for a harder reason: it was the card
+      // certifying water it cannot see. The number is a measured high-water mark -- the flow this
+      // river passes only a tenth of its own season -- so the sentence says that and stops. What
+      // it means for wading is the guide's to say, and they say it in their notes.
+      return { label: ok ? 'Normal' : 'High', color: ok ? 'var(--green)' : 'var(--amber)', note: `High above ${num(F.threshold)} CFS` };
     }
     /** Only reached when both endpoints failed. The live reading says the same things in the strip. */
     /** Three different silences, said differently. No gauge on file, a gauge we have never read,

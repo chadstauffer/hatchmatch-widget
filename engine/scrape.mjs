@@ -20,7 +20,7 @@
 // and are absent here: these fixtures are read-only until someone sets them.
 
 import { readFile, writeFile } from 'node:fs/promises';
-import { dailyStats, deriveScale, derivePosition, applyOverrides, readOverrides, applyWaterFields } from './scales.mjs';
+import { dailyStats, dailyValues, deriveScale, deriveLimit, derivePosition, applyOverrides, readOverrides, applyWaterFields } from './scales.mjs';
 
 const SRC = 'https://www.theflyshop.com/streamreport.html';
 
@@ -329,17 +329,20 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   for (const r of reports) {
     const ov = OVERRIDES[r.water.id] || null;
     applyWaterFields(r.water, ov);
-    let sc = null, pos = null;
+    let sc = null, pos = null, limit = null;
     if (r.water.usgsSite) {
       try {
         const stats = await dailyStats(r.water.usgsSite);
-        sc = deriveScale(stats);
+        // The high-water mark, from the river's own season record. See deriveLimit().
+        try { limit = deriveLimit(await dailyValues(r.water.usgsSite)); }
+        catch (e) { console.error(`  ! ${r.water.shortName}: no daily record, no limit (${e.message})`); }
+        sc = deriveScale(stats, limit);
         // Same request, second answer: where a reading sits in this river's own record for this
         // time of year. Descriptive only -- it never becomes a wading verdict.
         pos = derivePosition(stats);
       } catch (e) { console.error(`  ! ${r.water.shortName}: scale unavailable (${e.message})`); }
     }
-    const flow = applyOverrides(sc ? { min: sc.min, max: sc.max } : null, ov);
+    const flow = applyOverrides(sc ? { min: sc.min, max: sc.max, threshold: limit } : null, ov);
     if (flow) {
       // No fabricated last reading. A gauge we have never read is not a gauge reading zero, and
       // the card must not be able to render one as the other.

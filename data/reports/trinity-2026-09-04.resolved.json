@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-07T23:43:40.548Z",
+ "generatedAt": "2026-09-08T04:03:20.580Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -15,13 +15,13 @@
   "packName": null,
   "flow": {
    "min": 0,
-   "max": 4000,
-   "threshold": 2500,
-   "thresholdLabel": "wading limit",
+   "max": 5000,
+   "threshold": 3300,
+   "thresholdLabel": "high water",
    "source": {
     "min": "derived",
     "max": "derived",
-    "threshold": "shop"
+    "threshold": "derived"
    },
    "lastReading": null,
    "scaleSource": "USGS daily statistics 1962–2026, 3,480 CFS at the 70th percentile of daily p95, rounded up",

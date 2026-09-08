@@ -13,12 +13,12 @@
     "flow": {
       "min": 0,
       "max": 6000,
-      "threshold": 2500,
-      "thresholdLabel": "wading limit",
+      "threshold": 2100,
+      "thresholdLabel": "high water",
       "source": {
         "min": "derived",
         "max": "derived",
-        "threshold": "shop"
+        "threshold": "derived"
       },
       "lastReading": null,
       "scaleSource": "USGS daily statistics 1945–2026, 5,310 CFS at the 70th percentile of daily p95, rounded up",
