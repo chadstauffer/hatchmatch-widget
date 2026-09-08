@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-08T04:03:19.545Z",
+ "generatedAt": "2026-09-08T04:18:52.497Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -15,8 +15,8 @@
   "packName": null,
   "flow": {
    "min": 0,
-   "max": 300,
-   "threshold": 200,
+   "max": 250,
+   "threshold": 170,
    "thresholdLabel": "high water",
    "source": {
     "min": "derived",

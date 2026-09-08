@@ -178,7 +178,7 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   already uses for `● LIVE` and `● GUIDE REPORT SEP 1`, so a reader learns the pattern once. The
   With the verdict in the header there is no sentence under it at all. The number and the word
   are already on screen an inch below, on the range row under the bar
-  (`0 / 14,000 HIGH WATER / 20,000`), and the bar's own colour split says which side is which.
+  (`0 / 12,000 HIGH WATER / 20,000`), and the bar's own colour split says which side is which.
   The expanded block is three rows now: header, bar, range. The compact card keeps the sentence,
   because there it is the only place the threshold appears.
   Both state words are the accent; the dot beside each carries its own state, and the two are
@@ -274,7 +274,7 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
 - **The wading lamp reads `Normal` / `High`, not `Wadeable` / `Not today`.** "Not today" was the
   card telling an experienced angler what to do with their day off a single number, and it reads
   as exactly that. The lamp describes the water now and the note beside it carries the shop's
-  rule -- `HIGH · High above 14,000 CFS` -- so the call stays with the person standing in the
+  rule -- `HIGH · High above 12,000 CFS` -- so the call stays with the person standing in the
   river. It also makes the pair one flow vocabulary instead of a verdict on one side and a level
   on the other, and drops the "Wadeable / Wadeable below 7,500 CFS" stutter.
   **Open question:** "normal" now appears twice on the card with two different referents -- this
@@ -318,18 +318,26 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   and an angler comparing "under 7,500 on the Lower Sac" with "under 2,000 on the Pit" would have
   been right to notice.
 
-  The rule now: **the flow this river exceeds only a tenth of its own April-October record**, from
-  52 to 116 years of daily USGS gauge record per water. That fires 21-23 days of a 214-day season
-  on every river -- the same behaviour everywhere, which is the point.
+  The rule now: **the flow this river exceeds only a fifth of its own April-October record**, from
+  52 to 116 years of daily USGS gauge record per water.
 
-  | water | hand-set | derived | days over / season | tick on bar |
+  | water | hand-set | derived | seasons it fires, last 20 | tick on bar |
   |---|---|---|---|---|
-  | Lower Sacramento | 7,500 | **14,000** | 21 | 70% |
-  | Trinity | 2,500 | **3,300** | 22 | 66% |
-  | Klamath | 3,000 | **2,900** | 22 | 36% |
-  | Pit | 2,000 | **2,400** | 22 | 48% |
-  | Upper Sacramento | 2,500 | **2,100** | 22 | 35% |
-  | Hat Creek | 150 | **200** | 23 | 67% |
+  | Lower Sacramento | 7,500 | **12,000** | 15 | 60% |
+  | Trinity | 2,500 | **1,700** | 20 | 43% |
+  | Klamath | 3,000 | **1,750** | 16 | 29% |
+  | Pit | 2,000 | **1,700** | 16 | 34% |
+  | Upper Sacramento | 2,500 | **1,300** | 18 | 33% |
+  | Hat Creek | 150 | **170** | 15 | 68% |
+
+  **The quantile was chosen on how often the mark fires, and the first answer was wrong.** p90 was
+  built and reported as "21-23 days a season on every river", which sounds like consistency and is
+  a mean covering for a bimodal distribution: high water arrives in month-long blocks or not at
+  all, so most seasons scored zero and a few scored fifty. Asked the right question -- how many
+  seasons reach it at all -- p90 fired in **8 of the last 20** on the Lower Sacramento and 8 on the
+  Pit. An instrument dark in twelve seasons out of twenty is not measuring anything an angler will
+  see. At p80 every water lights in 15 or more. A mean is not a distribution, and "days per season"
+  was the wrong statistic to have led with.
 
   **What changed is what the number claims, which is why the label is `HIGH WATER` and not
   `WADING LIMIT`.** This statistic knows how high a river is running. It knows nothing about
@@ -337,7 +345,7 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   can sit at its median and still be unwadeable. Deriving the number made it consistent and *less*
   informed about safety, and the card has to say so rather than trade on the old label's authority.
   The compact card's sentence went the same way: `Wadeable below 7,500 CFS` was the card certifying
-  water it cannot see, and now reads `High above 14,000 CFS`. The lamp stays `NORMAL` / `HIGH`,
+  water it cannot see, and now reads `High above 12,000 CFS`. The lamp stays `NORMAL` / `HIGH`,
   which describes water rather than instructing anglers, and the real wading advice stays in the
   guide's own notes, where a person wrote it.
 
@@ -345,15 +353,26 @@ Demo states for the pitch, as a query string on the demo page: `?state=aging`, `
   A shop number still wins -- `applyOverrides()` has not changed -- but `waters.json` now says that
   a hand-set threshold will disagree with every other water on the card, so write down why.
 
-  **The scale gained a second job: it has to be able to show the limit.** Derived from p95 alone,
-  three of six rivers put their own mark at 83-100% of the bar, and at 100% there is no high side
-  left to light -- the split stops carrying information at exactly the reading it exists to mark.
-  The max is now whichever is larger, the season scale or headroom above the limit. It only ever
-  widens a bar, so nothing that renders today can start clipping.
-  The Lower Sac keeps a hand-set **scale** (and only the scale): `0-20,000` puts the mark at 70% of
+  **The scale gained a second job: it has to be able to show the mark.** The p95 season scale alone
+  puts it anywhere -- at 100% of the bar on Hat Creek, where there is no high side left to light,
+  and at 22% on the Upper Sacramento and the Klamath, whose storm-driven maxima sit so far above
+  their season flows that the mark lands in the left corner. Either way the split stops carrying
+  information at exactly the reading it exists to mark. The season scale now stands wherever it
+  already lands the mark in a readable band and is clamped to the nearest bound where it does not,
+  so round 3's derivation is bounded rather than replaced: of six rivers only the two that were
+  broken move. All six land at 29-68%.
+  The Lower Sac keeps a hand-set **scale** (and only the scale): `0-20,000` puts the mark at 60% of
   the bar and the season's median flow at 44% of it, where the pure derivation's `0-30,000` pushes
   the water people actually fish into the bottom third, and the old `0-15,000` was fitted to a 7,500
   threshold that no longer exists.
+
+  **A failed fetch may not delete a number.** `--apply` re-derives per water and fell back to the
+  fixture's own min and max when a derivation threw -- and that fallback carries no threshold, so a
+  single transient network error silently wrote `no limit` over a shipped mark. It happened once,
+  on the pilot water, which is how it was caught. A water whose derivation fails is now skipped
+  whole, named in the output, and the run exits non-zero. The `process.exit(0)` at the call site
+  was throwing that code away, so a run that printed "re-run" still told the shell it had
+  succeeded. Both verified by forcing the fetch to throw: fixtures untouched, exit 1.
 
   One estimator was tried and rejected with numbers. The statistics service is already fetched per
   gauge and reports percentiles per calendar day, so the cheap answer is the median across season

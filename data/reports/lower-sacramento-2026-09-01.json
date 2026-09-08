@@ -14,7 +14,7 @@
     "flow": {
       "min": 0,
       "max": 20000,
-      "threshold": 14000,
+      "threshold": 12000,
       "thresholdLabel": "high water",
       "lastReading": {
         "value": 8000,

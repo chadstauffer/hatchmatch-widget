@@ -12,8 +12,8 @@
     "packName": null,
     "flow": {
       "min": 0,
-      "max": 8000,
-      "threshold": 2900,
+      "max": 6000,
+      "threshold": 1750,
       "thresholdLabel": "high water",
       "source": {
         "min": "derived",

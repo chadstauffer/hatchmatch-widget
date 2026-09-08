@@ -80,9 +80,17 @@ export async function dailyValues(site) {
     "under 7,500 on the Lower Sac" and "under 2,000 on the Pit" were not two readings of one rule,
     and an angler comparing two waters would have been right to notice.
 
-    One rule instead: the flow this river exceeds only a tenth of its own April-October record.
-    Every water then fires the same way -- 21 or 22 days a fishing season, on 52 to 116 years of
-    daily gauge record each -- and the card can say what the number is rather than assert it.
+    One rule instead: the flow this river exceeds only a fifth of its own April-October record, on
+    52 to 116 years of daily gauge record each.
+
+    The quantile was chosen on how often the mark actually fires, not on how tidy it sounds. At p90
+    the mean was a flat 21-23 days a season on every river, which reads like consistency and is a
+    mean hiding a bimodal distribution: high water arrives in month-long blocks or not at all, so
+    most seasons scored zero and a few scored fifty. The Lower Sacramento reached its p90 in 8 of
+    the last 20 seasons and the Pit in 8 -- an instrument dark in twelve seasons out of twenty is
+    not measuring anything an angler will ever see. At p80 every water lights in 15 or more of the
+    last 20. That is what a high-water mark should mean: most years this river goes high at some
+    point.
 
     That is why the label is HIGH WATER and not WADING LIMIT. This statistic knows how high the
     river is running. It knows nothing about whether you can stand in it: gradient, substrate and
@@ -90,7 +98,7 @@ export async function dailyValues(site) {
     lamp stays NORMAL / HIGH, which describes water rather than instructing anglers, and the real
     wading advice stays where it belongs -- in the guide's own notes. A shop that knows better
     still overrides it; applyOverrides() has not changed. */
-export const LIMIT_Q = 90;
+export const LIMIT_Q = 80;
 export const SEASON = [4, 10];               // April-October, generously the fishing season
 const pctile = (a, p) => { const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(p / 100 * s.length))]; };
 /** Round to a step an angler would repeat out loud. A limit reading 13,873 implies a precision
@@ -113,17 +121,24 @@ export function limitDays(values, limit) {
 export const SCALE_Q = 0.70;
 const quantile = (a, q) => { const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(s.length * q))]; };
 /** The scale has one more job now than it had in round 3: it has to be able to SHOW the limit.
-    Derived from p95 alone, three of six rivers put their own limit at 83-100% of the bar, and at
-    100% there is no high side left to light -- the split stops carrying information at exactly the
-    reading it exists to mark. So the max is whichever is larger, the season scale or enough
-    headroom above the limit. It only ever widens a bar, never narrows one. */
-export const LIMIT_HEADROOM = 1.4;
+    The p95 season scale alone puts the mark anywhere -- at 100% of the bar on Hat Creek, where
+    there is no high side left to light, and at 22% on the Upper Sacramento and the Klamath, whose
+    storm-driven maxima are so far above their season flows that the mark ends up in the left
+    corner. Either way the two-colour split stops carrying information at exactly the reading it
+    exists to mark.
+
+    So the season scale stands wherever it already lands the mark in a readable band, and is
+    clamped to the nearest bound where it does not. Round 3's derivation is not replaced -- it is
+    bounded. Of six rivers only the two that were broken move. */
+export const LIMIT_HEADROOM = 1.4;      // mark no higher than ~71% of the bar
+export const LIMIT_CEILING = 3;         // mark no lower than ~33% of the bar
 export function deriveScale(stats, limit) {
   if (!stats.p95.length) return null;
   const p95 = quantile(stats.p95, SCALE_Q);
   const seasonMax = niceMax(p95);
-  const max = limit == null ? seasonMax : Math.max(seasonMax, niceMax(limit * LIMIT_HEADROOM));
-  return { min: 0, max, seasonMax, widenedForLimit: max !== seasonMax, p95, p95Max: Math.max(...stats.p95),
+  const max = limit == null ? seasonMax
+    : Math.min(Math.max(seasonMax, niceMax(limit * LIMIT_HEADROOM)), niceMax(limit * LIMIT_CEILING));
+  return { min: 0, max, seasonMax, boundedByLimit: max !== seasonMax, p95, p95Max: Math.max(...stats.p95),
            recordMax: stats.max.length ? Math.max(...stats.max) : null,
            years: `${stats.beginYr}\u2013${stats.endYr}` };
 }
@@ -236,6 +251,7 @@ async function applyToFixtures() {
   const dir = 'data/reports';
   const OVERRIDES = await readOverrides();
   const files = (await readdir(dir)).filter(f => /-\d{4}-\d{2}-\d{2}\.json$/.test(f) && !f.includes('resolved'));
+  const failed = [];
   for (const f of files) {
     const d = JSON.parse(await readFile(`${dir}/${f}`, 'utf8'));
     const ov = OVERRIDES[d.water.id] || null;
@@ -250,7 +266,15 @@ async function applyToFixtures() {
         const limit = deriveLimit(await dailyValues(d.water.usgsSite));
         const sc = deriveScale(await dailyStats(d.water.usgsSite), limit);
         if (sc) derived = { min: sc.min, max: sc.max, threshold: limit };
-      } catch (e) { console.error(`  ${f.padEnd(40)} ! ${e.message}`); }
+      } catch (e) {
+        // A network blip must never delete a number. Without this the fallback re-derives from the
+        // fixture's own min and max, which carry no threshold, so one failed fetch silently wrote
+        // `no limit` over a shipped mark -- seen once, on the pilot water, which is how it was
+        // caught. The water is skipped whole and reported, and the fixture is left as it was.
+        console.error(`  ${f.padEnd(40)} ! ${e.message} -- SKIPPED, fixture left as it was`);
+        failed.push(d.water.id);
+        continue;
+      }
     }
     const flow = applyOverrides(derived || (cur.max != null ? { min: cur.min, max: cur.max } : null), ov);
     if (flow) d.water.flow = { ...cur, ...flow };
@@ -261,11 +285,17 @@ async function applyToFixtures() {
     await writeFile(`${dir}/${f}`, JSON.stringify(d, null, 2) + '\n');
     console.error(`  ${f.padEnd(40)} ${JSON.stringify(d.water.flow) === before ? '     ' : 'wrote'} ${note}`);
   }
+  if (failed.length) {
+    console.error(`\n${failed.length} water(s) skipped and left unchanged: ${failed.join(', ')}. Re-run.`);
+    process.exitCode = 1;
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  if (process.argv.includes('--write')) { await writePositions(); process.exit(0); }
-  if (process.argv.includes('--apply')) { await applyToFixtures(); process.exit(0); }
+  if (process.argv.includes('--write')) { await writePositions(); process.exit(process.exitCode || 0); }
+  // process.exit(0) here would have thrown away the exit code applyToFixtures() sets when it
+  // skips a water: the run printed "re-run" and still told the shell it had succeeded.
+  if (process.argv.includes('--apply')) { await applyToFixtures(); process.exit(process.exitCode || 0); }
   const OVERRIDES = await readOverrides();
   const out = {};
   for (const [id, name, site] of WATERS) {
@@ -294,8 +324,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       if (!v.gauge) { console.log(`${v.name.padEnd(20)} ${'--'.padEnd(10)} ${v.note}`); continue; }
       if (v.error) { console.log(`${v.name.padEnd(20)} ${v.gauge.padEnd(10)} ERROR ${v.error}`); continue; }
       const th = v.threshold == null ? 'none' : `${v.threshold.toLocaleString()} @ ${v.thresholdPct.toFixed(0)}% ${v.from}${v.thresholdOk ? '' : '  OUTSIDE 25-75%'}`;
-      console.log(`${v.name.padEnd(20)} ${v.gauge.padEnd(10)} ${v.years.padEnd(12)} ${(String(v.max) + (v.widenedForLimit ? '*' : ' ')).padStart(11)}   ${th.padEnd(22)} ${String(v.daysPerSeason ?? '-').padStart(6)}`);
+      console.log(`${v.name.padEnd(20)} ${v.gauge.padEnd(10)} ${v.years.padEnd(12)} ${(String(v.max) + (v.boundedByLimit ? '*' : ' ')).padStart(11)}   ${th.padEnd(22)} ${String(v.daysPerSeason ?? '-').padStart(6)}`);
     }
-    console.log('\n* scale widened so the bar can show its own limit. days/season is out of 214 (Apr-Oct).');
+    console.log('\n* scale bounded so the bar can show its own mark. days/season is out of 214 (Apr-Oct).');
   }
 }

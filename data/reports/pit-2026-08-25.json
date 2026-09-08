@@ -13,7 +13,7 @@
     "flow": {
       "min": 0,
       "max": 5000,
-      "threshold": 2400,
+      "threshold": 1700,
       "thresholdLabel": "high water",
       "source": {
         "min": "derived",
