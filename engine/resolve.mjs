@@ -155,7 +155,7 @@ export function resolveReport(fixture, catalog, aliases) {
     fixture.report.clarityFrom
       ? `FOR THE GUIDE, ${fixture.water.shortName}: the card reads clarity as "${fixture.report.clarity}"${fixture.report.clarityDetail ? ` (${fixture.report.clarityDetail})` : ''} from your own line -- "${fixture.report.clarityFrom}". Confirm that is the word you meant.`
       : null,
-    fixture.readOnly ? 'Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.' : null,
+    fixture.readOnly ? 'Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide\'s fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.' : null,
     // The numbers only a person can supply, as ONE ask rather than one per number -- a guide
     // reads this list once, and two separate lines asking them to think about the same water is
     // two chances to answer neither.

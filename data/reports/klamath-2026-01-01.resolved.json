@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-08T04:28:55.617Z",
+ "generatedAt": "2026-09-08T04:36:36.929Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -975,7 +975,7 @@
   "Rating: Poor.",
   "Prices from the catalog: 8 picks run $1.95 to $3.95; 0 are $2.95.",
   "FOR THE GUIDE, Klamath: the card reads clarity as \"Variable\" from your own line -- \"The river is definitely showing signs from the last storm and we will see big flows and probably colored water over the next few weeks.\". Confirm that is the word you meant.",
-  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
+  "Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide's fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.",
   "FOR THE GUIDE, Klamath: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
 }

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-08T04:28:56.639Z",
+ "generatedAt": "2026-09-08T04:36:38.203Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -2209,7 +2209,7 @@
  "observations": [
   "Rating: Fair to Good.",
   "Prices from the catalog: 22 picks run $1.90 to $4.95; 7 are $2.95.",
-  "Read-only: the page gives no hatch slots, no roles and no quantities, so this water shows conditions and flies but cannot sell a pack. Nothing here is invented to fill the gap.",
+  "Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide's fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.",
   "FOR THE GUIDE, Upper Sac: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
 }

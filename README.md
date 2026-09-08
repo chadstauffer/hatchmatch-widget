@@ -641,6 +641,41 @@ where they did not the card says `Look before you wade`, which is written to be 
 advice no guide would have needed to give. The heading no longer changes with the source, so the
 block reads the same on every water.
 
+**Every water sells a pack now, and the gate was in the wrong place.** It used to be `readOnly`, on
+the stated grounds that a page with no quantities has no pack to sell. But the shop's page sets no
+quantities on **any** water -- the pilot's included, whose 1s and 2s came from the spec fixture, not
+from them -- and nothing in seven of eight reports contains quantity language at all. What a
+read-only page is actually missing is hatch slots and roles, which is a statement about structure,
+not about whether the flies can be sold. Those flies are the guide's own list, already resolved to
+real SKUs at real prices.
+
+So a pack is **one of each fly the guide named**. One is not a recommendation about how many to
+carry: a differential -- two of these, six of those -- would imply the guide ranked their own list,
+and they did not. One is the quantity that makes the list purchasable without adding a word to it.
+Fixed rows read `x1` and carry no stepper, because a stepper offers a per-fly number the report
+never had and its multiplier means "one per angler per day", which is exactly the claim nobody made.
+
+| water | flies | pack |
+|---|---|---|
+| Lower Sacramento | 21 | $65.95 |
+| Upper Sacramento | 21 | $62.05 |
+| Pit | 19 | $58.95 |
+| Trinity | 13 | $45.50 |
+| McCloud | 9 | $29.30 |
+| Hat Creek | 9 | $25.55 |
+| Klamath | 8 | $21.65 |
+| Fall River | 7 | $20.10 |
+
+Out-of-stock variants stay out of the pack, which is why the Pit sells 19 of 20 picks and the Upper
+Sacramento 21 of 22. Attribution is unchanged and now carries per water: the cart URL tags
+`hatchmatch_water` and the UTM campaign with the water's own id.
+
+**Before this ships: 32 picks across the seven new waters are matched but unconfirmed.** The Lower
+Sacramento has none, which is why it was the only water that could sell. Fall River 4, Hat Creek 3,
+Klamath 2, McCloud 2, Pit 10, Trinity 4, Upper Sacramento 7 -- mostly fuzzy name matches. While the
+buy button was disabled an unconfirmed match cost nothing; it is now a live purchase target. Run
+`npm run resolve` and read the `unresolved.md` files.
+
 **A slot the guide listed no hatch for is not rendered at all.** It used to appear while the angler
 was standing in it, carrying a line of prose the code comment described as the guide's own. It was
 not: nothing in the engine ever produced a `fallback`, it was written into the spec fixture by hand,

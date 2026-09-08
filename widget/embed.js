@@ -886,7 +886,12 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
           role: { key: label, label },
           flies: this.picks.filter(p => (p.group || 'Hot flies') === label && pick(p)).map(p => {
             const v = this.variantOf(p);
-            return { p, use: p, v, per: null, qty: null, sub: null, price: v.price, oos: this.unavailable(v, p) };
+            // One of each. Not a recommendation about how many to carry -- the page sets no
+            // quantities on any water, and a differential ("two of these, six of those") would
+            // imply the guide ranked their own list, which they did not. One is the quantity that
+            // makes the guide's list purchasable without adding anything to it. `per` stays null,
+            // so no row offers a stepper: the pack is the list, and the list is theirs.
+            return { p, use: p, v, per: null, qty: 1, sub: null, price: v.price, oos: this.unavailable(v, p) };
           }),
         })).filter(g => g.flies.length);
       }
@@ -909,8 +914,12 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     }
     /** The pack is the whole rig for the section. There is exactly one of these, and one buy button. */
     pack() {
-      // No quantities, no pack. The all-flies link still works: it is a catalog link, not a cart.
-      if (this.data.readOnly) return { items: [], flies: 0, total: 0, url: null };
+      // Every water sells a pack now. It used to be gated on `readOnly` on the grounds that a page
+      // with no quantities has no pack to sell -- but the page sets no quantities on ANY water,
+      // the pilot's included, whose 1s and 2s came from the spec fixture rather than the shop. The
+      // gate was drawn in the wrong place: what a read-only page is missing is hatch slots and
+      // roles, not the flies. Those flies are the guide's own list, resolved to real SKUs at real
+      // prices, and one of each sells the list without inventing a word of it.
       const items = this.rows().flatMap(g => g.flies).filter(r => r.qty > 0 && !r.oos);
       const flies = items.reduce((n, r) => n + r.qty, 0), total = items.reduce((n, r) => n + r.price, 0);
       return { items, flies, total, url: this.cartUrl(items) };
@@ -1030,9 +1039,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     theName(short) { return /creek$|^fall river$/i.test(short) ? esc(short) : `the ${esc(short)}`; }
     packButton() {
       const k = this.pack();
-      // The page lists this water's flies but sets no quantities, so there is no pack to add.
-      // Inventing "two of each" is the same class of invention as inventing a hatch slot.
-      if (this.data.readOnly) return `<button class="pack" disabled><span class="packlabel"><b>No pack for ${this.theName(this.data.water.shortName)} yet</b><em>No pack yet</em></span><span></span><span>&mdash;</span></button>`;
+      // A water with nothing resolved still cannot sell anything, and says so rather than
+      // rendering a dead button.
+      if (!k.flies) return `<button class="pack" disabled><span class="packlabel"><b>No pack for ${this.theName(this.data.water.shortName)} yet</b><em>No pack yet</em></span><span></span><span>&mdash;</span></button>`;
       if (this.s.added) return `<button class="pack" data-action="viewcart"><span>Added</span><span></span><span>View cart</span></button>`;
       // Three columns, always. When it will not all fit, the water name is the part that goes:
       // the count and the price are the promise. See fitLabels().
@@ -1460,9 +1469,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     : `<div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div>`}</div>
   <div class="buybar">
     ${this.tripRow()}
-    ${d.readOnly
-      ? `<div class="nopack">No pack for ${this.theName(d.water.shortName)} yet</div>${this.guideCta(true)}`
-      : `${this.guideCta(false)}${this.packButton()}`}
+    ${this.pack().flies
+      ? `${this.guideCta(false)}${this.packButton()}`
+      : `<div class="nopack">No pack for ${this.theName(d.water.shortName)} yet</div>${this.guideCta(true)}`}
     <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
   </div>
 </div>`;
@@ -1603,6 +1612,10 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const mult = this.s.anglers * this.s.days;
       // A null quantity means this water sells no pack: show the shop's unit price and stock, and
       // nothing that implies the row is being bought.
+      // A quantity with no `per` is a fixed one -- the guide's list, one of each, on a page that
+      // set no quantities. It reads "x1" and offers no stepper, because a stepper here would let
+      // the reader dial a per-fly number the report never had, and the multiplier behind it means
+      // "one per angler per day", which is a claim about how many to carry that nobody made.
       const lamp = r.oos ? ['var(--red)', 'Out of stock'] : (v.lowStock ? ['var(--amber)', 'Low stock'] : ['var(--green)', 'In stock']);
       // A water with no sections has no "up top only" to say.
       const only = (p.sections || []).length === 1 ? `<span class="only">${esc(p.sections[0])} only</span>` : '';
@@ -1621,7 +1634,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       return `<div class="fly${qty === 0 ? ' zero' : ''}">
     ${v.image ? `<button class="thumb" data-action="image" data-id="${id}" data-focus="img-${id}" aria-label="Larger picture of ${esc(use.name)}"><img src="${esc(v.image)}" alt="" loading="lazy" width="36" height="36"></button>` : `<div class="thumb"></div>`}
     <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><a class="name" href="${esc(v.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" data-action="fly" data-id="${id}">${esc(use.name)}</a>${metaEl}</div>
-    <div class="right"><span class="qtyline">${qty == null ? '' : r.oos ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
+    <div class="right"><span class="qtyline">${qty == null ? '' : (r.oos || per == null) ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
   </div>
   ${chips ? `<div class="edit" id="${optId}"${optOpen ? '' : ' hidden'}>${optOpen ? `<span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Option</span>${chips}` : ''}</div>` : ''}`;
     }

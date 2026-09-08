@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260908042857"></script>
+<script src="../dist/embed.js?b=20260908043738"></script>
 <script>
 /* A widow is the last line of a wrapped text block carrying one short word on its own. Measured
    rather than eyeballed: every word in the block gets a Range rect, words are grouped into lines
@@ -220,17 +220,21 @@ window.SWEEP = async function () {
       const pack = card.root.querySelector('.pack');
       const rows = card.rows().flatMap(g => g.flies);
       const ids = rows.map(r => r.p.id);
-      // Read-only: every resolved pick is shown exactly once, no row offers a quantity, and the
-      // buy button is disabled. A water that cannot price a pack must not look like it can.
+      // Read-only now means "the page gave no hatch slots and no roles", which is a statement
+      // about structure, not about whether the flies can be sold. It sells a pack of the guide's
+      // own list: every resolved pick shown exactly once, exactly one of each, and NO stepper --
+      // a stepper would offer a per-fly quantity the page never supplied. The old assertions here
+      // encoded the opposite contract and are replaced rather than relaxed: each one still has a
+      // counterpart, and the count check is tighter than it was.
       if (ro) {
         if (shown !== card.picks.length) out.invariants.push(`${w}: ${card.picks.length} picks but ${shown} rows`);
         if (steppers) out.invariants.push(`${w}: read-only but ${steppers} quantity steppers`);
-        // Round 7 (ticket 5): a pack-less water no longer renders a disabled buy button at all --
-        // it states there is no pack and gives the guide line as the primary action. The rule this
-        // guards is unchanged and now stricter: nothing that can be pressed may look like a buy.
-        if (card.root.querySelector('.pack:not([disabled])')) out.invariants.push(`${w}: read-only but a live buy button is on the card`);
-        if (!card.root.querySelector('.buybar .guideline.primary')) out.invariants.push(`${w}: read-only but the pinned block offers no guide action`);
-        if (card.pack().flies !== 0) out.invariants.push(`${w}: read-only but pack reports ${card.pack().flies} flies`);
+        const rowQty = [...new Set(rows.map(r => r.qty))];
+        if (rowQty.length !== 1 || rowQty[0] !== 1) out.invariants.push(`${w}: read-only rows carry quantities ${rowQty.join('/')}, not one of each`);
+        const sellable = rows.filter(r => !r.oos).length;
+        if (card.pack().flies !== sellable) out.invariants.push(`${w}: ${sellable} sellable rows but pack reports ${card.pack().flies} flies`);
+        if (!pack || pack.disabled) out.invariants.push(`${w}: read-only but its pack cannot be bought`);
+        if (card.root.querySelector('.nopack')) out.invariants.push(`${w}: sells a pack and still says it has none`);
       } else {
         if (!pack || pack.disabled) out.invariants.push(`${w}: sells a pack but the buy button is disabled`);
       }
