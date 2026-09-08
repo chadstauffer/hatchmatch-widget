@@ -674,9 +674,26 @@ fires in all seven. A year with a handful of days is dropped outright rather tha
 the label: MCA returns exactly two readings from 2010 and then nothing until 2020, which had the
 derived label claiming a seventeen-year record off two stray days.
 
-**Fall River is the water where "no gauge" is the whole truth**, and it now says which sources were
-checked: *"No public gauge on this river. USGS lists sites at Fall River Mills and none reports a
-real-time series; CDEC carries no flow station on the Fall either. Checked both, not one."*
+**Fall River has a gauge; what it does not have is a live one.** USGS 11354500 at Fall River Mills
+published daily means continuously from 2018 through 30 Sep 2025 -- the end of that water year --
+and nothing since. So the note names the state precisely rather than saying none exists: *"No live
+flow for the Fall. USGS published daily means at Fall River Mills through 30 Sep 2025 and nothing
+since; no site on the river reports a real-time series, and CDEC carries no flow station on it."*
+
+Two claims about the Fall that circulate online were checked against that record and do not survive
+it. **"Remarkably consistent, usually 400 to 500 CFS"**: at Fall River Mills the recent annual
+medians run 128 to 269 and every year swings from about 90 to over 1,000, roughly tenfold. The
+400-500 figure matches USGS 11353700, *Fall R near Dana* -- the upper river above the diversions, on
+a gauge that stopped in **1967**. Both numbers can be true of different reaches; neither describes
+the fishery today. And **"the shop tracks the Fall off the Pit gauge"**: their own Fall River report
+says nothing about the Pit, a gauge, CFS or flow, and that claim is a third-party site's assertion
+about them, not theirs.
+
+Borrowing the Pit gauge was considered and refused. `11355010 Pit R below Pit No. 1 PH` is already
+the Pit card's own gauge, so the same number would appear on two rivers; it sits below the
+confluence and a powerhouse, so it carries the Pit's flow plus the Fall's plus whatever PG&E is
+releasing; and it read 1,160 CFS while the summary quoting it said 1,390. A number that is not this
+river's, printed as if it were, is the failure this whole round has been about.
 
 **A bug that only rendered for four hours a day.** The strip frame reads `Read 4:00 PM · USGS Hat
 Creek` for most of the day and `Read 10:14 PM · USGS Hat Creek` after ten, and only the second

@@ -1,857 +1,857 @@
 {
- "generatedAt": "2026-09-08T05:13:24.501Z",
- "shop": "catalog.theflyshop.com",
- "storeUrl": "https://catalog.theflyshop.com",
- "catalogPulledAt": "2026-09-04T21:06:20.237Z",
- "water": {
-  "id": "fall-river",
-  "shortName": "Fall River",
-  "group": "river",
-  "usgsSite": null,
-  "gaugeName": null,
-  "lat": 41.0075,
-  "lon": -121.4469,
-  "gaugeNote": "No public gauge on this river. USGS lists sites at Fall River Mills and none reports a real-time series; CDEC carries no flow station on the Fall either. Checked both, not one.",
-  "name": "Fall River",
-  "packName": null,
-  "flow": null,
-  "sections": [],
-  "guidePhone": "800-669-3474",
-  "closed": false
- },
- "report": {
-  "publishedAt": "2026-09-01",
-  "author": null,
-  "rating": "Good",
-  "clarity": null,
-  "clarityDetail": null,
-  "clarityFrom": null,
-  "wading": null,
-  "notes": [
-   "With the storms rolling in this week, this could be 'The Place' to be! When it's cloudy and stormy, the hatches can be epic. And there are more hatches overall the past week with PMDs being the main hatch. It is fishing well, the weeds are choking the bridges and the guides are working to open up lanes to get through. Smaller nymphs on a dry-dropper rig or swung are doing the most work. Tricos are still coming off and you can get a spinner fall in the super early mornings. Good dropper flies are Jim Nations, BP Weiss Nypmhs, Sweet Peas, Two-Bit Hookers, Red Micro Mays, and Russ' Sin City. For dries, the smaller Rusty Spinners, PMD Challenged and PMD Hackle Stackers, presented correctly, will get fish. Strip Pine Squirrel Leeches and Water Boatmen in the mid-day and afternoons. September is a great time to fish the Fall. If you would like to set up a day on the Fall, give a call Bryan in Outfitters at 800-669-3474 to set up a trip!"
+  "generatedAt": "2026-09-08T05:13:24.501Z",
+  "shop": "catalog.theflyshop.com",
+  "storeUrl": "https://catalog.theflyshop.com",
+  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
+  "water": {
+    "id": "fall-river",
+    "shortName": "Fall River",
+    "group": "river",
+    "usgsSite": null,
+    "gaugeName": null,
+    "lat": 41.0075,
+    "lon": -121.4469,
+    "gaugeNote": "No live flow for the Fall. USGS published daily means at Fall River Mills through 30 Sep 2025 and nothing since; no site on the river reports a real-time series, and CDEC carries no flow station on it.",
+    "name": "Fall River",
+    "packName": null,
+    "flow": null,
+    "sections": [],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-09-01",
+    "author": null,
+    "rating": "Good",
+    "clarity": null,
+    "clarityDetail": null,
+    "clarityFrom": null,
+    "wading": null,
+    "notes": [
+      "With the storms rolling in this week, this could be 'The Place' to be! When it's cloudy and stormy, the hatches can be epic. And there are more hatches overall the past week with PMDs being the main hatch. It is fishing well, the weeds are choking the bridges and the guides are working to open up lanes to get through. Smaller nymphs on a dry-dropper rig or swung are doing the most work. Tricos are still coming off and you can get a spinner fall in the super early mornings. Good dropper flies are Jim Nations, BP Weiss Nypmhs, Sweet Peas, Two-Bit Hookers, Red Micro Mays, and Russ' Sin City. For dries, the smaller Rusty Spinners, PMD Challenged and PMD Hackle Stackers, presented correctly, will get fish. Strip Pine Squirrel Leeches and Water Boatmen in the mid-day and afternoons. September is a great time to fish the Fall. If you would like to set up a day on the Fall, give a call Bryan in Outfitters at 800-669-3474 to set up a trip!"
+    ],
+    "wadingNote": [],
+    "wadingTags": [],
+    "notesPermission": "pending",
+    "source": {
+      "url": "https://www.theflyshop.com/streamreport.html",
+      "fetchedAt": "2026-09-07"
+    }
+  },
+  "hatches": [],
+  "roles": [
+    {
+      "key": "dry",
+      "label": "Dry"
+    },
+    {
+      "key": "dropper",
+      "label": "Dropper"
+    },
+    {
+      "key": "point",
+      "label": "Point"
+    },
+    {
+      "key": "eggs",
+      "label": "Eggs"
+    }
   ],
-  "wadingNote": [],
-  "wadingTags": [],
-  "notesPermission": "pending",
-  "source": {
-   "url": "https://www.theflyshop.com/streamreport.html",
-   "fetchedAt": "2026-09-07"
-  }
- },
- "hatches": [],
- "roles": [
-  {
-   "key": "dry",
-   "label": "Dry"
-  },
-  {
-   "key": "dropper",
-   "label": "Dropper"
-  },
-  {
-   "key": "point",
-   "label": "Point"
-  },
-  {
-   "key": "eggs",
-   "label": "Eggs"
-  }
- ],
- "picks": [
-  {
-   "id": "lance-s-jigged-x-may",
-   "group": null,
-   "name": "Lance's Jigged X-May",
-   "colors": [],
-   "sizes": [],
-   "reportLink": "https://catalog.theflyshop.com/lances-jigged-x-may/",
-   "asWritten": "Lance's Jigged X-May",
-   "status": "confirm",
-   "matchedBy": "exact",
-   "product": {
-    "handle": "lances-jigged-x-may",
-    "title": "Lance's Jigged X-May",
-    "vendor": "The Fly Shop",
-    "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may",
-    "type": "Attractors"
-   },
-   "variant": {
-    "id": 47233971060966,
-    "sku": "258F-29786",
-    "color": "Olive",
-    "size": "#18",
-    "price": 2.95,
-    "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
-    "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971060966"
-   },
-   "variants": [
+  "picks": [
     {
-     "id": 47233970864358,
-     "sku": "258F-29785",
-     "color": "Olive",
-     "size": "#16",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
-     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970864358"
-    },
-    {
-     "id": 47233971060966,
-     "sku": "258F-29786",
-     "color": "Olive",
-     "size": "#18",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
-     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971060966"
-    },
-    {
-     "id": 47233970471142,
-     "sku": "258F-29787",
-     "color": "Brown",
-     "size": "#16",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Brown.png?v=1769096170&width=240",
-     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970471142"
-    },
-    {
-     "id": 47233970700518,
-     "sku": "258F-29788",
-     "color": "Brown",
-     "size": "#18",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Brown.png?v=1769096170&width=240",
-     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970700518"
-    },
-    {
-     "id": 47233971192038,
-     "sku": "258F-29791",
-     "color": "Olive Hot Spot",
-     "size": "#16",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_OliveHotSpot.png?v=1769096173&width=240",
-     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971192038"
-    },
-    {
-     "id": 47233971323110,
-     "sku": "258F-29792",
-     "color": "Olive Hot Spot",
-     "size": "#18",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_OliveHotSpot.png?v=1769096173&width=240",
-     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971323110"
-    },
-    {
-     "id": 47233970340070,
-     "sku": "258F-29790",
-     "color": "Black",
-     "size": "#18",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Black.png?v=1769096174&width=240",
-     "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970340070"
-    }
-   ],
-   "flags": [
-    {
-     "severity": "color",
-     "text": "No color on the report. Shop carries Olive, Brown, Olive Hot Spot, Black. Showing Olive first; the rest are chips."
-    },
-    {
-     "severity": "size",
-     "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
-    }
-   ]
-  },
-  {
-   "id": "weiss-bp-nymph",
-   "group": null,
-   "name": "Weiss BP Nymph",
-   "colors": [],
-   "sizes": [],
-   "reportLink": "https://catalog.theflyshop.com/weiss-bp-nymphs-18/",
-   "asWritten": "Weiss BP Nymph",
-   "status": "confirm",
-   "matchedBy": "alias",
-   "product": {
-    "handle": "weiss-bp-nymphs-18",
-    "title": "Weiss BP Nymphs - #18",
-    "vendor": "Fulling Mills",
-    "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18",
-    "type": "Attractors"
-   },
-   "variant": {
-    "id": 47234236023014,
-    "sku": "326F-29689",
-    "color": "Dark",
-    "size": "#18",
-    "price": 3.5,
-    "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
-    "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236023014"
-   },
-   "variants": [
-    {
-     "id": 47234236023014,
-     "sku": "326F-29689",
-     "color": "Dark",
-     "size": "#18",
-     "price": 3.5,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
-     "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236023014"
-    },
-    {
-     "id": 47234236186854,
-     "sku": "326F-29690",
-     "color": "Light",
-     "size": "#18",
-     "price": 3.5,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
-     "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236186854"
-    }
-   ],
-   "flags": [
-    {
-     "severity": "color",
-     "text": "No color on the report. Shop carries Dark, Light. Showing Dark first; the rest are chips."
-    }
-   ]
-  },
-  {
-   "id": "norman-s-wiggletails",
-   "group": null,
-   "name": "Norman's Wiggletails",
-   "colors": [],
-   "sizes": [],
-   "reportLink": "https://catalog.theflyshop.com/normans-wiggletail-16/",
-   "asWritten": "Norman's Wiggletails",
-   "status": "confirm",
-   "matchedBy": "link",
-   "product": {
-    "handle": "normans-wiggletail-16",
-    "title": "Norman's Wiggletail - #16",
-    "vendor": "Pacific Fly Group",
-    "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16",
-    "type": "Attractors"
-   },
-   "variant": {
-    "id": 47268317790438,
-    "sku": "430F-864",
-    "color": "Pheasant Tail",
-    "size": "#16",
-    "price": 3.5,
-    "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/430F_NormansWiggletail_PT_af1f588f-6dab-4c93-b1ea-adbd76471202.png?v=1784299836&width=240",
-    "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16?variant=47268317790438"
-   },
-   "variants": [
-    {
-     "id": 47268317790438,
-     "sku": "430F-864",
-     "color": "Pheasant Tail",
-     "size": "#16",
-     "price": 3.5,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/430F_NormansWiggletail_PT_af1f588f-6dab-4c93-b1ea-adbd76471202.png?v=1784299836&width=240",
-     "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16?variant=47268317790438"
-    },
-    {
-     "id": 47268317757670,
-     "sku": "430F-944",
-     "color": "Peacock",
-     "size": "#16",
-     "price": 3.5,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/430F_NormansWiggletail_Peacock_36c09e06-1bc5-4e80-8ba3-727453957305.png?v=1784299843&width=240",
-     "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16?variant=47268317757670"
-    }
-   ],
-   "flags": [
-    {
-     "severity": "confirm",
-     "text": "No catalog product matches \"Norman's Wiggletails\" by name. Resolved by the page's own link to \"Norman's Wiggletail - #16\". Confirm."
-    },
-    {
-     "severity": "color",
-     "text": "No color on the report. Shop carries Pheasant Tail, Peacock. Showing Pheasant Tail first; the rest are chips."
-    }
-   ]
-  },
-  {
-   "id": "pheasant-tails",
-   "group": null,
-   "name": "Pheasant Tails",
-   "colors": [],
-   "sizes": [],
-   "reportLink": "https://catalog.theflyshop.com/pheasant-tail/",
-   "asWritten": "Pheasant Tails",
-   "status": "confirm",
-   "matchedBy": "link",
-   "product": {
-    "handle": "pheasant-tail",
-    "title": "Pheasant Tail",
-    "vendor": "Dreamcast Flies",
-    "url": "https://catalog.theflyshop.com/products/pheasant-tail",
-    "type": "Attractors"
-   },
-   "variant": {
-    "id": 47268375232742,
-    "sku": "122F-2489",
-    "color": null,
-    "size": "#12",
-    "price": 2,
-    "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
-    "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375232742"
-   },
-   "variants": [
-    {
-     "id": 47268375232742,
-     "sku": "122F-2489",
-     "color": null,
-     "size": "#12",
-     "price": 2,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
-     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375232742"
-    },
-    {
-     "id": 47268375429350,
-     "sku": "122F-2490",
-     "color": null,
-     "size": "#14",
-     "price": 2,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
-     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375429350"
-    },
-    {
-     "id": 47268375462118,
-     "sku": "122F-2491",
-     "color": null,
-     "size": "#16",
-     "price": 2,
-     "available": false,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
-     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375462118"
-    },
-    {
-     "id": 47268375527654,
-     "sku": "122F-2492",
-     "color": null,
-     "size": "#18",
-     "price": 2,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
-     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375527654"
-    },
-    {
-     "id": 47268375593190,
-     "sku": "122F-2493",
-     "color": null,
-     "size": "#20",
-     "price": 2,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
-     "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375593190"
-    }
-   ],
-   "flags": [
-    {
-     "severity": "confirm",
-     "text": "No catalog product matches \"Pheasant Tails\" by name. Resolved by the page's own link to \"Pheasant Tail\". Confirm."
-    },
-    {
-     "severity": "size",
-     "text": "No size on the report. Shop carries #12, #14, #16, #18, #20. Defaulted to the middle, #12."
-    },
-    {
-     "severity": "info",
-     "text": "Some options are out of stock: #16."
-    }
-   ]
-  },
-  {
-   "id": "mercer-s-missing-link",
-   "group": null,
-   "name": "Mercer's Missing Link",
-   "colors": [],
-   "sizes": [],
-   "reportLink": "https://catalog.theflyshop.com/mercers-missing-link/",
-   "asWritten": "Mercer's Missing Link",
-   "status": "confirm",
-   "matchedBy": "alias",
-   "product": {
-    "handle": "mercers-missing-link",
-    "title": "Mercer's Missing Link",
-    "vendor": "Umpqua Feather Merchants",
-    "url": "https://catalog.theflyshop.com/products/mercers-missing-link",
-    "type": "Caddis"
-   },
-   "variant": {
-    "id": 47268438474982,
-    "sku": "139F-231",
-    "color": "Natural Dark",
-    "size": "#16",
-    "price": 2.95,
-    "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
-    "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
-   },
-   "variants": [
-    {
-     "id": 47268438409446,
-     "sku": "139F-26359",
-     "color": "Natural Dark",
-     "size": "#12",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438409446"
-    },
-    {
-     "id": 47268438442214,
-     "sku": "139F-95",
-     "color": "Natural Dark",
-     "size": "#14",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438442214"
-    },
-    {
-     "id": 47268438474982,
-     "sku": "139F-231",
-     "color": "Natural Dark",
-     "size": "#16",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
-    },
-    {
-     "id": 47268438507750,
-     "sku": "139F-1581",
-     "color": "Natural Dark",
-     "size": "#18",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438507750"
-    },
-    {
-     "id": 47268438311142,
-     "sku": "139F-1953",
-     "color": "Red",
-     "size": "#14",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438311142"
-    },
-    {
-     "id": 47268438343910,
-     "sku": "139F-1954",
-     "color": "Red",
-     "size": "#16",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438343910"
-    },
-    {
-     "id": 47268438376678,
-     "sku": "139F-1955",
-     "color": "Red",
-     "size": "#18",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438376678"
-    },
-    {
-     "id": 47268438540518,
-     "sku": "139F-26360",
-     "color": "Amber",
-     "size": "#12",
-     "price": 2.95,
-     "available": false,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438540518"
-    },
-    {
-     "id": 47268438573286,
-     "sku": "139F-26361",
-     "color": "Amber",
-     "size": "#14",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438573286"
-    },
-    {
-     "id": 47268438606054,
-     "sku": "139F-26362",
-     "color": "Amber",
-     "size": "#16",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438606054"
-    },
-    {
-     "id": 47268438638822,
-     "sku": "139F-26363",
-     "color": "Amber",
-     "size": "#18",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
-     "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438638822"
-    }
-   ],
-   "flags": [
-    {
-     "severity": "color",
-     "text": "No color on the report. Shop carries Natural Dark, Red, Amber. Showing Natural Dark first; the rest are chips."
-    },
-    {
-     "severity": "size",
-     "text": "No size on the report. Shop carries #12, #14, #16, #18. Defaulted to the middle, #16."
-    },
-    {
-     "severity": "info",
-     "text": "Some options are out of stock: Amber #12."
-    }
-   ]
-  },
-  {
-   "id": "zug-bugs",
-   "group": null,
-   "name": "Zug Bugs",
-   "colors": [],
-   "sizes": [],
-   "reportLink": "https://catalog.theflyshop.com/zug-bug/",
-   "asWritten": "Zug Bugs",
-   "status": "confirm",
-   "matchedBy": "link",
-   "product": {
-    "handle": "zug-bug",
-    "title": "Zug Bug",
-    "vendor": "Solitude Fly Company",
-    "url": "https://catalog.theflyshop.com/products/zug-bug",
-    "type": "Attractors"
-   },
-   "variant": {
-    "id": 47234258665702,
-    "sku": "80F-5103",
-    "color": null,
-    "size": "#14",
-    "price": 2.25,
-    "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
-    "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258665702"
-   },
-   "variants": [
-    {
-     "id": 47234258534630,
-     "sku": "80F-5098",
-     "color": null,
-     "size": "#12",
-     "price": 2.25,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
-     "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258534630"
-    },
-    {
-     "id": 47234258665702,
-     "sku": "80F-5103",
-     "color": null,
-     "size": "#14",
-     "price": 2.25,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
-     "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258665702"
-    },
-    {
-     "id": 47234258731238,
-     "sku": "80F-5104",
-     "color": null,
-     "size": "#16",
-     "price": 2.25,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
-     "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258731238"
-    }
-   ],
-   "flags": [
-    {
-     "severity": "confirm",
-     "text": "No catalog product matches \"Zug Bugs\" by name. Resolved by the page's own link to \"Zug Bug\". Confirm."
-    },
-    {
-     "severity": "size",
-     "text": "No size on the report. Shop carries #12, #14, #16. Defaulted to the middle, #14."
-    }
-   ]
-  },
-  {
-   "id": "zack-s-stillwater-swimming-l",
-   "group": null,
-   "name": "Zack's Stillwater Swimming Leeches",
-   "colors": [],
-   "sizes": [],
-   "reportLink": "https://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
-   "asWritten": "Zack's Stillwater Swimming Leeches",
-   "status": "confirm",
-   "matchedBy": "fuzzy",
-   "product": {
-    "handle": "zacks-stillwater-swimming-leech-8",
-    "title": "Zack's Stillwater Swimming Leech - #8",
-    "vendor": "Umpqua Feather Merchants",
-    "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8",
-    "type": "Streamers & Leeches"
-   },
-   "variant": {
-    "id": 47234257125606,
-    "sku": "368F-3037",
-    "color": "Black",
-    "size": "#8",
-    "price": 2.95,
-    "available": true,
-    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Black.png?v=1769107701&width=240",
-    "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257125606"
-   },
-   "variants": [
-    {
-     "id": 47234257125606,
-     "sku": "368F-3037",
-     "color": "Black",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Black.png?v=1769107701&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257125606"
-    },
-    {
-     "id": 47234257322214,
-     "sku": "368F-3040",
-     "color": "Brown Olive",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BrownOlive.png?v=1769107704&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257322214"
-    },
-    {
-     "id": 47234257158374,
-     "sku": "368F-3046",
-     "color": "Brown",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Brown.png?v=1769107707&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257158374"
-    },
-    {
-     "id": 47234257223910,
-     "sku": "368F-3038",
-     "color": "Olive",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Olive.png?v=1769107710&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257223910"
-    },
-    {
-     "id": 47234257387750,
-     "sku": "368F-3039",
-     "color": "Burnt Orange",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BurntOrange.png?v=1769107713&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257387750"
-    },
-    {
-     "id": 47234257256678,
-     "sku": "368F-15433",
-     "color": "Burgundy",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Burgundy.png?v=1769107717&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257256678"
-    },
-    {
-     "id": 47234257453286,
-     "sku": "368F-15434",
-     "color": "Brown/Olive - Mixed Tail",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BrownOliveMix.png?v=1769107722&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257453286"
-    },
-    {
-     "id": 47234257584358,
-     "sku": "368F-15436",
-     "color": "Burnt Orange/Olive - Mixed Tail",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BurntOrangeOliveMix.png?v=1769107724&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257584358"
-    },
-    {
-     "id": 47234257518822,
-     "sku": "368F-15435",
-     "color": "Black/Burgundy - Mixed Tail",
-     "size": "#8",
-     "price": 2.95,
-     "available": true,
-     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BlackBurgundyMix.png?v=1769107727&width=240",
-     "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257518822"
-    }
-   ],
-   "flags": [
-    {
-     "severity": "confirm",
-     "text": "Matched \"Zack's Stillwater Swimming Leeches\" to \"Zack's Stillwater Swimming Leech - #8\" by fuzzy match (score 0.75). Confirm.",
-     "candidates": [
-      {
-       "handle": "zacks-stillwater-swimming-leech-8",
-       "title": "Zack's Stillwater Swimming Leech - #8",
-       "score": 0.75
+      "id": "lance-s-jigged-x-may",
+      "group": null,
+      "name": "Lance's Jigged X-May",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/lances-jigged-x-may/",
+      "asWritten": "Lance's Jigged X-May",
+      "status": "confirm",
+      "matchedBy": "exact",
+      "product": {
+        "handle": "lances-jigged-x-may",
+        "title": "Lance's Jigged X-May",
+        "vendor": "The Fly Shop",
+        "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may",
+        "type": "Attractors"
       },
-      {
-       "handle": "zacks-balanced-stillwater-swimming-leech-10",
-       "title": "Zack's Balanced Stillwater Swimming Leech - #10",
-       "score": 0.67
-      }
-     ]
+      "variant": {
+        "id": 47233971060966,
+        "sku": "258F-29786",
+        "color": "Olive",
+        "size": "#18",
+        "price": 2.95,
+        "available": true,
+        "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
+        "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971060966"
+      },
+      "variants": [
+        {
+          "id": 47233970864358,
+          "sku": "258F-29785",
+          "color": "Olive",
+          "size": "#16",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
+          "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970864358"
+        },
+        {
+          "id": 47233971060966,
+          "sku": "258F-29786",
+          "color": "Olive",
+          "size": "#18",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Olive.png?v=1769096168&width=240",
+          "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971060966"
+        },
+        {
+          "id": 47233970471142,
+          "sku": "258F-29787",
+          "color": "Brown",
+          "size": "#16",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Brown.png?v=1769096170&width=240",
+          "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970471142"
+        },
+        {
+          "id": 47233970700518,
+          "sku": "258F-29788",
+          "color": "Brown",
+          "size": "#18",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Brown.png?v=1769096170&width=240",
+          "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970700518"
+        },
+        {
+          "id": 47233971192038,
+          "sku": "258F-29791",
+          "color": "Olive Hot Spot",
+          "size": "#16",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_OliveHotSpot.png?v=1769096173&width=240",
+          "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971192038"
+        },
+        {
+          "id": 47233971323110,
+          "sku": "258F-29792",
+          "color": "Olive Hot Spot",
+          "size": "#18",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_OliveHotSpot.png?v=1769096173&width=240",
+          "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233971323110"
+        },
+        {
+          "id": 47233970340070,
+          "sku": "258F-29790",
+          "color": "Black",
+          "size": "#18",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/258F_LancesJiggedXMay_Black.png?v=1769096174&width=240",
+          "url": "https://catalog.theflyshop.com/products/lances-jigged-x-may?variant=47233970340070"
+        }
+      ],
+      "flags": [
+        {
+          "severity": "color",
+          "text": "No color on the report. Shop carries Olive, Brown, Olive Hot Spot, Black. Showing Olive first; the rest are chips."
+        },
+        {
+          "severity": "size",
+          "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+        }
+      ]
     },
     {
-     "severity": "color",
-     "text": "No color on the report. Shop carries Black, Brown Olive, Brown, Olive, Burnt Orange, Burgundy, Brown/Olive - Mixed Tail, Burnt Orange/Olive - Mixed Tail, Black/Burgundy - Mixed Tail. Showing Black first; the rest are chips."
-    }
-   ]
-  }
- ],
- "substitutes": {},
- "readOnly": true,
- "packs": {},
- "summary": {
-  "picks": 7,
-  "resolved": 0,
-  "confirm": 7,
-  "unresolved": 0,
-  "priceMin": 2,
-  "priceMax": 3.5
- },
- "unresolved": [
-  {
-   "pickId": "lance-s-jigged-x-may",
-   "name": "Lance's Jigged X-May",
-   "severity": "color",
-   "text": "No color on the report. Shop carries Olive, Brown, Olive Hot Spot, Black. Showing Olive first; the rest are chips."
-  },
-  {
-   "pickId": "lance-s-jigged-x-may",
-   "name": "Lance's Jigged X-May",
-   "severity": "size",
-   "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
-  },
-  {
-   "pickId": "weiss-bp-nymph",
-   "name": "Weiss BP Nymph",
-   "severity": "color",
-   "text": "No color on the report. Shop carries Dark, Light. Showing Dark first; the rest are chips."
-  },
-  {
-   "pickId": "norman-s-wiggletails",
-   "name": "Norman's Wiggletails",
-   "severity": "confirm",
-   "text": "No catalog product matches \"Norman's Wiggletails\" by name. Resolved by the page's own link to \"Norman's Wiggletail - #16\". Confirm."
-  },
-  {
-   "pickId": "norman-s-wiggletails",
-   "name": "Norman's Wiggletails",
-   "severity": "color",
-   "text": "No color on the report. Shop carries Pheasant Tail, Peacock. Showing Pheasant Tail first; the rest are chips."
-  },
-  {
-   "pickId": "pheasant-tails",
-   "name": "Pheasant Tails",
-   "severity": "confirm",
-   "text": "No catalog product matches \"Pheasant Tails\" by name. Resolved by the page's own link to \"Pheasant Tail\". Confirm."
-  },
-  {
-   "pickId": "pheasant-tails",
-   "name": "Pheasant Tails",
-   "severity": "size",
-   "text": "No size on the report. Shop carries #12, #14, #16, #18, #20. Defaulted to the middle, #12."
-  },
-  {
-   "pickId": "mercer-s-missing-link",
-   "name": "Mercer's Missing Link",
-   "severity": "color",
-   "text": "No color on the report. Shop carries Natural Dark, Red, Amber. Showing Natural Dark first; the rest are chips."
-  },
-  {
-   "pickId": "mercer-s-missing-link",
-   "name": "Mercer's Missing Link",
-   "severity": "size",
-   "text": "No size on the report. Shop carries #12, #14, #16, #18. Defaulted to the middle, #16."
-  },
-  {
-   "pickId": "zug-bugs",
-   "name": "Zug Bugs",
-   "severity": "confirm",
-   "text": "No catalog product matches \"Zug Bugs\" by name. Resolved by the page's own link to \"Zug Bug\". Confirm."
-  },
-  {
-   "pickId": "zug-bugs",
-   "name": "Zug Bugs",
-   "severity": "size",
-   "text": "No size on the report. Shop carries #12, #14, #16. Defaulted to the middle, #14."
-  },
-  {
-   "pickId": "zack-s-stillwater-swimming-l",
-   "name": "Zack's Stillwater Swimming Leeches",
-   "severity": "confirm",
-   "text": "Matched \"Zack's Stillwater Swimming Leeches\" to \"Zack's Stillwater Swimming Leech - #8\" by fuzzy match (score 0.75). Confirm.",
-   "candidates": [
-    {
-     "handle": "zacks-stillwater-swimming-leech-8",
-     "title": "Zack's Stillwater Swimming Leech - #8",
-     "score": 0.75
+      "id": "weiss-bp-nymph",
+      "group": null,
+      "name": "Weiss BP Nymph",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/weiss-bp-nymphs-18/",
+      "asWritten": "Weiss BP Nymph",
+      "status": "confirm",
+      "matchedBy": "alias",
+      "product": {
+        "handle": "weiss-bp-nymphs-18",
+        "title": "Weiss BP Nymphs - #18",
+        "vendor": "Fulling Mills",
+        "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18",
+        "type": "Attractors"
+      },
+      "variant": {
+        "id": 47234236023014,
+        "sku": "326F-29689",
+        "color": "Dark",
+        "size": "#18",
+        "price": 3.5,
+        "available": true,
+        "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
+        "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236023014"
+      },
+      "variants": [
+        {
+          "id": 47234236023014,
+          "sku": "326F-29689",
+          "color": "Dark",
+          "size": "#18",
+          "price": 3.5,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
+          "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236023014"
+        },
+        {
+          "id": 47234236186854,
+          "sku": "326F-29690",
+          "color": "Light",
+          "size": "#18",
+          "price": 3.5,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/326F_WeissBPNymph_Light.png?v=1769035547&width=240",
+          "url": "https://catalog.theflyshop.com/products/weiss-bp-nymphs-18?variant=47234236186854"
+        }
+      ],
+      "flags": [
+        {
+          "severity": "color",
+          "text": "No color on the report. Shop carries Dark, Light. Showing Dark first; the rest are chips."
+        }
+      ]
     },
     {
-     "handle": "zacks-balanced-stillwater-swimming-leech-10",
-     "title": "Zack's Balanced Stillwater Swimming Leech - #10",
-     "score": 0.67
+      "id": "norman-s-wiggletails",
+      "group": null,
+      "name": "Norman's Wiggletails",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/normans-wiggletail-16/",
+      "asWritten": "Norman's Wiggletails",
+      "status": "confirm",
+      "matchedBy": "link",
+      "product": {
+        "handle": "normans-wiggletail-16",
+        "title": "Norman's Wiggletail - #16",
+        "vendor": "Pacific Fly Group",
+        "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16",
+        "type": "Attractors"
+      },
+      "variant": {
+        "id": 47268317790438,
+        "sku": "430F-864",
+        "color": "Pheasant Tail",
+        "size": "#16",
+        "price": 3.5,
+        "available": true,
+        "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/430F_NormansWiggletail_PT_af1f588f-6dab-4c93-b1ea-adbd76471202.png?v=1784299836&width=240",
+        "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16?variant=47268317790438"
+      },
+      "variants": [
+        {
+          "id": 47268317790438,
+          "sku": "430F-864",
+          "color": "Pheasant Tail",
+          "size": "#16",
+          "price": 3.5,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/430F_NormansWiggletail_PT_af1f588f-6dab-4c93-b1ea-adbd76471202.png?v=1784299836&width=240",
+          "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16?variant=47268317790438"
+        },
+        {
+          "id": 47268317757670,
+          "sku": "430F-944",
+          "color": "Peacock",
+          "size": "#16",
+          "price": 3.5,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/430F_NormansWiggletail_Peacock_36c09e06-1bc5-4e80-8ba3-727453957305.png?v=1784299843&width=240",
+          "url": "https://catalog.theflyshop.com/products/normans-wiggletail-16?variant=47268317757670"
+        }
+      ],
+      "flags": [
+        {
+          "severity": "confirm",
+          "text": "No catalog product matches \"Norman's Wiggletails\" by name. Resolved by the page's own link to \"Norman's Wiggletail - #16\". Confirm."
+        },
+        {
+          "severity": "color",
+          "text": "No color on the report. Shop carries Pheasant Tail, Peacock. Showing Pheasant Tail first; the rest are chips."
+        }
+      ]
+    },
+    {
+      "id": "pheasant-tails",
+      "group": null,
+      "name": "Pheasant Tails",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/pheasant-tail/",
+      "asWritten": "Pheasant Tails",
+      "status": "confirm",
+      "matchedBy": "link",
+      "product": {
+        "handle": "pheasant-tail",
+        "title": "Pheasant Tail",
+        "vendor": "Dreamcast Flies",
+        "url": "https://catalog.theflyshop.com/products/pheasant-tail",
+        "type": "Attractors"
+      },
+      "variant": {
+        "id": 47268375232742,
+        "sku": "122F-2489",
+        "color": null,
+        "size": "#12",
+        "price": 2,
+        "available": true,
+        "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+        "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375232742"
+      },
+      "variants": [
+        {
+          "id": 47268375232742,
+          "sku": "122F-2489",
+          "color": null,
+          "size": "#12",
+          "price": 2,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+          "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375232742"
+        },
+        {
+          "id": 47268375429350,
+          "sku": "122F-2490",
+          "color": null,
+          "size": "#14",
+          "price": 2,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+          "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375429350"
+        },
+        {
+          "id": 47268375462118,
+          "sku": "122F-2491",
+          "color": null,
+          "size": "#16",
+          "price": 2,
+          "available": false,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+          "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375462118"
+        },
+        {
+          "id": 47268375527654,
+          "sku": "122F-2492",
+          "color": null,
+          "size": "#18",
+          "price": 2,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+          "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375527654"
+        },
+        {
+          "id": 47268375593190,
+          "sku": "122F-2493",
+          "color": null,
+          "size": "#20",
+          "price": 2,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/9ada58ec-4969-4184-a7c9-63698de0cd2e_b2cb6885-8867-4f51-9a6e-b438e3e6b0d2.png?v=1770639922&width=240",
+          "url": "https://catalog.theflyshop.com/products/pheasant-tail?variant=47268375593190"
+        }
+      ],
+      "flags": [
+        {
+          "severity": "confirm",
+          "text": "No catalog product matches \"Pheasant Tails\" by name. Resolved by the page's own link to \"Pheasant Tail\". Confirm."
+        },
+        {
+          "severity": "size",
+          "text": "No size on the report. Shop carries #12, #14, #16, #18, #20. Defaulted to the middle, #12."
+        },
+        {
+          "severity": "info",
+          "text": "Some options are out of stock: #16."
+        }
+      ]
+    },
+    {
+      "id": "mercer-s-missing-link",
+      "group": null,
+      "name": "Mercer's Missing Link",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/mercers-missing-link/",
+      "asWritten": "Mercer's Missing Link",
+      "status": "confirm",
+      "matchedBy": "alias",
+      "product": {
+        "handle": "mercers-missing-link",
+        "title": "Mercer's Missing Link",
+        "vendor": "Umpqua Feather Merchants",
+        "url": "https://catalog.theflyshop.com/products/mercers-missing-link",
+        "type": "Caddis"
+      },
+      "variant": {
+        "id": 47268438474982,
+        "sku": "139F-231",
+        "color": "Natural Dark",
+        "size": "#16",
+        "price": 2.95,
+        "available": true,
+        "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+        "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
+      },
+      "variants": [
+        {
+          "id": 47268438409446,
+          "sku": "139F-26359",
+          "color": "Natural Dark",
+          "size": "#12",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438409446"
+        },
+        {
+          "id": 47268438442214,
+          "sku": "139F-95",
+          "color": "Natural Dark",
+          "size": "#14",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438442214"
+        },
+        {
+          "id": 47268438474982,
+          "sku": "139F-231",
+          "color": "Natural Dark",
+          "size": "#16",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438474982"
+        },
+        {
+          "id": 47268438507750,
+          "sku": "139F-1581",
+          "color": "Natural Dark",
+          "size": "#18",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FN_MercersMissingLink_NaturalDark.png?v=1769013858&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438507750"
+        },
+        {
+          "id": 47268438311142,
+          "sku": "139F-1953",
+          "color": "Red",
+          "size": "#14",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438311142"
+        },
+        {
+          "id": 47268438343910,
+          "sku": "139F-1954",
+          "color": "Red",
+          "size": "#16",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438343910"
+        },
+        {
+          "id": 47268438376678,
+          "sku": "139F-1955",
+          "color": "Red",
+          "size": "#18",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FR_MercersMissingLink_Red.png?v=1769013861&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438376678"
+        },
+        {
+          "id": 47268438540518,
+          "sku": "139F-26360",
+          "color": "Amber",
+          "size": "#12",
+          "price": 2.95,
+          "available": false,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438540518"
+        },
+        {
+          "id": 47268438573286,
+          "sku": "139F-26361",
+          "color": "Amber",
+          "size": "#14",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438573286"
+        },
+        {
+          "id": 47268438606054,
+          "sku": "139F-26362",
+          "color": "Amber",
+          "size": "#16",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438606054"
+        },
+        {
+          "id": 47268438638822,
+          "sku": "139F-26363",
+          "color": "Amber",
+          "size": "#18",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/139FA_MercersMissingLink_AmberCaddis.png?v=1769013863&width=240",
+          "url": "https://catalog.theflyshop.com/products/mercers-missing-link?variant=47268438638822"
+        }
+      ],
+      "flags": [
+        {
+          "severity": "color",
+          "text": "No color on the report. Shop carries Natural Dark, Red, Amber. Showing Natural Dark first; the rest are chips."
+        },
+        {
+          "severity": "size",
+          "text": "No size on the report. Shop carries #12, #14, #16, #18. Defaulted to the middle, #16."
+        },
+        {
+          "severity": "info",
+          "text": "Some options are out of stock: Amber #12."
+        }
+      ]
+    },
+    {
+      "id": "zug-bugs",
+      "group": null,
+      "name": "Zug Bugs",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/zug-bug/",
+      "asWritten": "Zug Bugs",
+      "status": "confirm",
+      "matchedBy": "link",
+      "product": {
+        "handle": "zug-bug",
+        "title": "Zug Bug",
+        "vendor": "Solitude Fly Company",
+        "url": "https://catalog.theflyshop.com/products/zug-bug",
+        "type": "Attractors"
+      },
+      "variant": {
+        "id": 47234258665702,
+        "sku": "80F-5103",
+        "color": null,
+        "size": "#14",
+        "price": 2.25,
+        "available": true,
+        "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
+        "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258665702"
+      },
+      "variants": [
+        {
+          "id": 47234258534630,
+          "sku": "80F-5098",
+          "color": null,
+          "size": "#12",
+          "price": 2.25,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
+          "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258534630"
+        },
+        {
+          "id": 47234258665702,
+          "sku": "80F-5103",
+          "color": null,
+          "size": "#14",
+          "price": 2.25,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
+          "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258665702"
+        },
+        {
+          "id": 47234258731238,
+          "sku": "80F-5104",
+          "color": null,
+          "size": "#16",
+          "price": 2.25,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/80F_ZugBug.png?v=1769095629&width=240",
+          "url": "https://catalog.theflyshop.com/products/zug-bug?variant=47234258731238"
+        }
+      ],
+      "flags": [
+        {
+          "severity": "confirm",
+          "text": "No catalog product matches \"Zug Bugs\" by name. Resolved by the page's own link to \"Zug Bug\". Confirm."
+        },
+        {
+          "severity": "size",
+          "text": "No size on the report. Shop carries #12, #14, #16. Defaulted to the middle, #14."
+        }
+      ]
+    },
+    {
+      "id": "zack-s-stillwater-swimming-l",
+      "group": null,
+      "name": "Zack's Stillwater Swimming Leeches",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
+      "asWritten": "Zack's Stillwater Swimming Leeches",
+      "status": "confirm",
+      "matchedBy": "fuzzy",
+      "product": {
+        "handle": "zacks-stillwater-swimming-leech-8",
+        "title": "Zack's Stillwater Swimming Leech - #8",
+        "vendor": "Umpqua Feather Merchants",
+        "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8",
+        "type": "Streamers & Leeches"
+      },
+      "variant": {
+        "id": 47234257125606,
+        "sku": "368F-3037",
+        "color": "Black",
+        "size": "#8",
+        "price": 2.95,
+        "available": true,
+        "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Black.png?v=1769107701&width=240",
+        "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257125606"
+      },
+      "variants": [
+        {
+          "id": 47234257125606,
+          "sku": "368F-3037",
+          "color": "Black",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Black.png?v=1769107701&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257125606"
+        },
+        {
+          "id": 47234257322214,
+          "sku": "368F-3040",
+          "color": "Brown Olive",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BrownOlive.png?v=1769107704&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257322214"
+        },
+        {
+          "id": 47234257158374,
+          "sku": "368F-3046",
+          "color": "Brown",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Brown.png?v=1769107707&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257158374"
+        },
+        {
+          "id": 47234257223910,
+          "sku": "368F-3038",
+          "color": "Olive",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Olive.png?v=1769107710&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257223910"
+        },
+        {
+          "id": 47234257387750,
+          "sku": "368F-3039",
+          "color": "Burnt Orange",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BurntOrange.png?v=1769107713&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257387750"
+        },
+        {
+          "id": 47234257256678,
+          "sku": "368F-15433",
+          "color": "Burgundy",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_Burgundy.png?v=1769107717&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257256678"
+        },
+        {
+          "id": 47234257453286,
+          "sku": "368F-15434",
+          "color": "Brown/Olive - Mixed Tail",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BrownOliveMix.png?v=1769107722&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257453286"
+        },
+        {
+          "id": 47234257584358,
+          "sku": "368F-15436",
+          "color": "Burnt Orange/Olive - Mixed Tail",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BurntOrangeOliveMix.png?v=1769107724&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257584358"
+        },
+        {
+          "id": 47234257518822,
+          "sku": "368F-15435",
+          "color": "Black/Burgundy - Mixed Tail",
+          "size": "#8",
+          "price": 2.95,
+          "available": true,
+          "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/368F_ZTSwimmingLeech_BlackBurgundyMix.png?v=1769107727&width=240",
+          "url": "https://catalog.theflyshop.com/products/zacks-stillwater-swimming-leech-8?variant=47234257518822"
+        }
+      ],
+      "flags": [
+        {
+          "severity": "confirm",
+          "text": "Matched \"Zack's Stillwater Swimming Leeches\" to \"Zack's Stillwater Swimming Leech - #8\" by fuzzy match (score 0.75). Confirm.",
+          "candidates": [
+            {
+              "handle": "zacks-stillwater-swimming-leech-8",
+              "title": "Zack's Stillwater Swimming Leech - #8",
+              "score": 0.75
+            },
+            {
+              "handle": "zacks-balanced-stillwater-swimming-leech-10",
+              "title": "Zack's Balanced Stillwater Swimming Leech - #10",
+              "score": 0.67
+            }
+          ]
+        },
+        {
+          "severity": "color",
+          "text": "No color on the report. Shop carries Black, Brown Olive, Brown, Olive, Burnt Orange, Burgundy, Brown/Olive - Mixed Tail, Burnt Orange/Olive - Mixed Tail, Black/Burgundy - Mixed Tail. Showing Black first; the rest are chips."
+        }
+      ]
     }
-   ]
+  ],
+  "substitutes": {},
+  "readOnly": true,
+  "packs": {},
+  "summary": {
+    "picks": 7,
+    "resolved": 0,
+    "confirm": 7,
+    "unresolved": 0,
+    "priceMin": 2,
+    "priceMax": 3.5
   },
-  {
-   "pickId": "zack-s-stillwater-swimming-l",
-   "name": "Zack's Stillwater Swimming Leeches",
-   "severity": "color",
-   "text": "No color on the report. Shop carries Black, Brown Olive, Brown, Olive, Burnt Orange, Burgundy, Brown/Olive - Mixed Tail, Burnt Orange/Olive - Mixed Tail, Black/Burgundy - Mixed Tail. Showing Black first; the rest are chips."
-  }
- ],
- "observations": [
-  "Rating: Good.",
-  "Prices from the catalog: 7 picks run $2.00 to $3.50; 3 are $2.95.",
-  "Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide's fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.",
-  "FOR THE GUIDE, Fall River: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
- ]
+  "unresolved": [
+    {
+      "pickId": "lance-s-jigged-x-may",
+      "name": "Lance's Jigged X-May",
+      "severity": "color",
+      "text": "No color on the report. Shop carries Olive, Brown, Olive Hot Spot, Black. Showing Olive first; the rest are chips."
+    },
+    {
+      "pickId": "lance-s-jigged-x-may",
+      "name": "Lance's Jigged X-May",
+      "severity": "size",
+      "text": "No size on the report. Shop carries #16, #18. Defaulted to the middle, #18."
+    },
+    {
+      "pickId": "weiss-bp-nymph",
+      "name": "Weiss BP Nymph",
+      "severity": "color",
+      "text": "No color on the report. Shop carries Dark, Light. Showing Dark first; the rest are chips."
+    },
+    {
+      "pickId": "norman-s-wiggletails",
+      "name": "Norman's Wiggletails",
+      "severity": "confirm",
+      "text": "No catalog product matches \"Norman's Wiggletails\" by name. Resolved by the page's own link to \"Norman's Wiggletail - #16\". Confirm."
+    },
+    {
+      "pickId": "norman-s-wiggletails",
+      "name": "Norman's Wiggletails",
+      "severity": "color",
+      "text": "No color on the report. Shop carries Pheasant Tail, Peacock. Showing Pheasant Tail first; the rest are chips."
+    },
+    {
+      "pickId": "pheasant-tails",
+      "name": "Pheasant Tails",
+      "severity": "confirm",
+      "text": "No catalog product matches \"Pheasant Tails\" by name. Resolved by the page's own link to \"Pheasant Tail\". Confirm."
+    },
+    {
+      "pickId": "pheasant-tails",
+      "name": "Pheasant Tails",
+      "severity": "size",
+      "text": "No size on the report. Shop carries #12, #14, #16, #18, #20. Defaulted to the middle, #12."
+    },
+    {
+      "pickId": "mercer-s-missing-link",
+      "name": "Mercer's Missing Link",
+      "severity": "color",
+      "text": "No color on the report. Shop carries Natural Dark, Red, Amber. Showing Natural Dark first; the rest are chips."
+    },
+    {
+      "pickId": "mercer-s-missing-link",
+      "name": "Mercer's Missing Link",
+      "severity": "size",
+      "text": "No size on the report. Shop carries #12, #14, #16, #18. Defaulted to the middle, #16."
+    },
+    {
+      "pickId": "zug-bugs",
+      "name": "Zug Bugs",
+      "severity": "confirm",
+      "text": "No catalog product matches \"Zug Bugs\" by name. Resolved by the page's own link to \"Zug Bug\". Confirm."
+    },
+    {
+      "pickId": "zug-bugs",
+      "name": "Zug Bugs",
+      "severity": "size",
+      "text": "No size on the report. Shop carries #12, #14, #16. Defaulted to the middle, #14."
+    },
+    {
+      "pickId": "zack-s-stillwater-swimming-l",
+      "name": "Zack's Stillwater Swimming Leeches",
+      "severity": "confirm",
+      "text": "Matched \"Zack's Stillwater Swimming Leeches\" to \"Zack's Stillwater Swimming Leech - #8\" by fuzzy match (score 0.75). Confirm.",
+      "candidates": [
+        {
+          "handle": "zacks-stillwater-swimming-leech-8",
+          "title": "Zack's Stillwater Swimming Leech - #8",
+          "score": 0.75
+        },
+        {
+          "handle": "zacks-balanced-stillwater-swimming-leech-10",
+          "title": "Zack's Balanced Stillwater Swimming Leech - #10",
+          "score": 0.67
+        }
+      ]
+    },
+    {
+      "pickId": "zack-s-stillwater-swimming-l",
+      "name": "Zack's Stillwater Swimming Leeches",
+      "severity": "color",
+      "text": "No color on the report. Shop carries Black, Brown Olive, Brown, Olive, Burnt Orange, Burgundy, Brown/Olive - Mixed Tail, Burnt Orange/Olive - Mixed Tail, Black/Burgundy - Mixed Tail. Showing Black first; the rest are chips."
+    }
+  ],
+  "observations": [
+    "Rating: Good.",
+    "Prices from the catalog: 7 picks run $2.00 to $3.50; 3 are $2.95.",
+    "Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide's fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.",
+    "FOR THE GUIDE, Fall River: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
+  ]
 }
