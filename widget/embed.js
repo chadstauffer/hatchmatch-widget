@@ -1532,14 +1532,22 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     ${this.allFliesLink()}
   </div>`;
       }
-      // A slot with no hatch is hidden unless the angler is standing in it. The fallback text is
-      // the guide's own prose -- worth reading at dusk, noise at 2pm. A rule, not a special case:
-      // a guide who does list a last-light hatch still gets it shown.
-      const slots = d.hatches.map((h, i) => (h.none && i !== now) ? '' : this.slotRow(h, i, i === now)).join('');
+      // A slot the guide listed no hatch for is not rendered at all. It used to appear while the
+      // angler was standing in it, carrying a line of fallback prose -- and the comment here
+      // claimed that prose was the guide's own. It was not: nothing in the engine produces a
+      // `fallback`, it was written into the spec fixture by hand, and what it said was "Swing soft
+      // hackles or a dark Missing Link" -- the card inventing angling advice and naming a fly
+      // pattern nobody at the shop chose. A row that exists to say the guide said nothing, and
+      // fills the silence with our own tip, is worse than no row.
+      const slots = d.hatches.map((h, i) => h.none ? '' : this.slotRow(h, i, i === now)).filter(Boolean);
       const anytime = this.anytimeRow();
+      // With every slot empty there is nothing for the column header to head.
+      const head = slots.length
+        ? `<div class="between" style="padding:8px 0 4px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)"><span style="white-space:nowrap">Time of\u00A0day</span><span>Hatch, size, the guide's word</span></div>`
+        : `<div class="muted" style="padding:8px 0 4px;font-size:12px">No hatches in this report.</div>`;
       return `<div class="slots">
-  <div class="between" style="padding:8px 0 4px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)"><span style="white-space:nowrap">Time of\u00A0day</span><span>Hatch, size, the guide's word</span></div>
-  ${slots}${anytime}
+  ${head}
+  ${slots.join('')}${anytime}
   ${this.allFliesLink()}
 </div>`;
     }
@@ -1553,7 +1561,6 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     /** A hatch row and, underneath it, the flies for that hatch. The row is the disclosure. */
     slotRow(h, i, isNow) {
       const label = `<div style="display:flex;flex-direction:column;gap:2px"><span class="label" style="color:${isNow ? 'var(--text)' : 'var(--muted)'}">${esc(SLOT_LABEL[SLOTS[i]] || cap(SLOTS[i]))}</span>${isNow ? `<span class="lamp" style="--c:var(--green);color:var(--green);font-size:10px"><i style="width:6px;height:6px"></i>Now</span>` : ''}</div>`;
-      if (h.none) return `<div class="slot">${label}<div class="muted" style="font-size:12px">${esc(h.fallback)}</div></div>`;
       const open = this.s.expanded.has(h.slot), id = `flies-${h.slot.replace(/\s+/g, '-')}`;
       return `<div class="slot">${label}
     <button class="chip${this.s.tip === h.slot ? ' tipopen' : ''}" data-action="slot" data-slot="${esc(h.slot)}" data-focus="slot-${esc(h.slot)}" aria-expanded="${open}" aria-controls="${id}">

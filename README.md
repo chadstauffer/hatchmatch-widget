@@ -641,6 +641,16 @@ where they did not the card says `Look before you wade`, which is written to be 
 advice no guide would have needed to give. The heading no longer changes with the source, so the
 block reads the same on every water.
 
+**A slot the guide listed no hatch for is not rendered at all.** It used to appear while the angler
+was standing in it, carrying a line of prose the code comment described as the guide's own. It was
+not: nothing in the engine ever produced a `fallback`, it was written into the spec fixture by hand,
+and what it said was *"No hatch listed. Swing soft hackles or a dark Missing Link."* -- the card
+inventing angling advice and naming a fly pattern nobody at the shop chose, under the guide's
+heading, on the shop's own site. That is the failure 6.3 exists to catch, and it had a comment
+asserting the opposite sitting directly above it. A row whose job is to say the guide said nothing,
+and which fills the silence with our own tip, is worse than no row. The field is gone from the
+fixtures too, not just unrendered.
+
 **Clarity always has a slot.** Where the guide called it, that is the call; where they did not,
 the row says `CLARITY · NO CALL` with the card's unlit dot, because an absent row and a clear
 river look identical otherwise. "No call" is this card's own word for a guide's judgement, and it
