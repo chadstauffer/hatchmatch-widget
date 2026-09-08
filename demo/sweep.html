@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
+<title>HatchMatch — sweep</title>
+<style>html,body{margin:0}body{background:#F4F1EC;font:12px/1.4 monospace}#stage{padding:0}</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+  // Count every interval the widget opens, so leaks across expand/collapse cycles are countable.
+  window.__live = 0;
+  const si = window.setInterval, ci = window.clearInterval;
+  window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
+  window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
+</script>
+<script src="../dist/embed.js?b=20260908053004"></script>
+<script>
+/* A widow is the last line of a wrapped text block carrying one short word on its own. Measured
+   rather than eyeballed: every word in the block gets a Range rect, words are grouped into lines
+   by their top edge, and a block whose last line holds a single word is reported along with the
+   phrase it broke away from. Only blocks whose children are all inline are considered -- a flex
+   row's items are laid out as items, not as lines, so "one item on the last row" is not a widow.
+   Round 7, ticket 3: `rain` widowing in the weather column was the reported case and there were
+   others nobody had looked at. */
+/* Widows we have looked at and accepted, with the reason. An exemption with no reason is a
+   silenced bug; this list should stay very short. */
+window.WIDOWS_ACCEPTED = [
+  { sel: '.name', widow: 'Nymph', after: 'BP Weiss',
+    why: 'Only at 320px. text-wrap:balance prefers "BP Weiss / Nymph" (max line 8 chars) over "BP / Weiss Nymph" (max 11), and it is right to: the even break looks better than the one that satisfies the widow rule. Balance is what fixed "Jigged Bird\'s / Nest"; this is the same rule disagreeing with itself on a three-word name in a 100px column.' },
+  // The three below surfaced when the per-water pass widened from two widths to six. None is new
+  // and none is card-authored: two are sentences the shop's guides wrote and one is a fly name
+  // they chose. text-wrap:pretty is already on every text block and balance is already on .name;
+  // both have had their say here and lost to a 286px column.
+  { sel: '.name', widow: 'Rubberleg', after: "Pat's Brown",
+    why: 'Only at 320px. Same disagreement as BP Weiss Nymph: balance prefers "Pat\'s Brown / Rubberleg" (max 9) over "Pat\'s / Brown Rubberleg" (max 16). The fly name is the shop\'s and cannot be reworded.' },
+  { sel: 'p', widow: '800-669-3474.', after: 'in Outfitters at',
+    why: 'Only at 320px, in the guide\'s own NOTES prose. The widow is a phone number, which must not be broken across lines and is therefore the one word on the line that is right to keep whole. Rewriting a guide\'s sentence to fix a line break is the failure 6.3 existed to catch.' },
+  { sel: 'p', widow: 'Frustrating', after: 'Fishing Can be',
+    why: 'Only at 320px, in the guide\'s own NOTES prose -- their sub-head "Fishing Can be Frustrating", verbatim. The NOTES tab is where the shop\'s text is reproduced as written; the card does not get to edit it for typography.' },
+];
+window.WIDOWS = function (root, where, out) {
+  const inlineOnly = el => [...el.children].every(c => /^inline/.test(getComputedStyle(c).display));
+  for (const el of root.querySelectorAll('*')) {
+    if (!el.textContent || el.textContent.trim().split(/\s+/).length < 3) continue;
+    if (el.children.length && !inlineOnly(el)) continue;
+    if (!el.getClientRects().length) continue;
+    const words = [];
+    const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    let n;
+    while ((n = walk.nextNode())) {
+      for (const m of n.textContent.matchAll(/\S+/g)) {
+        const r = document.createRange();
+        r.setStart(n, m.index); r.setEnd(n, m.index + m[0].length);
+        const box = r.getBoundingClientRect();
+        if (box.width > 0 || box.height > 0) words.push({ w: m[0], top: Math.round(box.top) });
+      }
+    }
+    if (words.length < 3) continue;
+    const lines = [];
+    for (const wd of words) {
+      const line = lines.find(l => Math.abs(l.top - wd.top) <= 2);
+      if (line) line.words.push(wd.w); else lines.push({ top: wd.top, words: [wd.w] });
+    }
+    if (lines.length < 2) continue;
+    const last = lines[lines.length - 1];
+    if (last.words.length !== 1) continue;
+    const prev = lines[lines.length - 2].words;
+    // A widow is a bad break, not a narrow column. If the last two words cannot share a line at
+    // this width, no arrangement avoids one word ending alone and there is nothing to report --
+    // which is the case for a three-word fly name in a 100px column at 320px. Measured, so the
+    // exemption is a fact about this width rather than a guess.
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre';
+    const cs = getComputedStyle(el);
+    probe.style.font = cs.font; probe.style.letterSpacing = cs.letterSpacing;
+    probe.textContent = prev[prev.length - 1] + ' ' + last.words[0];
+    el.appendChild(probe);
+    const needs = probe.getBoundingClientRect().width;
+    probe.remove();
+    if (needs > el.clientWidth) continue;
+    if (window.WIDOWS_ACCEPTED.some(a => a.widow === last.words[0] && prev.join(' ').endsWith(a.after))) continue;
+    out.push({ where, widow: last.words[0], after: prev.slice(-3).join(' '),
+               sel: el.className ? '.' + String(el.className).trim().split(/\s+/).join('.') : el.tagName.toLowerCase() });
+  }
+};
+
+/* Overflow, measured as what it actually means: does anything render outside the card's own box.
+   Content wider than a box that clips it on purpose -- the live strip's frames, the guide line's
+   ellipsised label -- is not overflow, and an earlier version of this check spent its time
+   reporting those. Two things are asked instead: has anything escaped the card edge, and is any
+   live-strip frame having its text cut off. Round 7 found the flow-position band 25px too long
+   for the strip, the compact hatch row 36px past the card at 320, and the gauge-name frame
+   clipped on four waters. */
+window.OVERFLOW = function (root, where, out) {
+  const card = root.querySelector('.card');
+  if (!card) return;
+  const cr = card.getBoundingClientRect();
+  for (const el of root.querySelectorAll('.card *')) {
+    const r = el.getBoundingClientRect();
+    if (!r.width && !r.height) continue;
+    const by = Math.round(Math.max(r.right - cr.right, cr.left - r.left));
+    if (by > 0) out.push({ where, what: '.' + (String(el.className).trim().split(/\s+/)[0] || el.tagName), by, kind: 'escapes the card' });
+  }
+  for (const f of root.querySelectorAll('.live .frames>span')) {
+    const by = Math.round(f.scrollWidth - f.parentElement.clientWidth);
+    if (by > 1) out.push({ where, what: `"${f.textContent.trim()}"`, by, kind: 'strip frame cut off' });
+  }
+  // An ellipsis is a design choice on a fly name the shop chose and a bug on a control's own
+  // label. Anything that ellipsises is reported with what it was hiding; the fly name and the
+  // water title are the two that are allowed to.
+  const MAY_ELLIPSIS = new Set(['name', 'wname', 'title', 'word', 'packlabel']);
+  for (const el of root.querySelectorAll('.card *')) {
+    if (getComputedStyle(el).textOverflow !== 'ellipsis') continue;
+    const by = Math.round(el.scrollWidth - el.clientWidth);
+    if (by <= 1) continue;
+    const cls = String(el.className).trim().split(/\s+/)[0] || '';
+    if (MAY_ELLIPSIS.has(cls)) continue;
+    out.push({ where, what: `.${cls} "${el.textContent.trim()}"`, by, kind: 'label truncated' });
+  }
+  // Absolutely-positioned labels sharing a row do not overflow anything and do not ellipsise, so
+  // neither check above can see them collide -- they simply sit on top of each other. Round 7's
+  // wading limits found it: Hat Creek's 150 of 200 puts "150 WADING LIMIT" at 75% of the bar,
+  // 2px from the "200" at 350px and 5px THROUGH it at 320. Same failure class as "FAIR TO / GOOD",
+  // which also rendered inside the card and still read as broken.
+  for (const row of root.querySelectorAll('.card *')) {
+    const kids = [...row.children].filter(k => getComputedStyle(k).position === 'absolute');
+    if (kids.length < 2) continue;
+    const box = kids.map(k => ({ el: k, r: k.getBoundingClientRect() })).filter(k => k.r.width);
+    for (let i = 0; i < box.length; i++) for (let j = i + 1; j < box.length; j++) {
+      const a = box[i], b = box[j];
+      if (a.r.bottom <= b.r.top + 1 || b.r.bottom <= a.r.top + 1) continue;   // different lines
+      // A deliberate stack is not a collision. The live strip's frames are inset:0 siblings that
+      // cross-fade in place, so they sit exactly on top of one another by design -- and that is
+      // what tells them apart from crowding: layered content shares a box, labels that crowd sit
+      // at different offsets and merely run into each other.
+      const contains = (x, y) => x.left <= y.left + 1 && x.right >= y.right - 1;
+      if (contains(a.r, b.r) || contains(b.r, a.r)) continue;
+      const gap = Math.max(a.r.left, b.r.left) - Math.min(a.r.right, b.r.right);
+      if (gap >= 6) continue;
+      out.push({ where, what: `"${a.el.textContent.trim()}" / "${b.el.textContent.trim()}"`,
+                 by: Math.round(6 - gap), kind: gap < 0 ? 'labels overlap' : 'labels touching' });
+    }
+  }
+};
+
+window.SWEEP = async function () {
+  const STATES = ['', 'aging', 'stale', 'oos', 'noflow'];
+  const THEMES = ['dark', 'light'];
+  // The six widths the card is claimed to work at, not three of them. 320 is where the pinned
+  // block is tightest, and it is the width that caught the guide label ellipsising.
+  const WIDTHS = [440, 390, 375, 350, 335, 320];
+  const TABS = ['now', 'hatch', 'notes'];
+  const stage = document.getElementById('stage');
+  const out = { combos: 0, errors: [], invariants: [], waters: [], widows: [], overflow: [] };
+
+  const money = n => Math.round(n * 100);
+
+  for (const state of STATES) {
+    for (const theme of THEMES) {
+      for (const w of WIDTHS) {
+        stage.innerHTML = '';
+        const host = document.createElement('div');
+        host.className = 'hatchmatch';
+        host.style.width = w + 'px';
+        host.dataset.theme = theme;
+        host.dataset.accent = 'orange';
+        if (state) host.dataset.demoState = state;
+        stage.appendChild(host);
+        let card;
+        try { card = window.HatchMatch.mount(host); } catch (e) { out.errors.push(`mount ${state}/${theme}/${w}: ${e.message}`); continue; }
+        for (const tab of TABS) {
+          for (const expandAll of [false, true]) {
+            try {
+              const exp = expandAll ? new Set(['morning', 'midday', 'afternoon', 'all day']) : card.s.expanded;
+              card.set({ open: true, tab, expanded: exp });
+              out.combos++;
+              // one buy button, always
+              const packs = card.root.querySelectorAll('.pack').length;
+              if (packs !== 1) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: ${packs} buy buttons`);
+              // group total == CTA total, and no pick lands in two groups or none
+              const listed = card.data.hatches.filter(h => !h.none).map(h => h.key);
+              const grouped = [...listed.map(k => card.rows(k)), card.rows(null, true)].flat().flatMap(g => g.flies);
+              const all = card.rows().flatMap(g => g.flies);
+              const gt = grouped.reduce((n, r) => n + (r.oos ? 0 : r.price), 0);
+              const k = card.pack();
+              const ids = grouped.map(r => r.p.id);
+              if (ids.length !== new Set(ids).size) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: a pick is in two groups`);
+              if (ids.length !== all.length) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: orphan pick, ${all.length} rows but ${ids.length} grouped`);
+              if (money(gt) !== money(k.total)) out.invariants.push(`${state||'default'}/${theme}/${w}/${tab}: groups ${gt.toFixed(2)} != CTA ${k.total.toFixed(2)}`);
+              const at = `${state || 'default'}/${theme}/${w}/${tab}${expandAll ? '/open' : ''}`;
+              window.WIDOWS(card.root, at, out.widows);
+              window.OVERFLOW(card.root, at, out.overflow);
+            } catch (e) { out.errors.push(`${state||'default'}/${theme}/${w}/${tab}/${expandAll}: ${e.message}`); }
+          }
+        }
+        // compact too
+        try { card.set({ open: false }); out.combos++; } catch (e) { out.errors.push(`compact ${state}/${theme}/${w}: ${e.message}`); }
+      }
+    }
+  }
+
+  // Every water renders on every tab without throwing.
+  stage.innerHTML = '';
+  const host = document.createElement('div');
+  host.className = 'hatchmatch'; host.style.width = '350px'; host.dataset.theme = 'dark';
+  stage.appendChild(host);
+  const card = window.HatchMatch.mount(host);
+  for (const w of ['fall-river','hat-creek','klamath','lower-sacramento','mccloud','pit','trinity','upper-sacramento']) {
+    try {
+      card.switchWater(w);
+      for (const tab of ['now','hatch','notes']) card.set({ open: true, tab });
+      card.set({ picker: true }); card.set({ picker: false });
+      card.set({ open: true, tab: 'hatch' });
+      const ro = !!card.data.readOnly;
+      const shown = [...card.root.querySelectorAll('.fly')].length;
+      const steppers = card.root.querySelectorAll('.fly .step').length;
+      const pack = card.root.querySelector('.pack');
+      const rows = card.rows().flatMap(g => g.flies);
+      const ids = rows.map(r => r.p.id);
+      // Read-only now means "the page gave no hatch slots and no roles", which is a statement
+      // about structure, not about whether the flies can be sold. It sells a pack of the guide's
+      // own list: every resolved pick shown exactly once, exactly one of each, and NO stepper --
+      // a stepper would offer a per-fly quantity the page never supplied. The old assertions here
+      // encoded the opposite contract and are replaced rather than relaxed: each one still has a
+      // counterpart, and the count check is tighter than it was.
+      if (ro) {
+        if (shown !== card.picks.length) out.invariants.push(`${w}: ${card.picks.length} picks but ${shown} rows`);
+        if (steppers) out.invariants.push(`${w}: read-only but ${steppers} quantity steppers`);
+        const rowQty = [...new Set(rows.map(r => r.qty))];
+        if (rowQty.length !== 1 || rowQty[0] !== 1) out.invariants.push(`${w}: read-only rows carry quantities ${rowQty.join('/')}, not one of each`);
+        const sellable = rows.filter(r => !r.oos).length;
+        if (card.pack().flies !== sellable) out.invariants.push(`${w}: ${sellable} sellable rows but pack reports ${card.pack().flies} flies`);
+        if (!pack || pack.disabled) out.invariants.push(`${w}: read-only but its pack cannot be bought`);
+        if (card.root.querySelector('.nopack')) out.invariants.push(`${w}: sells a pack and still says it has none`);
+      } else {
+        if (!pack || pack.disabled) out.invariants.push(`${w}: sells a pack but the buy button is disabled`);
+      }
+      if (ids.length !== new Set(ids).size) out.invariants.push(`${w}: a pick appears in two groups`);
+      // A button cannot contain a button. The compact face is one big button, so anything that
+      // becomes tappable inside it -- the pack button, and now the hatch line -- has to be a
+      // sibling. Invalid HTML here does not throw; it just makes a control unreachable.
+      for (const st of [false, true]) {
+        card.set({ open: st });
+        const nested = card.root.querySelectorAll('button button, button a[href], a[href] button').length;
+        if (nested) out.invariants.push(`${w}: ${nested} nested interactive element(s) when ${st ? 'expanded' : 'compact'}`);
+      }
+      // Leave it expanded: the structure checks below look for expanded-only elements.
+      card.set({ open: true, tab: 'hatch' });
+      // Every card state must render a header, tabs and a pinned block.
+      for (const sel of ['.head', '.tabs', '.buybar', '.panel']) {
+        if (!card.root.querySelector(sel)) out.invariants.push(`${w}: missing ${sel}`);
+      }
+      // The flow graph must have a plot with real height. A class collision collapsed it to the
+      // sum of its gaps once -- cells at zero height, value rules stacked on top of each other --
+      // and nothing else in the sweep noticed.
+      card.set({ open: true, tab: 'now' });
+      const plot = card.root.querySelector('.spark .grid');
+      if (plot) {
+        const h = plot.getBoundingClientRect().height;
+        if (h < 20) out.invariants.push(`${w}: flow graph plot collapsed to ${Math.round(h)}px`);
+        const cell = plot.querySelector('.col i');
+        if (cell && cell.getBoundingClientRect().height < 1) out.invariants.push(`${w}: flow graph cells have no height`);
+      }
+      // Every lit segment must actually paint. The bar's CSS was deleted in a rebuild and the bar
+      // shipped for several rounds present in the DOM, correctly lit, and fully transparent --
+      // every structural check passed because the structure was never what broke.
+      for (const [sel, what] of [['.flowmod .bar', 'flow bar'], ['.band', 'temp band']]) {
+        const bar = card.root.querySelector(sel);
+        if (!bar) continue;
+        // 'cur' is the reading on both instruments; 'on' is the flow bar's fill. 'in'/'at' were
+        // the temp band's old zone-and-marker classes -- kept here so this check fails loudly if
+        // they ever come back rather than silently matching nothing, which is what it did for a
+        // build after the band was rebuilt around a single lit cell.
+        const lit = [...bar.querySelectorAll('i')].filter(i => ['on', 'cur', 'in', 'at'].some(c => i.classList.contains(c)));
+        if (!lit.length) out.invariants.push(`${w}: ${what} has no lit segment at all`);
+        const blank = lit.filter(i => {
+          const bg = getComputedStyle(i).backgroundColor;
+          return bg === 'transparent' || /rgba\(0, 0, 0, 0\)/.test(bg);
+        });
+        if (lit.length && blank.length === lit.length) out.invariants.push(`${w}: ${what} has ${lit.length} lit segments and none of them paint`);
+        const seg = lit[0];
+        if (seg && seg.getBoundingClientRect().height < 1) out.invariants.push(`${w}: ${what} segments have no height`);
+      }
+      // All six widths, not two. The limit-label collision lived at 350 and below only, and a
+      // per-water pass that stops at 375 cannot see anything a shop's own numbers cause.
+      for (const px of ['440px', '390px', '375px', '350px', '335px', '320px']) {
+        host.style.width = px;
+        for (const tab of ['now', 'hatch', 'notes']) { card.set({ open: true, tab }); window.WIDOWS(card.root, `${w}/${px}/${tab}`, out.widows); window.OVERFLOW(card.root, `${w}/${px}/${tab}`, out.overflow); }
+        card.set({ open: false }); window.OVERFLOW(card.root, `${w}/${px}/compact`, out.overflow);
+      }
+      // The widest clock this locale prints, on purpose. The strip frame reads "Read 4:00 PM ·
+      // USGS Hat Creek" for most of the day and "Read 10:14 PM · USGS Hat Creek" for four hours of
+      // it, and only the second one clipped -- so the row was broken daily and the sweep passed
+      // every time it happened to run before ten. A test whose result depends on the wall clock is
+      // not a test; this pins the worst case.
+      if (card.s.flow && card.s.flow.value != null) {
+        const real = card.s.flow.at;
+        card.set({ open: true, tab: 'now', flow: { ...card.s.flow, at: new Date(new Date().setHours(23, 48, 0, 0)).toISOString() } });
+        for (const px of ['440px', '390px', '375px', '350px', '335px', '320px']) {
+          host.style.width = px;
+          window.OVERFLOW(card.root, `${w}/${px}/now/23:48`, out.overflow);
+          card.set({ open: false }); window.OVERFLOW(card.root, `${w}/${px}/compact/23:48`, out.overflow);
+          card.set({ open: true, tab: 'now' });
+        }
+        card.set({ flow: { ...card.s.flow, at: real } });
+      }
+      host.style.width = '350px';
+      card.set({ open: false });
+      out.waters.push(`${w} ok (${shown} flies${ro ? ', read-only' : ', pack'})`);
+    } catch (e) { out.errors.push(`water ${w}: ${e.message}`); }
+  }
+
+  // Cache poisoning: a payload written by an older build is not stale, it is the wrong shape.
+  // Serving it back left the card rendering a flow with no sparkline and no way to know why.
+  try {
+    const stale = { value: 7700, at: new Date().toISOString(), delta: -40, hours: 6, trend: 'Steady', live: true, source: 'nwis/iv' };
+    for (const k of ['hm:flow:11370500', 'hm1:flow:11370500']) sessionStorage.setItem(k, JSON.stringify({ at: Date.now(), v: stale }));
+    const host2 = document.createElement('div');
+    host2.className = 'hatchmatch'; host2.style.width = '350px'; host2.dataset.theme = 'dark';
+    stage.appendChild(host2);
+    const c2 = window.HatchMatch.mount(host2);
+    await new Promise(r => setTimeout(r, 4000));
+    c2.set({ open: true, tab: 'now' });
+    // Assert the graph is there, not how it is drawn. Naming the technique made this test fail
+    // twice on rendering changes that were not regressions; the failure being guarded against is
+    // the graph disappearing, whatever it is made of.
+    const drawn = c2.root.querySelector('.spark') ? 1 : 0;
+    out.cachePoison = drawn ? 'rejected the stale shape, graph rendered' : 'SERVED A STALE SHAPE, no sparkline';
+    if (!drawn) out.invariants.push('cache: a payload from an older build was served back and the sparkline vanished');
+    clearInterval(c2.poll); clearInterval(c2.cycler);
+    host2.remove();
+  } catch (e) { out.errors.push('cache poison check: ' + e.message); }
+
+  // Intervals: 20 expand/collapse cycles must not accumulate.
+  card.switchWater('lower-sacramento');
+  const before = window.__live;
+  for (let i = 0; i < 20; i++) { card.set({ open: true, tab: 'now' }); card.set({ open: false }); }
+  card.set({ open: false });
+  out.intervals = { before, after: window.__live, leaked: window.__live - before };
+  return out;
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "note": "Numbers a shop or a guide has set. These always win over anything the engine derives. A derived number is a good default from measured record; a number someone who fishes the water chose is better, and nothing computed may quietly replace it. Add a water here at onboarding and the next scrape keeps what is written rather than overwriting it.",
+  "fields": {
+    "flow.min / flow.max": "the scale the bar and sparkline draw against. Derived from USGS daily statistics when absent.",
+    "flow.threshold / flow.thresholdLabel": "the high-water mark. DERIVED since 2026-09-08: the flow this river exceeds only a tenth of its own April-October record, which fires 21-22 days a season on every water. Six hand-set numbers measured out at anywhere from the 35th to the 93rd percentile of their own rivers, so they were six different rules wearing one label. Set a number here and it still wins -- but write down why, because it will disagree with every other water on the card.",
+    "sections": "named reaches the pack can be shaped to.",
+    "packName": "the shop's own name for the pack.",
+    "cdecStation": "CDEC station id for water temperature (sensor 25, hourly), where USGS does not report 00010. Read through the widget's temp proxy, never from the browser: CDEC sends no CORS header.",
+    "reportFreshness": "how many days a report stays CURRENT and then RECENT before it reads OLDER, e.g. {\"current\": 14, \"recent\": 30}. Never derived. The shop knows how often it updates a water; the card defaults to 14/30 as an INTERIM until they say, and that default is a placeholder, not a standard.",
+    "cdecFlow": "{station, sensor} for a water's FLOW where USGS carries none. Read through the widget's cdec proxy, never from the browser: CDEC sends no CORS header. The McCloud is the case that found this -- 25 USGS sites carry its name and not one reports a real-time or recent daily series, while CDEC's MCA at Ah-Di-Na reports hourly."
+  },
+  "waters": {
+    "lower-sacramento": {
+      "why": "The scale is the one hand-set number left, and only the scale. 0-20,000 puts the derived high-water mark at 70% of the bar and the season's median flow at 44% of it. The pure derivation gives 0-30,000, which is right about storms and pushes the season a reader actually fishes into the bottom third; the old 0-15,000 was fitted to a 7,500 threshold that no longer exists and would now put the mark at 93%, off the end of its own bar. The threshold itself is derived like every other water's.",
+      "flow": {
+        "min": 0,
+        "max": 20000
+      },
+      "sections": [
+        "Up top",
+        "Lower"
+      ],
+      "packName": "Sac Pack"
+    },
+    "mccloud": {
+      "why": "USGS has 25 sites on the McCloud and none of them reports flow. CDEC's MCA, at Ah-Di-Na, reports hourly and is the water the shop's report is about. Its record starts in 2020 -- seven seasons, against 52 to 116 years on the USGS waters -- so the high-water mark here rests on far less evidence than the others and the card says so.",
+      "cdecFlow": {
+        "station": "MCA",
+        "sensor": 20
+      },
+      "gaugeName": "CDEC Ah-Di-Na"
+    }
+  }
+}

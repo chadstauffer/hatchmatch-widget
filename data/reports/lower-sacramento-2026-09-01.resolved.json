@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-04T21:43:40.718Z",
+ "generatedAt": "2026-09-08T05:13:25.049Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -7,19 +7,247 @@
   "id": "lower-sacramento",
   "name": "Lower Sacramento River",
   "shortName": "Lower Sac",
+  "packName": "Sac Pack",
   "group": "river",
   "usgsSite": "11370500",
   "gaugeName": "USGS Keswick",
+  "cdecStation": "KWK",
   "lat": 40.5865,
   "lon": -122.3917,
   "flow": {
    "min": 0,
-   "max": 15000,
-   "threshold": 7500,
-   "thresholdLabel": "wading limit",
+   "max": 20000,
+   "threshold": 12000,
+   "thresholdLabel": "high water",
    "lastReading": {
     "value": 8000,
     "at": "2026-09-01T06:15:00-07:00"
+   },
+   "position": {
+    "bands": [
+     [
+      3260,
+      3950,
+      10300,
+      18050
+     ],
+     [
+      3295,
+      3945,
+      9895,
+      19250
+     ],
+     [
+      3280,
+      3830,
+      12000,
+      30600
+     ],
+     [
+      3240,
+      3610,
+      13050,
+      25500
+     ],
+     [
+      3260,
+      3555,
+      14050,
+      38600
+     ],
+     [
+      3240,
+      3800,
+      14000,
+      46200
+     ],
+     [
+      3245,
+      3570,
+      14700,
+      30900
+     ],
+     [
+      3265,
+      3740,
+      11850,
+      26350
+     ],
+     [
+      3260,
+      3720,
+      8530,
+      23400
+     ],
+     [
+      3215,
+      4065,
+      8160,
+      18250
+     ],
+     [
+      3315,
+      4760,
+      8730,
+      16750
+     ],
+     [
+      4790,
+      5950,
+      9810,
+      12350
+     ],
+     [
+      6250,
+      7630,
+      11100,
+      14150
+     ],
+     [
+      6985,
+      8185,
+      11900,
+      14750
+     ],
+     [
+      7150,
+      8380,
+      12100,
+      14500
+     ],
+     [
+      7760,
+      8850,
+      12650,
+      14450
+     ],
+     [
+      8355,
+      10020,
+      13150,
+      14350
+     ],
+     [
+      9185,
+      10550,
+      13700,
+      14650
+     ],
+     [
+      9740,
+      10800,
+      14200,
+      14900
+     ],
+     [
+      9955,
+      11000,
+      14500,
+      15000
+     ],
+     [
+      10100,
+      11400,
+      14300,
+      15000
+     ],
+     [
+      9530,
+      11000,
+      13950,
+      14600
+     ],
+     [
+      8805,
+      10100,
+      12300,
+      13900
+     ],
+     [
+      7950,
+      9040,
+      11300,
+      12800
+     ],
+     [
+      6860,
+      7845,
+      9870,
+      11500
+     ],
+     [
+      5920,
+      7030,
+      9000,
+      9780
+     ],
+     [
+      5105,
+      6510,
+      8455,
+      9215
+     ],
+     [
+      4470,
+      5920,
+      7690,
+      8630
+     ],
+     [
+      3895,
+      5135,
+      7310,
+      8160
+     ],
+     [
+      3930,
+      5090,
+      6990,
+      8040
+     ],
+     [
+      3990,
+      5050,
+      6310,
+      7670
+     ],
+     [
+      3860,
+      4395,
+      7020,
+      9655
+     ],
+     [
+      3700,
+      4075,
+      7330,
+      13900
+     ],
+     [
+      3365,
+      3900,
+      7695,
+      14600
+     ],
+     [
+      3240,
+      3915,
+      8200,
+      15100
+     ],
+     [
+      3270,
+      3910,
+      8760,
+      18600
+     ]
+    ],
+    "years": "1964–2026"
+   },
+   "source": {
+    "min": "shop",
+    "max": "shop",
+    "threshold": "derived"
    }
   },
   "sections": [
@@ -76,8 +304,7 @@
   },
   {
    "slot": "last light",
-   "none": true,
-   "fallback": "No hatch listed. Swing soft hackles or a dark Missing Link."
+   "none": true
   }
  ],
  "roles": [
@@ -1426,6 +1653,7 @@
    "ms"
   ]
  },
+ "readOnly": false,
  "packs": {
   "Up top": {
    "flies": 21,
@@ -1583,6 +1811,7 @@
  "observations": [
   "Rating: Great, read from the highlighted label on the page.",
   "Prices from the catalog: 17 picks run $1.50 to $3.95; 5 are $2.95.",
-  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the page. They are placeholders for the guide to set."
+  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the page. They are placeholders for the guide to set.",
+  "FOR THE GUIDE, Lower Sac: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ]
 }

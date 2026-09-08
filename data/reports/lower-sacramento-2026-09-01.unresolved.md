@@ -60,3 +60,4 @@ Catalog pulled 2026-09-04T21:06:20.237Z. 7 picks resolved clean, 10 need confirm
 - Rating: Great, read from the highlighted label on the page.
 - Prices from the catalog: 17 picks run $1.50 to $3.95; 5 are $2.95.
 - Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the page. They are placeholders for the guide to set.
+- FOR THE GUIDE, Lower Sac: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say.

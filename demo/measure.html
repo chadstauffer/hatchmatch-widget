@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HatchMatch — measurement harness</title>
+<style>
+  html,body{margin:0;height:100%}
+  body{background:#F4F1EC;font:13px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+  /* A phone host page: 20px each side, so a 390px viewport gives a 350px card. */
+  main{padding:20px}
+</style>
+</head>
+<body>
+<main><div class="hatchmatch" data-theme="dark" data-accent="orange"></div></main>
+<script src="../dist/embed.js?b=20260908053004"></script>
+<script>
+  // Drives the card into a state and returns every number the height budget is argued from.
+  window.HM_MEASURE = function (state) {
+    const card = window.HatchMatch.cards[0];
+    if (state) card.set(state);
+    const r = card.root, px = el => el ? Math.round(el.getBoundingClientRect().height) : null;
+    const q = sel => r.querySelector(sel);
+    const buybar = q('.buybar'), panel = q('.panel'), open = q('.card.open');
+    const rows = [...r.querySelectorAll('.fly')].map(el => Math.round(el.getBoundingClientRect().height));
+    const trip = q('.triprow'), sec = q('.secsel');
+    return {
+      viewport: innerWidth + 'x' + innerHeight,
+      cardWidth: Math.round(q('.card').getBoundingClientRect().width),
+      cardHeight: px(open || q('.card')),
+      header: px(q('.head')), tabs: px(q('.tabs')),
+      pinned: px(buybar),
+      // The all-flies link left the pinned block in round 7 (ticket 6.1) and lives at the bottom
+      // of the HATCH panel now; the guide line joined it (ticket 5). Measure where they are.
+      pinnedParts: { tripRow: px(trip), cta: px(q('.pack')) || px(q('.guideline.primary')), noPack: px(q('.nopack')),
+                     guideLine: px(q('.buybar .guideline')), powered: px(q('.powered')) },
+      allFliesInPanel: px(q('.panel .allflies')),
+      allFliesInPinned: px(q('.buybar .allflies')),
+      panel: px(panel),
+      panelScrollHeight: panel ? panel.scrollHeight : null,
+      flyRows: rows.length, flyRowHeight: rows[0] || null,
+      // Does the trip row fit on one line? Compare the row's height to one control's height.
+      tripRowFits: trip ? Math.round(trip.getBoundingClientRect().height) <= 48 : null,
+      tripOverflow: trip ? Math.round(trip.scrollWidth - trip.clientWidth) : null,
+      sectionLabel: sec ? sec.querySelector('select').value : null,
+    };
+  };
+</script>
+</body>
+</html>

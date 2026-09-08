@@ -153,7 +153,8 @@ window.HM_FINDINGS = {
  "observations": [
   "Rating: Great, read from the highlighted label on the page.",
   "Prices from the catalog: 17 picks run $1.50 to $3.95; 5 are $2.95.",
-  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the page. They are placeholders for the guide to set."
+  "Hatch sizes (Midges #20, Caddis #14, BWO #18) are not on the page. They are placeholders for the guide to set.",
+  "FOR THE GUIDE, Lower Sac: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
  ],
  "packs": {
   "Up top": {
@@ -164,5 +165,79 @@ window.HM_FINDINGS = {
    "flies": 25,
    "total": 75.25
   }
- }
+ },
+ "allWaters": [
+  {
+   "name": "Lower Sac",
+   "publishedAt": "2026-09-01",
+   "rating": "Great",
+   "picks": 17,
+   "confirm": 10,
+   "unresolved": 0,
+   "readOnly": false
+  },
+  {
+   "name": "Fall River",
+   "publishedAt": "2026-09-01",
+   "rating": "Good",
+   "picks": 7,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Hat Creek",
+   "publishedAt": "2026-09-01",
+   "rating": "Fair to Good",
+   "picks": 9,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Klamath",
+   "publishedAt": "2026-01-01",
+   "rating": "Poor",
+   "picks": 8,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "McCloud",
+   "publishedAt": "2026-08-11",
+   "rating": "Good",
+   "picks": 9,
+   "confirm": 7,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Pit",
+   "publishedAt": "2026-08-25",
+   "rating": "Good",
+   "picks": 20,
+   "confirm": 15,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Trinity",
+   "publishedAt": "2026-09-04",
+   "rating": "Fair to Good",
+   "picks": 13,
+   "confirm": 10,
+   "unresolved": 0,
+   "readOnly": true
+  },
+  {
+   "name": "Upper Sac",
+   "publishedAt": "2026-08-25",
+   "rating": "Fair to Good",
+   "picks": 22,
+   "confirm": 13,
+   "unresolved": 0,
+   "readOnly": true
+  }
+ ]
 };

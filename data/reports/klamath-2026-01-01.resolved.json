@@ -1,0 +1,981 @@
+{
+ "generatedAt": "2026-09-08T05:13:24.882Z",
+ "shop": "catalog.theflyshop.com",
+ "storeUrl": "https://catalog.theflyshop.com",
+ "catalogPulledAt": "2026-09-04T21:06:20.237Z",
+ "water": {
+  "id": "klamath",
+  "shortName": "Klamath",
+  "group": "river",
+  "usgsSite": "11516530",
+  "gaugeName": "USGS Iron Gate",
+  "lat": 41.9279,
+  "lon": -122.4442,
+  "name": "Klamath River",
+  "packName": null,
+  "flow": {
+   "min": 0,
+   "max": 6000,
+   "threshold": 1750,
+   "thresholdLabel": "high water",
+   "source": {
+    "min": "derived",
+    "max": "derived",
+    "threshold": "derived"
+   },
+   "lastReading": null,
+   "scaleSource": "USGS daily statistics 1961–2026, 6,060 CFS at the 70th percentile of daily p95, rounded up",
+   "position": {
+    "bands": [
+     [
+      958,
+      1215,
+      2970,
+      3685
+     ],
+     [
+      954,
+      1255,
+      3110,
+      4475
+     ],
+     [
+      950,
+      1200,
+      3110,
+      4890
+     ],
+     [
+      949,
+      1225,
+      3105,
+      4990
+     ],
+     [
+      908,
+      1025,
+      3350,
+      5155
+     ],
+     [
+      928,
+      1140,
+      3490,
+      5880
+     ],
+     [
+      932,
+      1280,
+      3410,
+      6870
+     ],
+     [
+      1005,
+      1455,
+      3795,
+      7230
+     ],
+     [
+      1010,
+      1530,
+      4110,
+      6770
+     ],
+     [
+      1305,
+      1440,
+      4260,
+      6535
+     ],
+     [
+      1310,
+      1380,
+      3960,
+      5865
+     ],
+     [
+      1240,
+      1360,
+      3480,
+      4620
+     ],
+     [
+      1020,
+      1170,
+      3175,
+      4370
+     ],
+     [
+      1020,
+      1160,
+      3010,
+      4325
+     ],
+     [
+      1020,
+      1060,
+      2190,
+      3360
+     ],
+     [
+      731,
+      800,
+      1670,
+      3060
+     ],
+     [
+      719,
+      752,
+      1490,
+      2065
+     ],
+     [
+      700,
+      731,
+      1120,
+      1590
+     ],
+     [
+      696,
+      727,
+      979,
+      1110
+     ],
+     [
+      702,
+      727,
+      936,
+      1050
+     ],
+     [
+      689,
+      723,
+      925,
+      1030
+     ],
+     [
+      701,
+      903,
+      1030,
+      1060
+     ],
+     [
+      722,
+      915,
+      1040,
+      1060
+     ],
+     [
+      754,
+      931,
+      1050,
+      1150
+     ],
+     [
+      862,
+      996,
+      1335,
+      1380
+     ],
+     [
+      883,
+      1000,
+      1345,
+      1545
+     ],
+     [
+      914,
+      1000,
+      1360,
+      1785
+     ],
+     [
+      974,
+      1035,
+      1430,
+      1810
+     ],
+     [
+      962,
+      1035,
+      1710,
+      2155
+     ],
+     [
+      961,
+      1030,
+      1720,
+      2600
+     ],
+     [
+      969,
+      1060,
+      1770,
+      2920
+     ],
+     [
+      982,
+      1035,
+      1835,
+      3060
+     ],
+     [
+      984,
+      1030,
+      2480,
+      3455
+     ],
+     [
+      942,
+      1040,
+      2780,
+      3840
+     ],
+     [
+      946,
+      1035,
+      2990,
+      3740
+     ],
+     [
+      945,
+      1210,
+      3000,
+      4420
+     ]
+    ],
+    "years": "1961–2026"
+   }
+  },
+  "sections": [],
+  "guidePhone": "800-669-3474",
+  "closed": false
+ },
+ "report": {
+  "publishedAt": "2026-01-01",
+  "author": null,
+  "rating": "Poor",
+  "clarity": "Variable",
+  "clarityDetail": null,
+  "clarityFrom": "The river is definitely showing signs from the last storm and we will see big flows and probably colored water over the next few weeks.",
+  "wading": null,
+  "notes": [
+   "The river is definitely showing signs from the last storm and we will see big flows and probably colored water over the next few weeks. The upper river will probably see some more fish coming through, and we hope, up into Oregon! If you are fishing, swing low and slow for best success. We're looking forward to June when the halfpounders and early summer run fish show up!"
+  ],
+  "wadingNote": [],
+  "wadingTags": [],
+  "notesPermission": "pending",
+  "source": {
+   "url": "https://www.theflyshop.com/streamreport.html",
+   "fetchedAt": "2026-09-07"
+  }
+ },
+ "hatches": [],
+ "roles": [
+  {
+   "key": "dry",
+   "label": "Dry"
+  },
+  {
+   "key": "dropper",
+   "label": "Dropper"
+  },
+  {
+   "key": "point",
+   "label": "Point"
+  },
+  {
+   "key": "eggs",
+   "label": "Eggs"
+  }
+ ],
+ "picks": [
+  {
+   "id": "clown-egg",
+   "group": "Eggs",
+   "name": "Clown Egg",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/clown-egg/",
+   "asWritten": "Clown Egg",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "clown-egg",
+    "title": "Clown Egg",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/clown-egg",
+    "type": "Eggs & Flesh"
+   },
+   "variant": {
+    "id": 47233982693606,
+    "sku": "365F-1757",
+    "color": null,
+    "size": "#8",
+    "price": 2.25,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+    "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982693606"
+   },
+   "variants": [
+    {
+     "id": 47233982562534,
+     "sku": "365F-1737",
+     "color": null,
+     "size": "#6",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+     "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982562534"
+    },
+    {
+     "id": 47233982693606,
+     "sku": "365F-1757",
+     "color": null,
+     "size": "#8",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+     "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982693606"
+    },
+    {
+     "id": 47233982824678,
+     "sku": "365F-1759",
+     "color": null,
+     "size": "#10",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+     "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982824678"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "size",
+     "text": "No size on the report. Shop carries #6, #8, #10. Defaulted to the middle, #8."
+    }
+   ]
+  },
+  {
+   "id": "micro-spawn",
+   "group": "Eggs",
+   "name": "Micro Spawn",
+   "colors": [
+    "Shrimp Pink",
+    "Salmon Egg"
+   ],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/",
+   "asWritten": "Micro Spawn - Shrimp Pink or Salmon Egg",
+   "status": "resolved",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "micro-spawn-12",
+    "title": "Micro Spawn - #12",
+    "vendor": "Dreamcast Flies",
+    "url": "https://catalog.theflyshop.com/products/micro-spawn-12",
+    "type": "Eggs & Flesh"
+   },
+   "variant": {
+    "id": 47268391387366,
+    "sku": "110F-2251",
+    "color": "Shrimp Pink",
+    "size": "#12",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/a0df5220-cf16-43ee-9170-ff7e8237c75a.png?v=1768780275&width=240",
+    "url": "https://catalog.theflyshop.com/products/micro-spawn-12?variant=47268391387366"
+   },
+   "variants": [
+    {
+     "id": 47268391387366,
+     "sku": "110F-2251",
+     "color": "Shrimp Pink",
+     "size": "#12",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/a0df5220-cf16-43ee-9170-ff7e8237c75a.png?v=1768780275&width=240",
+     "url": "https://catalog.theflyshop.com/products/micro-spawn-12?variant=47268391387366"
+    },
+    {
+     "id": 47268391321830,
+     "sku": "110F-773",
+     "color": "Salmon Egg",
+     "size": "#12",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1a539178-fc30-4519-9dda-f554fa2bc446.png?v=1768780275&width=240",
+     "url": "https://catalog.theflyshop.com/products/micro-spawn-12?variant=47268391321830"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report lists Shrimp Pink and Salmon Egg. Showing Shrimp Pink first; the other is a chip."
+    }
+   ]
+  },
+  {
+   "id": "boles-bazookas",
+   "group": "Eggs",
+   "name": "Boles Bazookas",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/boles-bazookas-8/",
+   "asWritten": "Boles Bazookas",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "boles-bazookas-8",
+    "title": "Boles Bazookas - #8",
+    "vendor": "John Dietz Flies",
+    "url": "https://catalog.theflyshop.com/products/boles-bazookas-8",
+    "type": "Eggs & Flesh"
+   },
+   "variant": {
+    "id": 47234255880422,
+    "sku": "870F-315",
+    "color": "Steelhead Orange",
+    "size": "#8",
+    "price": 1.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_STHOrange.png?v=1784040466&width=240",
+    "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255880422"
+   },
+   "variants": [
+    {
+     "id": 47234255880422,
+     "sku": "870F-315",
+     "color": "Steelhead Orange",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_STHOrange.png?v=1784040466&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255880422"
+    },
+    {
+     "id": 47234255749350,
+     "sku": "870F-299",
+     "color": "Shrimp Pink",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_ShrimpPink.png?v=1784040471&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255749350"
+    },
+    {
+     "id": 47234255585510,
+     "sku": "870F-302",
+     "color": "Peachy King",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_PeachyKing.png?v=1784040479&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255585510"
+    },
+    {
+     "id": 47234255847654,
+     "sku": "870F-314",
+     "color": "Sockeye Salmon",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_Sockeye.png?v=1784040481&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255847654"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Steelhead Orange, Shrimp Pink, Peachy King, Sockeye Salmon. Showing Steelhead Orange first; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "pat-s-rubberlegs",
+   "group": "Nymphs",
+   "name": "Pat's Rubberlegs",
+   "colors": [],
+   "sizes": [
+    "#4",
+    "#6",
+    "#8"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+   "asWritten": "Pat's Rubberlegs - #4-8",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "pats-rubberlegs-jimmy-legs",
+    "title": "Pat's Rubberlegs (Jimmy Legs)",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47340473549030,
+    "sku": "825F-1188",
+    "color": "Brown",
+    "size": "#6",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+   },
+   "variants": [
+    {
+     "id": 47248704504038,
+     "sku": "825F-147",
+     "color": "Brown",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704504038"
+    },
+    {
+     "id": 47340473549030,
+     "sku": "825F-1188",
+     "color": "Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+    },
+    {
+     "id": 47248704536806,
+     "sku": "825F-149",
+     "color": "Brown",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704536806"
+    },
+    {
+     "id": 47248704569574,
+     "sku": "825F-1219",
+     "color": "Coffee/Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_CoffeeBlack_668f63ce-4313-43b9-9367-1eb1dd644d41.png?v=1781198082&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704569574"
+    },
+    {
+     "id": 47248704602342,
+     "sku": "825F-33154",
+     "color": "Black",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704602342"
+    },
+    {
+     "id": 47248704635110,
+     "sku": "825F-5685",
+     "color": "Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704635110"
+    },
+    {
+     "id": 47248704667878,
+     "sku": "825F-33155",
+     "color": "Black",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704667878"
+    },
+    {
+     "id": 47248704700646,
+     "sku": "825F-1231",
+     "color": "Orange/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_OrangeBrown_928a2b48-eedb-49dd-9218-3123e27be434.png?v=1781198094&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704700646"
+    },
+    {
+     "id": 47248704733414,
+     "sku": "825F-5703",
+     "color": "Yellow/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_YellowBrown_c70988d6-1fe6-4ed3-9f3c-854cecdc3aaf.png?v=1781198100&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704733414"
+    },
+    {
+     "id": 47248704766182,
+     "sku": "825F-5696",
+     "color": "Rust/Olive",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_RustOlive_c26f7d58-e316-47d6-910d-bf5d1a806101.png?v=1781198106&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704766182"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Brown, Coffee/Black, Black, Orange/Brown, Yellow/Brown, Rust/Olive. Showing Brown first; the rest are chips."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#4, #6, #8). Defaulted to the middle, #6; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "coppertop-duracell",
+   "group": "Nymphs",
+   "name": "Coppertop Duracell",
+   "colors": [],
+   "sizes": [
+    "#16"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
+   "asWritten": "Coppertop Duracell - #16",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "coppertop-duracell",
+    "title": "Coppertop Duracell",
+    "vendor": "Fulling Mills",
+    "url": "https://catalog.theflyshop.com/products/coppertop-duracell",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233991475430,
+    "sku": "931F-29700",
+    "color": null,
+    "size": "#16",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+    "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991475430"
+   },
+   "variants": [
+    {
+     "id": 47233991475430,
+     "sku": "931F-29700",
+     "color": null,
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+     "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991475430"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"coppertop-duracell-16\", which is not in the catalog. Resolved by name to \"Coppertop Duracell\" ($3.50).",
+     "candidates": [
+      {
+       "handle": "coppertop-duracell",
+       "title": "Coppertop Duracell",
+       "price": 3.5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "red-copper-johns",
+   "group": "Nymphs",
+   "name": "Red Copper Johns",
+   "colors": [],
+   "sizes": [
+    "#14",
+    "#16",
+    "#18"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
+   "asWritten": "Red Copper Johns - #14-18",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "copper-john-red",
+    "title": "Copper John - Red",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233991082214,
+    "sku": "755F-5731",
+    "color": "Red",
+    "size": "#16",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991082214"
+   },
+   "variants": [
+    {
+     "id": 47233990852838,
+     "sku": "755F-5730",
+     "color": "Red",
+     "size": "#14",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233990852838"
+    },
+    {
+     "id": 47233991082214,
+     "sku": "755F-5731",
+     "color": "Red",
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991082214"
+    },
+    {
+     "id": 47233991180518,
+     "sku": "755F-5732",
+     "color": "Red",
+     "size": "#18",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233991180518"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Red Copper Johns\" to \"Copper John - Red\" by fuzzy match (score 0.67). Confirm.",
+     "candidates": [
+      {
+       "handle": "copper-john-red",
+       "title": "Copper John - Red",
+       "score": 0.67
+      }
+     ]
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#14, #16, #18). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "gordon-s-amber-wing-prince",
+   "group": "Nymphs",
+   "name": "Gordon's Amber Wing Prince",
+   "colors": [],
+   "sizes": [
+    "#14",
+    "#16",
+    "#18"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
+   "asWritten": "Gordon's Amber Wing Prince - #14-18",
+   "status": "confirm",
+   "matchedBy": "link",
+   "product": {
+    "handle": "fred-gordons-prince-nymph",
+    "title": "Fred Gordon's Prince Nymph",
+    "vendor": "Steve Overley Flies",
+    "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47234191360230,
+    "sku": "118F-6904",
+    "color": null,
+    "size": "#16",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+    "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191360230"
+   },
+   "variants": [
+    {
+     "id": 47234191294694,
+     "sku": "118F-6903",
+     "color": null,
+     "size": "#14",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+     "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191294694"
+    },
+    {
+     "id": 47234191360230,
+     "sku": "118F-6904",
+     "color": null,
+     "size": "#16",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+     "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191360230"
+    },
+    {
+     "id": 47234191425766,
+     "sku": "118F-7366",
+     "color": null,
+     "size": "#18",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d9c513ce-b1bb-4332-9b1b-d9de621adfc5.png?v=1770639455&width=240",
+     "url": "https://catalog.theflyshop.com/products/fred-gordons-prince-nymph?variant=47234191425766"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "No catalog product matches \"Gordon's Amber Wing Prince\" by name. Resolved by the page's own link to \"Fred Gordon's Prince Nymph\". Confirm."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#14, #16, #18). Defaulted to the middle, #16; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "beaded-assassins",
+   "group": "Nymphs",
+   "name": "Beaded Assassins",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/beaded-assassins-6/",
+   "asWritten": "Beaded Assassins",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "beaded-assassins-6",
+    "title": "Beaded Assassins - #6",
+    "vendor": "Steve Overley Flies",
+    "url": "https://catalog.theflyshop.com/products/beaded-assassins-6",
+    "type": "Steelhead"
+   },
+   "variant": {
+    "id": 47234243264742,
+    "sku": "225F-2300",
+    "color": "Gold/Olive",
+    "size": "#6",
+    "price": 3.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_8164a1d8-e8f7-4db0-93cd-8cbac6be6682.png?v=1767177988&width=240",
+    "url": "https://catalog.theflyshop.com/products/beaded-assassins-6?variant=47234243264742"
+   },
+   "variants": [
+    {
+     "id": 47234243264742,
+     "sku": "225F-2300",
+     "color": "Gold/Olive",
+     "size": "#6",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_8164a1d8-e8f7-4db0-93cd-8cbac6be6682.png?v=1767177988&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-assassins-6?variant=47234243264742"
+    },
+    {
+     "id": 47234243395814,
+     "sku": "225F-7367",
+     "color": "Copper/Brown",
+     "size": "#6",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_75483827-a40c-4929-89db-3df0125df51d.png?v=1767177994&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-assassins-6?variant=47234243395814"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Gold/Olive, Copper/Brown. Showing Gold/Olive first; the rest are chips."
+    }
+   ]
+  }
+ ],
+ "substitutes": {},
+ "readOnly": true,
+ "packs": {},
+ "summary": {
+  "picks": 8,
+  "resolved": 1,
+  "confirm": 7,
+  "unresolved": 0,
+  "priceMin": 1.95,
+  "priceMax": 3.95
+ },
+ "unresolved": [
+  {
+   "pickId": "clown-egg",
+   "name": "Clown Egg",
+   "severity": "size",
+   "text": "No size on the report. Shop carries #6, #8, #10. Defaulted to the middle, #8."
+  },
+  {
+   "pickId": "boles-bazookas",
+   "name": "Boles Bazookas",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Steelhead Orange, Shrimp Pink, Peachy King, Sockeye Salmon. Showing Steelhead Orange first; the rest are chips."
+  },
+  {
+   "pickId": "pat-s-rubberlegs",
+   "name": "Pat's Rubberlegs",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Brown, Coffee/Black, Black, Orange/Brown, Yellow/Brown, Rust/Olive. Showing Brown first; the rest are chips."
+  },
+  {
+   "pickId": "coppertop-duracell",
+   "name": "Coppertop Duracell",
+   "severity": "wronglink",
+   "text": "The page links to \"coppertop-duracell-16\", which is not in the catalog. Resolved by name to \"Coppertop Duracell\" ($3.50).",
+   "candidates": [
+    {
+     "handle": "coppertop-duracell",
+     "title": "Coppertop Duracell",
+     "price": 3.5
+    }
+   ]
+  },
+  {
+   "pickId": "red-copper-johns",
+   "name": "Red Copper Johns",
+   "severity": "confirm",
+   "text": "Matched \"Red Copper Johns\" to \"Copper John - Red\" by fuzzy match (score 0.67). Confirm.",
+   "candidates": [
+    {
+     "handle": "copper-john-red",
+     "title": "Copper John - Red",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "gordon-s-amber-wing-prince",
+   "name": "Gordon's Amber Wing Prince",
+   "severity": "confirm",
+   "text": "No catalog product matches \"Gordon's Amber Wing Prince\" by name. Resolved by the page's own link to \"Fred Gordon's Prince Nymph\". Confirm."
+  },
+  {
+   "pickId": "beaded-assassins",
+   "name": "Beaded Assassins",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Gold/Olive, Copper/Brown. Showing Gold/Olive first; the rest are chips."
+  }
+ ],
+ "observations": [
+  "Rating: Poor.",
+  "Prices from the catalog: 8 picks run $1.95 to $3.95; 0 are $2.95.",
+  "FOR THE GUIDE, Klamath: the card reads clarity as \"Variable\" from your own line -- \"The river is definitely showing signs from the last storm and we will see big flows and probably colored water over the next few weeks.\". Confirm that is the word you meant.",
+  "Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide's fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.",
+  "FOR THE GUIDE, Klamath: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
+ ]
+}

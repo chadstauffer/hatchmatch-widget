@@ -44,13 +44,34 @@ function dice(a, b) {
   return (2 * inter) / (a.size + b.size);
 }
 
+/** Several products can share a name. "Stimulator" is three: Olive #16, Orange, Yellow -- one
+    normalized title, one dice score of 1.00 apiece, and taking the first left the card showing
+    Olive for a page that says Orange and links to Orange. A name that cannot separate them is
+    not the guide's whole sentence: the colour word is also the guide's word, so it decides
+    first, and the shop's own link decides what is left. The link is only ever a tiebreak among
+    equals -- it can still never outrank a better name match, which is the standing rule. */
+function preferAmong(list, colors, linkHandle) {
+  if (list.length < 2) return { product: list[0], by: null, tied: false };
+  let pool = list;
+  if (colors && colors.length) {
+    const byColor = pool.filter(p => (p.colors || []).some(c => colors.some(w => colorMatches(w, c))));
+    if (byColor.length && byColor.length < pool.length) return byColor.length === 1
+      ? { product: byColor[0], by: 'color', tied: false }
+      : { product: (linkHandle && byColor.find(p => p.handle === linkHandle)) || byColor[0], by: 'color', tied: byColor.length > 1 };
+    if (byColor.length) pool = byColor;
+  }
+  const linked = linkHandle ? pool.find(p => p.handle === linkHandle) : null;
+  if (linked) return { product: linked, by: 'link', tied: false };
+  return { product: pool[0], by: null, tied: true };
+}
+
 /**
  * @param {string} name  the guide's words, e.g. "Jigged Birds Nest"
  * @param {object} catalog  { products: [...] } from ingest
  * @param {object} aliases  { patterns: [{ name, handle, aliases: [] }] }
  * @returns {{ product, method: 'alias'|'exact'|'fuzzy', score, candidates }|null}
  */
-export function findProduct(name, catalog, aliases, { minScore = 0.6, handle } = {}) {
+export function findProduct(name, catalog, aliases, { minScore = 0.6, handle, colors = [], linkHandle = null } = {}) {
   const byHandle = new Map(catalog.products.map(p => [p.handle, p]));
   if (handle && byHandle.has(handle)) return { product: byHandle.get(handle), method: 'handle', score: 1, candidates: [] };
 
@@ -64,6 +85,11 @@ export function findProduct(name, catalog, aliases, { minScore = 0.6, handle } =
 
   const exact = catalog.products.filter(p => normalizeName(p.baseTitle || p.title) === q);
   if (exact.length === 1) return { product: exact[0], method: 'exact', score: 1, candidates: [] };
+  if (exact.length > 1) {
+    const { product, by, tied } = preferAmong(exact, colors, linkHandle);
+    return { product, method: 'exact', score: 1, tiebreak: by, tied,
+      candidates: exact.slice(0, 5).map(p => ({ handle: p.handle, title: p.title, score: 1 })) };
+  }
 
   const qt = tokens(name);
   const scored = catalog.products
@@ -71,5 +97,9 @@ export function findProduct(name, catalog, aliases, { minScore = 0.6, handle } =
     .filter(x => x.score >= minScore)
     .sort((a, b) => b.score - a.score);
   if (!scored.length) return null;
-  return { product: scored[0].product, method: 'fuzzy', score: scored[0].score, candidates: scored.slice(0, 5).map(x => ({ handle: x.product.handle, title: x.product.title, score: +x.score.toFixed(2) })) };
+  // Everything tied at the top score is one undecided set, not a ranking.
+  const top = scored.filter(x => x.score === scored[0].score).map(x => x.product);
+  const { product, by, tied } = preferAmong(top, colors, linkHandle);
+  return { product, method: 'fuzzy', score: scored[0].score, tiebreak: by, tied,
+    candidates: scored.slice(0, 5).map(x => ({ handle: x.product.handle, title: x.product.title, score: +x.score.toFixed(2) })) };
 }

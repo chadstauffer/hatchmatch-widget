@@ -33,13 +33,31 @@ function slimVariant(v) {
 
 export function resolvePick(pick, catalog, aliases) {
   const flags = [];
-  const found = findProduct(pick.name, catalog, aliases);
-  if (!found) return { ...pick, status: 'unresolved', flags: [{ severity: 'blocker', text: `No product in the catalog matches "${pick.name}".` }] };
+  const linkHandle = handleFromLink(pick.reportLink);
+  // The colour words and the page's own link go in as tiebreaks: several products can share a
+  // name ("Stimulator" is three), and the name alone then picks whichever the catalog happens to
+  // list first. Neither can outrank a better name match; they only separate equals.
+  let found = findProduct(pick.name, catalog, aliases, { colors: pick.colors || [], linkHandle });
+  // The words did not match anything, but the page's own link might. Following the shop's link
+  // is following the shop, not guessing: "Pheasant Tails" is not in the catalog as written and
+  // the page links it to pheasant-tail. Flagged so a guide still sees it.
+  if (!found && linkHandle) {
+    const linked = catalog.products.find(x => x.handle === linkHandle);
+    if (linked) {
+      found = { product: linked, method: 'link', score: 1, candidates: [] };
+      flags.push({ severity: 'confirm', text: `No catalog product matches "${pick.name}" by name. Resolved by the page's own link to "${linked.title}". Confirm.` });
+    }
+  }
+  if (!found) return { ...pick, status: 'unresolved', flags: [{ severity: 'blocker', text: `No product in the catalog matches "${pick.name}", and the page gives no usable link.` }] };
   const { product, method, score, candidates } = found;
   if (method === 'fuzzy') flags.push({ severity: 'confirm', text: `Matched "${pick.name}" to "${product.title}" by fuzzy match (score ${score.toFixed(2)}). Confirm.`, candidates });
+  // Say which signal separated same-named products, and say when nothing did.
+  if (found.tiebreak === 'color') flags.push({ severity: 'confirm', text: `Several products are named "${pick.name}". Chose "${product.title}" on the report's own colour word (${(pick.colors || []).join(', ')}). Confirm.`, candidates });
+  else if (found.tiebreak === 'link') flags.push({ severity: 'confirm', text: `Several products are named "${pick.name}". Chose "${product.title}" because the page links to it. Confirm.`, candidates });
+  else if (found.tied) flags.push({ severity: 'confirm', text: `Several products are named "${pick.name}" and nothing on the page separates them. Showing "${product.title}"; the alternatives are listed. Confirm.`, candidates });
 
-  const linkHandle = handleFromLink(pick.reportLink);
   if (!pick.reportLink) flags.push({ severity: 'nolink', text: 'Named on the page without a link. Resolved by name.' });
+  else if (method === 'link') { /* already flagged: the link is what resolved it */ }
   else if (linkHandle !== product.handle) {
     // The words and the link disagree. Never pick silently: show both with prices and let the guide choose.
     const linked = catalog.products.find(p => p.handle === linkHandle);
@@ -124,11 +142,38 @@ export function resolveReport(fixture, catalog, aliases) {
   const at295 = prices.filter(x => x === 2.95).length;
   const observations = [
     `Rating: ${fixture.report.rating}${fixture.report.ratingNote ? `, ${fixture.report.ratingNote}` : ''}.`,
-    `Prices from the catalog: ${picks.length} picks run $${Math.min(...prices).toFixed(2)} to $${Math.max(...prices).toFixed(2)}; ${at295} are $2.95.`,
+    prices.length ? `Prices from the catalog: ${picks.length} picks run $${Math.min(...prices).toFixed(2)} to $${Math.max(...prices).toFixed(2)}; ${at295} are $2.95.` : null,
     fixture.hatches.some(h => h.sizeSource) ? `Hatch sizes (${fixture.hatches.filter(h => h.size).map(h => `${h.insect} ${h.size}`).join(', ')}) are not on the page. They are placeholders for the guide to set.` : null,
+    // Their words, but our choice of which sentence to lift out of the prose -- so it goes in
+    // front of them like every other call the matching made.
+    (fixture.report.wadingTags || []).length
+      ? `FOR THE GUIDE, ${fixture.water.shortName}: the card condenses your wading notes to short phrases -- `
+        + fixture.report.wadingTags.map(t => `"${t.phrase}" (from "${t.from}")`).join('; ')
+        + `. The phrases are ours and the sentences are yours; confirm each one says what you meant. Your full text is unchanged on the notes tab.`
+      : null,
+    // Clarity is now read out of their prose rather than left blank, so it goes to them too.
+    fixture.report.clarityFrom
+      ? `FOR THE GUIDE, ${fixture.water.shortName}: the card reads clarity as "${fixture.report.clarity}"${fixture.report.clarityDetail ? ` (${fixture.report.clarityDetail})` : ''} from your own line -- "${fixture.report.clarityFrom}". Confirm that is the word you meant.`
+      : null,
+    fixture.readOnly ? 'Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide\'s fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.' : null,
+    // The numbers only a person can supply, as ONE ask rather than one per number -- a guide
+    // reads this list once, and two separate lines asking them to think about the same water is
+    // two chances to answer neither.
+    (() => {
+      const w = fixture.water, need = [];
+      if (w.flow && w.flow.max != null && w.flow.threshold == null)
+        need.push(`a wading limit ("wadeable below X CFS"). Until then the card shows where the flow sits in this river's own record for the date and gives no wading verdict, because a verdict with no number behind it is a safety claim we have not earned`);
+      if (!w.reportFreshness)
+        need.push(`how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say`);
+      return need.length
+        ? `FOR THE GUIDE, ${w.shortName}: ${need.length} number${need.length === 1 ? '' : 's'} only you can set -- ${need.join('; and ')}.`
+        : null;
+    })(),
   ].filter(Boolean);
+  // A read-only water has no sections and no quantities, so it has no packs. That is the honest
+  // shape of a report nobody has broken out yet, not a failure to compute one.
   const packs = {};
-  for (const section of fixture.water.sections) {
+  for (const section of (fixture.water.sections || [])) {
     const items = picks.filter(p => p.status !== 'unresolved' && p.sections.includes(section)).map(p => {
       const use = p.substitute ? byId.get(p.substitute.pickId) : p;
       return { pickId: p.id, variantId: use.variant.id, sku: use.variant.sku, qty: p.qty, price: use.variant.price };
@@ -150,13 +195,14 @@ export function resolveReport(fixture, catalog, aliases) {
     roles: ROLES.map(([key, label]) => ({ key, label })),
     picks,
     substitutes: fixture.substitutes || {},
+    readOnly: !!fixture.readOnly,
     packs,
     summary: {
       picks: picks.length,
       resolved: picks.filter(p => p.status === 'resolved').length,
       confirm: picks.filter(p => p.status === 'confirm').length,
       unresolved: picks.filter(p => p.status === 'unresolved').length,
-      priceMin: Math.min(...prices), priceMax: Math.max(...prices),
+      priceMin: prices.length ? Math.min(...prices) : null, priceMax: prices.length ? Math.max(...prices) : null,
     },
     unresolved,
     observations,
@@ -174,10 +220,12 @@ function unresolvedMarkdown(r) {
   lines.push('', '## Every pick', '', '| Pick | Role | Sections | Variant | SKU | Price | Stock |', '|---|---|---|---|---|---|---|');
   for (const p of r.picks) {
     const v = p.variant;
-    lines.push(`| ${p.name} | ${p.role} | ${p.sections.join(', ')} | ${v ? [v.color, v.size].filter(Boolean).join(' ') : '—'} | ${v?.sku || '—'} | ${v ? '$' + v.price.toFixed(2) : '—'} | ${v ? (v.available ? 'in stock' : 'OUT') : '—'} |`);
+    lines.push(`| ${p.name} | ${p.role || p.group || '—'} | ${(p.sections || []).join(', ') || '—'} | ${v ? [v.color, v.size].filter(Boolean).join(' ') : '—'} | ${v?.sku || '—'} | ${v ? '$' + v.price.toFixed(2) : '—'} | ${v ? (v.available ? 'in stock' : 'OUT') : '—'} |`);
   }
-  lines.push('', '## Pack totals at default quantities (one angler, one day)', '');
-  for (const [s, k] of Object.entries(r.packs)) lines.push(`- ${s}: ${k.flies} flies, $${k.total.toFixed(2)}`);
+  if (Object.keys(r.packs).length) {
+    lines.push('', '## Pack totals at default quantities (one angler, one day)', '');
+    for (const [s, k] of Object.entries(r.packs)) lines.push(`- ${s}: ${k.flies} flies, $${k.total.toFixed(2)}`);
+  }
   lines.push('', '## Observations', '');
   for (const o of r.observations) lines.push(`- ${o}`);
   return lines.join('\n') + '\n';
@@ -196,7 +244,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   await writeFile(`${base}.resolved.json`, JSON.stringify(resolved, null, 1));
   await writeFile(`${base}.unresolved.md`, unresolvedMarkdown(resolved));
   const s = resolved.summary;
-  console.error(`${s.resolved} resolved, ${s.confirm} to confirm, ${s.unresolved} unresolved. Prices $${s.priceMin.toFixed(2)} to $${s.priceMax.toFixed(2)}.`);
+  console.error(`${s.resolved} resolved, ${s.confirm} to confirm, ${s.unresolved} unresolved.`
+    + (s.priceMin == null ? '' : ` Prices $${s.priceMin.toFixed(2)} to $${s.priceMax.toFixed(2)}.`));
   for (const [name, pack] of Object.entries(resolved.packs)) console.error(`  ${name}: ${pack.flies} flies, $${pack.total.toFixed(2)}`);
   console.error(`-> ${base}.resolved.json, ${base}.unresolved.md`);
 }

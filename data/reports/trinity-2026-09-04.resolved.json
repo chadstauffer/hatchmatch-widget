@@ -1,0 +1,1540 @@
+{
+ "generatedAt": "2026-09-08T05:13:25.661Z",
+ "shop": "catalog.theflyshop.com",
+ "storeUrl": "https://catalog.theflyshop.com",
+ "catalogPulledAt": "2026-09-04T21:06:20.237Z",
+ "water": {
+  "id": "trinity",
+  "shortName": "Trinity",
+  "group": "river",
+  "usgsSite": "11525500",
+  "gaugeName": "USGS Lewiston",
+  "lat": 40.7247,
+  "lon": -122.8011,
+  "name": "Trinity River",
+  "packName": null,
+  "flow": {
+   "min": 0,
+   "max": 4000,
+   "threshold": 1700,
+   "thresholdLabel": "high water",
+   "source": {
+    "min": "derived",
+    "max": "derived",
+    "threshold": "derived"
+   },
+   "lastReading": null,
+   "scaleSource": "USGS daily statistics 1962–2026, 3,480 CFS at the 70th percentile of daily p95, rounded up",
+   "position": {
+    "bands": [
+     [
+      159,
+      208,
+      317,
+      565
+     ],
+     [
+      162,
+      243,
+      315,
+      441
+     ],
+     [
+      160,
+      286,
+      316,
+      611
+     ],
+     [
+      160,
+      283,
+      318,
+      720
+     ],
+     [
+      160,
+      285,
+      337,
+      936
+     ],
+     [
+      159,
+      282,
+      333,
+      2400
+     ],
+     [
+      158,
+      253,
+      335,
+      2240
+     ],
+     [
+      158,
+      265,
+      329,
+      953
+     ],
+     [
+      159,
+      251,
+      327,
+      928
+     ],
+     [
+      157,
+      276,
+      333,
+      1260
+     ],
+     [
+      159,
+      277,
+      537,
+      2980
+     ],
+     [
+      158,
+      288,
+      1450,
+      3070
+     ],
+     [
+      160,
+      301,
+      2700,
+      4705
+     ],
+     [
+      158,
+      303,
+      2820,
+      4555
+     ],
+     [
+      154,
+      312,
+      2070,
+      3770
+     ],
+     [
+      154,
+      333,
+      1615,
+      2990
+     ],
+     [
+      154,
+      321,
+      1775,
+      2295
+     ],
+     [
+      153,
+      308,
+      904,
+      2040
+     ],
+     [
+      153,
+      217,
+      738,
+      1785
+     ],
+     [
+      154,
+      220,
+      637,
+      932
+     ],
+     [
+      155,
+      277,
+      507,
+      717
+     ],
+     [
+      154,
+      214,
+      476,
+      541
+     ],
+     [
+      153,
+      214,
+      479,
+      548
+     ],
+     [
+      153,
+      210,
+      511,
+      1100
+     ],
+     [
+      185,
+      237,
+      490,
+      979
+     ],
+     [
+      186,
+      239,
+      477,
+      905
+     ],
+     [
+      192,
+      239,
+      463,
+      497
+     ],
+     [
+      202,
+      228,
+      458,
+      479
+     ],
+     [
+      227,
+      258,
+      385,
+      424
+     ],
+     [
+      243,
+      263,
+      311,
+      326
+     ],
+     [
+      251,
+      264,
+      313,
+      328
+     ],
+     [
+      215,
+      270,
+      317,
+      331
+     ],
+     [
+      205,
+      272,
+      318,
+      337
+     ],
+     [
+      162,
+      260,
+      317,
+      333
+     ],
+     [
+      162,
+      229,
+      313,
+      324
+     ],
+     [
+      161,
+      244,
+      316,
+      343
+     ]
+    ],
+    "years": "1962–2026"
+   }
+  },
+  "sections": [],
+  "guidePhone": "800-669-3474",
+  "closed": false
+ },
+ "report": {
+  "publishedAt": "2026-09-04",
+  "author": null,
+  "rating": "Fair to Good",
+  "clarity": "Clearing",
+  "clarityDetail": "4+ ft",
+  "clarityFrom": "The restoration channel below the Cemetery Hole was adding turbidity to the river yesterday, it is now cleared up below it with 4+ foot visibility.",
+  "wading": null,
+  "notes": [
+   "The1,200 CFS flows will continue through September 21st. The restoration channel below the Cemetery Hole was adding turbidity to the river yesterday, it is now cleared up below it with 4+ foot visibility. Fish are stacking in around Junction City. This flow bump should bring fish up that have been holding below Cedar Flat, expect a push of new summers coming into the Juction City area soon. Now would be a great time to swing one up below Pigeon Point. A lot of salmon have piled into holes in the upper river pushing fish into other areas to hold, so keep that in mind. We have quite a few fish in the 18-22\" range from Lewiston on downstream with a few large adults thrown in the mix. Fish are pretty grabby right now, it is a good time to swing and skate. For now, the water temps at Hoopa are below 67 F and with the clouds and rain we will see, they should drop further. We've got guides available right now that can get you out, give us a call or you can go directly to our Trinity guide page and book a trip now.",
+   "Trinity River Flows:",
+   "Trinity River Releases from Lewiston",
+   "Trinity River Flow at Pigeon Point",
+   "Shuttle Services:",
+   "• Bill & Caryl Dickens (Gold Coast Shuttle) at 530-623-1905 Access To the Trinity River",
+   "The Trinity has many publicly accessible areas with good wading opportunities during the steelhead season. Stop by the shop and we'd be happy to point you in the right direction. Steelhead Fishing Can be Frustrating",
+   "These anadromous rainbow trout are known as the 'Fish of a Thousand Casts.' For good reason! The learning curve can be quite steep learning when and where to go, and what type of water to target. Our Professional Guide Staff has decades of experience guiding the Trinity River for steelhead. A day spent with one of our guides will get you up to speed much more quickly. Recommended Equipment & Setups",
+   "Early Summer Run Steelhead on the Trinity River will take swung flies readily. Spey rods are becoming an increasingly popular method to swing flies. The Fly Shop's Signature Spey Rods are an economical way to get into a great Spey rig."
+  ],
+  "wadingNote": [
+   "The Trinity has many publicly accessible areas with good wading opportunities during the steelhead season."
+  ],
+  "wadingTags": [
+   {
+    "phrase": "Good wading access",
+    "from": "The Trinity has many publicly accessible areas with good wading opportunities during the steelhead season."
+   }
+  ],
+  "notesPermission": "pending",
+  "source": {
+   "url": "https://www.theflyshop.com/streamreport.html",
+   "fetchedAt": "2026-09-07"
+  }
+ },
+ "hatches": [],
+ "roles": [
+  {
+   "key": "dry",
+   "label": "Dry"
+  },
+  {
+   "key": "dropper",
+   "label": "Dropper"
+  },
+  {
+   "key": "point",
+   "label": "Point"
+  },
+  {
+   "key": "eggs",
+   "label": "Eggs"
+  }
+ ],
+ "picks": [
+  {
+   "id": "pat-s-rubberlegs",
+   "group": "Nymphs/Wet Flies",
+   "name": "Pat's Rubberlegs",
+   "colors": [
+    "Brown",
+    "Black"
+   ],
+   "sizes": [
+    "#4",
+    "#6",
+    "#8"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+   "asWritten": "Pat's Rubberlegs - Brown and Black, #4-8",
+   "status": "resolved",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "pats-rubberlegs-jimmy-legs",
+    "title": "Pat's Rubberlegs (Jimmy Legs)",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47340473549030,
+    "sku": "825F-1188",
+    "color": "Brown",
+    "size": "#6",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+    "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+   },
+   "variants": [
+    {
+     "id": 47248704504038,
+     "sku": "825F-147",
+     "color": "Brown",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704504038"
+    },
+    {
+     "id": 47340473549030,
+     "sku": "825F-1188",
+     "color": "Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47340473549030"
+    },
+    {
+     "id": 47248704536806,
+     "sku": "825F-149",
+     "color": "Brown",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Brown_01944487-bf62-4eee-b31c-ed8c1d010de3.png?v=1781198073&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704536806"
+    },
+    {
+     "id": 47248704569574,
+     "sku": "825F-1219",
+     "color": "Coffee/Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_CoffeeBlack_668f63ce-4313-43b9-9367-1eb1dd644d41.png?v=1781198082&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704569574"
+    },
+    {
+     "id": 47248704602342,
+     "sku": "825F-33154",
+     "color": "Black",
+     "size": "#4",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704602342"
+    },
+    {
+     "id": 47248704635110,
+     "sku": "825F-5685",
+     "color": "Black",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704635110"
+    },
+    {
+     "id": 47248704667878,
+     "sku": "825F-33155",
+     "color": "Black",
+     "size": "#8",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_Black_517d21f3-d3bd-4f51-9149-aaa89b1a3cb5.png?v=1781198088&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704667878"
+    },
+    {
+     "id": 47248704700646,
+     "sku": "825F-1231",
+     "color": "Orange/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_OrangeBrown_928a2b48-eedb-49dd-9218-3123e27be434.png?v=1781198094&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704700646"
+    },
+    {
+     "id": 47248704733414,
+     "sku": "825F-5703",
+     "color": "Yellow/Brown",
+     "size": "#6",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/825F_PatsRubberlegs_YellowBrown_c70988d6-1fe6-4ed3-9f3c-854cecdc3aaf.png?v=1781198100&width=240",
+     "url": "https://catalog.theflyshop.com/products/pats-rubberlegs-jimmy-legs?variant=47248704733414"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report lists Brown and Black. Showing Brown first; the other is a chip."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#4, #6, #8). Defaulted to the middle, #6; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-psycho-prince",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercer's Psycho Prince",
+   "colors": [],
+   "sizes": [
+    "#12",
+    "#14",
+    "#16"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/mercers-psycho-prince/",
+   "asWritten": "Mercer's Psycho Prince - #12-16",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "mercers-psycho-prince",
+    "title": "Mercer's Psycho Prince",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47309886980326,
+    "sku": "76F-5906",
+    "color": "Orange Belly",
+    "size": "#14",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309886980326"
+   },
+   "variants": [
+    {
+     "id": 47309885866214,
+     "sku": "76F-5889",
+     "color": "Orange Belly",
+     "size": "#12",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309885866214"
+    },
+    {
+     "id": 47309886980326,
+     "sku": "76F-5906",
+     "color": "Orange Belly",
+     "size": "#14",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309886980326"
+    },
+    {
+     "id": 47309888717030,
+     "sku": "76F-21245",
+     "color": "Orange Belly",
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309888717030"
+    },
+    {
+     "id": 47309889372390,
+     "sku": "76F-5914",
+     "color": "Purple",
+     "size": "#12",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309889372390"
+    },
+    {
+     "id": 47309892550886,
+     "sku": "76F-5915",
+     "color": "Purple",
+     "size": "#14",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309892550886"
+    },
+    {
+     "id": 47309893632230,
+     "sku": "76F-21246",
+     "color": "Purple",
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309893632230"
+    },
+    {
+     "id": 47309885407462,
+     "sku": "76F-5916",
+     "color": "Dirty Pink",
+     "size": "#12",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309885407462"
+    },
+    {
+     "id": 47309885669606,
+     "sku": "76F-5920",
+     "color": "Dirty Pink",
+     "size": "#14",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/76F_MercersPsychoPrince_OrangeBelly.png?v=1784241107&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-psycho-prince?variant=47309885669606"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Orange Belly, Purple, Dirty Pink. Showing Orange Belly first; the rest are chips."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#12, #14, #16). Defaulted to the middle, #14; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "tb-solitude-stone",
+   "group": "Nymphs/Wet Flies",
+   "name": "TB Solitude Stone",
+   "colors": [],
+   "sizes": [
+    "#8"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/tb-golden-stone/",
+   "asWritten": "TB Solitude Stone - #8",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "tb-golden-stone",
+    "title": "TB Golden Stone",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/tb-golden-stone",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47234290811110,
+    "sku": "445F-869",
+    "color": null,
+    "size": "#8",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/445F_TBGoldenStone.png?v=1769102920&width=240",
+    "url": "https://catalog.theflyshop.com/products/tb-golden-stone?variant=47234290811110"
+   },
+   "variants": [
+    {
+     "id": 47234290811110,
+     "sku": "445F-869",
+     "color": null,
+     "size": "#8",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/445F_TBGoldenStone.png?v=1769102920&width=240",
+     "url": "https://catalog.theflyshop.com/products/tb-golden-stone?variant=47234290811110"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"TB Solitude Stone\" to \"TB Golden Stone\" by fuzzy match (score 0.67). Confirm.",
+     "candidates": [
+      {
+       "handle": "tb-black-stone",
+       "title": "TB Black Stone",
+       "score": 0.67
+      },
+      {
+       "handle": "tb-brown-stone",
+       "title": "TB Brown Stone",
+       "score": 0.67
+      },
+      {
+       "handle": "tb-golden-stone",
+       "title": "TB Golden Stone",
+       "score": 0.67
+      },
+      {
+       "handle": "tb-stone-daddy-amber-stone-8",
+       "title": "TB Stone Daddy - Amber Stone #8",
+       "score": 0.67
+      }
+     ]
+    },
+    {
+     "severity": "confirm",
+     "text": "Several products are named \"TB Solitude Stone\". Chose \"TB Golden Stone\" because the page links to it. Confirm.",
+     "candidates": [
+      {
+       "handle": "tb-black-stone",
+       "title": "TB Black Stone",
+       "score": 0.67
+      },
+      {
+       "handle": "tb-brown-stone",
+       "title": "TB Brown Stone",
+       "score": 0.67
+      },
+      {
+       "handle": "tb-golden-stone",
+       "title": "TB Golden Stone",
+       "score": 0.67
+      },
+      {
+       "handle": "tb-stone-daddy-amber-stone-8",
+       "title": "TB Stone Daddy - Amber Stone #8",
+       "score": 0.67
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "coppertop-duracell",
+   "group": "Nymphs/Wet Flies",
+   "name": "Coppertop Duracell",
+   "colors": [],
+   "sizes": [
+    "#16"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/coppertop-duracell-16/",
+   "asWritten": "Coppertop Duracell - #16",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "coppertop-duracell",
+    "title": "Coppertop Duracell",
+    "vendor": "Fulling Mills",
+    "url": "https://catalog.theflyshop.com/products/coppertop-duracell",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233991475430,
+    "sku": "931F-29700",
+    "color": null,
+    "size": "#16",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+    "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991475430"
+   },
+   "variants": [
+    {
+     "id": 47233991475430,
+     "sku": "931F-29700",
+     "color": null,
+     "size": "#16",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/931F_CoppertopDuracell.png?v=1768347023&width=240",
+     "url": "https://catalog.theflyshop.com/products/coppertop-duracell?variant=47233991475430"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "wronglink",
+     "text": "The page links to \"coppertop-duracell-16\", which is not in the catalog. Resolved by name to \"Coppertop Duracell\" ($3.50).",
+     "candidates": [
+      {
+       "handle": "coppertop-duracell",
+       "title": "Coppertop Duracell",
+       "price": 3.5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mercer-s-gold-bead-biot-epox",
+   "group": "Nymphs/Wet Flies",
+   "name": "Mercer's Gold Bead Biot Epoxy Golden Stone",
+   "colors": [],
+   "sizes": [
+    "#8",
+    "#10"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/mercers-gold-bead-biot-epoxy-golden-stone/",
+   "asWritten": "Mercer's Gold Bead Biot Epoxy Golden Stone - #8-10",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "mercers-gold-bead-biot-epoxy-golden-stone",
+    "title": "Mercer's Gold Bead Biot Epoxy Golden Stone",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/mercers-gold-bead-biot-epoxy-golden-stone",
+    "type": "Stonefly"
+   },
+   "variant": {
+    "id": 47234279768294,
+    "sku": "128FG-2505",
+    "color": null,
+    "size": "#10",
+    "price": 3.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/93de7bdb-1750-4392-a794-dd31655d6cf3.png?v=1770640101&width=240",
+    "url": "https://catalog.theflyshop.com/products/mercers-gold-bead-biot-epoxy-golden-stone?variant=47234279768294"
+   },
+   "variants": [
+    {
+     "id": 47234279637222,
+     "sku": "128FG-5468",
+     "color": null,
+     "size": "#8",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/93de7bdb-1750-4392-a794-dd31655d6cf3.png?v=1770640101&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-gold-bead-biot-epoxy-golden-stone?variant=47234279637222"
+    },
+    {
+     "id": 47234279768294,
+     "sku": "128FG-2505",
+     "color": null,
+     "size": "#10",
+     "price": 3.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/93de7bdb-1750-4392-a794-dd31655d6cf3.png?v=1770640101&width=240",
+     "url": "https://catalog.theflyshop.com/products/mercers-gold-bead-biot-epoxy-golden-stone?variant=47234279768294"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report gives a range (#8, #10). Defaulted to the middle, #10; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "copper-john-red",
+   "group": "Nymphs/Wet Flies",
+   "name": "Copper John Red",
+   "colors": [],
+   "sizes": [
+    "#10",
+    "#12",
+    "#14"
+   ],
+   "reportLink": null,
+   "asWritten": "Copper John Red - #10-14",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "copper-john-red",
+    "title": "Copper John - Red",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red",
+    "type": "Attractors"
+   },
+   "variant": {
+    "id": 47233990852838,
+    "sku": "755F-5730",
+    "color": "Red",
+    "size": "#14",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+    "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233990852838"
+   },
+   "variants": [
+    {
+     "id": 47233990688998,
+     "sku": "755F-4103",
+     "color": "Red",
+     "size": "#12",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233990688998"
+    },
+    {
+     "id": 47233990852838,
+     "sku": "755F-5730",
+     "color": "Red",
+     "size": "#14",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d707db23-b981-48e5-a73e-528afeb757d8.png?v=1770639949&width=240",
+     "url": "https://catalog.theflyshop.com/products/copper-john-red?variant=47233990852838"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Copper John Red\" to \"Copper John - Red\" by fuzzy match (score 1.00). Confirm.",
+     "candidates": [
+      {
+       "handle": "copper-john-red",
+       "title": "Copper John - Red",
+       "score": 1
+      },
+      {
+       "handle": "copper-john-black",
+       "title": "Copper John - Black",
+       "score": 0.8
+      },
+      {
+       "handle": "copper-john-blue",
+       "title": "Copper John - Blue",
+       "score": 0.8
+      },
+      {
+       "handle": "copper-john-copper",
+       "title": "Copper John - Copper",
+       "score": 0.8
+      },
+      {
+       "handle": "jigged-copper-john",
+       "title": "Jigged Copper John",
+       "score": 0.67
+      }
+     ]
+    },
+    {
+     "severity": "nolink",
+     "text": "Named on the page without a link. Resolved by name."
+    },
+    {
+     "severity": "info",
+     "text": "Report gives a range (#10, #12, #14). Defaulted to the middle, #14; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "clown-egg",
+   "group": "Eggs",
+   "name": "Clown Egg",
+   "colors": [],
+   "sizes": [
+    "#4",
+    "#6",
+    "#8",
+    "#10"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/clown-egg/",
+   "asWritten": "Clown Egg - #4-10",
+   "status": "resolved",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "clown-egg",
+    "title": "Clown Egg",
+    "vendor": "Umpqua Feather Merchants",
+    "url": "https://catalog.theflyshop.com/products/clown-egg",
+    "type": "Eggs & Flesh"
+   },
+   "variant": {
+    "id": 47233982693606,
+    "sku": "365F-1757",
+    "color": null,
+    "size": "#8",
+    "price": 2.25,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+    "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982693606"
+   },
+   "variants": [
+    {
+     "id": 47233982562534,
+     "sku": "365F-1737",
+     "color": null,
+     "size": "#6",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+     "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982562534"
+    },
+    {
+     "id": 47233982693606,
+     "sku": "365F-1757",
+     "color": null,
+     "size": "#8",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+     "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982693606"
+    },
+    {
+     "id": 47233982824678,
+     "sku": "365F-1759",
+     "color": null,
+     "size": "#10",
+     "price": 2.25,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/12c65924-52f7-4ccf-b624-e00f506b0f67.png?v=1770639947&width=240",
+     "url": "https://catalog.theflyshop.com/products/clown-egg?variant=47233982824678"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "info",
+     "text": "Report gives a range (#4, #6, #8, #10). Defaulted to the middle, #8; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "micro-spawn-eggs",
+   "group": "Eggs",
+   "name": "Micro Spawn Eggs",
+   "colors": [
+    "Pink",
+    "Salmon Egg"
+   ],
+   "sizes": [],
+   "reportLink": "http://catalog.theflyshop.com/micro-spawn-12/",
+   "asWritten": "Micro Spawn Eggs - Pink & Salmon Egg",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "micro-spawn-12",
+    "title": "Micro Spawn - #12",
+    "vendor": "Dreamcast Flies",
+    "url": "https://catalog.theflyshop.com/products/micro-spawn-12",
+    "type": "Eggs & Flesh"
+   },
+   "variant": {
+    "id": 47268391387366,
+    "sku": "110F-2251",
+    "color": "Shrimp Pink",
+    "size": "#12",
+    "price": 2.5,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/a0df5220-cf16-43ee-9170-ff7e8237c75a.png?v=1768780275&width=240",
+    "url": "https://catalog.theflyshop.com/products/micro-spawn-12?variant=47268391387366"
+   },
+   "variants": [
+    {
+     "id": 47268391387366,
+     "sku": "110F-2251",
+     "color": "Shrimp Pink",
+     "size": "#12",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/a0df5220-cf16-43ee-9170-ff7e8237c75a.png?v=1768780275&width=240",
+     "url": "https://catalog.theflyshop.com/products/micro-spawn-12?variant=47268391387366"
+    },
+    {
+     "id": 47268391321830,
+     "sku": "110F-773",
+     "color": "Salmon Egg",
+     "size": "#12",
+     "price": 2.5,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/1a539178-fc30-4519-9dda-f554fa2bc446.png?v=1768780275&width=240",
+     "url": "https://catalog.theflyshop.com/products/micro-spawn-12?variant=47268391321830"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Micro Spawn Eggs\" to \"Micro Spawn - #12\" by fuzzy match (score 0.80). Confirm.",
+     "candidates": [
+      {
+       "handle": "micro-spawn-12",
+       "title": "Micro Spawn - #12",
+       "score": 0.8
+      }
+     ]
+    },
+    {
+     "severity": "info",
+     "text": "Report lists Pink and Salmon Egg. Showing Shrimp Pink first; the other is a chip."
+    }
+   ]
+  },
+  {
+   "id": "boles-bazookas",
+   "group": "Eggs",
+   "name": "Boles Bazookas",
+   "colors": [],
+   "sizes": [
+    "#8"
+   ],
+   "reportLink": "http://catalog.theflyshop.com/boles-bazookas-8/",
+   "asWritten": "Boles Bazookas - #8",
+   "status": "confirm",
+   "matchedBy": "alias",
+   "product": {
+    "handle": "boles-bazookas-8",
+    "title": "Boles Bazookas - #8",
+    "vendor": "John Dietz Flies",
+    "url": "https://catalog.theflyshop.com/products/boles-bazookas-8",
+    "type": "Eggs & Flesh"
+   },
+   "variant": {
+    "id": 47234255880422,
+    "sku": "870F-315",
+    "color": "Steelhead Orange",
+    "size": "#8",
+    "price": 1.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_STHOrange.png?v=1784040466&width=240",
+    "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255880422"
+   },
+   "variants": [
+    {
+     "id": 47234255880422,
+     "sku": "870F-315",
+     "color": "Steelhead Orange",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_STHOrange.png?v=1784040466&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255880422"
+    },
+    {
+     "id": 47234255749350,
+     "sku": "870F-299",
+     "color": "Shrimp Pink",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_ShrimpPink.png?v=1784040471&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255749350"
+    },
+    {
+     "id": 47234255585510,
+     "sku": "870F-302",
+     "color": "Peachy King",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_PeachyKing.png?v=1784040479&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255585510"
+    },
+    {
+     "id": 47234255847654,
+     "sku": "870F-314",
+     "color": "Sockeye Salmon",
+     "size": "#8",
+     "price": 1.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/870F_BolesBazooka_Sockeye.png?v=1784040481&width=240",
+     "url": "https://catalog.theflyshop.com/products/boles-bazookas-8?variant=47234255847654"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Steelhead Orange, Shrimp Pink, Peachy King, Sockeye Salmon. Showing Steelhead Orange first; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "ho-bo-spey",
+   "group": "Swing Flies",
+   "name": "Ho-bo Spey",
+   "colors": [],
+   "sizes": [
+    "#6"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/hoh-bo-spey-black-green-butt-6/",
+   "asWritten": "Ho-bo Spey - #6",
+   "status": "confirm",
+   "matchedBy": "fuzzy",
+   "product": {
+    "handle": "hoh-bo-spey-black-green-butt-6",
+    "title": "Hoh-Bo Spey - Black/Green Butt #6",
+    "vendor": "Solitude Fly Company",
+    "url": "https://catalog.theflyshop.com/products/hoh-bo-spey-black-green-butt-6",
+    "type": "Steelhead"
+   },
+   "variant": {
+    "id": 47234325938406,
+    "sku": "957",
+    "color": "Black/Green Butt",
+    "size": "#6",
+    "price": 4.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d34cf5a1-607e-4323-80f1-c0ad512cb3fe.png?v=1770640524&width=240",
+    "url": "https://catalog.theflyshop.com/products/hoh-bo-spey-black-green-butt-6?variant=47234325938406"
+   },
+   "variants": [
+    {
+     "id": 47234325938406,
+     "sku": "957",
+     "color": "Black/Green Butt",
+     "size": "#6",
+     "price": 4.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/d34cf5a1-607e-4323-80f1-c0ad512cb3fe.png?v=1770640524&width=240",
+     "url": "https://catalog.theflyshop.com/products/hoh-bo-spey-black-green-butt-6?variant=47234325938406"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "confirm",
+     "text": "Matched \"Ho-bo Spey\" to \"Hoh-Bo Spey - Black/Green Butt #6\" by fuzzy match (score 0.67). Confirm.",
+     "candidates": [
+      {
+       "handle": "hoh-bo-spey-black-green-butt-6",
+       "title": "Hoh-Bo Spey - Black/Green Butt #6",
+       "score": 0.67
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "beaded-assassins",
+   "group": "Swing Flies",
+   "name": "Beaded Assassins",
+   "colors": [],
+   "sizes": [],
+   "reportLink": "https://catalog.theflyshop.com/beaded-assassins-6/",
+   "asWritten": "Beaded Assassins",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "beaded-assassins-6",
+    "title": "Beaded Assassins - #6",
+    "vendor": "Steve Overley Flies",
+    "url": "https://catalog.theflyshop.com/products/beaded-assassins-6",
+    "type": "Steelhead"
+   },
+   "variant": {
+    "id": 47234243264742,
+    "sku": "225F-2300",
+    "color": "Gold/Olive",
+    "size": "#6",
+    "price": 3.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_8164a1d8-e8f7-4db0-93cd-8cbac6be6682.png?v=1767177988&width=240",
+    "url": "https://catalog.theflyshop.com/products/beaded-assassins-6?variant=47234243264742"
+   },
+   "variants": [
+    {
+     "id": 47234243264742,
+     "sku": "225F-2300",
+     "color": "Gold/Olive",
+     "size": "#6",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_8164a1d8-e8f7-4db0-93cd-8cbac6be6682.png?v=1767177988&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-assassins-6?variant=47234243264742"
+    },
+    {
+     "id": 47234243395814,
+     "sku": "225F-7367",
+     "color": "Copper/Brown",
+     "size": "#6",
+     "price": 3.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_75483827-a40c-4929-89db-3df0125df51d.png?v=1767177994&width=240",
+     "url": "https://catalog.theflyshop.com/products/beaded-assassins-6?variant=47234243395814"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Gold/Olive, Copper/Brown. Showing Gold/Olive first; the rest are chips."
+    }
+   ]
+  },
+  {
+   "id": "hoody-s-hangers",
+   "group": "Swing Flies",
+   "name": "Hoody's Hangers",
+   "colors": [],
+   "sizes": [
+    "#4"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/hoodys-hangers-4/",
+   "asWritten": "Hoody's Hangers - #4",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "hoodys-hangers-4",
+    "title": "Hoody's Hangers - #4",
+    "vendor": "Aqua Flies",
+    "url": "https://catalog.theflyshop.com/products/hoodys-hangers-4",
+    "type": "Steelhead"
+   },
+   "variant": {
+    "id": 47234267578598,
+    "sku": "853F-27516",
+    "color": "Black/Blue",
+    "size": "#4",
+    "price": 5.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_79a0c09a-f760-43ac-b6c2-2cccf801518b.png?v=1767178236&width=240",
+    "url": "https://catalog.theflyshop.com/products/hoodys-hangers-4?variant=47234267578598"
+   },
+   "variants": [
+    {
+     "id": 47234267578598,
+     "sku": "853F-27516",
+     "color": "Black/Blue",
+     "size": "#4",
+     "price": 5.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_79a0c09a-f760-43ac-b6c2-2cccf801518b.png?v=1767178236&width=240",
+     "url": "https://catalog.theflyshop.com/products/hoodys-hangers-4?variant=47234267578598"
+    },
+    {
+     "id": 47234267545830,
+     "sku": "853F-27517",
+     "color": "Orange",
+     "size": "#4",
+     "price": 5.95,
+     "available": false,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_9dd3f081-2a20-493b-b085-14a1bc717fcd.png?v=1769448968&width=240",
+     "url": "https://catalog.theflyshop.com/products/hoodys-hangers-4?variant=47234267545830"
+    },
+    {
+     "id": 47234267513062,
+     "sku": "853F-27518",
+     "color": "White",
+     "size": "#4",
+     "price": 5.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_3f616413-c53c-49b3-86dc-7713873ffef8.png?v=1769448968&width=240",
+     "url": "https://catalog.theflyshop.com/products/hoodys-hangers-4?variant=47234267513062"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Black/Blue, Orange, White. Showing Black/Blue first; the rest are chips."
+    },
+    {
+     "severity": "info",
+     "text": "Some options are out of stock: Orange #4."
+    }
+   ]
+  },
+  {
+   "id": "brett-s-klamath-skater",
+   "group": "Swing Flies",
+   "name": "Brett's Klamath Skater",
+   "colors": [],
+   "sizes": [
+    "#7"
+   ],
+   "reportLink": "https://catalog.theflyshop.com/bretts-klamath-skater-7/",
+   "asWritten": "Brett's Klamath Skater - #7",
+   "status": "confirm",
+   "matchedBy": "exact",
+   "product": {
+    "handle": "bretts-klamath-skater-7",
+    "title": "Brett's Klamath Skater - #7",
+    "vendor": "Aqua Flies",
+    "url": "https://catalog.theflyshop.com/products/bretts-klamath-skater-7",
+    "type": "Steelhead"
+   },
+   "variant": {
+    "id": 47233942749414,
+    "sku": "572F-19522",
+    "color": "Black",
+    "size": "#7",
+    "price": 4.95,
+    "available": true,
+    "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_9cac6f08-fffc-46bb-ba38-de3d63c3953f.png?v=1767177625&width=240",
+    "url": "https://catalog.theflyshop.com/products/bretts-klamath-skater-7?variant=47233942749414"
+   },
+   "variants": [
+    {
+     "id": 47233942749414,
+     "sku": "572F-19522",
+     "color": "Black",
+     "size": "#7",
+     "price": 4.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_9cac6f08-fffc-46bb-ba38-de3d63c3953f.png?v=1767177625&width=240",
+     "url": "https://catalog.theflyshop.com/products/bretts-klamath-skater-7?variant=47233942749414"
+    },
+    {
+     "id": 47233942880486,
+     "sku": "572F-19523",
+     "color": "Brown",
+     "size": "#7",
+     "price": 4.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_2b46d26e-ab67-4108-b801-ee6a27e40f97.png?v=1767177645&width=240",
+     "url": "https://catalog.theflyshop.com/products/bretts-klamath-skater-7?variant=47233942880486"
+    },
+    {
+     "id": 47233943142630,
+     "sku": "572F-21091",
+     "color": "October",
+     "size": "#7",
+     "price": 4.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_918a92b9-fc05-41d5-8e8c-69da7e2e1b09.png?v=1767177652&width=240",
+     "url": "https://catalog.theflyshop.com/products/bretts-klamath-skater-7?variant=47233943142630"
+    },
+    {
+     "id": 47233943011558,
+     "sku": "572F-21092",
+     "color": "Purple",
+     "size": "#7",
+     "price": 4.95,
+     "available": true,
+     "image": "https://cdn.shopify.com/s/files/1/0758/1358/5126/files/Download_f44f28db-3d6c-4d60-a3ac-bdf1caa4439e.png?v=1767177639&width=240",
+     "url": "https://catalog.theflyshop.com/products/bretts-klamath-skater-7?variant=47233943011558"
+    }
+   ],
+   "flags": [
+    {
+     "severity": "color",
+     "text": "No color on the report. Shop carries Black, Brown, October, Purple. Showing Black first; the rest are chips."
+    }
+   ]
+  }
+ ],
+ "substitutes": {},
+ "readOnly": true,
+ "packs": {},
+ "summary": {
+  "picks": 13,
+  "resolved": 3,
+  "confirm": 10,
+  "unresolved": 0,
+  "priceMin": 1.95,
+  "priceMax": 5.95
+ },
+ "unresolved": [
+  {
+   "pickId": "mercer-s-psycho-prince",
+   "name": "Mercer's Psycho Prince",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Orange Belly, Purple, Dirty Pink. Showing Orange Belly first; the rest are chips."
+  },
+  {
+   "pickId": "tb-solitude-stone",
+   "name": "TB Solitude Stone",
+   "severity": "confirm",
+   "text": "Matched \"TB Solitude Stone\" to \"TB Golden Stone\" by fuzzy match (score 0.67). Confirm.",
+   "candidates": [
+    {
+     "handle": "tb-black-stone",
+     "title": "TB Black Stone",
+     "score": 0.67
+    },
+    {
+     "handle": "tb-brown-stone",
+     "title": "TB Brown Stone",
+     "score": 0.67
+    },
+    {
+     "handle": "tb-golden-stone",
+     "title": "TB Golden Stone",
+     "score": 0.67
+    },
+    {
+     "handle": "tb-stone-daddy-amber-stone-8",
+     "title": "TB Stone Daddy - Amber Stone #8",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "tb-solitude-stone",
+   "name": "TB Solitude Stone",
+   "severity": "confirm",
+   "text": "Several products are named \"TB Solitude Stone\". Chose \"TB Golden Stone\" because the page links to it. Confirm.",
+   "candidates": [
+    {
+     "handle": "tb-black-stone",
+     "title": "TB Black Stone",
+     "score": 0.67
+    },
+    {
+     "handle": "tb-brown-stone",
+     "title": "TB Brown Stone",
+     "score": 0.67
+    },
+    {
+     "handle": "tb-golden-stone",
+     "title": "TB Golden Stone",
+     "score": 0.67
+    },
+    {
+     "handle": "tb-stone-daddy-amber-stone-8",
+     "title": "TB Stone Daddy - Amber Stone #8",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "coppertop-duracell",
+   "name": "Coppertop Duracell",
+   "severity": "wronglink",
+   "text": "The page links to \"coppertop-duracell-16\", which is not in the catalog. Resolved by name to \"Coppertop Duracell\" ($3.50).",
+   "candidates": [
+    {
+     "handle": "coppertop-duracell",
+     "title": "Coppertop Duracell",
+     "price": 3.5
+    }
+   ]
+  },
+  {
+   "pickId": "copper-john-red",
+   "name": "Copper John Red",
+   "severity": "confirm",
+   "text": "Matched \"Copper John Red\" to \"Copper John - Red\" by fuzzy match (score 1.00). Confirm.",
+   "candidates": [
+    {
+     "handle": "copper-john-red",
+     "title": "Copper John - Red",
+     "score": 1
+    },
+    {
+     "handle": "copper-john-black",
+     "title": "Copper John - Black",
+     "score": 0.8
+    },
+    {
+     "handle": "copper-john-blue",
+     "title": "Copper John - Blue",
+     "score": 0.8
+    },
+    {
+     "handle": "copper-john-copper",
+     "title": "Copper John - Copper",
+     "score": 0.8
+    },
+    {
+     "handle": "jigged-copper-john",
+     "title": "Jigged Copper John",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "copper-john-red",
+   "name": "Copper John Red",
+   "severity": "nolink",
+   "text": "Named on the page without a link. Resolved by name."
+  },
+  {
+   "pickId": "micro-spawn-eggs",
+   "name": "Micro Spawn Eggs",
+   "severity": "confirm",
+   "text": "Matched \"Micro Spawn Eggs\" to \"Micro Spawn - #12\" by fuzzy match (score 0.80). Confirm.",
+   "candidates": [
+    {
+     "handle": "micro-spawn-12",
+     "title": "Micro Spawn - #12",
+     "score": 0.8
+    }
+   ]
+  },
+  {
+   "pickId": "boles-bazookas",
+   "name": "Boles Bazookas",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Steelhead Orange, Shrimp Pink, Peachy King, Sockeye Salmon. Showing Steelhead Orange first; the rest are chips."
+  },
+  {
+   "pickId": "ho-bo-spey",
+   "name": "Ho-bo Spey",
+   "severity": "confirm",
+   "text": "Matched \"Ho-bo Spey\" to \"Hoh-Bo Spey - Black/Green Butt #6\" by fuzzy match (score 0.67). Confirm.",
+   "candidates": [
+    {
+     "handle": "hoh-bo-spey-black-green-butt-6",
+     "title": "Hoh-Bo Spey - Black/Green Butt #6",
+     "score": 0.67
+    }
+   ]
+  },
+  {
+   "pickId": "beaded-assassins",
+   "name": "Beaded Assassins",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Gold/Olive, Copper/Brown. Showing Gold/Olive first; the rest are chips."
+  },
+  {
+   "pickId": "hoody-s-hangers",
+   "name": "Hoody's Hangers",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Black/Blue, Orange, White. Showing Black/Blue first; the rest are chips."
+  },
+  {
+   "pickId": "brett-s-klamath-skater",
+   "name": "Brett's Klamath Skater",
+   "severity": "color",
+   "text": "No color on the report. Shop carries Black, Brown, October, Purple. Showing Black first; the rest are chips."
+  }
+ ],
+ "observations": [
+  "Rating: Fair to Good.",
+  "Prices from the catalog: 13 picks run $1.95 to $5.95; 0 are $2.95.",
+  "FOR THE GUIDE, Trinity: the card condenses your wading notes to short phrases -- \"Good wading access\" (from \"The Trinity has many publicly accessible areas with good wading opportunities during the steelhead season.\"). The phrases are ours and the sentences are yours; confirm each one says what you meant. Your full text is unchanged on the notes tab.",
+  "FOR THE GUIDE, Trinity: the card reads clarity as \"Clearing\" (4+ ft) from your own line -- \"The restoration channel below the Cemetery Hole was adding turbidity to the river yesterday, it is now cleared up below it with 4+ foot visibility.\". Confirm that is the word you meant.",
+  "Read-only: the page gives no hatch slots and no roles, so this water shows conditions and the guide's fly list without a hatch breakdown. It still sells that list as a pack, one of each -- the page sets no quantities on any water, the pilot included, so one is what makes the list purchasable without adding to it.",
+  "FOR THE GUIDE, Trinity: 1 number only you can set -- how long a report on this water stays current, and how long before it reads as older. The card is running 14 and 30 days as an INTERIM -- chosen to fit how this page actually reads, not from any standard, and it is a placeholder until you say."
+ ]
+}

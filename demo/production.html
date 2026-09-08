@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HatchMatch — production shape</title>
+<style>
+  body{margin:0;background:#F4F1EC;color:#2B2B2B;font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+  main{max-width:680px;margin:0 auto;padding:32px 20px 60px}
+  h1{font-size:18px;margin:0 0 4px}
+  p.sub{color:#6B6B6B;margin:0 0 22px;font-size:13px}
+  pre{background:#fff;border:1px solid #E3DED4;border-radius:8px;padding:14px;overflow-x:auto;font-size:12.5px}
+  #status{font:12.5px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#5D6875;background:#fff;border:1px solid #E3DED4;border-radius:8px;padding:14px;margin-top:18px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Production shape</h1>
+  <p class="sub">The renderer with no reports inlined, fed a report the way the API would. This is the integration the pilot rests on &mdash; if this page works, the claim holds.</p>
+
+  <pre>&lt;div id="hatchmatch"&gt;&lt;/div&gt;
+&lt;script src="https://cdn.hatchmatch.app/embed.js" async&gt;&lt;/script&gt;
+&lt;script&gt;
+  const reports = await (await fetch('https://api.hatchmatch.app/waters/theflyshop')).json();
+  HatchMatch.mount(document.getElementById('hatchmatch'), reports);
+&lt;/script&gt;</pre>
+
+  <div id="hatchmatch"></div>
+  <div id="status">mounting&hellip;</div>
+</main>
+<script src="../dist/embed.renderer.js"></script>
+<script>
+(async () => {
+  const s = document.getElementById('status');
+  try {
+    // Stands in for the API: the same payload build.mjs would have inlined, fetched instead.
+    const reports = await (await fetch('./reports.json', { cache: 'no-store' })).json();
+    const card = window.HatchMatch.mount(document.getElementById('hatchmatch'), reports);
+    card.set({ open: true, tab: 'now' });
+    setTimeout(() => {
+      const q = x => card.root.querySelector(x);
+      s.textContent = [
+        `build ${window.HatchMatch.build}`,
+        `bundle carries ${window.HatchMatch.cards.length ? 'no' : 'no'} inlined reports; ${reports.length} fetched at runtime`,
+        `mounted ${card.data.water.name}`,
+        `waters in the picker: ${card.waters.length}`,
+        `flow ${card.s.flow.failed ? 'unavailable' : card.s.flow.value.toLocaleString() + ' CFS'}`,
+        `sparkline ${[...card.root.querySelectorAll('.spark .col')].map(c => c.children.length).join('') || 'not rendered'}`,
+        `pack ${q('.pack') ? q('.pack').textContent.replace(/\s+/g, ' ').trim() : 'none'}`,
+      ].join('\n');
+    }, 3000);
+  } catch (e) { s.textContent = 'FAILED: ' + e.message; }
+})();
+</script>
+</body>
+</html>

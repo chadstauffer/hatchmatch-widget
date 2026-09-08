@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HatchMatch demo, Lower Sacramento River</title>
 <style>
@@ -40,7 +42,7 @@
 
   <!-- The embed. This is the whole integration. -->
   <div id="hatchmatch" data-shop="theflyshop" data-water="lower-sacramento" data-theme="dark" data-accent="orange"></div>
-  <script src="../dist/embed.js" async></script>
+  <script src="../dist/embed.js?b=20260908053004" async></script>
 
   <!-- What the resolver turned up on the page, for the guide to confirm. Built from the flag list. Neutral framing: the people who wrote the page are the audience. -->
   <div class="found">
@@ -59,6 +61,7 @@
     <ul>
       <li>Every fly is a real variant on catalog.theflyshop.com, pulled from the public storefront. Prices, stock and photos are the shop's own.</li>
       <li>Flow is live from USGS gauge 11370500 at Keswick. Weather is live for Redding. Both fall back to the report's last reading if a feed is down.</li>
+      <li>Water temperature comes from CDEC station KWK, through a small proxy we run: CDEC sends no CORS header, so a browser cannot read it directly. <strong>This is the card's one backend dependency.</strong> If the proxy is down the water-temperature row and its strip line simply do not appear, and nothing else on the card changes.</li>
       <li>The pack button opens a Shopify cart permalink with every fly in it, tagged so the order shows it came from this report.</li>
       <li>The guide's notes are the shop's September 1 text, shown pending permission.</li>
     </ul>
@@ -78,7 +81,10 @@
     const wrong = Object.values(F.wrongLinks.reduce((m, f) => { const k = f.pick + f.text; (m[k] ||= { ...f, resolved: [] }).resolved.push(f.resolved); return m; }, {})).map(f => ({ ...f, resolved: f.resolved.filter(Boolean).join(' and ') }));
     F.wrongLinks = wrong;
     const calls = F.color.length + F.size.length + F.other.length;
-    btn.textContent = `What we found: ${wrong.length} links to check, ${F.noLinks.length} flies to link, ${calls} calls for the guide`;
+    const tot = F.allWaters ? F.allWaters.reduce((a, w) => ({ picks: a.picks + w.picks, confirm: a.confirm + w.confirm }), { picks: 0, confirm: 0 }) : null;
+    btn.textContent = tot
+      ? `What we found: ${tot.picks} flies across ${F.allWaters.length} waters, ${tot.confirm} calls for the guide`
+      : `What we found: ${wrong.length} links to check, ${F.noLinks.length} flies to link, ${calls} calls for the guide`;
     panel.innerHTML = `
       <p>The ${esc(date(F.publishedAt))} report, matched against the catalog on ${esc(date(F.catalogPulledAt))}. All ${F.counts.picks} picks are on a real SKU. This is what the matching turned up, for the guide to confirm before it goes live.</p>
       <h2>Links to check (${F.wrongLinks.length})</h2>
@@ -91,6 +97,8 @@
       <ul>${F.size.map(item).join('')}</ul>
       ${F.other.length ? `<h2>Other (${F.other.length})</h2><ul>${F.other.map(item).join('')}</ul>` : ''}
       ${F.stock.length ? `<h2>Stock (${F.stock.length})</h2><ul>${F.stock.map(item).join('')}</ul>` : ''}
+      <h2>Every water on the page (${F.allWaters.length})</h2>
+      <ul>${F.allWaters.map(w => `<li><span class="pick">${esc(w.name)}</span> &middot; ${esc(w.publishedAt)} &middot; ${esc(w.rating || 'not rated')} &middot; ${w.picks} flies, ${w.confirm} to confirm, ${w.unresolved} unresolved${w.readOnly ? ' <span class="to">&mdash; flies only, no pack: the page sets no quantities</span>' : ' <span class="to">&mdash; full pack</span>'}</li>`).join('')}</ul>
       <h2>Notes</h2>
       <ul>${F.observations.map(o => `<li>${esc(o)}</li>`).join('')}<li>Pack at default quantities, one angler, one day: ${Object.entries(F.packs).map(([k, v]) => `${esc(k)} ${v.flies} flies $${v.total.toFixed(2)}`).join(', ')}.</li></ul>
       <p class="src">Report: <a href="${esc(F.sourceUrl)}" target="_blank" rel="noopener">${esc(F.sourceUrl)}</a>. Full list in the repo at data/reports.</p>`;

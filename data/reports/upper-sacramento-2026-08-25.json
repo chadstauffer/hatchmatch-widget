@@ -1,0 +1,527 @@
+{
+  "note": "Scraped from https://www.theflyshop.com/streamreport.html by engine/scrape.mjs. The guide's words only. Hatch slots, quantities and roles are the guide's to supply and are absent: this water is read-only until someone sets them.",
+  "water": {
+    "id": "upper-sacramento",
+    "shortName": "Upper Sac",
+    "group": "river",
+    "usgsSite": "11342000",
+    "gaugeName": "USGS Delta",
+    "lat": 40.9396,
+    "lon": -122.4172,
+    "name": "Upper Sacramento River",
+    "packName": null,
+    "flow": {
+      "min": 0,
+      "max": 4000,
+      "threshold": 1300,
+      "thresholdLabel": "high water",
+      "source": {
+        "min": "derived",
+        "max": "derived",
+        "threshold": "derived"
+      },
+      "lastReading": null,
+      "scaleSource": "USGS daily statistics 1945–2026, 5,310 CFS at the 70th percentile of daily p95, rounded up",
+      "position": {
+        "bands": [
+          [
+            263,
+            401,
+            1415,
+            4035
+          ],
+          [
+            288,
+            469,
+            2155,
+            6250
+          ],
+          [
+            312,
+            583,
+            2030,
+            4240
+          ],
+          [
+            358,
+            635,
+            2570,
+            5215
+          ],
+          [
+            514,
+            771,
+            2665,
+            5720
+          ],
+          [
+            539,
+            843,
+            2450,
+            5260
+          ],
+          [
+            562,
+            884,
+            2500,
+            4200
+          ],
+          [
+            629,
+            1020,
+            2605,
+            4225
+          ],
+          [
+            671,
+            1150,
+            2620,
+            4390
+          ],
+          [
+            741,
+            1200,
+            2390,
+            3615
+          ],
+          [
+            744,
+            1130,
+            2600,
+            3720
+          ],
+          [
+            737,
+            1070,
+            2500,
+            3245
+          ],
+          [
+            605,
+            1040,
+            2340,
+            3180
+          ],
+          [
+            473,
+            862,
+            2240,
+            3155
+          ],
+          [
+            404,
+            726,
+            2070,
+            2840
+          ],
+          [
+            324,
+            509,
+            1445,
+            2230
+          ],
+          [
+            271,
+            394,
+            916,
+            1570
+          ],
+          [
+            249,
+            318,
+            622,
+            1009
+          ],
+          [
+            218,
+            272,
+            470,
+            673
+          ],
+          [
+            202,
+            234,
+            376,
+            505
+          ],
+          [
+            181,
+            220,
+            318,
+            395
+          ],
+          [
+            180,
+            200,
+            288,
+            350
+          ],
+          [
+            172,
+            190,
+            270,
+            316
+          ],
+          [
+            168,
+            187,
+            257,
+            302
+          ],
+          [
+            167,
+            185,
+            249,
+            286
+          ],
+          [
+            167,
+            186,
+            247,
+            284
+          ],
+          [
+            169,
+            185,
+            247,
+            281
+          ],
+          [
+            168,
+            192,
+            256,
+            296
+          ],
+          [
+            182,
+            199,
+            276,
+            369
+          ],
+          [
+            190,
+            206,
+            307,
+            579
+          ],
+          [
+            200,
+            222,
+            392,
+            748
+          ],
+          [
+            208,
+            235,
+            613,
+            1690
+          ],
+          [
+            209,
+            251,
+            870,
+            1815
+          ],
+          [
+            217,
+            275,
+            1065,
+            2980
+          ],
+          [
+            239,
+            307,
+            1305,
+            2840
+          ],
+          [
+            240,
+            333,
+            1490,
+            3710
+          ]
+        ],
+        "years": "1945–2026"
+      }
+    },
+    "sections": [],
+    "guidePhone": "800-669-3474",
+    "closed": false
+  },
+  "report": {
+    "publishedAt": "2026-08-25",
+    "author": null,
+    "rating": "Fair to Good",
+    "clarity": null,
+    "clarityDetail": null,
+    "clarityFrom": null,
+    "wading": null,
+    "notes": [
+      "Temps on the lower end of the river have decreased over the past week and are now touching the underside of 67 F. No solid reports from anyone fishing, but generally fishing above around Dunsmuir should be solid. With the storms this week you should see epic BWO and midge hatches, bring your dry box! This is little black bug season on the Upper, so Zebras in #18 or smaller, BP Weiss nymphs, black S&Ms, black Micro Mays and any other teeny, tiny nymph chucked into the frothy stuff is the best tactic during the day. Midges are always a good idea to fish. Towards dark you can head hunt with smaller dark Missing links and Adams. The browns are moving up the river from the lake, so bring a streamer rod. Always have Rubberlegs, Perdigons, BP Weiss Nymphs, Poopahs, Zebra Midges and Bird's Nests to round out your offerings.",
+      "Upper Sacramento Flows at Delta"
+    ],
+    "wadingNote": [],
+    "wadingTags": [],
+    "notesPermission": "pending",
+    "source": {
+      "url": "https://www.theflyshop.com/streamreport.html",
+      "fetchedAt": "2026-09-07"
+    }
+  },
+  "hatches": [],
+  "readOnly": true,
+  "picks": [
+    {
+      "id": "sedgeback-october-caddis",
+      "group": "Dry Flies",
+      "name": "Sedgeback October Caddis",
+      "colors": [],
+      "sizes": [
+        "#10"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/sedgeback-october-caddis-10/",
+      "asWritten": "Sedgeback October Caddis - #10"
+    },
+    {
+      "id": "low-water-baetis",
+      "group": "Dry Flies",
+      "name": "Low Water Baetis",
+      "colors": [],
+      "sizes": [
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/low-water-baetis/",
+      "asWritten": "Low Water Baetis - #18"
+    },
+    {
+      "id": "adams",
+      "group": "Dry Flies",
+      "name": "Adams",
+      "colors": [],
+      "sizes": [
+        "#12",
+        "#14",
+        "#16",
+        "#18",
+        "#20"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/adams/",
+      "asWritten": "Adams - #12-20"
+    },
+    {
+      "id": "mercer-s-missing-link",
+      "group": "Dry Flies",
+      "name": "Mercer's Missing Link",
+      "colors": [
+        "Dark"
+      ],
+      "sizes": [
+        "#14",
+        "#16"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-missing-link/",
+      "asWritten": "Mercer's Missing Link - Dark #14-16"
+    },
+    {
+      "id": "parachute-adams",
+      "group": "Dry Flies",
+      "name": "Parachute Adams",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/parachute-adams/",
+      "asWritten": "Parachute Adams - #14-18"
+    },
+    {
+      "id": "mercer-s-tungsten-october-pu",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's Tungsten October Pupa",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/mercers-tungsten-october-pupa/",
+      "asWritten": "Mercer's Tungsten October Pupa"
+    },
+    {
+      "id": "skip-s-tb-october-caddis",
+      "group": "Nymphs/Wet Flies",
+      "name": "Skip's TB October Caddis",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/skips-tb-october-caddis-8/",
+      "asWritten": "Skip's TB October Caddis"
+    },
+    {
+      "id": "cb-birds-nest",
+      "group": "Nymphs/Wet Flies",
+      "name": "CB Birds Nest",
+      "colors": [],
+      "sizes": [
+        "#10",
+        "#12",
+        "#14"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/",
+      "asWritten": "CB Birds Nest - #10-14"
+    },
+    {
+      "id": "red-copper-john",
+      "group": "Nymphs/Wet Flies",
+      "name": "Red Copper John",
+      "colors": [],
+      "sizes": [
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/copper-john-red/",
+      "asWritten": "Red Copper John - #16-18"
+    },
+    {
+      "id": "zebra-midge",
+      "group": "Nymphs/Wet Flies",
+      "name": "Zebra Midge",
+      "colors": [],
+      "sizes": [
+        "#18",
+        "#20"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/beaded-zebra-midge/",
+      "asWritten": "Zebra Midge - #18-20"
+    },
+    {
+      "id": "mercury-black-beauty",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercury Black Beauty",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/mercury-black-beauty-20/",
+      "asWritten": "Mercury Black Beauty"
+    },
+    {
+      "id": "mercer-s-glass-bead-micro-ma",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's Glass Bead Micro May",
+      "colors": [],
+      "sizes": [
+        "#22"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-glass-bead-micro-may-22/",
+      "asWritten": "Mercer's Glass Bead Micro May - #22"
+    },
+    {
+      "id": "mercer-s-gb-dark-stone",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's GB Dark Stone",
+      "colors": [],
+      "sizes": [
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-gb-poxyback-dark-stone/",
+      "asWritten": "Mercer's GB Dark Stone - #8"
+    },
+    {
+      "id": "mercer-s-dark-stone",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's Dark Stone",
+      "colors": [],
+      "sizes": [
+        "#6"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-poxyback-dark-stone-6/",
+      "asWritten": "Mercer's Dark Stone - #6"
+    },
+    {
+      "id": "pat-s-rubber-legs",
+      "group": "Nymphs/Wet Flies",
+      "name": "Pat's Rubber Legs",
+      "colors": [
+        "Brown"
+      ],
+      "sizes": [
+        "#6",
+        "#8"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/pats-rubberlegs-jimmy-legs/",
+      "asWritten": "Pat's Rubber Legs - Brown #6-8"
+    },
+    {
+      "id": "jigged-birds-nest",
+      "group": "Nymphs/Wet Flies",
+      "name": "Jigged Birds Nest",
+      "colors": [],
+      "sizes": [
+        "#14",
+        "#16"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/cb-birds-nest/",
+      "asWritten": "Jigged Birds Nest - #14-16"
+    },
+    {
+      "id": "gordon-s-amber-wing-prince",
+      "group": "Nymphs/Wet Flies",
+      "name": "Gordon's Amber Wing Prince",
+      "colors": [],
+      "sizes": [
+        "#12",
+        "#14",
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/fred-gordons-prince-nymph/",
+      "asWritten": "Gordon's Amber Wing Prince - #12-18"
+    },
+    {
+      "id": "mercer-s-cb-micro-mayfly",
+      "group": "Nymphs/Wet Flies",
+      "name": "Mercer's CB Micro Mayfly",
+      "colors": [],
+      "sizes": [
+        "#16",
+        "#18"
+      ],
+      "reportLink": "http://catalog.theflyshop.com/mercers-cb-micro-mayfly/",
+      "asWritten": "Mercer's CB Micro Mayfly - #16-18"
+    },
+    {
+      "id": "walt-s-worm",
+      "group": "Nymphs/Wet Flies",
+      "name": "Walt's Worm",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "https://catalog.theflyshop.com/walts-worm-14/",
+      "asWritten": "Walt's Worm"
+    },
+    {
+      "id": "sheila-sculpin",
+      "group": "Streamers & Leeches",
+      "name": "Sheila Sculpin",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/sheila-sculpin-4/",
+      "asWritten": "Sheila Sculpin"
+    },
+    {
+      "id": "woolly-buggers",
+      "group": "Streamers & Leeches",
+      "name": "Woolly Buggers",
+      "colors": [],
+      "sizes": [],
+      "reportLink": "http://catalog.theflyshop.com/wooly-bugger/",
+      "asWritten": "Woolly Buggers"
+    },
+    {
+      "id": "zack-s-stillwater-swimming-l",
+      "group": "Streamers & Leeches",
+      "name": "Zack's Stillwater Swimming Leech",
+      "colors": [],
+      "sizes": [
+        "#8"
+      ],
+      "reportLink": "https://catalog.theflyshop.com/zacks-stillwater-swimming-leech-8/",
+      "asWritten": "Zack's Stillwater Swimming Leech - #8"
+    }
+  ],
+  "substitutes": {}
+}
