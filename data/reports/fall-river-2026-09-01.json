@@ -8,7 +8,7 @@
     "gaugeName": null,
     "lat": 41.0075,
     "lon": -121.4469,
-    "gaugeNote": "No live USGS gauge. Sites exist at Fall River Mills; none reports a real-time series.",
+    "gaugeNote": "No public gauge on this river. USGS lists sites at Fall River Mills and none reports a real-time series; CDEC carries no flow station on the Fall either. Checked both, not one.",
     "name": "Fall River",
     "packName": null,
     "flow": null,

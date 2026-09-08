@@ -73,6 +73,82 @@ export async function dailyValues(site) {
     .filter(x => Number.isFinite(x.v) && x.v >= 0);
 }
 
+/** The same daily record, for a water CDEC carries and USGS does not. CDEC serves hourly, so the
+    daily mean is built here rather than asked for -- its `dur_code=D` returns nothing for MCA.
+    One request per calendar year, because a single call spanning the record times out. */
+export const MIN_DAYS_PER_YEAR = 60;
+export async function dailyValuesCdec(station, sensor = 20, fromYear = 2000) {
+  const nowY = new Date().getUTCFullYear();
+  const days = new Map();
+  let units = null;
+  for (let y = fromYear; y <= nowY; y++) {
+    const url = 'https://cdec.water.ca.gov/dynamicapp/req/JSONDataServlet'
+      + `?Stations=${encodeURIComponent(station)}&SensorNums=${sensor}&dur_code=H&Start=${y}-01-01&End=${y}-12-31`;
+    let rows;
+    try { const r = await fetch(url); if (!r.ok) continue; rows = await r.json(); } catch { continue; }
+    if (!Array.isArray(rows)) continue;
+    for (const r of rows) {
+      if (typeof r.value !== 'number' || r.value === -9999 || r.value < 0) continue;
+      const m = /^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(String(r.date || r.obsDate || ''));
+      if (!m) continue;
+      units = units || String(r.units || '').toUpperCase();
+      const k = `${m[1]}-${String(m[2]).padStart(2, '0')}-${String(m[3]).padStart(2, '0')}`;
+      const a = days.get(k) || { s: 0, n: 0 };
+      a.s += r.value; a.n++; days.set(k, a);
+    }
+  }
+  // A series in the wrong unit on a CFS scale is a wrong number rendered confidently.
+  if (units && units !== 'CFS') throw new Error(`CDEC ${station} reports ${units}, not CFS`);
+  if (!days.size) throw new Error(`no CDEC record for ${station} sensor ${sensor}`);
+  const all = [...days.entries()].sort((a, b) => a[0] < b[0] ? -1 : 1)
+    .map(([d, a]) => ({ d, m: +d.slice(5, 7), v: a.s / a.n }));
+  // A year with a handful of days is not a year of record. MCA returns exactly two days from 2010
+  // and then nothing until 2020, which made the derived label read "2010-2026, 8 seasons" -- a
+  // seventeen-year record implied by two stray readings. Thin years are dropped outright rather
+  // than merely excluded from the label, because two samples are not evidence either.
+  const perYear = new Map();
+  for (const x of all) perYear.set(x.d.slice(0, 4), (perYear.get(x.d.slice(0, 4)) || 0) + 1);
+  const keep = new Set([...perYear].filter(([, n]) => n >= MIN_DAYS_PER_YEAR).map(([y]) => y));
+  const kept = all.filter(x => keep.has(x.d.slice(0, 4)));
+  if (!kept.length) throw new Error(`CDEC ${station} has no year with ${MIN_DAYS_PER_YEAR}+ days of record`);
+  return kept;
+}
+
+/** A scale for a water with no USGS daily statistics to derive one from. Same shape and the same
+    two-sided bound as deriveScale(): the season's own p95 unless that would put the mark outside a
+    readable band. */
+export function deriveScaleFromValues(values, limit) {
+  const seas = values.filter(x => x.m >= SEASON[0] && x.m <= SEASON[1]).map(x => x.v).sort((a, b) => a - b);
+  if (!seas.length) return null;
+  const at = p => seas[Math.min(seas.length - 1, Math.floor(p / 100 * seas.length))];
+  const seasonMax = niceMax(at(95));
+  const max = limit == null ? seasonMax
+    : Math.min(Math.max(seasonMax, niceMax(limit * LIMIT_HEADROOM)), niceMax(limit * LIMIT_CEILING));
+  const years = [...new Set(values.map(x => x.d.slice(0, 4)))];
+  return { min: 0, max, seasonMax, boundedByLimit: max !== seasonMax, p95: at(95), p95Max: seas[seas.length - 1],
+           recordMax: Math.max(...values.map(x => x.v)),
+           years: `${years[0]}\u2013${years[years.length - 1]}` };
+}
+
+/** The 36 seasonal bands, from raw dailies rather than USGS's own per-day percentiles. Each band is
+    a third of a month across every year on record -- roughly ten days times the years, which is why
+    this is honest on seven years where a per-calendar-day percentile would not be. */
+export function derivePositionFromValues(values) {
+  const buckets = Array.from({ length: 36 }, () => []);
+  for (const x of values) {
+    const day = +x.d.slice(8, 10);
+    buckets[(x.m - 1) * 3 + THIRD(day)].push(x.v);
+  }
+  const q = (a, p) => a[Math.min(a.length - 1, Math.floor(p / 100 * a.length))];
+  const bands = buckets.map(b => {
+    if (b.length < 10) return null;             // too thin to describe a normal range
+    const s = [...b].sort((x, y) => x - y);
+    return [q(s, 10), q(s, 25), q(s, 75), q(s, 90)].map(v => Math.round(v));
+  });
+  const years = [...new Set(values.map(x => x.d.slice(0, 4)))];
+  return bands.some(Boolean) ? { bands, years: `${years[0]}\u2013${years[years.length - 1]}` } : null;
+}
+
 /** The wading limit, derived. Through round 7 this was the one number the engine refused to
     compute, on the grounds that a wading call is a person's to make. It still is -- what changed
     is what the number claims. Six hand-set limits turned out to mean six different things: measured
@@ -196,7 +272,28 @@ export function applyWaterFields(water, ov) {
   if (ov.packName) water.packName = ov.packName;
   // How long this shop's report on this water stays current. Never derived -- see waters.json.
   if (ov.reportFreshness) water.reportFreshness = ov.reportFreshness;
+  // Which CDEC station carries this water's flow, where USGS carries none.
+  if (ov.cdecFlow) water.cdecFlow = ov.cdecFlow;
+  if (ov.gaugeName) water.gaugeName = ov.gaugeName;
+  if (ov.cdecStation) water.cdecStation = ov.cdecStation;
   return water;
+}
+
+/** Where a water's flow comes from. USGS first because its record is decades deep; CDEC where USGS
+    has nothing, which on the McCloud is the difference between a live river and a card that says
+    there is no gauge. */
+export function gaugeOf(water) {
+  if (!water) return null;
+  if (water.usgsSite) return { kind: 'usgs', site: water.usgsSite };
+  if (water.cdecFlow) return { kind: 'cdec', sensor: 20, ...water.cdecFlow };
+  return null;
+}
+
+/** The daily record for whichever source carries this water. */
+export async function recordFor(gauge) {
+  if (!gauge) return null;
+  return gauge.kind === 'usgs' ? await dailyValues(gauge.site)
+    : await dailyValuesCdec(gauge.station, gauge.sensor, gauge.fromYear || 2000);
 }
 
 /** Where the threshold lands on the scale. Outside 25-75% the split stops informing. */
@@ -261,11 +358,26 @@ async function applyToFixtures() {
     // show it, then whatever the shop has written on top.
     const cur = d.water.flow || {};
     let derived = null;
-    if (d.water.usgsSite) {
+    const g = gaugeOf(d.water);
+    if (g) {
       try {
-        const limit = deriveLimit(await dailyValues(d.water.usgsSite));
-        const sc = deriveScale(await dailyStats(d.water.usgsSite), limit);
+        const vals = await recordFor(g);
+        const limit = deriveLimit(vals);
+        // USGS publishes the per-day statistics the scale wants; for CDEC the same numbers are
+        // computed from the record we just fetched.
+        const sc = g.kind === 'usgs' ? deriveScale(await dailyStats(g.site), limit)
+                                     : deriveScaleFromValues(vals, limit);
         if (sc) derived = { min: sc.min, max: sc.max, threshold: limit };
+        if (g.kind === 'cdec') {
+          const pos = derivePositionFromValues(vals);
+          if (pos) d.water.flowPositionPending = pos;
+          // Say what this scale rests on. The McCloud's record starts in 2020, which is seven
+          // seasons against fifty-two to a hundred and sixteen on the USGS waters, and a number
+          // that thin should not be able to pass for one that is not.
+          const yrs = [...new Set(vals.map(x => x.d.slice(0, 4)))];
+          d.water.scaleSourcePending = `CDEC ${g.station} hourly ${yrs[0]}\u2013${yrs[yrs.length - 1]}`
+            + `, ${yrs.length} seasons of record -- far shallower than the USGS waters on this card`;
+        }
       } catch (e) {
         // A network blip must never delete a number. Without this the fallback re-derives from the
         // fixture's own min and max, which carry no threshold, so one failed fetch silently wrote
@@ -278,6 +390,8 @@ async function applyToFixtures() {
     }
     const flow = applyOverrides(derived || (cur.max != null ? { min: cur.min, max: cur.max } : null), ov);
     if (flow) d.water.flow = { ...cur, ...flow };
+    if (d.water.flowPositionPending) { d.water.flow.position = d.water.flowPositionPending; delete d.water.flowPositionPending; }
+    if (d.water.scaleSourcePending) { d.water.flow.scaleSource = d.water.scaleSourcePending; delete d.water.scaleSourcePending; }
     const fl = d.water.flow, th = fl && fl.threshold;
     const chk = fl && th != null ? checkThreshold(fl, th) : { pct: null };
     const note = th == null ? 'no limit'

@@ -649,6 +649,44 @@ rather than a claim that it is. It was the one line on the compact card written 
 to report, and with a pack on every water its only real claim became redundant. The seven waters
 without a hatch line are 30px shorter for it.
 
+**The McCloud has a gauge. We were checking one source.** The card read *"No live USGS gauge.
+Fourteen sites on the river; none reports a real-time series"* -- true, and read by everyone as "no
+data exists". Twenty-five USGS sites carry the river's name and not one reports a real-time or
+recent daily discharge, but **CDEC's MCA, at Ah-Di-Na, reports hourly**, and Ah-Di-Na is the water
+the shop's McCloud report is about. Four other CDEC McCloud stations return no flow at all; MCA is
+the only one.
+
+`gaugeOf(water)` now answers "is this water gauged" across every source rather than off `usgsSite`,
+and one `shapeFlow()` buckets USGS instantaneous values and CDEC hourly readings identically -- they
+arrive as the same thing, a timestamped list, and the card asks them the same questions, so they may
+not have two implementations to drift apart. The McCloud reads 196 CFS live, with a full thirty-day
+sparkline, its own seasonal band, and a `270 HIGH WATER` mark on `0-500`.
+
+CDEC sends no CORS header, so this goes through the widget's proxy like the water temperature does:
+a new `GET /api/cdec?station=MCA&sensor=20&days=30` on `hatchmatch-api`, station- and
+sensor-allowlisted, `days` clamped, cached 15 minutes, returning the window rather than a computed
+answer. Verified locally before deploying, because that service also runs the app's payments.
+
+**Its record is seven seasons, not a century, and the fixture says so.** MCA's history starts in
+2020 -- against 52 to 116 years on the USGS waters -- so `scaleSource` reads *"CDEC MCA hourly
+2020-2026, 7 seasons of record -- far shallower than the USGS waters on this card"*. The mark still
+fires in all seven. A year with a handful of days is dropped outright rather than merely left out of
+the label: MCA returns exactly two readings from 2010 and then nothing until 2020, which had the
+derived label claiming a seventeen-year record off two stray days.
+
+**Fall River is the water where "no gauge" is the whole truth**, and it now says which sources were
+checked: *"No public gauge on this river. USGS lists sites at Fall River Mills and none reports a
+real-time series; CDEC carries no flow station on the Fall either. Checked both, not one."*
+
+**A bug that only rendered for four hours a day.** The strip frame reads `Read 4:00 PM · USGS Hat
+Creek` for most of the day and `Read 10:14 PM · USGS Hat Creek` after ten, and only the second
+clipped -- 3 to 6px on the Hat Creek and the Klamath at 375px and below. The row was broken daily
+and every sweep run before ten in the morning passed. `Read` now goes at 385px and the provider
+prefix at 360px, so `10:14 PM · Hat Creek` fits: the gauge is still identified, and who runs it is
+what matters least when there is no room to say it. The sweep now pins 11:48 PM -- the widest clock
+this locale prints -- at all six widths on every water, because a test whose result depends on the
+wall clock is not a test.
+
 **Every water sells a pack now, and the gate was in the wrong place.** It used to be `readOnly`, on
 the stated grounds that a page with no quantities has no pack to sell. But the shop's page sets no
 quantities on **any** water -- the pilot's included, whose 1s and 2s came from the spec fixture, not

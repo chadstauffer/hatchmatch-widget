@@ -6,7 +6,8 @@
     "sections": "named reaches the pack can be shaped to.",
     "packName": "the shop's own name for the pack.",
     "cdecStation": "CDEC station id for water temperature (sensor 25, hourly), where USGS does not report 00010. Read through the widget's temp proxy, never from the browser: CDEC sends no CORS header.",
-    "reportFreshness": "how many days a report stays CURRENT and then RECENT before it reads OLDER, e.g. {\"current\": 14, \"recent\": 30}. Never derived. The shop knows how often it updates a water; the card defaults to 14/30 as an INTERIM until they say, and that default is a placeholder, not a standard."
+    "reportFreshness": "how many days a report stays CURRENT and then RECENT before it reads OLDER, e.g. {\"current\": 14, \"recent\": 30}. Never derived. The shop knows how often it updates a water; the card defaults to 14/30 as an INTERIM until they say, and that default is a placeholder, not a standard.",
+    "cdecFlow": "{station, sensor} for a water's FLOW where USGS carries none. Read through the widget's cdec proxy, never from the browser: CDEC sends no CORS header. The McCloud is the case that found this -- 25 USGS sites carry its name and not one reports a real-time or recent daily series, while CDEC's MCA at Ah-Di-Na reports hourly."
   },
   "waters": {
     "lower-sacramento": {
@@ -20,6 +21,14 @@
         "Lower"
       ],
       "packName": "Sac Pack"
+    },
+    "mccloud": {
+      "why": "USGS has 25 sites on the McCloud and none of them reports flow. CDEC's MCA, at Ah-Di-Na, reports hourly and is the water the shop's report is about. Its record starts in 2020 -- seven seasons, against 52 to 116 years on the USGS waters -- so the high-water mark here rests on far less evidence than the others and the card says so.",
+      "cdecFlow": {
+        "station": "MCA",
+        "sensor": 20
+      },
+      "gaugeName": "CDEC Ah-Di-Na"
     }
   }
 }

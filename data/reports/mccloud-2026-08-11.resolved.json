@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-08T04:36:37.398Z",
+ "generatedAt": "2026-09-08T05:13:25.232Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -8,16 +8,251 @@
   "shortName": "McCloud",
   "group": "river",
   "usgsSite": null,
-  "gaugeName": null,
+  "gaugeName": "CDEC Ah-Di-Na",
   "lat": 41.1252,
   "lon": -122.0686,
-  "gaugeNote": "No live USGS gauge. Fourteen sites on the river; none reports a real-time series.",
   "name": "McCloud River",
   "packName": null,
-  "flow": null,
+  "flow": {
+   "min": 0,
+   "max": 500,
+   "threshold": 270,
+   "thresholdLabel": "high water",
+   "source": {
+    "min": "derived",
+    "max": "derived",
+    "threshold": "derived"
+   },
+   "position": {
+    "bands": [
+     [
+      230,
+      239,
+      546,
+      984
+     ],
+     [
+      219,
+      240,
+      346,
+      513
+     ],
+     [
+      222,
+      250,
+      304,
+      461
+     ],
+     [
+      230,
+      234,
+      456,
+      827
+     ],
+     [
+      237,
+      241,
+      409,
+      466
+     ],
+     [
+      223,
+      230,
+      411,
+      569
+     ],
+     [
+      217,
+      230,
+      346,
+      493
+     ],
+     [
+      215,
+      239,
+      482,
+      574
+     ],
+     [
+      216,
+      247,
+      451,
+      543
+     ],
+     [
+      208,
+      251,
+      430,
+      492
+     ],
+     [
+      229,
+      244,
+      401,
+      446
+     ],
+     [
+      237,
+      261,
+      379,
+      479
+     ],
+     [
+      210,
+      233,
+      298,
+      456
+     ],
+     [
+      205,
+      239,
+      294,
+      479
+     ],
+     [
+      208,
+      231,
+      284,
+      566
+     ],
+     [
+      207,
+      225,
+      267,
+      309
+     ],
+     [
+      202,
+      218,
+      264,
+      272
+     ],
+     [
+      183,
+      204,
+      256,
+      263
+     ],
+     [
+      183,
+      202,
+      249,
+      258
+     ],
+     [
+      180,
+      199,
+      248,
+      258
+     ],
+     [
+      180,
+      195,
+      246,
+      260
+     ],
+     [
+      181,
+      192,
+      245,
+      256
+     ],
+     [
+      181,
+      189,
+      245,
+      259
+     ],
+     [
+      181,
+      188,
+      245,
+      259
+     ],
+     [
+      195,
+      218,
+      256,
+      261
+     ],
+     [
+      196,
+      226,
+      256,
+      261
+     ],
+     [
+      195,
+      227,
+      256,
+      262
+     ],
+     [
+      195,
+      224,
+      259,
+      268
+     ],
+     [
+      195,
+      230,
+      262,
+      268
+     ],
+     [
+      231,
+      241,
+      266,
+      314
+     ],
+     [
+      242,
+      248,
+      277,
+      610
+     ],
+     [
+      227,
+      248,
+      287,
+      348
+     ],
+     [
+      216,
+      231,
+      260,
+      394
+     ],
+     [
+      220,
+      237,
+      259,
+      299
+     ],
+     [
+      207,
+      231,
+      286,
+      345
+     ],
+     [
+      192,
+      230,
+      481,
+      870
+     ]
+    ],
+    "years": "2020–2026"
+   },
+   "scaleSource": "CDEC MCA hourly 2020–2026, 7 seasons of record -- far shallower than the USGS waters on this card"
+  },
   "sections": [],
   "guidePhone": "800-669-3474",
-  "closed": false
+  "closed": false,
+  "cdecFlow": {
+   "station": "MCA",
+   "sensor": 20
+  }
  },
  "report": {
   "publishedAt": "2026-08-11",

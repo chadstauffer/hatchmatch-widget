@@ -16,7 +16,7 @@
   window.setInterval = function (...a) { window.__live++; return si.apply(window, a); };
   window.clearInterval = function (h) { if (h != null) window.__live--; return ci.call(window, h); };
 </script>
-<script src="../dist/embed.js?b=20260908045001"></script>
+<script src="../dist/embed.js?b=20260908051458"></script>
 <script>
 /* A widow is the last line of a wrapped text block carrying one short word on its own. Measured
    rather than eyeballed: every word in the block gets a Range rect, words are grouped into lines
@@ -290,6 +290,22 @@ window.SWEEP = async function () {
         host.style.width = px;
         for (const tab of ['now', 'hatch', 'notes']) { card.set({ open: true, tab }); window.WIDOWS(card.root, `${w}/${px}/${tab}`, out.widows); window.OVERFLOW(card.root, `${w}/${px}/${tab}`, out.overflow); }
         card.set({ open: false }); window.OVERFLOW(card.root, `${w}/${px}/compact`, out.overflow);
+      }
+      // The widest clock this locale prints, on purpose. The strip frame reads "Read 4:00 PM ·
+      // USGS Hat Creek" for most of the day and "Read 10:14 PM · USGS Hat Creek" for four hours of
+      // it, and only the second one clipped -- so the row was broken daily and the sweep passed
+      // every time it happened to run before ten. A test whose result depends on the wall clock is
+      // not a test; this pins the worst case.
+      if (card.s.flow && card.s.flow.value != null) {
+        const real = card.s.flow.at;
+        card.set({ open: true, tab: 'now', flow: { ...card.s.flow, at: new Date(new Date().setHours(23, 48, 0, 0)).toISOString() } });
+        for (const px of ['440px', '390px', '375px', '350px', '335px', '320px']) {
+          host.style.width = px;
+          window.OVERFLOW(card.root, `${w}/${px}/now/23:48`, out.overflow);
+          card.set({ open: false }); window.OVERFLOW(card.root, `${w}/${px}/compact/23:48`, out.overflow);
+          card.set({ open: true, tab: 'now' });
+        }
+        card.set({ flow: { ...card.s.flow, at: real } });
       }
       host.style.width = '350px';
       card.set({ open: false });

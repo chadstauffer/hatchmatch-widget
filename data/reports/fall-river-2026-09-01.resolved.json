@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-08T04:36:36.487Z",
+ "generatedAt": "2026-09-08T05:13:24.501Z",
  "shop": "catalog.theflyshop.com",
  "storeUrl": "https://catalog.theflyshop.com",
  "catalogPulledAt": "2026-09-04T21:06:20.237Z",
@@ -11,7 +11,7 @@
   "gaugeName": null,
   "lat": 41.0075,
   "lon": -121.4469,
-  "gaugeNote": "No live USGS gauge. Sites exist at Fall River Mills; none reports a real-time series.",
+  "gaugeNote": "No public gauge on this river. USGS lists sites at Fall River Mills and none reports a real-time series; CDEC carries no flow station on the Fall either. Checked both, not one.",
   "name": "Fall River",
   "packName": null,
   "flow": null,

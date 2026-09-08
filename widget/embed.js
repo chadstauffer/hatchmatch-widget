@@ -307,7 +307,8 @@ img{display:block}
 /* Below 360px the strip is the tightest row on the card. "Read" goes first; if that is still
    three pixels short, the remaining spacing gives them up rather than the gauge name, which is
    the frame's whole point. No text is abbreviated at any width. */
-@container (max-width:359px){.readword{display:none}.live{gap:5px}.live>b::after{padding-left:5px}}
+@container (max-width:384px){.readword{display:none}}
+@container (max-width:359px){.gprov{display:none}.live{gap:5px}.live>b::after{padding-left:5px}}
 /* 320px is the narrowest card we support, and the two longest gauge names ("USGS Pit No 1",
    "USGS Lewiston") are still four pixels over there. Tracking is the last thing to give: half the
    letter-spacing on this one 11px row buys ten pixels and reads the same. */
@@ -545,6 +546,49 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     return { value: last.value, at: last.iso, delta: null, hours: null, series, days: vals.length, trend: weekTrend(series), live: false, source: 'waterservices.usgs.gov/nwis/dv' };
   };
   const fetchWindow = (site, win) => cached(`win:${site}:${win.join('/')}`, () => fetchWindowLive(site, win), hasSeries);
+  /* One shaping for every live source. USGS instantaneous values and CDEC hourly readings arrive
+     as the same thing -- a timestamped list -- and the card asks the same questions of both, so
+     they must not get two implementations to drift apart.
+     Thirty days in six-hour buckets. A week is too short a swath on a dam-controlled river: the
+     Lower Sac's seven-day spread is about 9% of its scale and its thirty-day spread is 41%, so the
+     month is where the shape actually is. A bucket the gauge did not report stays null and draws
+     as a gap rather than being interpolated across. */
+  function shapeFlow(vals, source) {
+    const last = vals[vals.length - 1], end = last.at;
+    const six = vals.filter(v => end - v.at <= 6 * 3600e3);
+    const first = six.length > 1 ? six[0] : vals[0];
+    const delta = last.value - first.value;
+    const hours = Math.max(1, Math.round((end - first.at) / 3600000));
+    const DAYS = 30, COLS = DAYS * 4, SPAN = DAYS * 24 * 3600e3 / COLS, acc = Array.from({ length: COLS }, () => ({ n: 0, sum: 0 }));
+    for (const v of vals) {
+      const i = COLS - 1 - Math.floor((end - v.at) / SPAN);
+      if (i >= 0 && i < COLS) { acc[i].n++; acc[i].sum += v.value; }
+    }
+    const series = acc.map(b => b.n ? b.sum / b.n : null);
+    return { value: last.value, at: last.iso, delta, hours, series, days: DAYS, trend: weekTrend(series), live: true, source };
+  }
+  /* The McCloud has no USGS gauge -- twenty-five sites carry its name and none reports a real-time
+     or recent daily series -- and CDEC's MCA at Ah-Di-Na reports hourly. CDEC sends no CORS header,
+     so this goes through the same proxy the water temperature does. A water with no cdecFlow never
+     asks; a proxy that does not answer degrades exactly as a silent USGS gauge does. */
+  const CDEC_PROXY = 'https://hatchmatch-api.onrender.com/api/cdec';
+  async function fetchFlowCdecLive(cfg, base) {
+    const u = new URL(base || CDEC_PROXY);
+    u.searchParams.set('station', cfg.station);
+    u.searchParams.set('sensor', String(cfg.sensor == null ? 20 : cfg.sensor));
+    u.searchParams.set('days', '30');
+    const r = await fetch(u);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    // The unit check is the proxy's and it is repeated here: a series in the wrong unit drawn on a
+    // CFS scale is a wrong number rendered confidently, which is worse than an empty row.
+    if (String(d.units || '').toUpperCase() !== 'CFS') throw new Error(`unexpected units ${d.units}`);
+    const vals = (d.readings || [])
+      .map(x => ({ value: +x.value, at: +new Date(x.at), iso: x.at }))
+      .filter(v => Number.isFinite(v.value) && v.value >= 0 && v.at);
+    if (!vals.length) throw new Error('empty series');
+    return shapeFlow(vals, 'cdec.water.ca.gov/' + cfg.station);
+  }
   async function fetchFlowLive(site, win) {
     const errors = [];
     if (win) return fetchWindow(site, win);
@@ -557,22 +601,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const ts = (await r.json()).value.timeSeries[0];
       const vals = ts.values[0].value.map(v => ({ value: +v.value, at: +new Date(v.dateTime), iso: v.dateTime })).filter(v => v.value >= 0 && v.at);
       if (!vals.length) throw new Error('empty series');
-      const last = vals[vals.length - 1], end = last.at;
-      const six = vals.filter(v => end - v.at <= 6 * 3600e3);
-      const first = six.length > 1 ? six[0] : vals[0];
-      const delta = last.value - first.value;
-      const hours = Math.max(1, Math.round((end - first.at) / 3600000));
-      // Thirty days in six-hour buckets. A week is too short a swath on a dam-controlled river:
-      // the Lower Sac's seven-day spread is about 9% of its scale and its thirty-day spread is
-      // 41%, so the month is where the shape actually is. A bucket the gauge did not report stays
-      // null and draws as a gap rather than being interpolated across.
-      const DAYS = 30, COLS = DAYS * 4, SPAN = DAYS * 24 * 3600e3 / COLS, acc = Array.from({ length: COLS }, () => ({ n: 0, sum: 0 }));
-      for (const v of vals) {
-        const i = COLS - 1 - Math.floor((end - v.at) / SPAN);
-        if (i >= 0 && i < COLS) { acc[i].n++; acc[i].sum += v.value; }
-      }
-      const series = acc.map(b => b.n ? b.sum / b.n : null);
-      return { value: last.value, at: last.iso, delta, hours, series, days: DAYS, trend: weekTrend(series), live: true, source: 'waterservices.usgs.gov/nwis/iv' };
+      return shapeFlow(vals, 'waterservices.usgs.gov/nwis/iv');
     } catch (e) { errors.push(`nwis/iv: ${e.message}`); }
     try {
       const r = await fetch(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/latest-continuous/items?monitoring_location_id=USGS-${site}&parameter_code=00060&f=json`);
@@ -585,6 +614,16 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     throw new Error(errors.join(' | '));
   }
   const fetchFlow = (site, win) => win ? fetchWindow(site, win) : cached(`flow:${site}`, () => fetchFlowLive(site), hasSeries);
+  /* A water is gauged if ANY source carries it, not if USGS does. Reading "no live gauge" off one
+     provider is how the McCloud came to claim there was no data on a river CDEC reports hourly. */
+  const gaugeOf = w => w && (w.usgsSite ? { kind: 'usgs', site: w.usgsSite }
+    : (w.cdecFlow ? { kind: 'cdec', ...w.cdecFlow } : null));
+  const fetchFlowFor = (w, win, base) => {
+    const g = gaugeOf(w);
+    if (!g) return Promise.reject(new Error('no gauge on file'));
+    if (g.kind === 'usgs') return fetchFlow(g.site, win);
+    return cached(`cdec:${g.station}:${g.sensor == null ? 20 : g.sensor}`, () => fetchFlowCdecLive(g, base), hasSeries);
+  };
   /* Water temperature (00010, Celsius) and turbidity (63680, FNU) off the same instantaneous-values
      service the flow comes from, so they cost one request and inherit its CORS. Neither is carried
      at every gauge -- Keswick reports neither, verified against the site's own series catalog on
@@ -700,7 +739,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       this.s.section = (w.sections || [])[0];
       this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set(); this.s.options = null;
       const lrS = w.flow.lastReading;
-      this.s.flow = { value: lrS ? lrS.value : null, at: lrS ? lrS.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !w.usgsSite };
+      this.s.flow = { value: lrS ? lrS.value : null, at: lrS ? lrS.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !gaugeOf(w) };
       this.s.weather = null; this.s.temp = null; this.s.tempAt = null; this.s.tempSource = null; this.s.turbidity = null;
       const now = this.data.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
@@ -729,7 +768,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       this.s.section = this.data.water.sections[0];
       this.s.qty = {}; this.s.variant = {}; this.s.added = false; this.s.expanded = new Set(); this.s.options = null;
       const lrW = this.data.water.flow.lastReading;
-      this.s.flow = { value: lrW ? lrW.value : null, at: lrW ? lrW.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !this.data.water.usgsSite };
+      this.s.flow = { value: lrW ? lrW.value : null, at: lrW ? lrW.at : new Date().toISOString(), trend: '', delta: null, hours: null, series: null, days: null, live: false, failed: !gaugeOf(this.data.water) };
       this.s.weather = null; this.s.temp = null; this.s.tempAt = null; this.s.tempSource = null; this.s.turbidity = null;
       const now = this.data.hatches[this.slotNow()];
       if (now && !now.none) this.s.expanded.add(now.slot);
@@ -744,9 +783,9 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const w = this.data.water, token = ++this.loadToken;
       const live = () => token === this.loadToken;
       // No gauge on file is not a failed fetch: nothing is tried, and the card says which it is.
-      if (!w.usgsSite || this.demo === 'noflow') { this.s.flow.failed = true; this.render(); }
+      if (!gaugeOf(w) || this.demo === 'noflow') { this.s.flow.failed = true; this.render(); }
       else {
-        fetchFlow(w.usgsSite, this.window).then(f => { if (!live()) return; this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
+        fetchFlowFor(w, this.window, this.host.dataset.cdecProxy).then(f => { if (!live()) return; this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
           .catch(e => { if (!live()) return; this.s.flow.failed = true; this.s.flow.error = e.message; console.warn('[hatchmatch] flow unavailable, showing the report\'s last reading:', e.message); this.emit('flow_unavailable', { error: e.message }); this.render(); });
         fetchAux(w.usgsSite).then(a => {
           if (!live()) return;
@@ -767,8 +806,8 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     watchFlow() {
       if (this.demo === 'noflow' || !window.IntersectionObserver) return;
       if (this.window) return;   // a fixed historical window has nothing to refresh
-      const site = this.data.water.usgsSite, token = this.loadToken;
-      const tick = () => fetchFlow(site)
+      const w = this.data.water, token = this.loadToken;
+      const tick = () => fetchFlowFor(w, null, this.host.dataset.cdecProxy)
         .then(f => { if (token !== this.loadToken) return; this.s.flow = f; this.emit('flow_live', { value: f.value, at: f.at, source: f.source }); this.render(); })
         .catch(e => console.warn('[hatchmatch] flow refresh failed, keeping the last reading:', e.message));
       new IntersectionObserver(([e]) => {
@@ -1026,7 +1065,10 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         unreachable must never render as a river at zero. */
     flowNote() {
       const w = this.data.water, f = this.s.flow;
-      if (!w.usgsSite) return w.gaugeNote || 'No live gauge on file for this water.';
+      // "No live USGS gauge" was true and read as "no data exists", which is how the McCloud came
+      // to say there was none on a river CDEC reports hourly. A water with no gauge now says so
+      // about every source we check, not about the first one.
+      if (!gaugeOf(w)) return w.gaugeNote || 'No public gauge on this river. USGS and CDEC both checked.';
       if (f.value == null) return `No reading from ${w.gaugeName || 'the gauge'} yet. Flow will appear here when it answers.`;
       const time = new Date(f.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
       return `Flow data unavailable. Last reading ${num(f.value)} CFS at ${time}.`;
@@ -1090,7 +1132,16 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       // "Read 5:54 PM · USGS Pit No 1" needs 269px of a 252px strip on a 350px card. The gauge
       // name is the identifying fact and the time is the changing one; "Read" is the filler, so
       // that is what goes when the row is tight. Nothing is abbreviated and nothing is cut.
-      out.push(`<span class="readword">Read </span>${esc(time)} &middot; ${esc(this.data.water.gaugeName)}`);
+      // The provider is the next thing to give after "Read". A two-digit hour is the widest this
+      // frame ever gets -- "Read 10:14 PM . USGS Hat Creek" against "Read 4:00 PM . USGS Hat Creek"
+      // -- so the row was correct all day and clipped by 3 to 6px between ten and noon and ten and
+      // midnight. A bug that renders for four hours a day and not while you are looking at it.
+      // "Hat Creek" still identifies the gauge; "USGS" says who runs it, which matters least when
+      // there is no room to say it.
+      const gn = String(this.data.water.gaugeName || '');
+      const gp = /^(USGS|CDEC)\s+(.+)$/.exec(gn);
+      const gauge = gp ? `<span class="gprov">${esc(gp[1])} </span>${esc(gp[2])}` : esc(gn);
+      out.push(`<span class="readword">Read </span>${esc(time)} &middot; ${gauge}`);
       // Signed number, not a caret: the caret on the flow figure is the one place trend is stated,
       // and it reads the classified trend. This reads the measurement, which can be -20 while the
       // classification is still Steady. Two carets disagreeing six pixels apart is worse than none.
@@ -1252,7 +1303,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         ? `<div class="lamp muted" style="--c:var(--amber);text-transform:none;letter-spacing:0;font-size:12px;white-space:normal"><i></i>${this.flowNote()}</div>`
         : this.liveStrip();
       return `<div class="flowmod">
-      ${this.data.water.usgsSite && f.value != null ? `<div class="flownum"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.unitStack()}${this.sparkline()}</div>` : ''}
+      ${gaugeOf(this.data.water) && f.value != null ? `<div class="flownum"><span class="big xl" style="color:${f.failed ? 'var(--muted)' : 'var(--text)'}">${num(f.value)}</span>${this.unitStack()}${this.sparkline()}</div>` : ''}
       ${strip}
       ${expanded ? '' : this.flowBar(true)}
     </div>`;
