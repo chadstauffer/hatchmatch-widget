@@ -72,7 +72,16 @@ npm run resolve    # pin every pick to a variant, write the flag list
 npm run build      # dist/embed.js
 npm run audit      # diff all 8 waters against the shop's page; non-zero if anything is unexplained
 npm run demo       # http://127.0.0.1:8787/demo/
+npm run demo -- --lan   # same, also answers on the LAN, for a phone on this Wi-Fi
 ```
+
+**On a phone.** `--lan` binds to every interface and prints the URL to open, so a device on the
+same Wi-Fi can load the real card at a real width -- container queries, thumb reach, the live
+gauge, the whole thing -- rather than a desktop browser pretending to be 390px wide. The default
+stays loopback because this server hands out the working tree, so exposing it is a thing to ask
+for rather than a thing to get by accident. Dot-paths are refused at every depth on both bindings:
+`.git` alone would otherwise hand a stranger on the same coffee-shop network the full history of a
+repo whose working tree is already right there. Stop the server when the phone is done with it.
 
 The demo also works straight from `demo/index.html` on disk. Live flow and weather need a network connection; both fall back to the report's last reading.
 
