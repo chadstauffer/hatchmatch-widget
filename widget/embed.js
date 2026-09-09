@@ -6,6 +6,16 @@
   const FONT = "__HM_FONT__";
   const STONEFLY = "__HM_STONEFLY__";
   const BUILD = "__HM_BUILD__";
+  /* Whether this build can sell. build.mjs writes it: true for the shop embed,
+     false for the app, where the vendor is undecided and the card reports rather
+     than sells. It gates the pack, the prices, the quantities and the stock --
+     everything downstream of a purchase -- and nothing else. The fly rows, the
+     hatches and the report are identical in both. */
+  const COMMERCE = "__HM_COMMERCE__";
+  /* Whether this card is a guest on someone else's page. The shop embed is; the
+     app is not, and "Powered by HatchMatch" inside HatchMatch is noise. Kept
+     separate from COMMERCE because attribution is not a purchase. */
+  const EMBED = "__HM_EMBED__";
 
   /* The waters ship as resolved reports. Group order for the picker; anything else falls last. */
   const GROUPS = [['river', 'Rivers'], ['stillwater', 'Stillwaters'], ['private', 'Private waters']];
@@ -937,7 +947,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const out = [];
       for (const role of this.data.roles) {
         const flies = this.picks
-          .filter(p => p.role === role.key && p.sections.includes(this.s.section) && pick(p))
+          .filter(p => p.role === role.key && (!COMMERCE || p.sections.includes(this.s.section)) && pick(p))
           .map(p => {
             const per = this.s.qty[p.id] != null ? this.s.qty[p.id] : p.qty, qty = per * mult;
             let v = this.variantOf(p), use = p, sub = null;
@@ -1097,7 +1107,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         the primary action and carries the fill. */
     guideCta(primary) {
       const w = this.data.water;
-      if (!w.guidePhone) return '';
+      if (!COMMERCE || !w.guidePhone) return '';
       return `<a class="guideline${primary ? ' primary' : ''}" href="tel:${w.guidePhone.replace(/\D/g, '')}" data-action="guide">`
         + `<span class="what glabel"><b>Fish it with a guide</b><em>With a guide</em></span>`
         + `<span class="tel">${esc(w.guidePhone)}</span></a>`;
@@ -1509,7 +1519,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
     </div>`}
   </button>
   ${closed ? '' : hatchLine}
-  ${closed ? `<a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>` : this.packButton()}
+  ${closed ? (COMMERCE ? `<a class="ghost" href="tel:${d.water.guidePhone.replace(/\D/g, '')}"><span class="caps" style="font-weight:600">Fish it with a guide</span><span class="muted">${d.water.guidePhone}</span></a>` : '') : (COMMERCE ? this.packButton() : '')}
 </div>`;
     }
     expanded() {
@@ -1526,13 +1536,14 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
   <div class="panelwrap">${this.s.picker
     ? `<div class="panel" role="region" aria-label="Choose a water" tabindex="0">${this.tab_waters()}</div>`
     : `<div class="panel" role="tabpanel" id="panel-${tab}" aria-labelledby="tab-${tab}" tabindex="0">${this['tab_' + tab]()}</div>`}</div>
-  <div class="buybar">
-    ${this.tripRow()}
-    ${this.pack().flies
-      ? `${this.guideCta(false)}${this.packButton()}`
-      : `<div class="nopack">No pack for ${this.theName(d.water.shortName)} yet</div>${this.guideCta(true)}`}
-    <div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>
-  </div>
+  ${(() => {
+    const cta = !COMMERCE ? ''
+      : this.pack().flies ? `${this.guideCta(false)}${this.packButton()}`
+      : `<div class="nopack">No pack for ${this.theName(d.water.shortName)} yet</div>${this.guideCta(true)}`;
+    const powered = EMBED ? `<div class="powered">${STONEFLY.startsWith('__') ? '' : STONEFLY}Powered by HatchMatch</div>` : '';
+    const bar = `${this.tripRow()}${cta}${powered}`;
+    return bar ? `<div class="buybar">${bar}</div>` : '';
+  })()}
 </div>`;
     }
     /** The steppers sit directly above the button whose count and price they change, so the
@@ -1547,9 +1558,16 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       const secs = this.data.water.sections;
       // Anglers and days shape a pack. A water with no pack has nothing for them to shape.
       if (this.data.readOnly) return '';
+      // REVERSAL: section was kept out of the commerce gate on the grounds that
+      // it describes the river rather than the sale. It is also the fly list's
+      // only filter, so without the control the card would quietly show one
+      // stretch's flies and hide the other's -- worse than not having it. With
+      // no control the filter goes too and every fly is listed; the per-row
+      // "up top only" badge carries what the selector used to say.
+      if (!COMMERCE) return '';
       return `<div class="triprow">
-    ${this.tripStepper('Anglers', 'anglers', this.s.anglers)}
-    ${this.tripStepper('Days', 'days', this.s.days)}
+    ${COMMERCE ? this.tripStepper('Anglers', 'anglers', this.s.anglers) : ''}
+    ${COMMERCE ? this.tripStepper('Days', 'days', this.s.days) : ''}
     ${secs.length > 1 ? `<span class="secsel"><span class="label lab">Section</span><span class="box"><select data-action="section" data-focus="section" aria-label="Section of the river">${secs.map(x => `<option value="${esc(x)}"${x === this.s.section ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select><span class="care" aria-hidden="true">${CARET(false)}</span></span></span>` : ''}
   </div>`;
     }
@@ -1624,6 +1642,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         identical on all three tabs and smaller by the height of this row. It is a browse action
         and it belongs with the browsing. */
     allFliesLink() {
+      if (!COMMERCE) return '';
       return `<button class="allflies" data-action="catalog" data-focus="catalog"><span>All flies for ${this.theName(this.data.water.shortName)}</span><span aria-hidden="true">&rarr;</span></button>`;
     }
     /** A hatch row and, underneath it, the flies for that hatch. The row is the disclosure. */
@@ -1655,7 +1674,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
   <div class="flies" id="flies-all-day"${open ? '' : ' hidden'}>${open ? this.flyGroups(groups) : ''}</div>`;
     }
     flyGroups(groups) {
-      if (!groups.length) return `<div class="muted" style="padding:10px 0 14px;font-size:12px">No flies for this hatch in the ${esc(this.s.section)} section.</div>`;
+      if (!groups.length) return `<div class="muted" style="padding:10px 0 14px;font-size:12px">${COMMERCE ? `No flies for this hatch in the ${esc(this.s.section)} section.` : 'No flies for this hatch.'}</div>`;
       return groups.map(g => `<div>
     <div class="group">${esc(g.role.label)}</div>
     ${g.flies.map(r => this.flyRow(r)).join('')}
@@ -1693,7 +1712,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
       return `<div class="fly${qty === 0 ? ' zero' : ''}">
     ${v.image ? `<button class="thumb" data-action="image" data-id="${id}" data-focus="img-${id}" aria-label="Larger picture of ${esc(use.name)}"><img src="${esc(v.image)}" alt="" loading="lazy" width="36" height="36"></button>` : `<div class="thumb"></div>`}
     <div style="display:flex;flex-direction:column;gap:2px;min-width:0"><a class="name" href="${esc(v.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" data-action="fly" data-id="${id}">${esc(use.name)}</a>${metaEl}</div>
-    <div class="right"><span class="qtyline">${qty == null ? '' : (r.oos || per == null) ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>
+    ${COMMERCE ? `<div class="right"><span class="qtyline">${qty == null ? '' : (r.oos || per == null) ? `<span class="muted" style="font-size:11px">×${qty}</span>` : `<span class="step sm"><button data-action="qty" data-id="${id}" data-d="-1" aria-label="Fewer ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}-">−</button><b aria-live="polite">${qty}</b><button data-action="qty" data-id="${id}" data-d="1" aria-label="More ${esc(use.name)}${mult > 1 ? ', one per angler per day' : ''}" data-focus="q-${id}+">+</button></span>`}<span>${money(r.price)}</span></span><span class="stock" style="--c:${lamp[0]}"><i></i>${lamp[1]}</span></div>` : ''}
   </div>
   ${chips ? `<div class="edit" id="${optId}"${optOpen ? '' : ' hidden'}>${optOpen ? `<span class="muted" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase">Option</span>${chips}` : ''}</div>` : ''}`;
     }
@@ -1712,7 +1731,7 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
   <div class="lbcard">
     <button class="lbclose" data-action="lbclose" data-focus="lbclose" aria-label="Close">&#10005;</button>
     <div class="lbimg">${big ? `<img src="${esc(big)}" alt="${esc(p.name)}">` : ''}</div>
-    <div class="between"><span style="font-size:15px;font-weight:600;line-height:1.2">${esc(p.name)}</span><span style="font-weight:600;white-space:nowrap">${money(v.price)}</span></div>
+    <div class="between"><span style="font-size:15px;font-weight:600;line-height:1.2">${esc(p.name)}</span>${COMMERCE ? `<span style="font-weight:600;white-space:nowrap">${money(v.price)}</span>` : ''}</div>
     ${meta ? `<div class="muted" style="font-size:12px">${esc(meta)}</div>` : ''}
     <a class="ghost" href="${esc(v.url)}" target="_blank" rel="noopener" data-action="fly" data-id="${esc(id)}"><span class="caps" style="font-weight:600">View on theflyshop.com</span><span class="accent" aria-hidden="true">&rarr;</span></a>
   </div>
@@ -1865,11 +1884,11 @@ button.title .tcare{display:inline-flex;align-items:center;align-self:center;col
         case 'qty': { const id = el.dataset.id, p = this.byId.get(id), cur = s.qty[id] != null ? s.qty[id] : p.qty; this.set({ qty: { ...s.qty, [id]: Math.max(0, cur + +el.dataset.d) }, added: false }); break; }
         case 'options': { const id = el.dataset.id; this.set({ options: s.options === id ? null : id }); if (s.options !== id) this.emit('options_opened', { pick: id }); break; }
         case 'variant': this.set({ variant: { ...s.variant, [el.dataset.id]: +el.dataset.vid }, added: false }); this.emit('size_changed', { pick: el.dataset.id, variant: +el.dataset.vid }); break;
-        case 'addpack': { const k = this.pack(); this.emit('pack_added', { flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); this.set({ added: true }); break; }
+        case 'addpack': { if (!COMMERCE) break; const k = this.pack(); this.emit('pack_added', { flies: k.flies, total: +k.total.toFixed(2), section: s.section, items: k.items.map(r => ({ variant: r.v.id, sku: r.v.sku, qty: r.qty })) }); window.open(k.url, '_blank', 'noopener'); this.set({ added: true }); break; }
         // Sends them to the shop's own catalog with the pack already in the cart. Not a concession:
         // the shop gets the traffic and a warm cart instead of a 440px card trying to be a catalog.
-        case 'catalog': { const k = this.pack(); this.emit('catalog_opened', { flies: k.flies, total: +k.total.toFixed(2) }); window.open(this.catalogUrl(), '_blank', 'noopener'); break; }
-        case 'viewcart': window.open(this.pack().url, '_blank', 'noopener'); break;
+        case 'catalog': { if (!COMMERCE) break; const k = this.pack(); this.emit('catalog_opened', { flies: k.flies, total: +k.total.toFixed(2) }); window.open(this.catalogUrl(), '_blank', 'noopener'); break; }
+        case 'viewcart': if (!COMMERCE) break; window.open(this.pack().url, '_blank', 'noopener'); break;
         case 'guide': this.emit('guide_cta_tapped'); break;
         case 'fly': this.emit('fly_opened', { pick: el.dataset.id }); break;
         case 'image': {

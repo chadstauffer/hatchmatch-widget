@@ -34,7 +34,12 @@ const slim = reports.map(full => {
 // never outlive the code that wrote it, and it cache-busts the demo's script tag, so a rebuild is
 // always the thing the browser runs.
 const build = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
-const out = src
+const withCommerce = (source, commerce) => source
+  .replace('"__HM_COMMERCE__"', commerce ? 'true' : 'false')
+  // The app is the only build that is not a guest on someone else's page.
+  .replace('"__HM_EMBED__"', commerce ? 'true' : 'false');
+
+const out = withCommerce(src, true)
   .replace('"__HM_BUILD__"', JSON.stringify(build))
   .replace('"__HM_DATA__"', JSON.stringify(slim))
   .replace('"__HM_FONT__"', JSON.stringify(`data:font/ttf;base64,${font.toString('base64')}`))
@@ -58,7 +63,7 @@ for (const r of slim) console.error(`  ${r.water.shortName.padEnd(11)} ${r.picks
 // The production shape, so the claim the pilot rests on is measured rather than asserted: the
 // renderer with no reports inlined. In production the reports come from the HatchMatch API and
 // the host calls HatchMatch.mount(el, reports). Nothing about the card changes.
-const renderer = src
+const renderer = withCommerce(src, true)
   .replace('"__HM_BUILD__"', JSON.stringify(build))
   .replace('"__HM_DATA__"', '[]')
   .replace('"__HM_FONT__"', JSON.stringify(`data:font/ttf;base64,${font.toString('base64')}`))
@@ -67,6 +72,19 @@ await writeFile('dist/embed.renderer.js', renderer);
 const noFont = renderer.replace(JSON.stringify(`data:font/ttf;base64,${font.toString('base64')}`), '""');
 console.error(`dist/embed.renderer.js ${(renderer.length / 1024).toFixed(0)} KB with the font inlined, ${(noFont.length / 1024).toFixed(0)} KB without`);
 console.error(`  reports are ${(JSON.stringify(slim).length / 1024).toFixed(0)} KB of the ${(out.length / 1024).toFixed(0)} KB demo bundle and none of them ship`);
+
+// The app build: the same card with COMMERCE off. The vendor for selling flies
+// is undecided -- it may be the shop, Amazon, or a partner -- so the app reports
+// rather than sells, and the pack, prices, quantities and stock are gated out at
+// build time rather than forked into a second card. Reports are inlined the way
+// the demo bundle does it, so the app needs no network for them.
+const app = withCommerce(src, false)
+  .replace('"__HM_BUILD__"', JSON.stringify(build))
+  .replace('"__HM_DATA__"', JSON.stringify(slim))
+  .replace('"__HM_FONT__"', JSON.stringify(`data:font/ttf;base64,${font.toString('base64')}`))
+  .replace('"__HM_STONEFLY__"', JSON.stringify(stonefly.trim()));
+await writeFile('dist/embed.app.js', app);
+console.error(`dist/embed.app.js ${(app.length / 1024).toFixed(0)} KB, commerce off`);
 
 // The flag list, for the demo page's "what we found" panel. Their page's problems, next to a card
 // that has them right. Built from the Lower Sac, which is the one with a pack to sell.

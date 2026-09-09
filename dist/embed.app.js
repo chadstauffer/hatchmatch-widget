@@ -11,11 +11,11 @@
      than sells. It gates the pack, the prices, the quantities and the stock --
      everything downstream of a purchase -- and nothing else. The fly rows, the
      hatches and the report are identical in both. */
-  const COMMERCE = true;
+  const COMMERCE = false;
   /* Whether this card is a guest on someone else's page. The shop embed is; the
      app is not, and "Powered by HatchMatch" inside HatchMatch is noise. Kept
      separate from COMMERCE because attribution is not a purchase. */
-  const EMBED = true;
+  const EMBED = false;
 
   /* The waters ship as resolved reports. Group order for the picker; anything else falls last. */
   const GROUPS = [['river', 'Rivers'], ['stillwater', 'Stillwaters'], ['private', 'Private waters']];
