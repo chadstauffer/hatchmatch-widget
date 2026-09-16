@@ -34,6 +34,7 @@ export const WATERS = {
   'fall-river':       { id: 'fall-river',       shortName: 'Fall River', group: 'river', usgsSite: null,       gaugeName: null,             lat: 41.0075, lon: -121.4469, gaugeNote: 'No live USGS gauge. Sites exist at Fall River Mills; none reports a real-time series.' },
   'hat-creek':        { id: 'hat-creek',        shortName: 'Hat Creek',  group: 'river', usgsSite: '11355500', gaugeName: 'USGS Hat Creek', lat: 40.6891, lon: -121.4228 },
   'klamath-river':    { id: 'klamath',          shortName: 'Klamath',    group: 'river', usgsSite: '11516530', gaugeName: 'USGS Iron Gate', lat: 41.9279, lon: -122.4442 },
+  'lower-sac':        { id: 'lower-sacramento', shortName: 'Lower Sac', group: 'river', usgsSite: '11370500', gaugeName: 'USGS Keswick', lat: 40.5865, lon: -122.3917 },
   'mccloud-river':    { id: 'mccloud',          shortName: 'McCloud',    group: 'river', usgsSite: null,       gaugeName: null,             lat: 41.1252, lon: -122.0686, gaugeNote: 'No live USGS gauge. Fourteen sites on the river; none reports a real-time series.' },
   'pit-river':        { id: 'pit',              shortName: 'Pit',        group: 'river', usgsSite: '11355010', gaugeName: 'USGS Pit No 1',  lat: 40.9832, lon: -121.5119 },
   'trinity-river':    { id: 'trinity',          shortName: 'Trinity',    group: 'river', usgsSite: '11525500', gaugeName: 'USGS Lewiston',  lat: 40.7247, lon: -122.8011 },

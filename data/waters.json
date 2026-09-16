@@ -11,16 +11,11 @@
   },
   "waters": {
     "lower-sacramento": {
-      "why": "The scale is the one hand-set number left, and only the scale. 0-20,000 puts the derived high-water mark at 70% of the bar and the season's median flow at 44% of it. The pure derivation gives 0-30,000, which is right about storms and pushes the season a reader actually fishes into the bottom third; the old 0-15,000 was fitted to a 7,500 threshold that no longer exists and would now put the mark at 93%, off the end of its own bar. The threshold itself is derived like every other water's.",
+      "why": "The scale is hand-set and only the scale. 0-20,000 puts the derived high-water mark at 70% of the bar and the season's median flow at 44% of it. The pure derivation gives 0-30,000, which is right about storms and pushes the season a reader actually fishes into the bottom third. The threshold itself is derived like every other water's. sections and packName were removed 2026-09-16, when this river joined the weekly scrape: they drive pack building, which needs a sections field on every pick that only a person can assign, and a scraped pick has none -- the resolver crashes rather than guessing. Restore them only alongside hand-authored picks.",
       "flow": {
         "min": 0,
         "max": 20000
-      },
-      "sections": [
-        "Up top",
-        "Lower"
-      ],
-      "packName": "Sac Pack"
+      }
     },
     "mccloud": {
       "why": "USGS has 25 sites on the McCloud and none of them reports flow. CDEC's MCA, at Ah-Di-Na, reports hourly and is the water the shop's report is about. Its record starts in 2020 -- seven seasons, against 52 to 116 years on the USGS waters -- so the high-water mark here rests on far less evidence than the others and the card says so.",
