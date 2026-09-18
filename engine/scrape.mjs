@@ -20,7 +20,7 @@
 // and are absent here: these fixtures are read-only until someone sets them.
 
 import { readFile, writeFile } from 'node:fs/promises';
-import { dailyStats, dailyValues, deriveScale, deriveLimit, derivePosition, applyOverrides, readOverrides, applyWaterFields } from './scales.mjs';
+import { dailyStats, dailyValues, deriveScale, deriveLimit, derivePosition, applyOverrides, readOverrides, applyWaterFields, dailyValuesCdec, deriveScaleFromValues, derivePositionFromValues } from './scales.mjs';
 
 const SRC = 'https://www.theflyshop.com/streamreport.html';
 
@@ -342,13 +342,26 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         // time of year. Descriptive only -- it never becomes a wading verdict.
         pos = derivePosition(stats);
       } catch (e) { console.error(`  ! ${r.water.shortName}: scale unavailable (${e.message})`); }
+    } else if (r.water.cdecFlow) {
+      /* A water whose flow only CDEC carries -- the McCloud. This branch was missing, so the
+         scrape published it with no scale at all and the card drew its live number with no graph
+         and no high-water mark, while the fixture path in scales.mjs had handled CDEC all along.
+         Same three answers as above, computed from CDEC's hourly record: USGS publishes the
+         per-day statistics, CDEC does not, so they are built from the record instead. */
+      try {
+        const vals = await dailyValuesCdec(r.water.cdecFlow.station, r.water.cdecFlow.sensor ?? 20);
+        limit = deriveLimit(vals);
+        sc = deriveScaleFromValues(vals, limit);
+        pos = derivePositionFromValues(vals);
+        if (sc) sc.source = `CDEC ${r.water.cdecFlow.station} daily means ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the season's 95th percentile, rounded up -- a far shallower record than the USGS waters`;
+      } catch (e) { console.error(`  ! ${r.water.shortName}: CDEC scale unavailable (${e.message})`); }
     }
     const flow = applyOverrides(sc ? { min: sc.min, max: sc.max, threshold: limit } : null, ov);
     if (flow) {
       // No fabricated last reading. A gauge we have never read is not a gauge reading zero, and
       // the card must not be able to render one as the other.
       r.water.flow = { ...flow, lastReading: null };
-      if (sc) r.water.flow.scaleSource = `USGS daily statistics ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the 70th percentile of daily p95, rounded up`;
+      if (sc) r.water.flow.scaleSource = sc.source || `USGS daily statistics ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the 70th percentile of daily p95, rounded up`;
       if (pos) r.water.flow.position = pos;
     }
   }
