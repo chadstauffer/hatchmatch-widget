@@ -173,8 +173,18 @@ export function derivePositionFromValues(values) {
     channel shape are not gauged, and a river can sit at its median and still be unwadeable. The
     lamp stays NORMAL / HIGH, which describes water rather than instructing anglers, and the real
     wading advice stays where it belongs -- in the guide's own notes. A shop that knows better
-    still overrides it; applyOverrides() has not changed. */
+    still overrides it; applyOverrides() has not changed.
+
+    FLOOR, 2026-09-18: never below LIMIT_FLOOR x the season median. A percentile only knows how
+    this river varies, and a steady river barely does -- spring creeks and dam tailwaters hold close
+    to normal all season, so their p80 sat 1.10x the median on the McCloud, 1.25x on Hat Creek,
+    1.32x on the Pit and 1.37x on the Lower Sac (freestones run 3.9-4.2x). The card read HIGH on
+    ordinary days: a McCloud reading 24 CFS over its median is not high water by any angler's
+    measure. Chad's call from device testing. Measured effect: McCloud 270 -> 370, Hat Creek
+    170 -> 200, Pit 1,700 -> 1,950, Lower Sac 12,000 -> 13,000; the Upper Sac, Trinity and Klamath
+    already clear the floor and do not move. */
 export const LIMIT_Q = 80;
+export const LIMIT_FLOOR = 1.5;
 export const SEASON = [4, 10];               // April-October, generously the fishing season
 const pctile = (a, p) => { const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(p / 100 * s.length))]; };
 /** Round to a step an angler would repeat out loud. A limit reading 13,873 implies a precision
@@ -183,7 +193,7 @@ const roundLimit = v => { const m = v >= 10000 ? 500 : v >= 2000 ? 100 : v >= 50
 export function deriveLimit(values) {
   const seas = values.filter(x => x.m >= SEASON[0] && x.m <= SEASON[1]).map(x => x.v);
   if (seas.length < 365) return null;         // less than a year of season record decides nothing
-  return roundLimit(pctile(seas, LIMIT_Q));
+  return roundLimit(Math.max(pctile(seas, LIMIT_Q), LIMIT_FLOOR * pctile(seas, 50)));
 }
 
 /** How often a limit actually fires, so the report can show it rather than assert consistency. */

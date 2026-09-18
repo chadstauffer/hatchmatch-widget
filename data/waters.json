@@ -11,7 +11,7 @@
   },
   "waters": {
     "lower-sacramento": {
-      "why": "The scale is hand-set and only the scale. 0-20,000 puts the derived high-water mark at 70% of the bar and the season's median flow at 44% of it. The pure derivation gives 0-30,000, which is right about storms and pushes the season a reader actually fishes into the bottom third. The threshold itself is derived like every other water's. sections and packName were removed 2026-09-16, when this river joined the weekly scrape: they drive pack building, which needs a sections field on every pick that only a person can assign, and a scraped pick has none -- the resolver crashes rather than guessing. Restore them only alongside hand-authored picks.",
+      "why": "The scale is hand-set and only the scale. 0-20,000 puts the derived high-water mark at 65% of the bar (13,000 since the 1.5x-median floor, 2026-09-18; 70% before it) and the season's median flow at 44% of it. The pure derivation gives 0-30,000, which is right about storms and pushes the season a reader actually fishes into the bottom third. The threshold itself is derived like every other water's. sections and packName were removed 2026-09-16, when this river joined the weekly scrape: they drive pack building, which needs a sections field on every pick that only a person can assign, and a scraped pick has none -- the resolver crashes rather than guessing. Restore them only alongside hand-authored picks.",
       "flow": {
         "min": 0,
         "max": 20000
