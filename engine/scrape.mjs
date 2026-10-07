@@ -22,6 +22,23 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { dailyStats, dailyValues, deriveScale, deriveLimit, derivePosition, applyOverrides, readOverrides, applyWaterFields, dailyValuesCdec, deriveScaleFromValues, derivePositionFromValues } from './scales.mjs';
 
+/** The flow block of this water's most recent report on disk that has a scale, or null. */
+async function lastFlow(dir, id) {
+  const { readdir, readFile: rf } = await import('node:fs/promises');
+  const files = (await readdir(dir).catch(() => []))
+    .filter((f) => f.startsWith(`${id}-`) && /^\S+-\d{4}-\d{2}-\d{2}(\.resolved)?\.json$/.test(f))
+    .sort().reverse();
+  for (const f of files) {
+    try {
+      const j = JSON.parse(await rf(`${dir}/${f}`, 'utf8'));
+      const fl = j.water && j.water.flow;
+      if (fl && fl.max != null) return fl;
+    } catch { /* a bad file is skipped, not fatal */ }
+  }
+  return null;
+}
+
+
 const SRC = 'https://www.theflyshop.com/streamreport.html';
 
 /* The eight regional rivers, with the gauge each was confirmed against on the NWIS site service.
@@ -355,6 +372,19 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         pos = derivePositionFromValues(vals);
         if (sc) sc.source = `CDEC ${r.water.cdecFlow.station} daily means ${sc.years}, ${Math.round(sc.p95).toLocaleString()} CFS at the season's 95th percentile, rounded up -- a far shallower record than the USGS waters`;
       } catch (e) { console.error(`  ! ${r.water.shortName}: CDEC scale unavailable (${e.message})`); }
+    }
+    /* Never publish a river with less than it had. If USGS (or CDEC) could not answer even after
+       retries, carry the scale from this river's last report on disk -- the record behind it moves
+       by a day a year -- rather than wiping the graph on every phone (2026-10-06: a 503 blanked the
+       Trinity, Klamath, Pit and Upper Sac). Flagged in the log so a long outage is still seen. */
+    if (!sc && (r.water.usgsSite || r.water.cdecFlow)) {
+      const prev = await lastFlow(outDir, r.water.id);
+      if (prev) {
+        console.error(`  ~ ${r.water.shortName}: kept the last published scale (0-${prev.max})`);
+        sc = { min: prev.min, max: prev.max, source: prev.scaleSource };
+        pos = prev.position || null;
+        if (limit == null && prev.source && prev.source.threshold === 'derived') limit = prev.threshold;
+      }
     }
     const flow = applyOverrides(sc ? { min: sc.min, max: sc.max, threshold: limit } : null, ov);
     if (flow) {

@@ -36,9 +36,27 @@ export function niceMax(v) {
 
 /** statTypeCd must be `all`. Asking for p10,p25,p50,p75,p90 silently drops p90, and p90 alone
     returns an empty body. Verified from a browser as well as from curl. */
+/** USGS answers 503 for a few seconds at a time; on 2026-10-06 that blanked four rivers' graphs.
+    Retry a server error or a dropped connection twice, a few seconds apart, before giving up. */
+export async function fetchRetry(url, tries = 3) {
+  let last;
+  for (let i = 0; i < tries; i++) {
+    try {
+      const r = await fetch(url);
+      if (r.status < 500) return r;
+      last = r;
+    } catch (e) {
+      last = e;
+    }
+    if (i < tries - 1) await new Promise((ok) => setTimeout(ok, 3000 * (i + 1)));
+  }
+  if (last instanceof Error) throw last;
+  return last;
+}
+
 export async function dailyStats(site) {
   const url = `https://waterservices.usgs.gov/nwis/stat/?format=rdb&sites=${site}&statReportType=daily&statTypeCd=all&parameterCd=00060`;
-  const r = await fetch(url);
+  const r = await fetchRetry(url);
   if (!r.ok) throw new Error(`stat service HTTP ${r.status}`);
   const lines = (await r.text()).split('\n').filter(l => l && !l.startsWith('#'));
   if (lines.length < 3) throw new Error('no statistics for this site');
@@ -64,7 +82,7 @@ export async function dailyStats(site) {
     the record itself. One extra request per gauge at scrape time; nothing at runtime. */
 export async function dailyValues(site) {
   const url = `https://waterservices.usgs.gov/nwis/dv/?format=json&sites=${site}&parameterCd=00060&statCd=00003&startDT=1900-01-01`;
-  const r = await fetch(url);
+  const r = await fetchRetry(url);
   if (!r.ok) throw new Error(`daily values HTTP ${r.status}`);
   const ts = (await r.json()).value.timeSeries[0];
   if (!ts) throw new Error('no daily record for this site');
