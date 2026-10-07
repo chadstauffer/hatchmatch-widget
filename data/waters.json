@@ -14,8 +14,13 @@
       "why": "The scale is hand-set and only the scale. 0-20,000 puts the derived high-water mark at 65% of the bar (13,000 since the 1.5x-median floor, 2026-09-18; 70% before it) and the season's median flow at 44% of it. The pure derivation gives 0-30,000, which is right about storms and pushes the season a reader actually fishes into the bottom third. The threshold itself is derived like every other water's. sections and packName were removed 2026-09-16, when this river joined the weekly scrape: they drive pack building, which needs a sections field on every pick that only a person can assign, and a scraped pick has none -- the resolver crashes rather than guessing. Restore them only alongside hand-authored picks.",
       "flow": {
         "min": 0,
-        "max": 20000
-      }
+        "max": 20000,
+        "threshold": 7500,
+        "thresholdLabel": "wading limit"
+      },
+      "thresholdWhy": "Set 2026-10-06 from The Fly Shop's own Lower Sac report: 'good wading opportunities when the flows are below 7,500 CFS'. A guide's number, so it wins over the derived high-water mark (none was derived here). 7,500 sits at 37.5% of the 0-20,000 scale.",
+      "cdecStation": "KWK",
+      "cdecStationWhy": "USGS Keswick (11370500) reports no water temperature. CDEC KWK (Sacramento R at Keswick, sensor 25, hourly) does: 55.8F on 2026-10-06, the steady ~55F tailwater temperature the shop describes."
     },
     "mccloud": {
       "why": "USGS has 25 sites on the McCloud and none of them reports flow. CDEC's MCA, at Ah-Di-Na, reports hourly and is the water the shop's report is about. Its record starts in 2020 -- seven seasons, against 52 to 116 years on the USGS waters -- so the high-water mark here rests on far less evidence than the others and the card says so.",
